@@ -11,12 +11,12 @@
 #import <OpenGLES/ES1/glext.h>
 #import <UIKit/UIView.h>
 
-#include "RenderHelper.h"
+#include "rendering.h"
 
 @interface GameView : UIView
 {
 	EAGLContext 		*context;
-	struct gl_buffer 	buffer;
+	struct r_gl_buffer 	buffer;
 }
 
 @end

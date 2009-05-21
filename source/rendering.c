@@ -11,10 +11,10 @@
 #include <math.h>
 #include <stdlib.h>
 
-#include "RenderHelper.h"
+#include "rendering.h"
 
 void
-bind_buffers(struct gl_buffer *buffer)
+r_bind_buffers(struct r_gl_buffer *buffer)
 {
 	
 	glBindFramebufferOES(GL_FRAMEBUFFER_OES, buffer->frame);
@@ -22,22 +22,26 @@ bind_buffers(struct gl_buffer *buffer)
 }
 
 void
-bind_depthbuffer(struct gl_buffer *buffer)
+r_bind_depthbuffer(struct r_gl_buffer *buffer)
 {
 	
 	glBindRenderbufferOES(GL_RENDERBUFFER_OES, buffer->depth);
 }
 
 void
-enable_lighting()
+r_enable_light(vec3 position)
 {
+	GLfloat light_position[] = { position.x, position.y, position.z, 1.0 };
+	
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
-	glShadeModel(GL_FLAT);
+	glEnable(GL_COLOR_MATERIAL); /* Color is the material */
+	glShadeModel(GL_SMOOTH);
+	//glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 }
 
 void
-generate_depthbuffer(struct gl_buffer *buffer)
+r_generate_depthbuffer(struct r_gl_buffer *buffer)
 {
 	
 	glGenRenderbuffersOES(1, &buffer->depth);
@@ -53,7 +57,7 @@ generate_depthbuffer(struct gl_buffer *buffer)
 }
 
 void
-generate_renderbuffers(struct gl_buffer *buffer)
+r_generate_renderbuffers(struct r_gl_buffer *buffer)
 {
 
 	glGenFramebuffersOES(1, &buffer->frame);
@@ -61,7 +65,7 @@ generate_renderbuffers(struct gl_buffer *buffer)
 }
 
 void
-render_circle(GLfloat radius)
+r_render_circle(GLfloat radius)
 {
 	static GLfloat *vertex = NULL;
 	GLfloat angle = 6.28f;
@@ -95,7 +99,65 @@ render_circle(GLfloat radius)
 }
 
 void
-render_sphere(GLfloat radius)
+r_render_cube(float_t side)
+{
+
+	/* Front */
+	r_render_quad(side);
+
+	/* Back */
+	glTranslatef(0.f, 0.f, -1.f);
+	glRotatef(180.f, 0.f, 1.f, 0.f);
+	r_render_quad(side);
+
+	/* Left */
+	glTranslatef(0.5f, 0.f, -0.5f);
+	glRotatef(90.f, 0.f, 1.f, 0.f);
+	r_render_quad(side);
+	
+	/* Right */
+	glTranslatef(0.f, 0.f, -1.f);
+	glRotatef(180.f, 0.f, 1.f, 0.f);
+	r_render_quad(side);
+	
+	/* Top */
+	glTranslatef(0.f, .5f, -.5f);
+	glRotatef(90.f, 1.f, 0.f, 0.f);
+	r_render_quad(side);
+	
+	/* Bottom */
+	glTranslatef(0.f, 0.f, 1.f);
+	glRotatef(180.f, 1.f, 0.f, 0.f);
+	r_render_quad(side);
+}
+
+void
+r_render_quad(float_t side)
+{
+	static const GLfloat square_vertices[] = {
+		-0.5f, -0.5f,
+		0.5f,  -0.5f,
+		0.5f,  0.5f,
+		-0.5f,   0.5f,
+	};
+	
+	glVertexPointer(2, GL_FLOAT, 0, square_vertices);
+	glEnableClientState(GL_VERTEX_ARRAY);
+
+	glPushMatrix();
+	glScalef(side, side, side);
+	glNormal3f(0.0f, 0.0f, 1.0f);
+	glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+	glPopMatrix();
+
+	glDisableClientState(GL_VERTEX_ARRAY);
+}
+
+/*
+ * FIXME: Broken, looks like something round but...
+ */
+void
+r_render_sphere(GLfloat radius)
 {
 	const GLfloat PI = 3.14;
 	const GLfloat PI2 = 6.28;
@@ -137,22 +199,36 @@ render_sphere(GLfloat radius)
 }
 
 void
-setup_ambient_light(Vector position, struct color color)
+r_set_clippingarea(int16_t x, int16_t y, int16_t width, int16_t height)
 {
-	GLfloat lightAmbientColor[] = { color.red, color.green, color.blue, color.alpha };
-	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, lightAmbientColor);
 	
-	glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.01f);
+	glScissor(x, y, width, height);
+	glEnable(GL_SCISSOR_TEST);
+}
+
+void
+r_setup_ambient_light(struct r_color color)
+{
+	GLfloat light_ambient_color[] = { color.red, color.green, color.blue, color.alpha };
 	
-	GLfloat lightPosition[] = { position.x, position.y, position.z, 1.0 };
-	glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
+	//glLightModelfv(GL_LIGHT_MODEL_AMBIENT, light_ambient_color);
+	//glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.01f);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient_color);
+}
+
+void
+r_setup_diffuse_light(struct r_color color)
+{
+	GLfloat light_diffuse_color[] = { color.red, color.green, color.blue, color.alpha };
+	
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse_color);
 }
 
 /*
  * Sets the current viewport with orthogonal
  */
 void
-setup_orthogonal(GLfloat width, GLfloat height)
+r_setup_orthogonal_view(GLfloat width, GLfloat height)
 {
 	
 	glOrthof(-(width/2.0f), (width/2.0f), -(height/2.0f), (height/2.0f), -200.0f, 200.0f);
@@ -162,7 +238,7 @@ setup_orthogonal(GLfloat width, GLfloat height)
  * Sets the current viewport with perspective
  */
 void
-setup_perspective(GLfloat fov, GLfloat aspect, GLfloat near, GLfloat far)
+r_setup_perspective_view(GLfloat fov, GLfloat aspect, GLfloat near, GLfloat far)
 {
 	GLfloat top = tan(fov*3.14159/360.0) * near;
 	GLfloat bottom = -top;
@@ -170,5 +246,18 @@ setup_perspective(GLfloat fov, GLfloat aspect, GLfloat near, GLfloat far)
 	GLfloat right = aspect * top;
 	
 	glFrustumf(left, right, bottom, top, near, far);
+}
+
+/*
+ * Takes screenshot. One pixel is 4 bytes
+ */
+void
+r_take_screenshot(char *pixels, struct r_gl_buffer *buffer)
+{
+
+	glPixelStorei(GL_PACK_ALIGNMENT, 1);
+	assert(glGetError() == GL_NO_ERROR);
+	glReadPixels(0, 0, buffer->width, buffer->height, GL_BGRA,
+		GL_UNSIGNED_BYTE, pixels);
 }
 

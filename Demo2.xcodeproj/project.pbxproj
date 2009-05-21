@@ -7,13 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		10A5C0F00FC56B6A00152875 /* game_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = 10A5C0ED0FC56B6A00152875 /* game_helper.c */; };
+		10A5C0F10FC56B6A00152875 /* rendering.c in Sources */ = {isa = PBXBuildFile; fileRef = 10A5C0EE0FC56B6A00152875 /* rendering.c */; };
+		10A5C0F20FC56B6A00152875 /* vec3.c in Sources */ = {isa = PBXBuildFile; fileRef = 10A5C0EF0FC56B6A00152875 /* vec3.c */; };
+		10A5C13C0FC57F6300152875 /* game.c in Sources */ = {isa = PBXBuildFile; fileRef = 10A5C13B0FC57F6300152875 /* game.c */; };
 		10FB3C6F0FBAEF56005CC6FA /* GameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10FB3C6E0FBAEF56005CC6FA /* GameView.m */; };
-		10FB3C740FBAF029005CC6FA /* RenderHelper.c in Sources */ = {isa = PBXBuildFile; fileRef = 10FB3C730FBAF029005CC6FA /* RenderHelper.c */; };
 		10FB3CE40FBB0E4C005CC6FA /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10FB3CE30FBB0E4C005CC6FA /* OpenGLES.framework */; };
 		10FB3CE80FBB0E59005CC6FA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10FB3CE70FBB0E59005CC6FA /* QuartzCore.framework */; };
 		10FB3CF70FBB0E69005CC6FA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10FB3CF60FBB0E69005CC6FA /* CoreGraphics.framework */; };
-		10FB3DF30FBB5B24005CC6FA /* MathHelper.c in Sources */ = {isa = PBXBuildFile; fileRef = 10FB3DF20FBB5B24005CC6FA /* MathHelper.c */; };
-		10FB3E9A0FBB8476005CC6FA /* GameHelper.c in Sources */ = {isa = PBXBuildFile; fileRef = 10FB3E990FBB8476005CC6FA /* GameHelper.c */; };
 		1D3623260D0F684500981E51 /* Demo2AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* Demo2AppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -21,17 +22,19 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		10A5C0E90FC56B6A00152875 /* game_helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = game_helper.h; sourceTree = "<group>"; };
+		10A5C0EA0FC56B6A00152875 /* rendering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rendering.h; sourceTree = "<group>"; };
+		10A5C0EB0FC56B6A00152875 /* vec3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vec3.h; sourceTree = "<group>"; };
+		10A5C0ED0FC56B6A00152875 /* game_helper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = game_helper.c; sourceTree = "<group>"; };
+		10A5C0EE0FC56B6A00152875 /* rendering.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rendering.c; sourceTree = "<group>"; };
+		10A5C0EF0FC56B6A00152875 /* vec3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vec3.c; sourceTree = "<group>"; };
+		10A5C13A0FC57F5A00152875 /* game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = game.h; sourceTree = "<group>"; };
+		10A5C13B0FC57F6300152875 /* game.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = game.c; sourceTree = "<group>"; };
 		10FB3C6D0FBAEF56005CC6FA /* GameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameView.h; sourceTree = "<group>"; };
 		10FB3C6E0FBAEF56005CC6FA /* GameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameView.m; sourceTree = "<group>"; };
-		10FB3C720FBAF029005CC6FA /* RenderHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderHelper.h; sourceTree = "<group>"; };
-		10FB3C730FBAF029005CC6FA /* RenderHelper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = RenderHelper.c; sourceTree = "<group>"; };
 		10FB3CE30FBB0E4C005CC6FA /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = /Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator2.2.sdk/System/Library/Frameworks/OpenGLES.framework; sourceTree = "<absolute>"; };
 		10FB3CE70FBB0E59005CC6FA /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		10FB3CF60FBB0E69005CC6FA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		10FB3DF10FBB5B24005CC6FA /* MathHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MathHelper.h; sourceTree = "<group>"; };
-		10FB3DF20FBB5B24005CC6FA /* MathHelper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MathHelper.c; sourceTree = "<group>"; };
-		10FB3E980FBB8476005CC6FA /* GameHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameHelper.h; sourceTree = "<group>"; };
-		10FB3E990FBB8476005CC6FA /* GameHelper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = GameHelper.c; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* Demo2AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Demo2AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* Demo2AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Demo2AppDelegate.m; sourceTree = "<group>"; };
@@ -65,14 +68,30 @@
 				1D3623250D0F684500981E51 /* Demo2AppDelegate.m */,
 				10FB3C6D0FBAEF56005CC6FA /* GameView.h */,
 				10FB3C6E0FBAEF56005CC6FA /* GameView.m */,
-				10FB3C720FBAF029005CC6FA /* RenderHelper.h */,
-				10FB3C730FBAF029005CC6FA /* RenderHelper.c */,
-				10FB3DF10FBB5B24005CC6FA /* MathHelper.h */,
-				10FB3DF20FBB5B24005CC6FA /* MathHelper.c */,
-				10FB3E980FBB8476005CC6FA /* GameHelper.h */,
-				10FB3E990FBB8476005CC6FA /* GameHelper.c */,
 			);
 			path = Classes;
+			sourceTree = "<group>";
+		};
+		10A5C0E80FC56B6A00152875 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				10A5C13A0FC57F5A00152875 /* game.h */,
+				10A5C0E90FC56B6A00152875 /* game_helper.h */,
+				10A5C0EA0FC56B6A00152875 /* rendering.h */,
+				10A5C0EB0FC56B6A00152875 /* vec3.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		10A5C0EC0FC56B6A00152875 /* source */ = {
+			isa = PBXGroup;
+			children = (
+				10A5C13B0FC57F6300152875 /* game.c */,
+				10A5C0ED0FC56B6A00152875 /* game_helper.c */,
+				10A5C0EE0FC56B6A00152875 /* rendering.c */,
+				10A5C0EF0FC56B6A00152875 /* vec3.c */,
+			);
+			path = source;
 			sourceTree = "<group>";
 		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
@@ -86,6 +105,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				10A5C0E80FC56B6A00152875 /* include */,
+				10A5C0EC0FC56B6A00152875 /* source */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -179,9 +200,10 @@
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* Demo2AppDelegate.m in Sources */,
 				10FB3C6F0FBAEF56005CC6FA /* GameView.m in Sources */,
-				10FB3C740FBAF029005CC6FA /* RenderHelper.c in Sources */,
-				10FB3DF30FBB5B24005CC6FA /* MathHelper.c in Sources */,
-				10FB3E9A0FBB8476005CC6FA /* GameHelper.c in Sources */,
+				10A5C0F00FC56B6A00152875 /* game_helper.c in Sources */,
+				10A5C0F10FC56B6A00152875 /* rendering.c in Sources */,
+				10A5C0F20FC56B6A00152875 /* vec3.c in Sources */,
+				10A5C13C0FC57F6300152875 /* game.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

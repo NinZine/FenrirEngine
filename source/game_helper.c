@@ -9,10 +9,31 @@
 
 #include <sys/time.h>
 
-#include "GameHelper.h"
+#include <stdlib.h>
+
+#include "game_helper.h"
+
+void
+gh_copy_state(struct gh_state *dest, struct gh_state *src)
+{
+	int i;
+
+	dest->count = src->count;
+	dest->object = malloc(
+			sizeof(struct gh_rigid_body) * src->count);
+
+
+	for (i = 0; i < src->count; ++i) {
+
+		dest->object[i].id = src->object[i].id;
+		dest->object[i].position = src->object[i].position;
+		dest->object[i].linear_velocity = src->object[i].linear_velocity;
+		dest->object[i].angular_velocity = src->object[i].angular_velocity;
+	}
+}
 
 float_t
-time_elapsed()
+gh_time_elapsed()
 {
 	static struct timeval start = {0,0};
 	struct timeval counter;
