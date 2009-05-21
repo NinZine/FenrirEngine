@@ -14,14 +14,15 @@
 #include "game_helper.h"
 
 void
-gh_copy_state(struct gh_state *dest, struct gh_state *src)
+gh_copy_state(struct gh_state *dest, struct gh_state *src, bool use_malloc)
 {
 	int i;
 
 	dest->count = src->count;
-	dest->object = malloc(
-			sizeof(struct gh_rigid_body) * src->count);
 
+	if (true == use_malloc) {
+		dest->object = malloc(sizeof(struct gh_rigid_body) * src->count);
+	}
 
 	for (i = 0; i < src->count; ++i) {
 
@@ -38,7 +39,7 @@ gh_time_elapsed()
 	static struct timeval start = {0,0};
 	struct timeval counter;
 	
-	if (start.tv_sec == 0 && start.tv_usec == 0)
+	if (0 == start.tv_sec && 0 == start.tv_usec)
 	{
 		gettimeofday(&start, 0);
 		return 0.f;

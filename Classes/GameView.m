@@ -64,6 +64,34 @@ layoutSubviews
 		message:@"Let's rock!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
 	[hello show];
 	[hello release];
+
+	game_initialize();
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	CGRect bounds = [self bounds];
+    UITouch*	touch = [[event touchesForView:self] anyObject];
+	//Convert touch point from UIView referential to OpenGL one (upside-down flip)
+	CGPoint location = [touch locationInView:self];
+	//location.y = bounds.size.height - location.y;
+	/*CGFloat tmp = location.y;
+	location.y = location.x;
+	location.x = tmp;*/
+	
+	// NOTE: W/H are now swapped
+	location.x -= bounds.size.height/2.0f;
+	location.y -= bounds.size.width/2.0f;
+	
+	vec3 point = {location.x, location.y, 0.f};
+
+	game_input_touch_begin(point);
+}
+
+- (void)
+touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	game_input_touch_end();
 }
 
 /*

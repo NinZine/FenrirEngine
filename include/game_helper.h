@@ -13,6 +13,7 @@
 #include <sys/types.h>
 
 #include <math.h>
+#include <stdbool.h>
 
 #include "vec3.h"
 
@@ -39,7 +40,8 @@ typedef struct gh_time {
 			timestep;
 } gh_time;
 
-void	gh_copy_state(struct gh_state *dest, struct gh_state *src);
+void	gh_copy_state(struct gh_state *dest, struct gh_state *src,
+				bool use_malloc);
 float_t gh_time_elapsed();
 
 #endif /* !_GAME_HELPER_H_ */

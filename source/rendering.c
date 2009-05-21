@@ -29,15 +29,15 @@ r_bind_depthbuffer(struct r_gl_buffer *buffer)
 }
 
 void
-r_enable_light(vec3 position)
+r_enable_light(int8_t light_num)
 {
-	GLfloat light_position[] = { position.x, position.y, position.z, 1.0 };
 	
 	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
-	glEnable(GL_COLOR_MATERIAL); /* Color is the material */
+	glEnable(GL_LIGHT0 + light_num);
+	//glEnable(GL_COLOR_MATERIAL); /* Color is the material */
 	glShadeModel(GL_SMOOTH);
-	//glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+
+	//glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.01f);
 }
 
 void
@@ -102,7 +102,11 @@ void
 r_render_cube(float_t side)
 {
 
+	glPushMatrix();
+	glScalef(side, side, side);
+
 	/* Front */
+	glTranslatef(0.f, 0.f, 0.5f);
 	r_render_quad(side);
 
 	/* Back */
@@ -120,15 +124,17 @@ r_render_cube(float_t side)
 	glRotatef(180.f, 0.f, 1.f, 0.f);
 	r_render_quad(side);
 	
-	/* Top */
-	glTranslatef(0.f, .5f, -.5f);
+	/* Bottom */
+	glTranslatef(0.f, -.5f, -.5f);
 	glRotatef(90.f, 1.f, 0.f, 0.f);
 	r_render_quad(side);
 	
-	/* Bottom */
-	glTranslatef(0.f, 0.f, 1.f);
+	/* Top */
+	glTranslatef(0.f, 0.f, -1.f);
 	glRotatef(180.f, 1.f, 0.f, 0.f);
 	r_render_quad(side);
+	
+	glPopMatrix();
 }
 
 void
@@ -137,20 +143,18 @@ r_render_quad(float_t side)
 	static const GLfloat square_vertices[] = {
 		-0.5f, -0.5f,
 		0.5f,  -0.5f,
-		0.5f,  0.5f,
 		-0.5f,   0.5f,
+		0.5f,  0.5f,
 	};
 	
+	glPushMatrix();
+	//glScalef(side, side, side);
+	glNormal3f(0.0f, 0.0f, 1.0f);
 	glVertexPointer(2, GL_FLOAT, 0, square_vertices);
 	glEnableClientState(GL_VERTEX_ARRAY);
-
-	glPushMatrix();
-	glScalef(side, side, side);
-	glNormal3f(0.0f, 0.0f, 1.0f);
-	glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-	glPopMatrix();
-
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	glDisableClientState(GL_VERTEX_ARRAY);
+	glPopMatrix();
 }
 
 /*
@@ -207,21 +211,28 @@ r_set_clippingarea(int16_t x, int16_t y, int16_t width, int16_t height)
 }
 
 void
-r_setup_ambient_light(struct r_color color)
+r_set_light_position(int8_t light_num, struct vec3 *position)
+{
+	GLfloat light_position[] = { position->x, position->y, position->z, 1.0 };
+
+	glLightfv(GL_LIGHT0 + light_num, GL_POSITION, light_position);
+}
+
+void
+r_setup_ambient_light(int8_t light_num, struct r_color color)
 {
 	GLfloat light_ambient_color[] = { color.red, color.green, color.blue, color.alpha };
 	
 	//glLightModelfv(GL_LIGHT_MODEL_AMBIENT, light_ambient_color);
-	//glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.01f);
-	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient_color);
+	glLightfv(GL_LIGHT0 + light_num, GL_AMBIENT, light_ambient_color);
 }
 
 void
-r_setup_diffuse_light(struct r_color color)
+r_setup_diffuse_light(int8_t light_num, struct r_color color)
 {
 	GLfloat light_diffuse_color[] = { color.red, color.green, color.blue, color.alpha };
 	
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse_color);
+	glLightfv(GL_LIGHT0 + light_num, GL_DIFFUSE, light_diffuse_color);
 }
 
 /*
@@ -231,7 +242,8 @@ void
 r_setup_orthogonal_view(GLfloat width, GLfloat height)
 {
 	
-	glOrthof(-(width/2.0f), (width/2.0f), -(height/2.0f), (height/2.0f), -200.0f, 200.0f);
+	glOrthof(-(width/2.0f), (width/2.0f), -(height/2.0f), (height/2.0f),
+			-200.0f, 200.0f);
 }
 
 /*
