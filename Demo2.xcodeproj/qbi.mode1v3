@@ -331,7 +331,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>10A5C2DA0FC5E8BA00152875</string>
+										<string>10A5C2E80FC5FC2F00152875</string>
 										<key>history</key>
 										<array>
 											<string>10FB3EA80FBB8923005CC6FA</string>
@@ -564,13 +564,12 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>10A5C2DB0FC5E8BA00152875</string>
 		<string>10A5C0A40FC3418100152875</string>
 		<string>10A5C09C0FC3279100152875</string>
 		<string>1C78EAAD065D492600B07095</string>
 		<string>1CD10A99069EF8BA00B06720</string>
-		<string>10FB3C8F0FBB0550005CC6FA</string>
 		<string>/Users/qbi/Code/iPhone/Demo2/Demo2.xcodeproj</string>
+		<string>10FB3C8F0FBB0550005CC6FA</string>
 	</array>
 	<key>WindowString</key>
 	<string>119 117 841 661 0 0 1280 778 </string>

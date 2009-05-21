@@ -12,8 +12,14 @@
 
 #include <sys/types.h>
 
-#include <OpenGLES/ES1/gl.h>
-#include <OpenGLES/ES1/glext.h>
+#if defined(__APPLE__)
+# include <OpenGLES/ES1/gl.h>
+# include <OpenGLES/ES1/glext.h>
+#elif defined(__NDS__) /* !__APPLE__ */
+# include <nds.h>
+# define GLfloat float
+# define GLuint uint8_t
+#endif /* !__NDS__ */
 
 #include "vec3.h"
 

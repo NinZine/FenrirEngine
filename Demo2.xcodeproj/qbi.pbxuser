@@ -153,7 +153,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 157;
-		modificationTime = 264628002.049412;
+		modificationTime = 264628414.012622;
 		state = 1;
 	};
 	1033A5D40FC1FC8200D909FF /* PBXTextBookmark */ = {
@@ -1264,9 +1264,9 @@
 	};
 	10A5C0E90FC56B6A00152875 /* game_helper.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {572, 686}}";
+			sepNavIntBoundsRect = "{{0, 0}, {572, 742}}";
 			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 566}";
+			sepNavVisRange = "{0, 402}";
 		};
 	};
 	10A5C0EA0FC56B6A00152875 /* rendering.h */ = {
@@ -1278,9 +1278,9 @@
 	};
 	10A5C0EB0FC56B6A00152875 /* vec3.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {572, 583}}";
+			sepNavIntBoundsRect = "{{0, 0}, {572, 476}}";
 			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 677}";
+			sepNavVisRange = "{0, 607}";
 		};
 	};
 	10A5C0ED0FC56B6A00152875 /* game_helper.c */ = {
@@ -1766,16 +1766,16 @@
 	};
 	10A5C13A0FC57F5A00152875 /* game.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {439, 224}}";
+			sepNavIntBoundsRect = "{{0, 0}, {572, 399}}";
 			sepNavSelRange = "{55, 23}";
-			sepNavVisRange = "{0, 193}";
+			sepNavVisRange = "{0, 267}";
 		};
 	};
 	10A5C13B0FC57F6300152875 /* game.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {572, 2926}}";
+			sepNavIntBoundsRect = "{{0, 0}, {572, 3024}}";
 			sepNavSelRange = "{2818, 0}";
-			sepNavVisRange = "{1992, 1177}";
+			sepNavVisRange = "{2054, 449}";
 		};
 	};
 	10A5C1410FC57F9100152875 /* PBXTextBookmark */ = {
@@ -3502,6 +3502,23 @@
 		vrLen = 966;
 		vrLoc = 1825;
 	};
+	10A5C2E80FC5FC2F00152875 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 10FB3DE20FBB5430005CC6FA /* View.h */;
+		name = "View.h: 60";
+		rLen = 0;
+		rLoc = 1545;
+		rType = 0;
+		vrLen = 1038;
+		vrLoc = 1825;
+	};
+	10A5C2FB0FC6024300152875 /* main.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {572, 399}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 349}";
+		};
+	};
 	10FB3C4E0FBAE557005CC6FA /* Demo2 */ = {
 		isa = PBXExecutable;
 		activeArgIndices = (
@@ -3542,6 +3559,12 @@
 		indexTemplatePath = "";
 	};
 	10FB3C6D0FBAEF56005CC6FA /* GameView.h */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = GameView.h;
+		path = /Users/qbi/Code/iPhone/Demo2/Classes/GameView.h;
+		sourceTree = "<absolute>";
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {572, 583}}";
 			sepNavSelRange = "{351, 0}";
@@ -3550,6 +3573,12 @@
 		};
 	};
 	10FB3C6E0FBAEF56005CC6FA /* GameView.m */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.objc;
+		name = GameView.m;
+		path = /Users/qbi/Code/iPhone/Demo2/Classes/GameView.m;
+		sourceTree = "<absolute>";
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1272, 1568}}";
 			sepNavSelRange = "{2337, 0}";
@@ -3613,9 +3642,9 @@
 		path = "/Volumes/Untitled/Documents and Settings/NinZine/My Documents/Visual Studio 2008/Projects/Zen of Networked Physics/Source/View.h";
 		sourceTree = "<absolute>";
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {572, 2786}}";
+			sepNavIntBoundsRect = "{{0, 0}, {572, 2632}}";
 			sepNavSelRange = "{1545, 0}";
-			sepNavVisRange = "{1825, 966}";
+			sepNavVisRange = "{1825, 752}";
 		};
 	};
 	10FB3DE40FBB5430005CC6FA /* NetworkedPhysics.cpp */ = {
@@ -3858,6 +3887,12 @@
 		vrLoc = 0;
 	};
 	1D3623240D0F684500981E51 /* Demo2AppDelegate.h */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = Demo2AppDelegate.h;
+		path = /Users/qbi/Code/iPhone/Demo2/Classes/Demo2AppDelegate.h;
+		sourceTree = "<absolute>";
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {572, 583}}";
 			sepNavSelRange = "{420, 0}";
@@ -3866,6 +3901,12 @@
 		};
 	};
 	1D3623250D0F684500981E51 /* Demo2AppDelegate.m */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.objc;
+		name = Demo2AppDelegate.m;
+		path = /Users/qbi/Code/iPhone/Demo2/Classes/Demo2AppDelegate.m;
+		sourceTree = "<absolute>";
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {864, 644}}";
 			sepNavSelRange = "{814, 0}";
@@ -3938,6 +3979,28 @@
 					PBXFileDataSource_Errors_ColumnID,
 					PBXFileDataSource_Warnings_ColumnID,
 					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXConfiguration.PBXTargetDataSource.PBXTargetDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					354,
+					60,
+					20,
+					48,
+					43,
+					43,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXTargetDataSource_PrimaryAttribute,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
 			PBXPerProjectTemplateStateSaveDate = 264447848;
@@ -4288,6 +4351,7 @@
 			10A5C2D30FC5E5BA00152875 /* PBXTextBookmark */ = 10A5C2D30FC5E5BA00152875 /* PBXTextBookmark */;
 			10A5C2D60FC5E71F00152875 /* PBXTextBookmark */ = 10A5C2D60FC5E71F00152875 /* PBXTextBookmark */;
 			10A5C2DA0FC5E8BA00152875 /* PBXTextBookmark */ = 10A5C2DA0FC5E8BA00152875 /* PBXTextBookmark */;
+			10A5C2E80FC5FC2F00152875 /* PBXTextBookmark */ = 10A5C2E80FC5FC2F00152875 /* PBXTextBookmark */;
 			10FB3DDB0FBB5430005CC6FA = 10FB3DDB0FBB5430005CC6FA /* PBXTextBookmark */;
 			10FB3E190FBB78CE005CC6FA = 10FB3E190FBB78CE005CC6FA /* PBXTextBookmark */;
 			10FB3EA80FBB8923005CC6FA = 10FB3EA80FBB8923005CC6FA /* PBXTextBookmark */;
@@ -4311,6 +4375,12 @@
 		};
 	};
 	29B97316FDCFA39411CA2CEA /* main.m */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.objc;
+		name = main.m;
+		path = /Users/qbi/Code/iPhone/Demo2/main.m;
+		sourceTree = "<absolute>";
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {572, 583}}";
 			sepNavSelRange = "{349, 0}";

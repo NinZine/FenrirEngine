@@ -5,7 +5,7 @@
 #include <assert.h>
 #include <err.h>
 #include <stdlib.h>
-#include <strings.h>
+#include <string.h>
 
 #include "game.h"
 #include "game_helper.h"
