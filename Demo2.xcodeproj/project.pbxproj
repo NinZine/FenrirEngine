@@ -155,6 +155,22 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXLegacyTarget section */
+		10A5C3050FC60A4600152875 /* Demo2_NDS */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = 10A5C3080FC60A6400152875 /* Build configuration list for PBXLegacyTarget "Demo2_NDS" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			dependencies = (
+			);
+			name = Demo2_NDS;
+			passBuildSettingsInEnvironment = 1;
+			productName = Demo2_NDS;
+		};
+/* End PBXLegacyTarget section */
+
 /* Begin PBXNativeTarget section */
 		1D6058900D05DD3D006BFB54 /* Demo2 */ = {
 			isa = PBXNativeTarget;
@@ -186,6 +202,7 @@
 			projectRoot = "";
 			targets = (
 				1D6058900D05DD3D006BFB54 /* Demo2 */,
+				10A5C3050FC60A4600152875 /* Demo2_NDS */,
 			);
 		};
 /* End PBXProject section */
@@ -218,6 +235,29 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		10A5C3060FC60A4600152875 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEVKITARM = "${DEVKITPRO}/devkitARM";
+				DEVKITPRO = /opt/local/devkitPro;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = Demo2_NDS;
+			};
+			name = Debug;
+		};
+		10A5C3070FC60A4600152875 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = Demo2_NDS;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 		1D6058940D05DD3E006BFB54 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -232,6 +272,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Demo2_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
+				OTHER_CFLAGS = "-D__IPHONE__=1";
 				PRODUCT_NAME = Demo2;
 			};
 			name = Debug;
@@ -248,6 +289,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Demo2_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
+				OTHER_CFLAGS = "-D__IPHONE__=1";
 				PRODUCT_NAME = Demo2;
 			};
 			name = Release;
@@ -286,6 +328,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		10A5C3080FC60A6400152875 /* Build configuration list for PBXLegacyTarget "Demo2_NDS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				10A5C3060FC60A4600152875 /* Debug */,
+				10A5C3070FC60A4600152875 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Demo2" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

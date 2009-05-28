@@ -2,17 +2,39 @@
  * License
  */
 
+#include <sys/time.h>
+
+#include <alloca.h>
 #include <assert.h>
+#if __IPHONE__ == 1
 #include <err.h>
+#endif /* !__IPHONE__ */
+#include <stdarg.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "game.h"
 #include "game_helper.h"
 
+#if __NDS__ == 1
+void inline
+err(int n, char *fmt, ...)
+{
+	va_list msg;
+	char *tmp = alloca((strlen(fmt) + 2) * sizeof(char));
+
+	va_start(msg, fmt);
+	strcat(tmp, fmt);
+	strcat(tmp, "\n");
+	vprintf(tmp, msg);
+	va_end(msg);
+}
+#endif /* !__NDS__ */
+
 static vec3 camera_current = {0.f, 0.f, 200.f};
 static vec3 camera_previous = {0.f, 0.f, 200.f};
-static vec3 light_position = {0.0f, 0.0f, 25.0f};
+static vec3 light_position = {0.0f, -1.0f, 0.0f};
 static bool	touch = false; /* FIXME: Temporary */
 static struct gh_state state_current = {0,0};
 static struct gh_state state_previous = {0,0};
@@ -28,6 +50,7 @@ void
 game_initialize()
 {
 	struct r_color color = {1.0f, 0.5f, 0.5f, 0.5f};
+	struct r_color material = {1.0f, 1.0f, 0.0f, 1.0f};
 	int i;
 
 	if (0 == state_current.count) {
@@ -55,12 +78,14 @@ game_initialize()
 	}
 
 	r_enable_light(0);
+	r_set_light_position(0, &light_position);
 	r_setup_ambient_light(0, color);
 	r_setup_diffuse_light(0, color);
-	r_set_light_position(0, &light_position);
 	//glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.008f);
 	//glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.001f);
 	//glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 5.f);
+	r_set_material(GL_AMBIENT | GL_DIFFUSE | GL_EMISSION | GL_SPECULAR,
+		material);
 }
 
 void
@@ -135,11 +160,13 @@ game_render(struct r_gl_buffer *buffer)
 	//glRotatef(90.0f, 0.0f, 0.0f, -1.0f); // For landscape mode
 	
 	/* Clear buffers */
-	glClearColor(1.0f, 1.0f, 1.0f, 1.f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	r_clear();
+	r_enable_culling(GL_BACK);
+#if __IPHONE__ == 1
 	glEnable(GL_DEPTH_TEST);
-	glFrontFace(GL_CCW);
-	glEnable(GL_CULL_FACE);
+	//glFrontFace(GL_CCW);
+#elif __NDS__ == 1 /* !__IPHONE__ */
+#endif /* !__NDS__ */
 	
 	/* World space */
 	glMatrixMode(GL_MODELVIEW);
@@ -151,7 +178,7 @@ game_render(struct r_gl_buffer *buffer)
 	game_render_state(&tmp);
 	
 	/* Make sure there is no error in OpenGL stuff */
-	assert(glGetError() == GL_NO_ERROR);
+	//assert(glGetError() == GL_NO_ERROR);
 }
 
 void
@@ -166,10 +193,10 @@ game_render_state(struct gh_state *src)
 		glColor4f(0.9, 0.4, 0.4, 1.f);
 		glPushMatrix();
 		/* Only effective without glEnable(GL_COLOR_MATERIAL) */
-		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, color);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, color);
+		/*glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, color);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, color);*/
 		
-		glEnable(GL_COLOR_MATERIAL);
+		//glEnable(GL_COLOR_MATERIAL);
 		glTranslatef(src->object[i].position.x, src->object[i].position.y,
 				src->object[i].position.z);
 		glRotatef(rotate++, 0.f, 1.f, 0.f);
@@ -181,9 +208,12 @@ game_render_state(struct gh_state *src)
 void
 game_update()
 {
+
 	game_time.now = gh_time_elapsed();
 	game_time.delta = game_time.now - game_time.absolute;
-	
+
+	printf("now: %f\n", game_time.now);
+
 	if (game_time.delta <= 0.0f) {
 		return;
 	}

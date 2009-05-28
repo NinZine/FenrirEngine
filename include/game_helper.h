@@ -10,9 +10,8 @@
 #ifndef _GAME_HELPER_H_
 #define _GAME_HELPER_H_
 
-#include <sys/types.h>
-
 #include <math.h>
+#include <stdint.h>
 #include <stdbool.h>
 
 #include "vec3.h"

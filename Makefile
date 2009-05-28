@@ -16,7 +16,7 @@ include $(DEVKITARM)/ds_rules
 #---------------------------------------------------------------------------------
 TARGET		:=	$(shell basename $(CURDIR))
 BUILD		:=	build
-SOURCES		:=	source
+SOURCES		:=	source source/nds
 GBFSDIR		:=	gbfs  
 INCLUDES	:=	include
 
@@ -32,7 +32,7 @@ CFLAGS	:=	-g -Wall -O2\
 			-ffast-math \
 			$(ARCH)
 
-CFLAGS	+=	$(INCLUDE) -DARM9 -D__NDS__
+CFLAGS	+=	$(INCLUDE) -DARM9 -D__NDS__=1
 CXXFLAGS	:= $(CFLAGS) -fno-rtti -fexceptions
 
 ASFLAGS	:=	-g $(ARCH)
@@ -41,7 +41,7 @@ LDFLAGS	=	-specs=ds_arm9.specs -g $(ARCH) -mno-fpu -Wl,-Map,$(notdir $*.map)
 #---------------------------------------------------------------------------------
 # any extra libraries we wish to link with the project
 #---------------------------------------------------------------------------------
-LIBS	:= -lnds9
+LIBS	:= -lnds9 -lm
  
  
 #---------------------------------------------------------------------------------
