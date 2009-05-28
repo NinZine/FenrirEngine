@@ -276,7 +276,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>13</integer>
+									<integer>14</integer>
 									<integer>12</integer>
 								</array>
 							</array>
@@ -328,7 +328,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>103ED9230FCECDBB000BD67D</string>
+										<string>103ED9AA0FCEE9D4000BD67D</string>
 										<key>history</key>
 										<array>
 											<string>10FB3EA80FBB8923005CC6FA</string>
@@ -346,9 +346,9 @@
 											<string>10A5C3200FC60C5B00152875</string>
 											<string>10A5C3680FC6276900152875</string>
 											<string>10D714FE0FCDD4B50019FE5A</string>
-											<string>10D714FF0FCDD4B50019FE5A</string>
 											<string>103ED9150FCECAEC000BD67D</string>
-											<string>103ED9160FCECAEC000BD67D</string>
+											<string>103ED9660FCEDFF6000BD67D</string>
+											<string>103ED9670FCEDFF6000BD67D</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -368,6 +368,22 @@
 											<string>10A5C36A0FC6276900152875</string>
 											<string>10D715030FCDD4B50019FE5A</string>
 											<string>103ED9170FCECAEC000BD67D</string>
+											<string>103ED93C0FCED6EE000BD67D</string>
+											<string>103ED93D0FCED6EE000BD67D</string>
+											<string>103ED93E0FCED6EE000BD67D</string>
+											<string>103ED93F0FCED6EE000BD67D</string>
+											<string>103ED94A0FCEDC18000BD67D</string>
+											<string>103ED94B0FCEDC18000BD67D</string>
+											<string>103ED94C0FCEDC18000BD67D</string>
+											<string>103ED9540FCEDE0A000BD67D</string>
+											<string>103ED9550FCEDE0A000BD67D</string>
+											<string>103ED9560FCEDE0A000BD67D</string>
+											<string>103ED9570FCEDE0A000BD67D</string>
+											<string>103ED95F0FCEDF3B000BD67D</string>
+											<string>103ED9600FCEDF3B000BD67D</string>
+											<string>103ED9680FCEDFF6000BD67D</string>
+											<string>103ED9690FCEDFF6000BD67D</string>
+											<string>103ED96A0FCEDFF6000BD67D</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -540,7 +556,7 @@
 	<key>PerspectivesBarVisible</key>
 	<false/>
 	<key>PinnedNavigatorIdentifier</key>
-	<string>10A5C14B0FC5808200152875</string>
+	<string>103ED95A0FCEDE2C000BD67D</string>
 	<key>ShelfIsVisible</key>
 	<false/>
 	<key>SourceDescription</key>
@@ -567,8 +583,8 @@
 		<string>103ED9060FCEB5CF000BD67D</string>
 		<string>1C78EAAD065D492600B07095</string>
 		<string>1CD10A99069EF8BA00B06720</string>
-		<string>/Users/qbi/Code/iPhone/Demo2/Demo2.xcodeproj</string>
 		<string>10FB3C8F0FBB0550005CC6FA</string>
+		<string>/Users/qbi/Code/iPhone/Demo2/Demo2.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
 	<string>119 117 841 661 0 0 1280 778 </string>
@@ -587,8 +603,6 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -611,6 +625,8 @@
 							<string>218pt</string>
 						</dict>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>

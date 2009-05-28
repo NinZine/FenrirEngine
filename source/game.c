@@ -49,8 +49,8 @@ static void game_update_state(struct gh_state *curr, struct gh_state *prev);
 void
 game_initialize()
 {
-	struct r_color color = {1.0f, 0.5f, 0.5f, 0.5f};
-	struct r_color material = {1.0f, 1.0f, 0.0f, 1.0f};
+	struct r_color color = {1.0f, 1.f, 1.f, 1.f};
+	struct r_color material = {1.0f, 0.0f, 0.0f, 0.0f};
 	int i;
 
 	if (0 == state_current.count) {
@@ -79,13 +79,17 @@ game_initialize()
 
 	r_enable_light(0);
 	r_set_light_position(0, &light_position);
-	r_setup_ambient_light(0, color);
+	r_setup_ambient_light(0, material);
 	r_setup_diffuse_light(0, color);
 	//glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.008f);
 	//glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.001f);
 	//glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 5.f);
-	r_set_material(GL_AMBIENT | GL_DIFFUSE | GL_EMISSION | GL_SPECULAR,
-		material);
+
+	/* Set default material for everything, need to do this for DS */
+	r_set_material(GL_AMBIENT, material);
+	r_set_material(GL_DIFFUSE, material);
+	r_set_material(GL_EMISSION, material);
+	r_set_material(GL_SPECULAR, material);
 }
 
 void
@@ -184,7 +188,8 @@ game_render(struct r_gl_buffer *buffer)
 void
 game_render_state(struct gh_state *src)
 {
-	static const GLfloat color[] = {1.f, 0.f, 0.f, 1.f};
+	static const struct r_color ambient = {1.f, 0.7f, 0.7f, 0.7f};
+	static const struct r_color diffuse = {1.f, 0.8f, 0.5f, 0.1f};
 	static int16_t rotate = 0;
 	int i;
 
@@ -193,8 +198,8 @@ game_render_state(struct gh_state *src)
 		glColor4f(0.9, 0.4, 0.4, 1.f);
 		glPushMatrix();
 		/* Only effective without glEnable(GL_COLOR_MATERIAL) */
-		/*glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, color);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, color);*/
+		r_set_material(GL_AMBIENT, ambient);
+		r_set_material(GL_DIFFUSE, diffuse);
 		
 		//glEnable(GL_COLOR_MATERIAL);
 		glTranslatef(src->object[i].position.x, src->object[i].position.y,

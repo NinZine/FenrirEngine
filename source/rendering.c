@@ -292,12 +292,14 @@ r_set_light_position(int light_num, struct vec3 *position)
 	GLfloat light_position[] = { position->x, position->y, position->z, 1.0 };
 
 	glLightfv(GL_LIGHT0 + light_num, GL_POSITION, light_position);
-#elif __NDS__ == 1
+#elif __NDS__ == 1 /* !__IPHONE__ */
+	struct vec3 tmp = vec3_normalize(position);
+
 	light_num = (light_num & 3) << 30;
-	GFX_LIGHT_VECTOR = light_num | ((floattov10(position->z) & 0x3FF) << 20)
-		| ((floattov10(position->y) & 0x3FF) << 10)
-		| (floattov10(position->x) & 0x3FF);
-#endif
+	GFX_LIGHT_VECTOR = light_num | ((floattov10(tmp.z) & 0x3FF) << 20)
+		| ((floattov10(tmp.y) & 0x3FF) << 10)
+		| (floattov10(tmp.x) & 0x3FF);
+#endif /* !__NDS__ */
 }
 
 void
@@ -306,43 +308,35 @@ r_set_material(GLenum type, struct r_color color)
 	GLfloat tmp[] = { color.red, color.green, color.blue, color.alpha };
 	
 #if __IPHONE__ == 1
-	if (type & GL_AMBIENT) {
+	if (type == GL_AMBIENT) {
 		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, tmp); 
 	}
-	if (type & GL_DIFFUSE) {
+	if (type == GL_DIFFUSE) {
 		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, tmp); 
 	}
-	if (type & GL_EMISSION) {
+	if (type == GL_EMISSION) {
 		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, tmp); 
 	}
-	if (type & GL_SPECULAR) {
+	if (type == GL_SPECULAR) {
 		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, tmp); 
 	}
-#elif __NDS__ == 1
-	if (type & GL_AMBIENT) {
+#elif __NDS__ == 1 /* !__IPHONE__ */
+	if (type == GL_AMBIENT) {
 		glMaterialf(GL_AMBIENT, RGB15( (uint8_t)(tmp[0]*31),
 			(uint8_t)(tmp[1]*31), (uint8_t)(tmp[2]*31) ));
 	}
-	if (type & GL_DIFFUSE) {
+	if (type == GL_DIFFUSE) {
 		glMaterialf(GL_DIFFUSE, RGB15( (uint8_t)(tmp[0]*31),
 			(uint8_t)(tmp[1]*31), (uint8_t)(tmp[2]*31) ));
 	}
-	if (type & GL_EMISSION) {
+	if (type == GL_EMISSION) {
 		glMaterialf(GL_EMISSION, RGB15( (uint8_t)(tmp[0]*31),
 			(uint8_t)(tmp[1]*31), (uint8_t)(tmp[2]*31) ));
 	}
-	if (type & GL_SPECULAR) {
+	if (type == GL_SPECULAR) {
 		glMaterialf(GL_SPECULAR, BIT(15) | RGB15( (uint8_t)(tmp[0]*16),
 			(uint8_t)(tmp[1]*16), (uint8_t)(tmp[2]*16) ));
 	}
-#endif
-}
-
-void
-r_set_material_ambient(struct r_color color)
-{
-#if __IPHONE__ == 1
-#elif __NDS__ == 1 /* !__IPHONE__ */
 #endif /* !__NDS__ */
 }
 
