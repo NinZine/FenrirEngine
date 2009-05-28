@@ -16,6 +16,7 @@
 /* TODO: Fix timer, a 0 is at wrong place.
  * Lights seem to work.
  * Save POLY_flags somewhere.
+ * Implement quaternions
  */
 int main()
 {

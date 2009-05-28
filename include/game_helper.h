@@ -14,12 +14,13 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include "quat.h"
 #include "vec3.h"
 
 struct gh_rigid_body {
 	int32_t id;
 	vec3	position;
-	/*quat	rotation;*/
+	quat	rotation;
 	vec3	linear_velocity;
 	vec3	angular_velocity;
 };

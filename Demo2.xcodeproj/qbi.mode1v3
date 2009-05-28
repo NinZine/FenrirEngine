@@ -231,8 +231,6 @@
 			<key>Layout</key>
 			<array>
 				<dict>
-					<key>BecomeActive</key>
-					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -277,7 +275,7 @@
 							<array>
 								<array>
 									<integer>14</integer>
-									<integer>12</integer>
+									<integer>13</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
@@ -311,6 +309,8 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -328,7 +328,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>103ED9AA0FCEE9D4000BD67D</string>
+										<string>103EDA780FCF5C01000BD67D</string>
 										<key>history</key>
 										<array>
 											<string>10FB3EA80FBB8923005CC6FA</string>
@@ -345,10 +345,11 @@
 											<string>10A5C3100FC60A8700152875</string>
 											<string>10A5C3200FC60C5B00152875</string>
 											<string>10A5C3680FC6276900152875</string>
-											<string>10D714FE0FCDD4B50019FE5A</string>
 											<string>103ED9150FCECAEC000BD67D</string>
 											<string>103ED9660FCEDFF6000BD67D</string>
-											<string>103ED9670FCEDFF6000BD67D</string>
+											<string>103ED9FB0FCF40A7000BD67D</string>
+											<string>103EDA570FCF50F4000BD67D</string>
+											<string>103EDA580FCF50F4000BD67D</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -384,6 +385,38 @@
 											<string>103ED9680FCEDFF6000BD67D</string>
 											<string>103ED9690FCEDFF6000BD67D</string>
 											<string>103ED96A0FCEDFF6000BD67D</string>
+											<string>103ED9CC0FCF347F000BD67D</string>
+											<string>103ED9CD0FCF347F000BD67D</string>
+											<string>103ED9CE0FCF347F000BD67D</string>
+											<string>103ED9CF0FCF347F000BD67D</string>
+											<string>103ED9D90FCF384F000BD67D</string>
+											<string>103ED9DF0FCF38D3000BD67D</string>
+											<string>103ED9E00FCF38D3000BD67D</string>
+											<string>103ED9E60FCF3966000BD67D</string>
+											<string>103ED9E70FCF3966000BD67D</string>
+											<string>103ED9F00FCF3A8C000BD67D</string>
+											<string>103ED9F10FCF3A8C000BD67D</string>
+											<string>103ED9F20FCF3A8C000BD67D</string>
+											<string>103ED9F30FCF3A8C000BD67D</string>
+											<string>103ED9F40FCF3A8C000BD67D</string>
+											<string>103ED9FE0FCF40A7000BD67D</string>
+											<string>103ED9FF0FCF40A7000BD67D</string>
+											<string>103EDA000FCF40A7000BD67D</string>
+											<string>103EDA010FCF40A7000BD67D</string>
+											<string>103EDA020FCF40A7000BD67D</string>
+											<string>103EDA030FCF40A7000BD67D</string>
+											<string>103EDA040FCF40A7000BD67D</string>
+											<string>103EDA090FCF45E8000BD67D</string>
+											<string>103EDA0A0FCF45E8000BD67D</string>
+											<string>103EDA0B0FCF45E8000BD67D</string>
+											<string>103EDA0C0FCF45E8000BD67D</string>
+											<string>103EDA170FCF470C000BD67D</string>
+											<string>103EDA180FCF470C000BD67D</string>
+											<string>103EDA190FCF470C000BD67D</string>
+											<string>103EDA520FCF50E4000BD67D</string>
+											<string>103EDA530FCF50E4000BD67D</string>
+											<string>103EDA540FCF50E4000BD67D</string>
+											<string>103EDA590FCF50F4000BD67D</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -583,8 +616,8 @@
 		<string>103ED9060FCEB5CF000BD67D</string>
 		<string>1C78EAAD065D492600B07095</string>
 		<string>1CD10A99069EF8BA00B06720</string>
-		<string>10FB3C8F0FBB0550005CC6FA</string>
 		<string>/Users/qbi/Code/iPhone/Demo2/Demo2.xcodeproj</string>
+		<string>10FB3C8F0FBB0550005CC6FA</string>
 	</array>
 	<key>WindowString</key>
 	<string>119 117 841 661 0 0 1280 778 </string>
@@ -608,7 +641,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>rendering.c</string>
+								<string>quat.c</string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -801,7 +834,7 @@
 			<key>WindowToolGUID</key>
 			<string>1CD10A99069EF8BA00B06720</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>Identifier</key>

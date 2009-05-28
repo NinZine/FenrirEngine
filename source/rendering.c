@@ -310,30 +310,24 @@ r_set_material(GLenum type, struct r_color color)
 #if __IPHONE__ == 1
 	if (type == GL_AMBIENT) {
 		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, tmp); 
-	}
-	if (type == GL_DIFFUSE) {
+	} else if (type == GL_DIFFUSE) {
 		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, tmp); 
-	}
-	if (type == GL_EMISSION) {
+	} else if (type == GL_EMISSION) {
 		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, tmp); 
-	}
-	if (type == GL_SPECULAR) {
+	} else if (type == GL_SPECULAR) {
 		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, tmp); 
 	}
 #elif __NDS__ == 1 /* !__IPHONE__ */
 	if (type == GL_AMBIENT) {
 		glMaterialf(GL_AMBIENT, RGB15( (uint8_t)(tmp[0]*31),
 			(uint8_t)(tmp[1]*31), (uint8_t)(tmp[2]*31) ));
-	}
-	if (type == GL_DIFFUSE) {
+	} else if (type == GL_DIFFUSE) {
 		glMaterialf(GL_DIFFUSE, RGB15( (uint8_t)(tmp[0]*31),
 			(uint8_t)(tmp[1]*31), (uint8_t)(tmp[2]*31) ));
-	}
-	if (type == GL_EMISSION) {
+	} else if (type == GL_EMISSION) {
 		glMaterialf(GL_EMISSION, RGB15( (uint8_t)(tmp[0]*31),
 			(uint8_t)(tmp[1]*31), (uint8_t)(tmp[2]*31) ));
-	}
-	if (type == GL_SPECULAR) {
+	} else if (type == GL_SPECULAR) {
 		glMaterialf(GL_SPECULAR, BIT(15) | RGB15( (uint8_t)(tmp[0]*16),
 			(uint8_t)(tmp[1]*16), (uint8_t)(tmp[2]*16) ));
 	}

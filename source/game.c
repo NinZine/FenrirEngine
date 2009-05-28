@@ -69,8 +69,10 @@ game_initialize()
 				(state_current.count * -20.f) + (i * 40.f),
 				0.f};
 			vec3 velocity = {rand() % 10 - 5.f, rand() % 10 - 5.f, 0.f};
+			quat rotation = {0.f, 0.f, 1.f, 0.f};
 
 			state_current.object[i].position = position;
+			state_current.object[i].rotation = quat_from_axis(&rotation);
 			//state_current.object[i].linear_velocity = velocity;
 		}
 
@@ -131,7 +133,10 @@ game_interpolate_states(struct gh_state *out, struct gh_state *curr,
 	for (i = 0; i < curr->count; ++i) {
 		
 		out->object[i].position = vec3_lerp(&curr->object[i].position,
-				&prev->object[i].position, t);
+			&prev->object[i].position, t);
+		
+		out->object[i].rotation = quat_slerp(&curr->object[i].rotation,
+			&prev->object[i].rotation, t);
 	}
 }
 
@@ -190,10 +195,10 @@ game_render_state(struct gh_state *src)
 {
 	static const struct r_color ambient = {1.f, 0.7f, 0.7f, 0.7f};
 	static const struct r_color diffuse = {1.f, 0.8f, 0.5f, 0.1f};
-	static int16_t rotate = 0;
 	int i;
 
 	for (i = 0; i < src->count; ++i) {
+		quat q = quat_to_axis(&src->object[i].rotation);
 
 		glColor4f(0.9, 0.4, 0.4, 1.f);
 		glPushMatrix();
@@ -204,7 +209,7 @@ game_render_state(struct gh_state *src)
 		//glEnable(GL_COLOR_MATERIAL);
 		glTranslatef(src->object[i].position.x, src->object[i].position.y,
 				src->object[i].position.z);
-		glRotatef(rotate++, 0.f, 1.f, 0.f);
+		glRotatef(q.w, q.x, q.y, q.z);
 		r_render_cube(20);
 		glPopMatrix();
 	}
@@ -246,6 +251,12 @@ game_update_state(struct gh_state *curr, struct gh_state *prev)
 	for (i = 0; i < curr->count; ++i) {
 		curr->object[i].position = vec3_add(&curr->object[i].position,
 				&curr->object[i].linear_velocity);
+
+		if (i > 2) {
+			quat a = {90.f, 0.f, 1.f, 0.f};
+			a = quat_from_axis(&a);
+			curr->object[i].rotation = quat_mul(&curr->object[i].rotation, &a);
+		}
 	}
 }
 

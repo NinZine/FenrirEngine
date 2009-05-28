@@ -32,6 +32,7 @@ gh_copy_state(struct gh_state *dest, struct gh_state *src, bool use_malloc)
 
 		dest->object[i].id = src->object[i].id;
 		dest->object[i].position = src->object[i].position;
+		dest->object[i].rotation = src->object[i].rotation;
 		dest->object[i].linear_velocity = src->object[i].linear_velocity;
 		dest->object[i].angular_velocity = src->object[i].angular_velocity;
 	}
