@@ -135,8 +135,10 @@ game_interpolate_states(struct gh_state *out, struct gh_state *curr,
 		out->object[i].position = vec3_lerp(&curr->object[i].position,
 			&prev->object[i].position, t);
 		
-		out->object[i].rotation = quat_slerp(&curr->object[i].rotation,
-			&prev->object[i].rotation, t);
+		/*out->object[i].rotation = quat_slerp(&curr->object[i].rotation,
+			&prev->object[i].rotation, t);*/
+		out->object[i].rotation = quat_slerp(&prev->object[i].rotation,
+			&curr->object[i].rotation, t);
 	}
 }
 
@@ -146,7 +148,7 @@ game_render(struct r_gl_buffer *buffer)
 	static struct gh_state tmp = {};
 	static float_t aspect_ratio = 0.f;
 	vec3 camera_tmp;
-	float_t interpolate = 1.0f - game_time.accumulator/game_time.timestep;
+	float_t interpolate = /*1.0f - */game_time.accumulator/game_time.timestep;
 
 	/* First frame */
 	if (0 == tmp.count) {
