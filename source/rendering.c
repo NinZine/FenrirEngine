@@ -86,10 +86,6 @@ r_generate_depthbuffer(struct r_gl_buffer *buffer)
 	
 #if __IPHONE__ == 1
 	glGenRenderbuffersOES(1, &buffer->depth);
-	glGetRenderbufferParameterivOES(GL_RENDERBUFFER_OES,
-		GL_RENDERBUFFER_WIDTH_OES, &buffer->width);
-	glGetRenderbufferParameterivOES(GL_RENDERBUFFER_OES,
-		GL_RENDERBUFFER_HEIGHT_OES, &buffer->height);
 	
 	glBindRenderbufferOES(GL_RENDERBUFFER_OES, buffer->depth);
 	glRenderbufferStorageOES(GL_RENDERBUFFER_OES, GL_DEPTH_COMPONENT16_OES,

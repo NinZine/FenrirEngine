@@ -19,4 +19,8 @@
 	struct r_gl_buffer 	buffer;
 }
 
+- (void)	drawHUD;
+- (void)	tryStickTouch:(vec3)point;
+- (CGPoint) uiViewTouchToOpenGL:(UITouch *)touch;
+
 @end

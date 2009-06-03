@@ -100,9 +100,7 @@ game_input_handle()
 
 	camera_previous = camera_current;
 	if (true == touch) {
-		//camera_current.z += 5.f;
-		light_position.z -= 5.0f;
-		r_set_light_position(0, &light_position);
+		
 	}
 }
 
@@ -163,12 +161,12 @@ game_render(struct r_gl_buffer *buffer)
 	
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	r_setup_perspective_view(60.0f, aspect_ratio,
-			0.01f, 1000.f);
+	r_setup_orthogonal_view(buffer->width, buffer->height);
+	//r_setup_perspective_view(60.0f, aspect_ratio,
+	//		0.01f, 1000.f);
 	camera_tmp = vec3_lerp(&camera_current, &camera_previous, interpolate);
-	glTranslatef(-camera_tmp.x, -camera_tmp.y, -camera_tmp.z);
-	//r_setup_orthogonal_view(buffer->width, buffer->height);
-	//glRotatef(90.0f, 0.0f, 0.0f, -1.0f); // For landscape mode
+	//glTranslatef(-camera_tmp.x, -camera_tmp.y, -camera_tmp.z);
+	glRotatef(90.0f, 0.0f, 0.0f, -1.0f); // For landscape mode
 	
 	/* Clear buffers */
 	r_clear();
@@ -202,17 +200,18 @@ game_render_state(struct gh_state *src)
 	for (i = 0; i < src->count; ++i) {
 		quat q = quat_to_axis(&src->object[i].rotation);
 
-		glColor4f(0.9, 0.4, 0.4, 1.f);
+		glColor4f(0.9, 0.6, 0.4, 1.f);
 		glPushMatrix();
 		/* Only effective without glEnable(GL_COLOR_MATERIAL) */
 		r_set_material(GL_AMBIENT, ambient);
 		r_set_material(GL_DIFFUSE, diffuse);
 		
-		//glEnable(GL_COLOR_MATERIAL);
+		glEnable(GL_COLOR_MATERIAL);
 		glTranslatef(src->object[i].position.x, src->object[i].position.y,
 				src->object[i].position.z);
 		glRotatef(q.w, q.x, q.y, q.z);
-		r_render_cube(20);
+		glScalef(20, 20, 20);
+		r_render_quad(20);
 		glPopMatrix();
 	}
 }

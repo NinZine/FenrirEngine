@@ -15,6 +15,10 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {	
+	[application setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:NO];
+	[application setStatusBarOrientation:UIInterfaceOrientationLandscapeRight animated:NO];
+	[[UIApplication sharedApplication] setStatusBarHidden:YES animated:NO];
+	
 	// Create window
 	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
@@ -24,8 +28,6 @@
     
 	// Show window
 	[window makeKeyAndVisible];
-	[application setStatusBarOrientation:UIInterfaceOrientationPortrait animated:YES];
-	[application setStatusBarHidden:YES animated:YES];
 	
 	// Timers
 	update_timer = [NSTimer scheduledTimerWithTimeInterval:(1.0 / 60.0) target:game_view selector:@selector(update) userInfo:nil repeats:YES];
