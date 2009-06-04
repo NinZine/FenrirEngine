@@ -79,7 +79,7 @@ game_initialize()
 		gh_copy_state(&state_previous, &state_current, true);
 	}
 
-	r_enable_light(0);
+	//r_enable_light(0);
 	r_set_light_position(0, &light_position);
 	r_setup_ambient_light(0, material);
 	r_setup_diffuse_light(0, color);
@@ -104,18 +104,17 @@ game_input_handle()
 	}
 }
 
+/* Puts struct on a queue */
 void
-game_input_touch_begin(vec3 position)
+game_input(struct gh_input gi)
 {
 	
-	touch = true;
-}
-
-void
-game_input_touch_end()
-{
-
-	touch = false;
+	switch (gi.type)
+	{
+	case GHI_MOVE:
+		free(gi.data);
+		break;
+	};
 }
 
 void

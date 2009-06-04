@@ -20,7 +20,9 @@
 }
 
 - (void)	drawHUD;
-- (void)	tryStickTouch:(vec3)point;
+- (BOOL)	leftStick:(const vec3 *)point;
+- (void)	leftStickTouch:(const vec3*)point;
+- (void)	rightStickTouch:(const vec3*)point;
 - (CGPoint) uiViewTouchToOpenGL:(UITouch *)touch;
 
 @end

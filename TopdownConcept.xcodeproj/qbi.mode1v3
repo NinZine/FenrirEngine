@@ -216,7 +216,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>10DCA2720FD7378100FA7689</string>
+						<string>10DCA3270FD7E9D800FA7689</string>
 						<key>history</key>
 						<array>
 							<string>10DCA23B0FD7332900FA7689</string>
@@ -316,7 +316,8 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>16</integer>
+									<integer>2</integer>
+									<integer>1</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -370,7 +371,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>10DCA2710FD7378100FA7689</string>
+										<string>10DCA3260FD7E9D800FA7689</string>
 										<key>history</key>
 										<array>
 											<string>10FB3EA80FBB8923005CC6FA</string>
@@ -379,28 +380,26 @@
 											<string>10A5C2880FC5D43E00152875</string>
 											<string>10A5C3090FC60A8700152875</string>
 											<string>10A5C30A0FC60A8700152875</string>
-											<string>10A5C30B0FC60A8700152875</string>
-											<string>10A5C30C0FC60A8700152875</string>
 											<string>10A5C3200FC60C5B00152875</string>
 											<string>103EDA570FCF50F4000BD67D</string>
-											<string>10B149F20FD5E3B300A5A51D</string>
 											<string>1097442B0FD7242300A3C0E1</string>
 											<string>1097442C0FD7242300A3C0E1</string>
 											<string>10DCA18A0FD729F600FA7689</string>
 											<string>10DCA1990FD72A1700FA7689</string>
-											<string>10DCA1C70FD72CBA00FA7689</string>
-											<string>10DCA1C80FD72CBA00FA7689</string>
 											<string>10DCA1DC0FD72E8100FA7689</string>
 											<string>10DCA2440FD733C300FA7689</string>
 											<string>10DCA2450FD733C300FA7689</string>
 											<string>10DCA2460FD733C300FA7689</string>
-											<string>10DCA2630FD736A100FA7689</string>
+											<string>10DCA2B90FD7CE5800FA7689</string>
+											<string>10DCA2BA0FD7CE5800FA7689</string>
+											<string>10DCA2BB0FD7CE5800FA7689</string>
+											<string>10DCA2BC0FD7CE5800FA7689</string>
+											<string>10DCA30F0FD7E55000FA7689</string>
+											<string>10DCA3080FD7E53500FA7689</string>
 										</array>
 										<key>nextStack</key>
 										<array>
-											<string>10DCA2470FD733C300FA7689</string>
-											<string>10DCA2480FD733C300FA7689</string>
-											<string>10DCA2490FD733C300FA7689</string>
+											<string>10DCA3100FD7E55000FA7689</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -410,17 +409,14 @@
 											<string>10A5C1F30FC5A6BD00152875</string>
 											<string>10A5C1F60FC5A6BD00152875</string>
 											<string>10A5C2630FC5C98C00152875</string>
-											<string>10A5C3150FC60A8700152875</string>
 											<string>10A5C3170FC60A8700152875</string>
 											<string>10A5C3180FC60A8700152875</string>
 											<string>10A5C3190FC60A8700152875</string>
 											<string>10A5C3220FC60C5B00152875</string>
-											<string>10D715030FCDD4B50019FE5A</string>
 											<string>103ED9CD0FCF347F000BD67D</string>
 											<string>109744330FD7242300A3C0E1</string>
 											<string>109744340FD7242300A3C0E1</string>
 											<string>10DCA1CB0FD72CBA00FA7689</string>
-											<string>10DCA1CC0FD72CBA00FA7689</string>
 											<string>10DCA1CD0FD72CBA00FA7689</string>
 											<string>10DCA1D70FD72DDF00FA7689</string>
 										</array>
@@ -618,7 +614,6 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>10DCA2730FD7378100FA7689</string>
 		<string>10DCA1D00FD72CBA00FA7689</string>
 		<string>10DCA1D10FD72CBA00FA7689</string>
 		<string>1CD10A99069EF8BA00B06720</string>
@@ -644,8 +639,6 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -668,6 +661,8 @@
 							<string>218pt</string>
 						</dict>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
