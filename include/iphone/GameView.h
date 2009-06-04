@@ -23,6 +23,6 @@
 - (BOOL)	leftStick:(const vec3 *)point;
 - (void)	leftStickTouch:(const vec3*)point;
 - (void)	rightStickTouch:(const vec3*)point;
-- (CGPoint) uiViewTouchToOpenGL:(UITouch *)touch;
+- (CGPoint) pointToOpenGL:(CGPoint)point;
 
 @end

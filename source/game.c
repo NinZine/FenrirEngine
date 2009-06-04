@@ -32,14 +32,21 @@ err(int n, char *fmt, ...)
 }
 #endif /* !__NDS__ */
 
+struct gh_input_queue {
+	int capacity;
+	int count;
+	struct gh_input *queue;
+};
+
 static vec3 camera_current = {0.f, 0.f, 200.f};
 static vec3 camera_previous = {0.f, 0.f, 200.f};
 static vec3 light_position = {0.0f, -1.0f, 0.0f};
-static bool	touch = false; /* FIXME: Temporary */
 static struct gh_state state_current = {0,0};
 static struct gh_state state_previous = {0,0};
-static gh_time game_time = {0, 0, 0, 0, 0, 1.f / 2.f};
+static gh_time game_time = {0, 0, 0, 0, 0, 1.f / 20.f};
+static struct gh_input_queue input_queue;
 
+static void game_initialize_light();
 static void game_input_handle();
 static void game_interpolate_states(struct gh_state *out,
 		struct gh_state *curr, struct gh_state *prev, float_t t);
@@ -49,8 +56,6 @@ static void game_update_state(struct gh_state *curr, struct gh_state *prev);
 void
 game_initialize()
 {
-	struct r_color color = {1.0f, 1.f, 1.f, 1.f};
-	struct r_color material = {1.0f, 0.0f, 0.0f, 0.0f};
 	int i;
 
 	if (0 == state_current.count) {
@@ -79,13 +84,23 @@ game_initialize()
 		gh_copy_state(&state_previous, &state_current, true);
 	}
 
+	input_queue.capacity = 8;
+	input_queue.count = 0;
+	input_queue.queue = (struct gh_input*)malloc(
+		sizeof(struct gh_input) * input_queue.capacity);
+	game_initialize_light();
+}
+
+void
+game_initialize_light()
+{
+	struct r_color color = {1.0f, 1.f, 1.f, 1.f};
+	struct r_color material = {1.0f, 0.0f, 0.0f, 0.0f};
+
 	//r_enable_light(0);
 	r_set_light_position(0, &light_position);
 	r_setup_ambient_light(0, material);
 	r_setup_diffuse_light(0, color);
-	//glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.008f);
-	//glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.001f);
-	//glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 5.f);
 
 	/* Set default material for everything, need to do this for DS */
 	r_set_material(GL_AMBIENT, material);
@@ -97,10 +112,29 @@ game_initialize()
 void
 game_input_handle()
 {
-
 	camera_previous = camera_current;
-	if (true == touch) {
+
+	while (input_queue.count > 0) {
+		--input_queue.count;
 		
+		struct gh_input gi = input_queue.queue[input_queue.count];
+		switch (gi.type)
+		{
+			case GHI_MOVE:
+			{
+				vec3 *dir = (vec3*)gi.data;
+				state_current.object[1].linear_velocity = *dir; 
+				//vec3_add(&state_current.object[3].position, dir);
+				free(gi.data);
+				break;
+			}
+			case GHI_MOVE_STOP:
+			{
+				vec3 dir = {0.f, 0.f, 0.f};
+				state_current.object[1].linear_velocity = dir;
+				break;
+			}
+		};
 	}
 }
 
@@ -109,12 +143,19 @@ void
 game_input(struct gh_input gi)
 {
 	
-	switch (gi.type)
-	{
-	case GHI_MOVE:
-		free(gi.data);
-		break;
-	};
+	if (input_queue.count >= input_queue.capacity) {
+		void *tmp = malloc(
+			sizeof(struct gh_input) * (input_queue.capacity + 10));
+		memcpy(tmp, input_queue.queue,
+			sizeof(struct gh_input) * input_queue.capacity);
+
+		free(input_queue.queue);
+		input_queue.queue = tmp;
+		input_queue.capacity += 10;
+	}
+
+	input_queue.queue[input_queue.count] = gi;
+	++input_queue.count;
 }
 
 void
@@ -129,8 +170,8 @@ game_interpolate_states(struct gh_state *out, struct gh_state *curr,
 
 	for (i = 0; i < curr->count; ++i) {
 		
-		out->object[i].position = vec3_lerp(&curr->object[i].position,
-			&prev->object[i].position, t);
+		out->object[i].position = vec3_lerp(&prev->object[i].position,
+			&curr->object[i].position, t);
 		
 		/*out->object[i].rotation = quat_slerp(&curr->object[i].rotation,
 			&prev->object[i].rotation, t);*/
@@ -222,8 +263,6 @@ game_update()
 	game_time.now = gh_time_elapsed();
 	game_time.delta = game_time.now - game_time.absolute;
 
-	printf("now: %f\n", game_time.now);
-
 	if (game_time.delta <= 0.0f) {
 		return;
 	}
@@ -253,7 +292,7 @@ game_update_state(struct gh_state *curr, struct gh_state *prev)
 				&curr->object[i].linear_velocity);
 
 		if (i > 2) {
-			quat a = {90.f, 0.f, 1.f, 0.f};
+			quat a = {10.f, 0.f, 1.f, 0.f};
 			a = quat_from_axis(&a);
 			curr->object[i].rotation = quat_mul(&curr->object[i].rotation, &a);
 		}

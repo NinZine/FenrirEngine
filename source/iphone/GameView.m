@@ -16,10 +16,10 @@
 #include "rendering.h"
 #include "vec3.h"
 
+static int left_stick_held = 0;
 static vec3 left_stick_position = {-160.f, -80.f, 0.f};
 static vec3 left_stick_rotation = {0.f, 0.f, 0.f};
 static float left_stick_size = 60.f;
-static UITouch *left_touch = 0;
 
 static float rad2deg (float rad)
 {
@@ -126,17 +126,11 @@ leftStick:(const vec3 *)point
 - (void)
 leftStickTouch:(const vec3 *)point
 {
-	struct gh_input gi;
 	vec3 p = *point;
 	
 	p = vec3_sub(&p, &left_stick_position);
 	p = vec3_normalize(&p);
 	left_stick_rotation = p;
-		
-	gi.type = GHI_MOVE;
-	gi.data = malloc(sizeof(struct gh_input));
-	memcpy(gi.data, &p, sizeof(vec3));
-	game_input(gi);
 }
 
 - (void)
@@ -158,28 +152,45 @@ rightStickTouch:(const vec3 *)point
 - (void)
 touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	[self touchesMoved:touches withEvent:event];
-}
-
-- (void)
-touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
-	//CGPoint location;
+	CGPoint location;
 	NSArray *tmp;
-	struct	gh_input gi;
+	vec3 current;
 	int i;
-	//vec3	point = {0.f, 0.f, 0.f};
 	
 	tmp = [touches allObjects];
 	for (i = 0; i < [tmp count]; ++i) {
 		UITouch *touch = [tmp objectAtIndex:i];
 		
-		if (left_touch == touch) {
+		location = [self pointToOpenGL:[touch locationInView:self]];
+		current.x = location.x;
+		current.y = location.y;
+		current.z = 0.f;
 		
-			left_touch = 0;
-			gi.type = GHI_MOVE_STOP;
-			gi.data = 0;
-			game_input(gi);
+		if ([self leftStick:&current] == YES) {
+			++left_stick_held;
+			[self leftStickTouch:&current];
+		}
+	}
+}
+
+- (void)
+touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	CGPoint location;
+	NSArray *tmp;
+	vec3 point = {0.f, 0.f, 0.f};
+	int i;
+	
+	tmp = [touches allObjects];
+	for (i = 0; i < [tmp count]; ++i) {
+		UITouch *touch = [tmp objectAtIndex:i];
+		
+		location = [self pointToOpenGL:[touch locationInView:self]];
+		point.x = location.x;
+		point.y = location.y;
+		
+		if ([self leftStick:&point] == YES) {
+			--left_stick_held;
 		}
 	}
 }
@@ -189,36 +200,38 @@ touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
 	CGPoint location;
 	NSArray *tmp;
-	vec3	point;
-	int i;
+	vec3	current, previous;
+	int		i;
 	
 	//touch = [[event touchesForView:self] anyObject];
 	tmp = [touches allObjects];
 	for (i = 0; i < [tmp count]; ++i) {
 		UITouch *touch = [tmp objectAtIndex:i];
 		
-		location = [self uiViewTouchToOpenGL:touch];
-		point.x = location.x;
-		point.y = location.y;
-		point.z = 0.f;
-	
-		if ([self leftStick:&point] == YES) {
-			if (0 == left_touch) {
-				left_touch = touch;
+		location = [self pointToOpenGL:[touch locationInView:self]];
+		current.x = location.x;
+		current.y = location.y;
+		current.z = 0.f;
+		location = [self pointToOpenGL:[touch previousLocationInView:self]];
+		previous.x = location.x;
+		previous.y = location.y;
+		previous.z = 0.f;
+		
+		if ([self leftStick:&current] == YES) {
+			if ([self leftStick:&previous] == NO) {
+				++left_stick_held;
 			}
-			
-			if (touch == left_touch) {
-				[self leftStickTouch:&point];
-			}
+			[self leftStickTouch:&current];
+		} else if ([self leftStick:&previous] == YES){
+			--left_stick_held;
 		}
 	}
 }
 
 /* Convert touch point from UIView referential to OpenGL one (upside-down flip) */
 - (CGPoint)
-uiViewTouchToOpenGL:(UITouch *)touch
+pointToOpenGL:(CGPoint)location
 {
-	CGPoint location = [touch locationInView:self];
 	CGFloat tmp = location.y;
 	
 	location.y = location.x;
@@ -235,6 +248,21 @@ uiViewTouchToOpenGL:(UITouch *)touch
 - (void)
 update
 {
+	if (left_stick_held > 0) {
+		struct gh_input gi;
+		
+		gi.type = GHI_MOVE;
+		gi.data = malloc(sizeof(struct gh_input));
+		memcpy(gi.data, &left_stick_rotation, sizeof(vec3));
+		game_input(gi);
+	} else {
+		struct gh_input gi;
+		
+		gi.type = GHI_MOVE_STOP;
+		gi.data = 0;
+		game_input(gi);
+	}
+	
 	game_update();
 
 	[EAGLContext setCurrentContext:context];
