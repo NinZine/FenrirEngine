@@ -17,6 +17,7 @@
 #include "quat.h"
 #include "vec3.h"
 
+
 enum gh_input_type { GHI_MOVE, GHI_MOVE_STOP, };
 
 struct gh_input {

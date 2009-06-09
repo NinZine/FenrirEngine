@@ -94,6 +94,21 @@ vec3_lerp(const vec3 *v, const vec3 *u, float_t t)
 	return w;
 }
 
+/* TODO: Implement .z */
+vec3
+vec3_project(const vec3 *v, const vec3 *u)
+{
+	vec3 w;
+	float_t tmp;
+
+	tmp = ((v->x * u->x + v->y * u->y) / (pow(u->x,2) + pow(u->y,2)));
+	w.x = tmp * u->x;
+	w.y = tmp * u->y;
+
+	return w;
+}
+
+/* FIXME: Broken, entities "disappears" */
 vec3
 vec3_slerp(const vec3 *v, const vec3 *u, float_t t)
 {

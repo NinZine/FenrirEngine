@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "box2d.h"
 #include "game.h"
 #include "game_helper.h"
 
@@ -49,8 +50,10 @@ static struct gh_input_queue input_queue;
 static void game_initialize_light();
 static void game_input_handle();
 static void game_interpolate_states(struct gh_state *out,
-		struct gh_state *curr, struct gh_state *prev, float_t t);
+	struct gh_state *curr, struct gh_state *prev, float_t t);
 static void game_render_state(struct gh_state *src);
+static void game_resolve_collisions(struct gh_state *curr,
+	struct gh_state *prev);
 static void game_update_state(struct gh_state *curr, struct gh_state *prev);
 
 void
@@ -257,6 +260,69 @@ game_render_state(struct gh_state *src)
 }
 
 void
+game_resolve_collisions(struct gh_state *curr, struct gh_state *prev)
+{
+	box2d box1, box2;
+	int i, j;
+
+	for (i = 0; i < curr->count; ++i) {
+		/*vec3 tmp, norm;
+
+		tmp = vec3_sub(&prev->object[i].position, &curr->object[i].position);
+		norm = vec3_normalize(&tmp);
+
+		/* AABB */
+		box1.x1 = curr->object[i].position.x - (1 * 10.f); /* Left */
+		box1.y1 = curr->object[i].position.y - (1 * 10.f); /* Bottom */
+		box1.x2 = curr->object[i].position.x + (1 * 10.f); /* Right */
+		box1.y2 = curr->object[i].position.y + (1 * 10.f); /* Top */
+
+		/* Create two axis from x1,y1 -> x2,y1 and x1,y1 -> x1, y2 */
+		/*vec3 ax = {box1.x2 - box1.x1, 0.f, 0.f};
+		vec3 ay = {0.f, box1.y2 - box1.y1, 0.f};
+
+		/* Project box on all axis for both boxes */
+		/*vec3 min, max;
+		tmp.x = box1.x1; tmp.y = box2.y1; /* Bottom left */
+		/*min = max = tmp = vec3_project(&tmp, &ax);
+		tmp.x = box1.x1; tmp.y = box1.y2; /* Top left */
+		/*tmp = vec3_project(&tmp, &ax);
+		if (tmp.x > max.x) {
+			max.x = tmp.x;
+			max.y = tmp.y;
+		} else if (tmp.x < min.x) {
+			min.x = tmp.x;
+			min.y = tmp.y;
+		}
+
+		/* Find min and max then compare with other boxes min and max, do they
+		   overlap?
+		*/
+
+		for (j = 0; j < curr->count; ++j) {
+			if (j != i) {
+				box2.x1 = curr->object[j].position.x - (1 * 10.f);
+				box2.y1 = curr->object[j].position.y - (1 * 10.f);
+				box2.x2 = curr->object[j].position.x + (1 * 10.f);
+				box2.y2 = curr->object[j].position.y + (1 * 10.f);
+
+				if (box2d_overlap(&box1, &box2)) {
+					float_t v1,
+							v2;
+					
+					v1 = vec3_length(&curr->object[i].linear_velocity);
+					v2 = vec3_length(&curr->object[j].linear_velocity);
+					/* Resolve collision */
+					if (v1 > v2) {
+						
+					}
+				}
+			}
+		}
+	}
+}
+
+void
 game_update()
 {
 
@@ -274,6 +340,7 @@ game_update()
 		
 		game_input_handle();
 		game_update_state(&state_current, &state_previous);
+		game_resolve_collisions(&state_current, &state_previous);
 		
 		game_time.accumulator -= game_time.timestep;
 		game_time.frame += 1;

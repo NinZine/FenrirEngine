@@ -131,6 +131,7 @@ r_render_circle(GLfloat radius)
 	}
 	
 	glPushMatrix();
+	glRotatef(180.f, 0.f, 1.f, 0.f); /* FIXME: This is a hack */
 	glScalef(radius, radius, 1.f);
 	glNormal3f(0.0f, 0.0f, 1.0f);
 #if __IPHONE__ == 1
