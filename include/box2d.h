@@ -1,3 +1,7 @@
+/*-
+ * License
+ */
+
 #ifndef _BOX2D_H_
 #define _BOX2D_H_
 

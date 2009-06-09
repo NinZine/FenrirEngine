@@ -154,4 +154,32 @@ quat_to_axis(const quat *q)
 	return tmp;
 }
 
-
+void
+quat_to_mat4(const quat *q, mat4 *m)
+{
+	float x2 = 2.0f * q->x,  y2 = 2.0f * q->y,  z2 = 2.0f * q->z;
+	float xx = x2 * q->x,  xw = x2 * q->w,  yz = y2 * q->z;
+	float xy = x2 * q->y,  xz = x2 * q->z;
+	float yy = y2 * q->y,  yw = y2 * q->w;
+	float zw = z2 * q->w,  zz = z2 * q->z;
+	
+	m->m[0][0] = 1.0f - (yy + zz);
+	m->m[0][1] = (xy - zw);
+	m->m[0][2] = (xz + yw);
+	m->m[0][3] = 0.0f;
+	
+	m->m[1][0] = (xy +  zw);
+	m->m[1][1] = 1.0f - (xx + zz);
+	m->m[1][2] = (yz - xw);
+	m->m[1][3] = 0.0f;
+	
+	m->m[2][0] = (xz - yw);
+	m->m[2][1] = (yz + xw);
+	m->m[2][2] = 1.0f - (xx + yy);  
+	m->m[2][3] = 0.0f;  
+	
+	m->m[3][0] = 0.0f;
+	m->m[3][1] = 0.0f; 
+	m->m[3][2] = 0.0f; 
+	m->m[3][3] = 1.0f;
+}

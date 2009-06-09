@@ -17,6 +17,8 @@
 #include "box2d.h"
 #include "game.h"
 #include "game_helper.h"
+#include "mat4.h"
+#include "quat.h"
 
 #if __NDS__ == 1
 void inline
@@ -92,6 +94,37 @@ game_initialize()
 	input_queue.queue = (struct gh_input*)malloc(
 		sizeof(struct gh_input) * input_queue.capacity);
 	game_initialize_light();
+	
+	/* Matrix test */
+	printf("Start matrix test\n");
+	mat4 m1, m2, m3, m4;
+	quat q = {45.f, 0.f, 1.f, 0.f};
+	
+	mat4_identity(&m1);
+	mat4_copy(&m1, &m2);
+	mat4_copy(&m2, &m3);
+	mat4_copy(&m3, &m4);
+	
+	mat4_print(&m1);
+	mat4_print(&m2);
+	mat4_print(&m3);
+	mat4_print(&m4);
+	
+	float_t det = mat4_determinant(&m1);
+	printf("Determinant: %.2f\n", det);
+	
+	mat4_reset(&m2);
+	mat4_print(&m2);
+	
+	mat4_rotate(&m1, 45.f, 1.f, 0.f, 1.f);
+	mat4_print(&m1);
+	
+	q = quat_from_axis(&q);
+	quat_to_mat4(&q, &m3);
+	mat4_print(&m3);
+	
+	printf("End matrix test\n");
+	/* !Matrix test */
 }
 
 void
@@ -240,7 +273,7 @@ game_render_state(struct gh_state *src)
 	static const struct r_color diffuse = {1.f, 0.8f, 0.5f, 0.1f};
 	int i;
 
-	for (i = 0; i < src->count; ++i) {
+	for (i = 0; i < src->count-1; ++i) {
 		quat q = quat_to_axis(&src->object[i].rotation);
 
 		glColor4f(0.9, 0.6, 0.4, 1.f);
@@ -257,6 +290,26 @@ game_render_state(struct gh_state *src)
 		r_render_quad(20);
 		glPopMatrix();
 	}
+	
+	/* Matrix test - rotates more smoothly for some reason */
+	mat4 pos, rot, sca;
+	quat_to_mat4(&src->object[i].rotation, &rot);
+	mat4_identity(&pos);
+	pos.m[3][0] = src->object[i].position.x;
+	pos.m[3][1] = src->object[i].position.y;
+	pos.m[3][2] = src->object[i].position.z;
+	mat4_identity(&sca);
+	sca.m[0][0] = 20.f;
+	sca.m[1][1] = 20.f;
+	sca.m[2][2] = 20.f;
+	mat4_mul(&sca, &rot, &rot);
+	mat4_mul(&rot, &pos, &pos);
+	
+	glPushMatrix();
+	glLoadMatrixf((GLfloat *)pos.m);
+	r_render_quad(1);
+	glPopMatrix();
+	/* !Matrix test */
 }
 
 void
@@ -314,7 +367,11 @@ game_resolve_collisions(struct gh_state *curr, struct gh_state *prev)
 					v2 = vec3_length(&curr->object[j].linear_velocity);
 					/* Resolve collision */
 					if (v1 > v2) {
-						
+						v1 = fabs(box1.x1 - box2.x2);
+						v2 = fabs(box1.y1 - box2.y2);
+						if (v1 > v2) {
+							
+						}
 					}
 				}
 			}

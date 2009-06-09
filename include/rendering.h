@@ -1,10 +1,5 @@
-/*
- *  RenderHelper.h
- *  Demo2
- *
- *  Created by Andreas Kröhnke on 5/13/09.
- *  Copyright 2009 BTH. All rights reserved.
- *
+/*-
+ * License
  */
 
 #ifndef _RENDERING_H_

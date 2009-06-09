@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		103ED9AD0FCF2D90000BD67D /* quat.c in Sources */ = {isa = PBXBuildFile; fileRef = 103ED9AC0FCF2D90000BD67D /* quat.c */; };
 		108FFA6C0FDD5853004D4CFD /* box2d.c in Sources */ = {isa = PBXBuildFile; fileRef = 108FFA6B0FDD5853004D4CFD /* box2d.c */; };
+		108FFA9F0FDF00DF004D4CFD /* mat4.c in Sources */ = {isa = PBXBuildFile; fileRef = 108FFA9E0FDF00DF004D4CFD /* mat4.c */; };
 		10A5C0F00FC56B6A00152875 /* game_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = 10A5C0ED0FC56B6A00152875 /* game_helper.c */; };
 		10A5C0F10FC56B6A00152875 /* rendering.c in Sources */ = {isa = PBXBuildFile; fileRef = 10A5C0EE0FC56B6A00152875 /* rendering.c */; };
 		10A5C0F20FC56B6A00152875 /* vec3.c in Sources */ = {isa = PBXBuildFile; fileRef = 10A5C0EF0FC56B6A00152875 /* vec3.c */; };
@@ -28,6 +29,8 @@
 		103ED9AE0FCF2DAA000BD67D /* quat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = quat.h; sourceTree = "<group>"; };
 		108FFA6A0FDD583D004D4CFD /* box2d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = box2d.h; sourceTree = "<group>"; };
 		108FFA6B0FDD5853004D4CFD /* box2d.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = box2d.c; sourceTree = "<group>"; };
+		108FFA9D0FDF00DF004D4CFD /* mat4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mat4.h; sourceTree = "<group>"; };
+		108FFA9E0FDF00DF004D4CFD /* mat4.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mat4.c; sourceTree = "<group>"; };
 		10A5C0E90FC56B6A00152875 /* game_helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = game_helper.h; sourceTree = "<group>"; };
 		10A5C0EA0FC56B6A00152875 /* rendering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rendering.h; sourceTree = "<group>"; };
 		10A5C0EB0FC56B6A00152875 /* vec3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vec3.h; sourceTree = "<group>"; };
@@ -74,6 +77,7 @@
 				108FFA6A0FDD583D004D4CFD /* box2d.h */,
 				10A5C13A0FC57F5A00152875 /* game.h */,
 				10A5C0E90FC56B6A00152875 /* game_helper.h */,
+				108FFA9D0FDF00DF004D4CFD /* mat4.h */,
 				103ED9AE0FCF2DAA000BD67D /* quat.h */,
 				10A5C0EA0FC56B6A00152875 /* rendering.h */,
 				10A5C0EB0FC56B6A00152875 /* vec3.h */,
@@ -88,6 +92,7 @@
 				108FFA6B0FDD5853004D4CFD /* box2d.c */,
 				10A5C13B0FC57F6300152875 /* game.c */,
 				10A5C0ED0FC56B6A00152875 /* game_helper.c */,
+				108FFA9E0FDF00DF004D4CFD /* mat4.c */,
 				103ED9AC0FCF2D90000BD67D /* quat.c */,
 				10A5C0EE0FC56B6A00152875 /* rendering.c */,
 				10A5C0EF0FC56B6A00152875 /* vec3.c */,
@@ -241,6 +246,7 @@
 				10A5C2FE0FC6024300152875 /* main.m in Sources */,
 				103ED9AD0FCF2D90000BD67D /* quat.c in Sources */,
 				108FFA6C0FDD5853004D4CFD /* box2d.c in Sources */,
+				108FFA9F0FDF00DF004D4CFD /* mat4.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

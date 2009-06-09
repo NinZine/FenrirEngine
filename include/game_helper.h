@@ -1,10 +1,5 @@
-/*
- *  GameHelper.h
- *  Demo2
- *
- *  Created by Andreas Kröhnke on 5/14/09.
- *  Copyright 2009 BTH. All rights reserved.
- *
+/*-
+ * License
  */
 
 #ifndef _GAME_HELPER_H_

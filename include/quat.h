@@ -7,6 +7,8 @@
 
 #include <math.h>
 
+#include "mat4.h"
+
 typedef struct quat {
 	float_t w,
 			x,
@@ -25,6 +27,7 @@ quat	quat_scale(const quat *q, float_t t);
 quat	quat_slerp(const quat *q1, const quat *q2, float_t t);
 quat	quat_sub(const quat *q1, const quat *q2);
 quat 	quat_to_axis(const quat *q);
+void	quat_to_mat4(const quat *q, mat4 *m);
 
 #endif /* !_QUAT_H_ */
 

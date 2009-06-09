@@ -1,10 +1,6 @@
-//
-//  Demo2AppDelegate.m
-//  Demo2
-//
-//  Created by Andreas Kröhnke on 5/13/09.
-//  Copyright BTH 2009. All rights reserved.
-//
+/*-
+ * License
+ */
 
 #import "Demo2AppDelegate.h"
 
