@@ -9,6 +9,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include "mat4.h"
 #include "quat.h"
 #include "vec3.h"
 
@@ -43,8 +44,11 @@ typedef struct gh_time {
 			timestep;
 } gh_time;
 
+void	gh_build_mat4(struct gh_rigid_body *obj, mat4 *out);
 void	gh_copy_state(struct gh_state *dest, struct gh_state *src,
-				bool use_malloc);
+			bool use_malloc);
+void	gh_project_vec3(const vec3 *axis, const vec3 *points, const int sz_points,
+			float_t *min, float_t *max);
 float_t gh_time_elapsed();
 
 #endif /* !_GAME_HELPER_H_ */

@@ -13,9 +13,9 @@
 #include "vec3.h"
 
 static int left_stick_held = 0;
-static vec3 left_stick_position = {-160.f, -80.f, 0.f};
+static vec3 left_stick_position = {-170.f, -90.f, 0.f};
 static vec3 left_stick_rotation = {0.f, 0.f, 0.f};
-static float left_stick_size = 60.f;
+static float left_stick_size = 70.f;
 
 static float rad2deg (float rad)
 {

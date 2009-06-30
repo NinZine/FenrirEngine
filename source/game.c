@@ -1,5 +1,14 @@
 /*-
- * License
+	Copyright (C) 2009 Andreas Kröhnke <ninzine@indraz.com>
+
+	This program is free software; you can redistribute it and/or
+	modify it under the terms of the GNU General Public License
+	as published by the Free Software Foundation; either version 2
+	of the License, or (at your option) any later version.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
  */
 
 #include <sys/time.h>
@@ -122,6 +131,9 @@ game_initialize()
 	q = quat_from_axis(&q);
 	quat_to_mat4(&q, &m3);
 	mat4_print(&m3);
+	vec3 v1 = {0.5f, 0.5f, 0.f};
+	mat4_mul_vec3(&m1, &v1, true, &v1);
+	printf("Vector v1 = (%.2f, %.2f, %.2f)\n", v1.x, v1.y, v1.z);
 	
 	printf("End matrix test\n");
 	/* !Matrix test */
@@ -273,8 +285,9 @@ game_render_state(struct gh_state *src)
 	static const struct r_color diffuse = {1.f, 0.8f, 0.5f, 0.1f};
 	int i;
 
-	for (i = 0; i < src->count-1; ++i) {
-		quat q = quat_to_axis(&src->object[i].rotation);
+	for (i = 0; i < src->count; ++i) {
+		/*quat q = quat_to_axis(&src->object[i].rotation);*/
+		mat4 tf;
 
 		glColor4f(0.9, 0.6, 0.4, 1.f);
 		glPushMatrix();
@@ -283,97 +296,112 @@ game_render_state(struct gh_state *src)
 		r_set_material(GL_DIFFUSE, diffuse);
 		
 		glEnable(GL_COLOR_MATERIAL);
-		glTranslatef(src->object[i].position.x, src->object[i].position.y,
-				src->object[i].position.z);
-		glRotatef(q.w, q.x, q.y, q.z);
-		glScalef(20, 20, 20);
-		r_render_quad(20);
+		gh_build_mat4(&src->object[i], &tf);
+		glLoadMatrixf((GLfloat *)tf.m);
+		r_render_quad(1);
 		glPopMatrix();
 	}
-	
-	/* Matrix test - rotates more smoothly for some reason */
-	mat4 pos, rot, sca;
-	quat_to_mat4(&src->object[i].rotation, &rot);
-	mat4_identity(&pos);
-	pos.m[3][0] = src->object[i].position.x;
-	pos.m[3][1] = src->object[i].position.y;
-	pos.m[3][2] = src->object[i].position.z;
-	mat4_identity(&sca);
-	sca.m[0][0] = 20.f;
-	sca.m[1][1] = 20.f;
-	sca.m[2][2] = 20.f;
-	mat4_mul(&sca, &rot, &rot);
-	mat4_mul(&rot, &pos, &pos);
-	
-	glPushMatrix();
-	glLoadMatrixf((GLfloat *)pos.m);
-	r_render_quad(1);
-	glPopMatrix();
-	/* !Matrix test */
 }
 
 void
 game_resolve_collisions(struct gh_state *curr, struct gh_state *prev)
 {
-	box2d box1, box2;
 	int i, j;
+	
+	for (i = 0; i < curr->count-1; ++i) {
+		mat4 tf1;
+		vec3 edge[4] = {
+			{1.f, 0.f, 0.f},
+			{0.f, 1.f, 0.f},
+			{1.f, 0.f, 0.f},
+			{0.f, 1.f, 0.f},
+		}; /* "Find" edges */
+		vec3 point1[4] = {
+			{-0.5f, -0.5f, 0.f},
+			{ 0.5f, -0.5f, 0.f},
+			{-0.5f,  0.5f, 0.f},
+			{ 0.5f,  0.5f, 0.f},
+		};
+		int p;
 
-	for (i = 0; i < curr->count; ++i) {
-		/*vec3 tmp, norm;
-
-		tmp = vec3_sub(&prev->object[i].position, &curr->object[i].position);
-		norm = vec3_normalize(&tmp);
-
-		/* AABB */
-		box1.x1 = curr->object[i].position.x - (1 * 10.f); /* Left */
-		box1.y1 = curr->object[i].position.y - (1 * 10.f); /* Bottom */
-		box1.x2 = curr->object[i].position.x + (1 * 10.f); /* Right */
-		box1.y2 = curr->object[i].position.y + (1 * 10.f); /* Top */
-
-		/* Create two axis from x1,y1 -> x2,y1 and x1,y1 -> x1, y2 */
-		/*vec3 ax = {box1.x2 - box1.x1, 0.f, 0.f};
-		vec3 ay = {0.f, box1.y2 - box1.y1, 0.f};
-
-		/* Project box on all axis for both boxes */
-		/*vec3 min, max;
-		tmp.x = box1.x1; tmp.y = box2.y1; /* Bottom left */
-		/*min = max = tmp = vec3_project(&tmp, &ax);
-		tmp.x = box1.x1; tmp.y = box1.y2; /* Top left */
-		/*tmp = vec3_project(&tmp, &ax);
-		if (tmp.x > max.x) {
-			max.x = tmp.x;
-			max.y = tmp.y;
-		} else if (tmp.x < min.x) {
-			min.x = tmp.x;
-			min.y = tmp.y;
+		gh_build_mat4(&curr->object[i], &tf1);
+		
+		/* Translate edges */
+		mat4_mul_vec3(&tf1, &edge[0], false, &edge[0]);
+		mat4_mul_vec3(&tf1, &edge[1], false, &edge[1]);
+		edge[0] = vec3_normalize(&edge[0]);
+		edge[1] = vec3_normalize(&edge[1]);
+		
+		/* Translate points */
+		for (p = 0; p < 4; ++p) {
+			mat4_mul_vec3(&tf1, &point1[p], true, &point1[p]);
 		}
-
-		/* Find min and max then compare with other boxes min and max, do they
-		   overlap?
-		*/
-
-		for (j = 0; j < curr->count; ++j) {
-			if (j != i) {
-				box2.x1 = curr->object[j].position.x - (1 * 10.f);
-				box2.y1 = curr->object[j].position.y - (1 * 10.f);
-				box2.x2 = curr->object[j].position.x + (1 * 10.f);
-				box2.y2 = curr->object[j].position.y + (1 * 10.f);
-
-				if (box2d_overlap(&box1, &box2)) {
-					float_t v1,
-							v2;
-					
-					v1 = vec3_length(&curr->object[i].linear_velocity);
-					v2 = vec3_length(&curr->object[j].linear_velocity);
-					/* Resolve collision */
-					if (v1 > v2) {
-						v1 = fabs(box1.x1 - box2.x2);
-						v2 = fabs(box1.y1 - box2.y2);
-						if (v1 > v2) {
-							
-						}
-					}
+		
+		for (j = i+1; j < curr->count; ++j) {
+			mat4 tf2;
+			vec3 point2[4] = {
+				{-0.5f, -0.5f, 0.f},
+				{ 0.5f, -0.5f, 0.f},
+				{-0.5f,  0.5f, 0.f},
+				{ 0.5f,  0.5f, 0.f},
+			};
+			int k;
+			
+			gh_build_mat4(&curr->object[j], &tf2);
+			
+			/* Translate edges */
+			mat4_mul_vec3(&tf2, &edge[2], false, &edge[2]);
+			mat4_mul_vec3(&tf2, &edge[3], false, &edge[3]);
+			edge[2] = vec3_normalize(&edge[2]);
+			edge[3] = vec3_normalize(&edge[3]);
+			
+			/* Translate points */
+			for (p = 0; p < 4; ++p) {
+				mat4_mul_vec3(&tf2, &point2[p], true, &point2[p]);
+			}
+			
+			/* Project both polygons on all edges */
+			float_t min_dist = 0.f;
+			int axis = -1;
+			bool first = true;
+			bool collide = true;
+			
+			for (k = 0; k < 4; ++k) {
+				float_t min1, max1, min2, max2, dist;
+				
+				gh_project_vec3(&edge[k], point1, 4, &min1, &max1);
+				gh_project_vec3(&edge[k], point2, 4, &min2, &max2);
+				
+				if (min1 < min2) {
+					dist = min2 - max1;
+				} else {
+					dist = min1 - max2;
 				}
+				
+				if (first || dist < min_dist) {
+					first = false;
+					min_dist = dist;
+					axis = k;
+				}
+				
+				if (dist > 0) {
+					collide = false;
+					break;
+				}
+			}
+			
+			if (collide) {
+				mat4 inv;
+				vec3 trans = edge[axis];
+				
+				/*mat4_copy(&tf1, &inv);
+				mat4_transpose(&inv);
+				trans = vec3_mul(&trans, min_dist/20.f);
+				mat4_mul_vec3(&inv, &trans, true, &trans);
+				*/trans = vec3_mul(&trans, min_dist/20.f);
+				trans = vec3_add(&curr->object[i].position, &trans);
+				//curr->object[i].position = trans;
+				printf("Collision: %d and %d on axis %d dist (%.2f,%.2f)\n", i, j, axis, trans.x, trans.y);
 			}
 		}
 	}

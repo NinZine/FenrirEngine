@@ -13,6 +13,26 @@
 #include "game_helper.h"
 
 void
+gh_build_mat4(struct gh_rigid_body *obj, mat4 *out)
+{
+	mat4 pos, rot, sca;
+	
+	quat_to_mat4(&obj->rotation, &rot);
+	mat4_identity(&pos);
+	pos.m[3][0] = obj->position.x;
+	pos.m[3][1] = obj->position.y;
+	pos.m[3][2] = obj->position.z;
+	mat4_identity(&sca);
+	sca.m[0][0] = 20.f;
+	sca.m[1][1] = 20.f;
+	sca.m[2][2] = 20.f;
+	mat4_mul(&sca, &rot, &rot);
+	mat4_mul(&rot, &pos, &pos); /* Translation matrix in pos */
+	
+	*out = pos;
+}
+
+void
 gh_copy_state(struct gh_state *dest, struct gh_state *src, bool use_malloc)
 {
 	int i;
@@ -30,6 +50,28 @@ gh_copy_state(struct gh_state *dest, struct gh_state *src, bool use_malloc)
 		dest->object[i].rotation = src->object[i].rotation;
 		dest->object[i].linear_velocity = src->object[i].linear_velocity;
 		dest->object[i].angular_velocity = src->object[i].angular_velocity;
+	}
+}
+
+void
+gh_project_vec3(const vec3 *axis, const vec3 *point, const int sz_points,
+	float_t *min, float_t *max)
+{
+	float_t dot;
+	int i = 0;
+	
+	dot = vec3_dot(axis, &point[i]);
+	*min = dot;
+	*max = dot;
+	
+	for (i = 1; i < sz_points; ++i) {
+		dot = vec3_dot(axis, &point[i]);
+		
+		if (dot < *min) {
+			*min = dot;
+		} else if (dot > *max) {
+			*max = dot;
+		}
 	}
 }
 

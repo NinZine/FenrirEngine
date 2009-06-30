@@ -43,6 +43,19 @@ vec3_length(const vec3 *v)
 }
 
 vec3
+vec3_lerp(const vec3 *v, const vec3 *u, float_t t)
+{
+	vec3 w;
+	
+	bzero(&w, sizeof(w));
+	w = vec3_sub(u, v);
+	w = vec3_mul(&w, t);
+	w = vec3_add(v, &w);
+	
+	return w;
+}
+
+vec3
 vec3_mul(const vec3 *v, float_t scale)
 {
 	vec3 w;
@@ -63,30 +76,6 @@ vec3_normalize(const vec3 *v)
 	u.z = v->z / len;
 	
 	return u;
-}
-
-vec3
-vec3_sub(const vec3 *v, const vec3 *u)
-{
-	vec3 w;
-	
-	w.x = v->x - u->x;
-	w.y = v->y - u->y;
-	w.z = v->z - u->z;
-	return w;
-}
-
-vec3
-vec3_lerp(const vec3 *v, const vec3 *u, float_t t)
-{
-	vec3 w;
-	
-	bzero(&w, sizeof(w));
-	w = vec3_sub(u, v);
-	w = vec3_mul(&w, t);
-	w = vec3_add(v, &w);
-	
-	return w;
 }
 
 /* TODO: Implement .z */
@@ -133,6 +122,17 @@ vec3_slerp(const vec3 *v, const vec3 *u, float_t t)
 	u0 = vec3_mul(&u0, sinf(theta));
 	w = vec3_add(&v0, &u0);
 	
+	return w;
+}
+
+vec3
+vec3_sub(const vec3 *v, const vec3 *u)
+{
+	vec3 w;
+	
+	w.x = v->x - u->x;
+	w.y = v->y - u->y;
+	w.z = v->z - u->z;
 	return w;
 }
 
