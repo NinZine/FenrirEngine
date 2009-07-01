@@ -88,7 +88,7 @@ game_initialize()
 				(state_current.count * -20.f) + (i * 40.f),
 				0.f};
 			vec3 velocity = {rand() % 10 - 5.f, rand() % 10 - 5.f, 0.f};
-			quat rotation = {0.f, 0.f, 1.f, 0.f};
+			quat rotation = {45.f, 0.f, 0.f, 1.f};
 
 			state_current.object[i].position = position;
 			state_current.object[i].rotation = quat_from_axis(&rotation);
@@ -392,7 +392,6 @@ game_resolve_collisions(struct gh_state *curr, struct gh_state *prev)
 			}
 			
 			if (collide) {
-				mat4 inv;
 				vec3 trans = edge[axis];
 				vec3 dist;
 				
@@ -400,10 +399,8 @@ game_resolve_collisions(struct gh_state *curr, struct gh_state *prev)
 				if (vec3_dot(&dist, &trans) < 0) {
 					trans.x = -trans.x; trans.y = -trans.y; trans.z = -trans.z;
 				}
-				/*mat4_copy(&tf1, &inv);
-				mat4_transpose(&inv);
-				mat4_mul_vec3(&inv, &trans, true, &trans);
-				*/trans = vec3_mul(&trans, min_dist);
+				
+				trans = vec3_mul(&trans, min_dist);
 				trans = vec3_add(&curr->object[i].position, &trans);
 				curr->object[i].position = trans;
 				printf("Collision: %d and %d on axis %d dist (%.2f,%.2f)\n", i, j, axis, trans.x, trans.y);

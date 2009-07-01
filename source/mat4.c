@@ -127,28 +127,20 @@ mat4_mul(const mat4 *m, const mat4 *in, mat4 *out)
 void
 mat4_mul_vec3(const mat4 *m, const vec3 *v, bool is_vector, vec3 *out)
 {
-	/*mat4 tmp;
-	
-	mat4_identity(&tmp);
-	tmp.m[3][0] = v->x;
-	tmp.m[3][1] = v->y;
-	tmp.m[3][2] = v->z;
-	mat4_mul(m, &tmp, &tmp);
-	
-	out->x = tmp.m[3][0];
-	out->y = tmp.m[3][1];
-	out->z = tmp.m[3][2];*/
+	vec3 tmp;
 
 	/* Point */
 	if (!is_vector) {
-		out->x = m->m[0][0] * v->x + m->m[1][0] * v->y + m->m[2][0] * v->z + m->m[3][0] * 0;
-		out->y = m->m[0][1] * v->x + m->m[1][1] * v->y + m->m[2][1] * v->z + m->m[3][1] * 0;
-		out->z = m->m[0][2] * v->x + m->m[1][2] * v->y + m->m[2][2] * v->z + m->m[3][2] * 0;
+		tmp.x = m->m[0][0] * v->x + m->m[1][0] * v->y + m->m[2][0] * v->z;
+		tmp.y = m->m[0][1] * v->x + m->m[1][1] * v->y + m->m[2][1] * v->z;
+		tmp.z = m->m[0][2] * v->x + m->m[1][2] * v->y + m->m[2][2] * v->z;
 	} else { /* Vector */
-		out->x = m->m[0][0] * v->x + m->m[1][0] * v->y + m->m[2][0] * v->z + m->m[3][0] * 1;
-		out->y = m->m[0][1] * v->x + m->m[1][1] * v->y + m->m[2][1] * v->z + m->m[3][1] * 1;
-		out->z = m->m[0][2] * v->x + m->m[1][2] * v->y + m->m[2][2] * v->z + m->m[3][2] * 1;
+		tmp.x = m->m[0][0] * v->x + m->m[1][0] * v->y + m->m[2][0] * v->z + m->m[3][0] * 1;
+		tmp.y = m->m[0][1] * v->x + m->m[1][1] * v->y + m->m[2][1] * v->z + m->m[3][1] * 1;
+		tmp.z = m->m[0][2] * v->x + m->m[1][2] * v->y + m->m[2][2] * v->z + m->m[3][2] * 1;
 	}
+	
+	*out = tmp;
 }
 
 void
