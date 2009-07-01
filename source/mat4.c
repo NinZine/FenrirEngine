@@ -79,6 +79,12 @@ mat4_identity(mat4 *m)
 	m->m[3][0]=m->m[3][1]=m->m[3][2]=0.0f;
 }
 
+/* TODO: Implement */
+void
+mat4_inverse(const mat4 *m, mat4 *out)
+{
+}
+
 void
 mat4_lerp(const mat4 *m, const mat4 *in, mat4 *out, float t)
 {

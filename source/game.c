@@ -1,5 +1,5 @@
 /*-
-	Copyright (C) 2009 Andreas Kröhnke <ninzine@indraz.com>
+	Copyright (C) 2009 Andreas Kroehnke <ninzine@indraz.com>
 
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License
@@ -378,29 +378,34 @@ game_resolve_collisions(struct gh_state *curr, struct gh_state *prev)
 					dist = min1 - max2;
 				}
 				
+				if (dist > 0) {
+					collide = false;
+					break;
+				}
+				
+				dist = fabs(dist);
 				if (first || dist < min_dist) {
 					first = false;
 					min_dist = dist;
 					axis = k;
-				}
-				
-				if (dist > 0) {
-					collide = false;
-					break;
 				}
 			}
 			
 			if (collide) {
 				mat4 inv;
 				vec3 trans = edge[axis];
+				vec3 dist;
 				
+				dist = vec3_sub(&curr->object[i].position, &curr->object[j].position);
+				if (vec3_dot(&dist, &trans) < 0) {
+					trans.x = -trans.x; trans.y = -trans.y; trans.z = -trans.z;
+				}
 				/*mat4_copy(&tf1, &inv);
 				mat4_transpose(&inv);
-				trans = vec3_mul(&trans, min_dist/20.f);
 				mat4_mul_vec3(&inv, &trans, true, &trans);
-				*/trans = vec3_mul(&trans, min_dist/20.f);
+				*/trans = vec3_mul(&trans, min_dist);
 				trans = vec3_add(&curr->object[i].position, &trans);
-				//curr->object[i].position = trans;
+				curr->object[i].position = trans;
 				printf("Collision: %d and %d on axis %d dist (%.2f,%.2f)\n", i, j, axis, trans.x, trans.y);
 			}
 		}
