@@ -88,7 +88,7 @@ game_initialize()
 				(state_current.count * -20.f) + (i * 40.f),
 				0.f};
 			vec3 velocity = {rand() % 10 - 5.f, rand() % 10 - 5.f, 0.f};
-			quat rotation = {45.f, 0.f, 0.f, 1.f};
+			quat rotation = {10.f * i, 0.f, 0.f, 1.f};
 
 			state_current.object[i].position = position;
 			state_current.object[i].rotation = quat_from_axis(&rotation);
@@ -103,40 +103,6 @@ game_initialize()
 	input_queue.queue = (struct gh_input*)malloc(
 		sizeof(struct gh_input) * input_queue.capacity);
 	game_initialize_light();
-	
-	/* Matrix test */
-	printf("Start matrix test\n");
-	mat4 m1, m2, m3, m4;
-	quat q = {45.f, 0.f, 1.f, 0.f};
-	
-	mat4_identity(&m1);
-	mat4_copy(&m1, &m2);
-	mat4_copy(&m2, &m3);
-	mat4_copy(&m3, &m4);
-	
-	mat4_print(&m1);
-	mat4_print(&m2);
-	mat4_print(&m3);
-	mat4_print(&m4);
-	
-	float_t det = mat4_determinant(&m1);
-	printf("Determinant: %.2f\n", det);
-	
-	mat4_reset(&m2);
-	mat4_print(&m2);
-	
-	mat4_rotate(&m1, 45.f, 1.f, 0.f, 1.f);
-	mat4_print(&m1);
-	
-	q = quat_from_axis(&q);
-	quat_to_mat4(&q, &m3);
-	mat4_print(&m3);
-	vec3 v1 = {0.5f, 0.5f, 0.f};
-	mat4_mul_vec3(&m1, &v1, true, &v1);
-	printf("Vector v1 = (%.2f, %.2f, %.2f)\n", v1.x, v1.y, v1.z);
-	
-	printf("End matrix test\n");
-	/* !Matrix test */
 }
 
 void
@@ -322,20 +288,11 @@ game_resolve_collisions(struct gh_state *curr, struct gh_state *prev)
 			{-0.5f,  0.5f, 0.f},
 			{ 0.5f,  0.5f, 0.f},
 		};
-		int p;
 
 		gh_build_mat4(&curr->object[i], &tf1);
 		
-		/* Translate edges */
-		mat4_mul_vec3(&tf1, &edge[0], false, &edge[0]);
-		mat4_mul_vec3(&tf1, &edge[1], false, &edge[1]);
-		edge[0] = vec3_normalize(&edge[0]);
-		edge[1] = vec3_normalize(&edge[1]);
-		
-		/* Translate points */
-		for (p = 0; p < 4; ++p) {
-			mat4_mul_vec3(&tf1, &point1[p], true, &point1[p]);
-		}
+		gh_transform_edges(&tf1, &edge[0], 2);
+		gh_transform_vec3(&tf1, point1, 4);
 		
 		for (j = i+1; j < curr->count; ++j) {
 			mat4 tf2;
@@ -345,53 +302,14 @@ game_resolve_collisions(struct gh_state *curr, struct gh_state *prev)
 				{-0.5f,  0.5f, 0.f},
 				{ 0.5f,  0.5f, 0.f},
 			};
-			int k;
-			
-			gh_build_mat4(&curr->object[j], &tf2);
-			
-			/* Translate edges */
-			mat4_mul_vec3(&tf2, &edge[2], false, &edge[2]);
-			mat4_mul_vec3(&tf2, &edge[3], false, &edge[3]);
-			edge[2] = vec3_normalize(&edge[2]);
-			edge[3] = vec3_normalize(&edge[3]);
-			
-			/* Translate points */
-			for (p = 0; p < 4; ++p) {
-				mat4_mul_vec3(&tf2, &point2[p], true, &point2[p]);
-			}
-			
-			/* Project both polygons on all edges */
 			float_t min_dist = 0.f;
 			int axis = -1;
-			bool first = true;
-			bool collide = true;
 			
-			for (k = 0; k < 4; ++k) {
-				float_t min1, max1, min2, max2, dist;
-				
-				gh_project_vec3(&edge[k], point1, 4, &min1, &max1);
-				gh_project_vec3(&edge[k], point2, 4, &min2, &max2);
-				
-				if (min1 < min2) {
-					dist = min2 - max1;
-				} else {
-					dist = min1 - max2;
-				}
-				
-				if (dist > 0) {
-					collide = false;
-					break;
-				}
-				
-				dist = fabs(dist);
-				if (first || dist < min_dist) {
-					first = false;
-					min_dist = dist;
-					axis = k;
-				}
-			}
+			gh_build_mat4(&curr->object[j], &tf2);
+			gh_transform_edges(&tf2, &edge[2], 2);
+			gh_transform_vec3(&tf2, point2, 4);
 			
-			if (collide) {
+			if (true == gh_collides(edge, 4, point1, point2, &min_dist, &axis)) {
 				vec3 trans = edge[axis];
 				vec3 dist;
 				
@@ -400,6 +318,7 @@ game_resolve_collisions(struct gh_state *curr, struct gh_state *prev)
 					trans.x = -trans.x; trans.y = -trans.y; trans.z = -trans.z;
 				}
 				
+				/* Project out of collision */
 				trans = vec3_mul(&trans, min_dist);
 				trans = vec3_add(&curr->object[i].position, &trans);
 				curr->object[i].position = trans;

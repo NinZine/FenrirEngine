@@ -32,6 +32,48 @@ gh_build_mat4(struct gh_rigid_body *obj, mat4 *out)
 	*out = pos;
 }
 
+bool
+gh_collides(const vec3 *edge, const int num_edges, const vec3 *poly1,
+	const vec3 *poly2, float_t *min_dist, int *axis)
+{
+	bool first = true;
+	bool collide = true;
+	int k;
+
+	*min_dist = 0.f;
+	*axis = -1;
+	
+	for (k = 0; k < num_edges; ++k) {
+		float_t min1, max1, min2, max2, dist;
+		
+		/* Project both polygons on current edge */
+		gh_project_vec3(&edge[k], poly1, 4, &min1, &max1);
+		gh_project_vec3(&edge[k], poly2, 4, &min2, &max2);
+		
+		if (min1 < min2) {
+			dist = min2 - max1;
+		} else {
+			dist = min1 - max2;
+		}
+		
+		/* No collision on this axis, so no collision at all */
+		if (dist > 0) {
+			collide = false;
+			break;
+		}
+		
+		/* Collision, get minimum distance/axis */
+		dist = fabs(dist);
+		if (first || dist < *min_dist) {
+			first = false;
+			*min_dist = dist;
+			*axis = k;
+		}
+	}
+	
+	return collide;
+}
+
 void
 gh_copy_state(struct gh_state *dest, struct gh_state *src, bool use_malloc)
 {
@@ -123,4 +165,25 @@ gh_time_elapsed()
 	return ((counter.tv_sec * 1000000) + counter.tv_usec) / 1000000.f;
 }
 #endif /* !__NDS__ */
+
+void
+gh_transform_edges(const mat4 *tf, vec3 *edge, const int num_edges)
+{
+	int i;
+	
+	for (i = 0; i < num_edges; ++i) {
+		mat4_mul_vec3(tf, &edge[i], false, &edge[i]);
+		edge[i] = vec3_normalize(&edge[i]);
+	}
+}
+
+void
+gh_transform_vec3(const mat4 *tf, vec3 *v, const int num_points)
+{
+	int p;
+	
+	for (p = 0; p < num_points; ++p) {
+		mat4_mul_vec3(tf, &v[p], true, &v[p]);
+	}
+}
 
