@@ -51,6 +51,7 @@ bool	gh_collides(const vec3 *edge, const int num_edges, const vec3 *poly1,
 			const vec3 *poly2, float_t *min_dist, int *axis);
 void	gh_project_vec3(const vec3 *axis, const vec3 *points, const int sz_points,
 			float_t *min, float_t *max);
+float_t gh_rad2deg(const float_t rad);
 float_t gh_time_elapsed();
 void	gh_transform_edges(const mat4 *tf, vec3 *edge, const int num_edges);
 void	gh_transform_vec3(const mat4 *tf, vec3 *v, const int num_points);

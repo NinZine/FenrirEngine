@@ -136,8 +136,15 @@ game_input_handle()
 		{
 			case GHI_MOVE:
 			{
+				quat tmp;
 				vec3 *dir = (vec3*)gi.data;
-				state_current.object[1].linear_velocity = *dir; 
+				
+				state_current.object[1].linear_velocity = *dir;
+				/* Calculate angle */
+				tmp.w = -gh_rad2deg(atan2(dir->y, dir->x));
+				tmp.x = tmp.y = 0.f;
+				tmp.z = 1.f;
+				state_current.object[1].rotation = quat_from_axis(&tmp);
 				//vec3_add(&state_current.object[3].position, dir);
 				free(gi.data);
 				break;
@@ -281,13 +288,13 @@ game_resolve_collisions(struct gh_state *curr, struct gh_state *prev)
 			{0.f, 1.f, 0.f},
 			{1.f, 0.f, 0.f},
 			{0.f, 1.f, 0.f},
-		}; /* "Find" edges */
+		}; /* TODO: Find edges, this should be done at load. */
 		vec3 point1[4] = {
 			{-0.5f, -0.5f, 0.f},
 			{ 0.5f, -0.5f, 0.f},
 			{-0.5f,  0.5f, 0.f},
 			{ 0.5f,  0.5f, 0.f},
-		};
+		}; /* TODO: This is vertex data */
 
 		gh_build_mat4(&curr->object[i], &tf1);
 		

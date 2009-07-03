@@ -17,12 +17,6 @@ static vec3 left_stick_position = {-170.f, -90.f, 0.f};
 static vec3 left_stick_rotation = {0.f, 0.f, 0.f};
 static float left_stick_size = 70.f;
 
-static float rad2deg (float rad)
-{
-	static const float PI = 3.14159265359;
-	return rad * (180.f / PI);
-}
-
 @implementation GameView
 
 + (Class) layerClass
@@ -37,7 +31,7 @@ drawHUD
 	size;
 	
 	angle = atan2(left_stick_rotation.y, left_stick_rotation.x);
-	angle = rad2deg(angle);
+	angle = gh_rad2deg(angle);
 	size = left_stick_size * 2.f;
 	//r_setup_orthogonal_view(buffer.width, buffer.height);
 	glPushMatrix();

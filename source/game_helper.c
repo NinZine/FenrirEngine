@@ -116,6 +116,12 @@ gh_project_vec3(const vec3 *axis, const vec3 *point, const int sz_points,
 		}
 	}
 }
+float_t
+gh_rad2deg(const float_t rad)
+{
+	static const float PI = 3.14159265359;
+	return rad * (180.f / PI);
+}
 
 #if __NDS__ == 0
 float_t
@@ -172,7 +178,7 @@ gh_transform_edges(const mat4 *tf, vec3 *edge, const int num_edges)
 	int i;
 	
 	for (i = 0; i < num_edges; ++i) {
-		mat4_mul_vec3(tf, &edge[i], false, &edge[i]);
+		mat4_mul_vec3(tf, &edge[i], 0.f, &edge[i]);
 		edge[i] = vec3_normalize(&edge[i]);
 	}
 }
@@ -183,7 +189,7 @@ gh_transform_vec3(const mat4 *tf, vec3 *v, const int num_points)
 	int p;
 	
 	for (p = 0; p < num_points; ++p) {
-		mat4_mul_vec3(tf, &v[p], true, &v[p]);
+		mat4_mul_vec3(tf, &v[p], 1.f, &v[p]);
 	}
 }
 

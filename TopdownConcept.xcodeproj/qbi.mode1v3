@@ -275,7 +275,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>13</integer>
+									<integer>14</integer>
 									<integer>10</integer>
 									<integer>0</integer>
 								</array>
@@ -318,7 +318,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>game.c</string>
+								<string>game_helper.c</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -326,34 +326,34 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>game.c</string>
+										<string>game_helper.c</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>1052A6E10FFCD57C00F39C1D</string>
+										<string>1052A7720FFE217700F39C1D</string>
 										<key>history</key>
 										<array>
 											<string>10A5C3200FC60C5B00152875</string>
 											<string>108FFAE30FDF199B004D4CFD</string>
 											<string>108FFAE40FDF199B004D4CFD</string>
 											<string>108FFAE50FDF199B004D4CFD</string>
-											<string>108FFAE60FDF199B004D4CFD</string>
 											<string>108FFAE80FDF199B004D4CFD</string>
 											<string>108FFAEF0FDF199B004D4CFD</string>
 											<string>108FFB5E0FE116B3004D4CFD</string>
 											<string>10F32C5A0FF68F14002AC31A</string>
 											<string>10F32C5F0FF68F14002AC31A</string>
-											<string>105F09DB0FFA2B9A002EF789</string>
 											<string>105F0A000FFA3726002EF789</string>
-											<string>105F0AEF0FFA9716002EF789</string>
 											<string>105F0B9A0FFAC782002EF789</string>
-											<string>105F0B9B0FFAC782002EF789</string>
 											<string>105F0BB50FFB756D002EF789</string>
 											<string>105F0BDC0FFC03B9002EF789</string>
-											<string>1052A6AD0FFCCDC900F39C1D</string>
-											<string>1052A6D10FFCD48200F39C1D</string>
-											<string>1052A6D20FFCD48200F39C1D</string>
-											<string>1052A6D30FFCD48200F39C1D</string>
+											<string>1052A7370FFD3C6400F39C1D</string>
+											<string>1052A75E0FFE20AD00F39C1D</string>
+											<string>1052A75F0FFE20AD00F39C1D</string>
+											<string>1052A7600FFE20AD00F39C1D</string>
+											<string>1052A7610FFE20AD00F39C1D</string>
+											<string>1052A76E0FFE217700F39C1D</string>
+											<string>1052A76F0FFE217700F39C1D</string>
+											<string>1052A7360FFD3C6400F39C1D</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -366,7 +366,6 @@
 											<string>103ED9CD0FCF347F000BD67D</string>
 											<string>109744330FD7242300A3C0E1</string>
 											<string>109744340FD7242300A3C0E1</string>
-											<string>10DCA3E10FD92AEB00FA7689</string>
 											<string>108FFA510FDD1CC6004D4CFD</string>
 											<string>108FFB040FDF199B004D4CFD</string>
 											<string>108FFB0D0FDF199B004D4CFD</string>
@@ -376,14 +375,17 @@
 											<string>108FFB700FE991FA004D4CFD</string>
 											<string>105F0A910FFA721E002EF789</string>
 											<string>1052A6AE0FFCCDC900F39C1D</string>
-											<string>1052A6D40FFCD48200F39C1D</string>
-											<string>1052A6D50FFCD48200F39C1D</string>
-											<string>1052A6D60FFCD48200F39C1D</string>
-											<string>1052A6D70FFCD48200F39C1D</string>
-											<string>1052A6D80FFCD48200F39C1D</string>
-											<string>1052A6D90FFCD48200F39C1D</string>
-											<string>1052A6DA0FFCD48200F39C1D</string>
-											<string>1052A6DB0FFCD48200F39C1D</string>
+											<string>1052A73A0FFD3C6400F39C1D</string>
+											<string>1052A73B0FFD3C6400F39C1D</string>
+											<string>1052A73C0FFD3C6400F39C1D</string>
+											<string>1052A74A0FFD3D8400F39C1D</string>
+											<string>1052A7590FFD665600F39C1D</string>
+											<string>1052A7630FFE20AD00F39C1D</string>
+											<string>1052A7640FFE20AD00F39C1D</string>
+											<string>1052A7650FFE20AD00F39C1D</string>
+											<string>1052A7660FFE20AD00F39C1D</string>
+											<string>1052A7700FFE217700F39C1D</string>
+											<string>1052A7710FFE217700F39C1D</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -556,7 +558,7 @@
 	<key>PerspectivesBarVisible</key>
 	<false/>
 	<key>PinnedNavigatorIdentifier</key>
-	<string>10DCA22E0FD732EC00FA7689</string>
+	<string>1052A73E0FFD3C7E00F39C1D</string>
 	<key>ShelfIsVisible</key>
 	<false/>
 	<key>SourceDescription</key>
@@ -579,10 +581,11 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>1052A7000FFD358300F39C1D</string>
 		<string>1052A6C60FFCD11400F39C1D</string>
 		<string>1CD10A99069EF8BA00B06720</string>
-		<string>10FB3C8F0FBB0550005CC6FA</string>
 		<string>1C78EAAD065D492600B07095</string>
+		<string>10FB3C8F0FBB0550005CC6FA</string>
 		<string>/Users/qbi/Code/iPhone/TopdownConcept/TopdownConcept.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
@@ -602,14 +605,12 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>game_helper.c</string>
+								<string>game.c</string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -626,6 +627,8 @@
 							<string>218pt</string>
 						</dict>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>

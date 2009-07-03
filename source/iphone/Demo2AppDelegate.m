@@ -11,7 +11,7 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {	
-	[application setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:NO];
+	//[application setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:NO];
 	[application setStatusBarOrientation:UIInterfaceOrientationLandscapeRight animated:NO];
 	[[UIApplication sharedApplication] setStatusBarHidden:YES animated:NO];
 	
