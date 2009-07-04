@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		103ED9AD0FCF2D90000BD67D /* quat.c in Sources */ = {isa = PBXBuildFile; fileRef = 103ED9AC0FCF2D90000BD67D /* quat.c */; };
+		1052A7850FFF774700F39C1D /* behavior.c in Sources */ = {isa = PBXBuildFile; fileRef = 1052A7840FFF774700F39C1D /* behavior.c */; };
 		108FFA6C0FDD5853004D4CFD /* box2d.c in Sources */ = {isa = PBXBuildFile; fileRef = 108FFA6B0FDD5853004D4CFD /* box2d.c */; };
 		108FFA9F0FDF00DF004D4CFD /* mat4.c in Sources */ = {isa = PBXBuildFile; fileRef = 108FFA9E0FDF00DF004D4CFD /* mat4.c */; };
 		10A5C0F00FC56B6A00152875 /* game_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = 10A5C0ED0FC56B6A00152875 /* game_helper.c */; };
@@ -27,6 +28,8 @@
 /* Begin PBXFileReference section */
 		103ED9AC0FCF2D90000BD67D /* quat.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = quat.c; sourceTree = "<group>"; };
 		103ED9AE0FCF2DAA000BD67D /* quat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = quat.h; sourceTree = "<group>"; };
+		1052A7830FFF74F300F39C1D /* behavior.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = behavior.h; sourceTree = "<group>"; };
+		1052A7840FFF774700F39C1D /* behavior.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = behavior.c; sourceTree = "<group>"; };
 		108FFA6A0FDD583D004D4CFD /* box2d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = box2d.h; sourceTree = "<group>"; };
 		108FFA6B0FDD5853004D4CFD /* box2d.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = box2d.c; sourceTree = "<group>"; };
 		108FFA9D0FDF00DF004D4CFD /* mat4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mat4.h; sourceTree = "<group>"; };
@@ -74,6 +77,7 @@
 			isa = PBXGroup;
 			children = (
 				10A5C3000FC6026700152875 /* iphone */,
+				1052A7830FFF74F300F39C1D /* behavior.h */,
 				108FFA6A0FDD583D004D4CFD /* box2d.h */,
 				10A5C13A0FC57F5A00152875 /* game.h */,
 				10A5C0E90FC56B6A00152875 /* game_helper.h */,
@@ -89,6 +93,7 @@
 			isa = PBXGroup;
 			children = (
 				10A5C2F80FC6024300152875 /* iphone */,
+				1052A7840FFF774700F39C1D /* behavior.c */,
 				108FFA6B0FDD5853004D4CFD /* box2d.c */,
 				10A5C13B0FC57F6300152875 /* game.c */,
 				10A5C0ED0FC56B6A00152875 /* game_helper.c */,
@@ -247,6 +252,7 @@
 				103ED9AD0FCF2D90000BD67D /* quat.c in Sources */,
 				108FFA6C0FDD5853004D4CFD /* box2d.c in Sources */,
 				108FFA9F0FDF00DF004D4CFD /* mat4.c in Sources */,
+				1052A7850FFF774700F39C1D /* behavior.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -13,12 +13,16 @@
 #include "quat.h"
 #include "vec3.h"
 
-
-enum gh_input_type { GHI_MOVE, GHI_MOVE_STOP, };
+typedef struct gh_button {
+	vec3	position,
+			rotation;
+	float	size;
+	int		held;
+} gh_button;
 
 struct gh_input {
-	enum gh_input_type	type;
-	void				*data;
+	int			button;
+	gh_button	*data;
 };
 
 struct gh_rigid_body {

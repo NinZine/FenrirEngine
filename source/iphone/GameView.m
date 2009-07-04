@@ -12,10 +12,11 @@
 #include "rendering.h"
 #include "vec3.h"
 
-static int left_stick_held = 0;
-static vec3 left_stick_position = {-170.f, -90.f, 0.f};
-static vec3 left_stick_rotation = {0.f, 0.f, 0.f};
-static float left_stick_size = 70.f;
+static gh_button button[] = {
+	{{-170.f, -90.f, 0.f}, {0.f, 0.f, 0.f}, 70.f, 0}, /* Left stick */
+	{{200.f, -90.f, 0.f}, {0.f, 0.f, 0.f}, 40.f, 0}, /* Right button */
+};
+static int num_buttons = sizeof(button)/sizeof(gh_button);
 
 @implementation GameView
 
@@ -28,20 +29,23 @@ static float left_stick_size = 70.f;
 drawHUD
 {
 	float	angle,
-	size;
+			size;
+	int j;
 	
-	angle = atan2(left_stick_rotation.y, left_stick_rotation.x);
-	angle = gh_rad2deg(angle);
-	size = left_stick_size * 2.f;
-	//r_setup_orthogonal_view(buffer.width, buffer.height);
-	glPushMatrix();
-	glTranslatef(left_stick_position.x, left_stick_position.y, left_stick_position.z);
-	glRotatef(45.f, 0.f, 0.f, 1.f);
-	glRotatef(angle, 0.f, 0.f, 1.f);
-	//glScalef(size, size, size);
-	r_render_circle(left_stick_size);
-	//r_render_quad(1);
-	glPopMatrix();
+	for (j = 0; j < num_buttons; ++j) {
+		angle = atan2(button[j].rotation.y, button[j].rotation.x);
+		angle = gh_rad2deg(angle);
+		size = button[j].size * 2.f;
+		//r_setup_orthogonal_view(buffer.width, buffer.height);
+		glPushMatrix();
+		glTranslatef(button[j].position.x, button[j].position.y, button[j].position.z);
+		glRotatef(45.f, 0.f, 0.f, 1.f);
+		glRotatef(angle, 0.f, 0.f, 1.f);
+		//glScalef(size, size, size);
+		r_render_circle(button[j].size);
+		//r_render_quad(1);
+		glPopMatrix();
+	}
 }
 
 - (id)
@@ -101,12 +105,12 @@ layoutSubviews
 }
 
 - (BOOL)
-leftStick:(const vec3 *)point
+buttonTouched:(const gh_button *)b point:(const vec3 *)point
 {
 	vec3 tmp;
 	
-	tmp = vec3_sub(point, &left_stick_position);
-	if (vec3_length(&tmp) < left_stick_size) {
+	tmp = vec3_sub(point, &b->position);
+	if (vec3_length(&tmp) < b->size) {
 		return YES;
 	}
 	/*
@@ -121,13 +125,13 @@ leftStick:(const vec3 *)point
 }
 
 - (void)
-leftStickTouch:(const vec3 *)point
+buttonTouch:(gh_button *)b point:(const vec3 *)point
 {
 	vec3 p = *point;
 	
-	p = vec3_sub(&p, &left_stick_position);
+	p = vec3_sub(&p, &b->position);
 	p = vec3_normalize(&p);
-	left_stick_rotation = p;
+	b->rotation = p;
 }
 
 /* Convert touch point from UIView referential to OpenGL one (upside-down flip) */
@@ -145,28 +149,12 @@ pointToOpenGL:(CGPoint)location
 }
 
 - (void)
-rightStickTouch:(const vec3 *)point
-{
-	struct gh_input gi;
-	vec3 p = *point;
-	
-	p = vec3_sub(&p, &left_stick_position);
-	p = vec3_normalize(&p);
-	left_stick_rotation = p;
-	
-	gi.type = GHI_MOVE;
-	gi.data = malloc(sizeof(struct gh_input));
-	memcpy(gi.data, &p, sizeof(vec3));
-	game_input(gi);
-}
-
-- (void)
 touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
 	CGPoint location;
 	NSArray *tmp;
 	vec3 current;
-	int i;
+	int i, j;
 	
 	tmp = [touches allObjects];
 	for (i = 0; i < [tmp count]; ++i) {
@@ -177,9 +165,11 @@ touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 		current.y = location.y;
 		current.z = 0.f;
 		
-		if ([self leftStick:&current] == YES) {
-			++left_stick_held;
-			[self leftStickTouch:&current];
+		for (j = 0; j < num_buttons; ++j) {
+			if ([self buttonTouched:&button[j] point:&current] == YES) {
+				++(button[j]).held;
+				[self buttonTouch:&button[j] point:&current];
+			}
 		}
 	}
 }
@@ -190,7 +180,7 @@ touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 	CGPoint location;
 	NSArray *tmp;
 	vec3 point = {0.f, 0.f, 0.f};
-	int i;
+	int i, j;
 	
 	tmp = [touches allObjects];
 	for (i = 0; i < [tmp count]; ++i) {
@@ -200,8 +190,10 @@ touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 		point.x = location.x;
 		point.y = location.y;
 		
-		if ([self leftStick:&point] == YES) {
-			--left_stick_held;
+		for (j = 0; j < num_buttons; ++j) {
+			if ([self buttonTouched:&button[j] point:&point] == YES) {
+				--(button[j]).held;
+			}
 		}
 	}
 }
@@ -212,7 +204,7 @@ touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 	CGPoint location;
 	NSArray *tmp;
 	vec3	current, previous;
-	int		i;
+	int		i, j;
 	
 	//touch = [[event touchesForView:self] anyObject];
 	tmp = [touches allObjects];
@@ -228,13 +220,15 @@ touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 		previous.y = location.y;
 		previous.z = 0.f;
 		
-		if ([self leftStick:&current] == YES) {
-			if ([self leftStick:&previous] == NO) {
-				++left_stick_held;
+		for (j = 0; j < num_buttons; ++j) {
+			if ([self buttonTouched:&button[j] point:&current] == YES) {
+				if ([self buttonTouched:&button[j] point:&previous] == NO) {
+					++(button[j]).held;
+				}
+				[self buttonTouch:&button[j] point:&current];
+			} else if ([self buttonTouched:&button[j] point:&previous] == YES){
+				--(button[j]).held;
 			}
-			[self leftStickTouch:&current];
-		} else if ([self leftStick:&previous] == YES){
-			--left_stick_held;
 		}
 	}
 }
@@ -245,18 +239,14 @@ touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 - (void)
 update
 {
-	if (left_stick_held > 0) {
+	int i;
+	
+	for (i = 0; i < num_buttons; ++i) {
 		struct gh_input gi;
 		
-		gi.type = GHI_MOVE;
-		gi.data = malloc(sizeof(struct gh_input));
-		memcpy(gi.data, &left_stick_rotation, sizeof(vec3));
-		game_input(gi);
-	} else {
-		struct gh_input gi;
-		
-		gi.type = GHI_MOVE_STOP;
-		gi.data = 0;
+		gi.button = 0;
+		gi.data = malloc(sizeof(struct gh_button));
+		memcpy(gi.data, &button[0], sizeof(gh_button));
 		game_input(gi);
 	}
 	

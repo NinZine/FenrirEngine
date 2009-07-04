@@ -23,6 +23,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "behavior.h"
 #include "box2d.h"
 #include "game.h"
 #include "game_helper.h"
@@ -103,6 +104,13 @@ game_initialize()
 	input_queue.queue = (struct gh_input*)malloc(
 		sizeof(struct gh_input) * input_queue.capacity);
 	game_initialize_light();
+	
+	/* Test behavior */
+	b_attribute *b;
+	b = b_create_attribute("test", 'f', 20.0);
+	printf("Attribute %s(%c): %.2f", b->name, b->type, (*(double*)b->value));
+	b_clean_attribute(b);
+	/* End test */
 }
 
 void
@@ -132,27 +140,26 @@ game_input_handle()
 		--input_queue.count;
 		
 		struct gh_input gi = input_queue.queue[input_queue.count];
-		switch (gi.type)
+		switch (gi.button)
 		{
-			case GHI_MOVE:
+			case 0:
 			{
-				quat tmp;
-				vec3 *dir = (vec3*)gi.data;
+				if (gi.data->held > 0) {
+					quat tmp;
+					state_current.object[1].linear_velocity = gi.data->rotation;
+					/* Calculate angle */
+					tmp.w = -gh_rad2deg(atan2(gi.data->rotation.y, gi.data->rotation.x));
+					tmp.x = tmp.y = 0.f;
+					tmp.z = 1.f;
+					state_current.object[1].rotation = quat_from_axis(&tmp);
+					//vec3_add(&state_current.object[3].position, dir);
+				} else {
+					state_current.object[1].linear_velocity.x = 0.f;
+					state_current.object[1].linear_velocity.y = 0.f;
+					state_current.object[1].linear_velocity.z = 0.f;
+				}
 				
-				state_current.object[1].linear_velocity = *dir;
-				/* Calculate angle */
-				tmp.w = -gh_rad2deg(atan2(dir->y, dir->x));
-				tmp.x = tmp.y = 0.f;
-				tmp.z = 1.f;
-				state_current.object[1].rotation = quat_from_axis(&tmp);
-				//vec3_add(&state_current.object[3].position, dir);
 				free(gi.data);
-				break;
-			}
-			case GHI_MOVE_STOP:
-			{
-				vec3 dir = {0.f, 0.f, 0.f};
-				state_current.object[1].linear_velocity = dir;
 				break;
 			}
 		};
@@ -164,6 +171,7 @@ void
 game_input(struct gh_input gi)
 {
 	
+	/* Increase size of array if necessarry */
 	if (input_queue.count >= input_queue.capacity) {
 		void *tmp = malloc(
 			sizeof(struct gh_input) * (input_queue.capacity + 10));
@@ -175,6 +183,7 @@ game_input(struct gh_input gi)
 		input_queue.capacity += 10;
 	}
 
+	/* Place input on queue */
 	input_queue.queue[input_queue.count] = gi;
 	++input_queue.count;
 }
