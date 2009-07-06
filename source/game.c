@@ -59,7 +59,6 @@ static vec3 light_position = {0.0f, -1.0f, 0.0f};
 static struct gh_state state_current = {0,0};
 static struct gh_state state_previous = {0,0};
 static gh_time game_time = {0, 0, 0, 0, 0, 1.f / 20.f};
-static struct gh_input_queue input_queue;
 static g_entity *entity;
 static unsigned int entities = 0;
 
@@ -103,26 +102,30 @@ game_initialize()
 	}
 	
 	gh_copy_state(&state_previous, &state_current, true);
-
-	input_queue.capacity = 1;
-	input_queue.count = 0;
-	input_queue.queue = (struct gh_input*)malloc(
-		sizeof(struct gh_input) * input_queue.capacity);
+	
 	game_initialize_light();
-	
 	/* Test behavior */
-	b_create_behavior(&entity[2].b);
+	b_add_behavior(&entity[2].b, &entity[2].behaviors);
 	b_add_rule(entity[2].b, "see");
-	b_set_attribute(&entity[2].b->rule_attr[0], 45.f);
-	b_set_attribute(&entity[2].b->rule_attr[1], &entity[1]);
+	b_set_attribute(entity[2].b->rule_attr, entity[2].b->num_rule_attr,
+		"distance", 45.f);
+	b_set_attribute(entity[2].b->rule_attr, entity[2].b->num_rule_attr,
+		"you", &entity[1]);
 	b_add_action(entity[2].b, "move");
+	b_exec(&entity[2], &entity[2].b[0]);
+	b_exec(&entity[2], &entity[2].b[0]);
+	b_exec(&entity[2], &entity[2].b[0]);
+	b_exec(&entity[2], &entity[2].b[0]);
 	
-	b_create_behavior(&entity[1].b);
+	b_add_behavior(&entity[1].b, &entity[1].behaviors);
 	b_add_rule(entity[1].b, "input");
 	b_add_action(entity[1].b, "move");
-	b_set_attribute(&entity[1].b->action_attr[0], 2.f);
+	b_set_attribute(entity[1].b->action_attr, entity[1].b->num_action_attr,
+		"speed", 2.f);
+	//b_exec(&entity[1], &entity[1].b[0]);
 	
-	entity[3].b = entity[4].b = entity[2].b;
+	entity[3].b = entity[4].b = &entity[2].b[0];
+	entity[3].behaviors = entity[4].behaviors = 1;
 	/* End test */
 }
 
@@ -142,59 +145,6 @@ game_initialize_light()
 	r_set_material(GL_DIFFUSE, material);
 	r_set_material(GL_EMISSION, material);
 	r_set_material(GL_SPECULAR, material);
-}
-
-void
-game_input_handle()
-{
-	camera_previous = camera_current;
-
-	while (input_queue.count > 0) {
-		--input_queue.count;
-		
-		struct gh_input gi = input_queue.queue[input_queue.count];
-		switch (gi.button)
-		{
-			case 0:
-			{
-				if (gi.data->held > 0) {
-					quat tmp;
-					state_current.object[1].linear_velocity =
-						vec3_mul(&gi.data->rotation, 2.5f);
-					/* Calculate angle */
-					tmp.w = -gh_rad2deg(atan2(gi.data->rotation.y, gi.data->rotation.x));
-					tmp.x = tmp.y = 0.f;
-					tmp.z = 1.f;
-					state_current.object[1].rotation = quat_from_axis(&tmp);
-					//vec3_add(&state_current.object[3].position, dir);
-				} else {
-					state_current.object[1].linear_velocity.x = 0.f;
-					state_current.object[1].linear_velocity.y = 0.f;
-					state_current.object[1].linear_velocity.z = 0.f;
-				}
-				
-				free(gi.data);
-				break;
-			}
-		};
-	}
-}
-
-/* Puts struct on a queue */
-void
-game_input(struct gh_input *gi)
-{
-	
-	/* Increase size of array if necessarry */
-	if (input_queue.count >= input_queue.capacity) {
-		gh_array_resize((void**)&input_queue.queue, input_queue.count,
-			sizeof(struct gh_input), 10);
-		input_queue.capacity += 10;
-	}
-
-	/* Place input on queue */
-	input_queue.queue[input_queue.count] = *gi;
-	++input_queue.count;
 }
 
 void
@@ -379,11 +329,13 @@ game_update()
 void
 game_update_entities(g_entity *e, const unsigned int n)
 {
-	int i;
+	int i, j;
 	
 	for (i = 0; i < n; ++i) {
 		if (e[i].b) {
-			b_exec((void*)&e[i], e[i].b);
+			for (j = 0; j < e[i].behaviors; ++j) {
+				b_exec((void*)&e[i], &e[i].b[j]);
+			}
 		}
 	}
 }

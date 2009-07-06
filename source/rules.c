@@ -23,17 +23,17 @@
 #include "vec3.h"
 
 /* Prototypes */
-static unsigned int
-rule_input_attr(b_attribute **a, unsigned int n);
+static void
+rule_input_attr(b_attribute **a, unsigned int *n);
 static bool
 rule_input(void *self, b_attribute *a, const unsigned int num_attr,
-		b_attribute **out, unsigned int prev_attr, unsigned int *n);
+		b_attribute **out, unsigned int *prev_attr);
 
-static unsigned int
-rule_see_attr(b_attribute **a, unsigned int n);
+static void
+rule_see_attr(b_attribute **a, unsigned int *n);
 static bool
 rule_see(void *self, b_attribute *a, const unsigned int num_attr,
-	b_attribute **out, unsigned int prev_attr, unsigned int *n);
+	b_attribute **out, unsigned int *prev_attr);
 
 /* Table with all the rules */
 static struct b_rule_info rule[] = {
@@ -56,17 +56,15 @@ b_get_rule(const char *name, struct b_rule_info **info)
 	}
 }
 
-unsigned int
-rule_input_attr(b_attribute **a, unsigned int n)
+void
+rule_input_attr(b_attribute **a, unsigned int *n)
 {
-	gh_array_resize((void**)a, n, sizeof(b_attribute), 1);
-	b_create_attribute(&(*a)[n], "button", 'i', 0);
-	return 1;
+	b_add_attribute(a, n, "button", 'i', 0);
 }
 
 bool
 rule_input(void *self, b_attribute *b, const unsigned int attrs,
-	b_attribute **out, unsigned int prev_attr, unsigned int *n)
+	b_attribute **out, unsigned int *prev_attr)
 {
 	b_attribute	*button;
 	gh_button *tmp;
@@ -75,7 +73,7 @@ rule_input(void *self, b_attribute *b, const unsigned int attrs,
 	button = b_find_attribute("button", b, attrs);
 	if (button) {
 		tmp = gh_get_input(*(int*)button->value);
-		if (0 == tmp->held) {
+		if (0 == tmp || 0 == tmp->held) {
 			return false;
 		}
 	} else {
@@ -83,26 +81,21 @@ rule_input(void *self, b_attribute *b, const unsigned int attrs,
 	}
 	
 	v = vec3_normalize(&tmp->rotation);
-	gh_array_resize((void**)out, prev_attr, sizeof(b_attribute), 1);
-	b_create_attribute(&(*out)[prev_attr], "direction", 'v', v);
-	*n += 1;
+	b_add_attribute(out, prev_attr, "direction", 'v', v);
 	return true;
 }
 
-unsigned int
-rule_see_attr(b_attribute **a, unsigned int n)
+void
+rule_see_attr(b_attribute **a, unsigned int *n)
 {
 
-	gh_array_resize((void**)a, n, sizeof(b_attribute), 2);
-	b_create_attribute(&(*a)[n], "distance", 'f', 20.f);
-	b_create_attribute(&(*a)[n+1], "you", 'e', 0);
-	
-	return 2;
+	b_add_attribute(a, n, "distance", 'f', 20.f);
+	b_add_attribute(a, n, "you", 'e', 0);
 }
 
 bool
 rule_see(void *self, b_attribute *b, const unsigned int num_attr,
-	b_attribute **out, unsigned int prev_attr, unsigned int *n)
+	b_attribute **out, unsigned int *prev_attr)
 {
 	b_attribute *distance,
 				*you;
@@ -128,9 +121,7 @@ rule_see(void *self, b_attribute *b, const unsigned int num_attr,
 		return false;
 	}
 
-	gh_array_resize((void**)out, prev_attr, sizeof(b_attribute), 1);
-	b_create_attribute(&(*out)[prev_attr], "direction", 'v', v);
-	*n += 1;
+	b_add_attribute(out, prev_attr, "direction", 'v', v);
 	return true;
 }
 

@@ -23,7 +23,7 @@ typedef struct b_attribute {
 } b_attribute;
 
 typedef bool (*b_rule)(void *self, b_attribute *a, const unsigned int num_attr,
-	b_attribute **out, unsigned int prev_attr, unsigned int *n);
+	b_attribute **out, unsigned int *prev_attr);
 typedef void (*b_action)(void *self, b_attribute *a, unsigned int n);
 
 typedef struct b_behavior {
@@ -38,14 +38,15 @@ typedef struct b_behavior {
 } b_behavior;
 
 bool			b_add_action(b_behavior *b, const char *name);
+void			b_add_attribute(b_attribute **a, unsigned int *n,
+					const char *name, const char type, ...);
+void			b_add_behavior(b_behavior **b, unsigned int *n);
 bool			b_add_rule(b_behavior *b, const char *name);
-void			b_create_attribute(b_attribute *a, const char *name,
-					const char type, ...);
-void			b_create_behavior(b_behavior **b);
 void			b_clean_attribute(b_attribute *a);
 void			b_exec(void *self, b_behavior *b);
 b_attribute*	b_find_attribute(const char *name, b_attribute *b,
 					const unsigned int n);
-void			b_set_attribute(b_attribute *out, ...);
+void			b_set_attribute(b_attribute *out, const unsigned int n,
+					const char *name, ...);
 
 #endif

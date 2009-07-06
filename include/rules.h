@@ -18,7 +18,7 @@
 
 struct b_rule_info {
 	const char *name;
-	unsigned int (*create_default_attr)(b_attribute **a, unsigned int n);
+	void (*create_default_attr)(b_attribute **a, unsigned int *n);
 	b_rule rule;
 };
 

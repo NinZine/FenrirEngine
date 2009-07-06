@@ -242,11 +242,7 @@ update
 	int i;
 	
 	for (i = 0; i < num_buttons; ++i) {
-		struct gh_input gi;
-		
-		gi.button = i;
-		gi.data = &button[i];
-		gh_input(&gi);
+		gh_input(&button[i], i);
 	}
 	
 	game_update();

@@ -23,29 +23,12 @@
 #include "rules.h"
 #include "vec3.h"
 
+static void	b_create_attribute(b_attribute *a, const char *name,
+				const char type, va_list *ap);
 static void b_init_attribute_value(void **value, bool alloc, size_t bytes,
-	void *data);
+				void *data);
 static void b_parse_attribute(b_attribute *a, bool modify, va_list *ap);
 
-bool
-b_add_rule(b_behavior *b, const char *name)
-{
-	struct b_rule_info *r = 0;
-	
-	b_get_rule(name, &r);
-	if (0 == r) {
-		return false;
-	}
-
-	if (r->create_default_attr) {
-		b->num_rule_attr += r->create_default_attr(&b->rule_attr,
-			b->num_rule_attr);
-	}
-	gh_array_resize((void**)&b->rule, b->num_rules, sizeof(b_rule), 1);
-	b->rule[b->num_rules] = r->rule;
-	b->num_rules += 1;
-	return true;
-}
 
 bool
 b_add_action(b_behavior *b, const char *name)
@@ -58,32 +41,62 @@ b_add_action(b_behavior *b, const char *name)
 	}
 	
 	if (a->create_default_attr) {
-		b->num_action_attr += a->create_default_attr(&b->action_attr,
-			b->num_action_attr);
+		a->create_default_attr(&b->action_attr, &b->num_action_attr);
 	}
 	b->action = a->action;
 	return true;
 }
 
 void
-b_create_attribute(b_attribute *a, const char *name, const char type, ...)
+b_add_attribute(b_attribute **a, unsigned int *n, const char *name,
+	const char type, ...)
 {
 	va_list ap;
-
-	a->name = malloc(strlen(name) * sizeof(char));
-	strcpy(a->name, name);
-	a->type = type;
+	
+	gh_array_resize((void**)a, *n, sizeof(b_attribute), 1);
+	*n += 1;
+	
 	va_start(ap, type);
-	b_parse_attribute(a, false, &ap);
+	b_create_attribute(&(*a)[*n-1], name, type, &ap);
 	va_end(ap);
 }
 
 void
-b_create_behavior(b_behavior **b)
+b_add_behavior(b_behavior **b, unsigned int *n)
 {
 	
-	*b = malloc(sizeof(b_behavior));
-	bzero(*b, sizeof(b_behavior));
+	gh_array_resize((void**)b, *n, sizeof(b_behavior), 1);
+	*n += 1;
+}
+
+bool
+b_add_rule(b_behavior *b, const char *name)
+{
+	struct b_rule_info *r = 0;
+	
+	b_get_rule(name, &r);
+	if (0 == r) {
+		return false;
+	}
+	
+	if (r->create_default_attr) {
+		r->create_default_attr(&b->rule_attr, &b->num_rule_attr);
+	}
+	gh_array_resize((void**)&b->rule, b->num_rules, sizeof(b_rule), 1);
+	b->rule[b->num_rules] = r->rule;
+	b->num_rules += 1;
+	return true;
+}
+
+void
+b_create_attribute(b_attribute *a, const char *name, const char type,
+	va_list *ap)
+{
+	
+	a->name = malloc(strlen(name) * sizeof(char));
+	strcpy(a->name, name);
+	a->type = type;
+	b_parse_attribute(a, false, ap);
 }
 
 void
@@ -100,26 +113,30 @@ void
 b_exec(void *self, b_behavior *b)
 {
 	int i;
-	unsigned int extra_attr = 0;
+	unsigned int extra_attr = b->num_action_attr;
 	bool rules_passed = true;
 
 	for (i = 0; i < b->num_rules; ++i) {
 		if (false == b->rule[i](self, b->rule_attr, b->num_rule_attr,
-			&b->action_attr, b->num_action_attr, &extra_attr)) {
+			&b->action_attr, &b->num_action_attr)) {
 			rules_passed = false;
 			break;
 		}
 	}
 
 	if (rules_passed && 0 != b->action) {
-		b->action(self, b->action_attr, b->num_action_attr + extra_attr);
+		b->action(self, b->action_attr, b->num_action_attr);
 	}
 
 	/* Delete extra attributes */
-	for (i = 0; i < extra_attr; ++i) {
-		b_clean_attribute(&b->action_attr[b->num_action_attr + i]);
-		gh_array_resize((void**)b->action_attr, b->num_action_attr + extra_attr,
+	extra_attr = b->num_action_attr - extra_attr;
+	for (i = b->num_action_attr-1; i < b->num_action_attr - 1 + extra_attr; ++i) {
+		b_clean_attribute(&b->action_attr[i]);
+	}
+	if (extra_attr > 0) {
+		gh_array_resize((void**)b->action_attr, b->num_action_attr,
 			sizeof(b_attribute), -extra_attr);
+		b->num_action_attr -= extra_attr;
 	}
 }
 
@@ -185,12 +202,16 @@ b_parse_attribute(b_attribute *a, bool modify, va_list *ap)
 }
 
 void
-b_set_attribute(b_attribute *a, ...)
+b_set_attribute(b_attribute *a, const unsigned int n, const char *name, ...)
 {
+	b_attribute *tmp;
 	va_list ap;
 
-	va_start(ap, a);
-	b_parse_attribute(a, true, &ap);
+	va_start(ap, name);
+	tmp = b_find_attribute(name, a, n);
+	if (0 != tmp) {
+		b_parse_attribute(tmp, true, &ap);
+	}
 	va_end(ap);
 }
 

@@ -18,7 +18,7 @@
 
 struct b_action_info {
 	const char *name;
-	unsigned int (*create_default_attr)(b_attribute **a, unsigned int n);
+	void (*create_default_attr)(b_attribute **a, unsigned int *counter);
 	b_action action;
 };
 

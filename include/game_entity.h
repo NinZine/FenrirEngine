@@ -31,9 +31,8 @@ struct gh_rigid_body {
 typedef struct g_entity {
 	b_behavior *b;
 	struct gh_rigid_body *rb;
-	/*model *m;
-	 unsigned int num_models, num_behaviors;
-	 */
+	/*model *m;*/
+	 unsigned int behaviors;
 } g_entity;
 
 #endif

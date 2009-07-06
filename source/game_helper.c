@@ -14,8 +14,8 @@
 #include "array.h"
 #include "game_helper.h"
 
-static gh_button *button;
-static unsigned int buttons = 0;
+static gh_button button[10];
+static unsigned int buttons = 10;
 
 void
 gh_build_mat4(struct gh_rigid_body *obj, mat4 *out)
@@ -111,15 +111,13 @@ gh_get_input(const unsigned int n)
 }
 
 void
-gh_input(struct gh_input *gi)
+gh_input(gh_button *b, const unsigned int n)
 {
-	if (gi->button >= buttons) {
-		gh_array_resize((void**)&button, buttons,
-						sizeof(struct gh_button), 1);
-		buttons += 1;
+	if (n >= buttons) {
+		return;
 	}
 	
-	button[gi->button] = *gi->data;
+	button[n] = *b;
 }
 
 void

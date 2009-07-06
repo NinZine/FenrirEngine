@@ -21,8 +21,8 @@
 #include "vec3.h"
 
 static void action_move(void *self, b_attribute *b, unsigned int attrs);
-static unsigned int action_move_attr(b_attribute **b,
-	unsigned int prev_attrs);
+static void action_move_attr(b_attribute **b,
+	unsigned int *prev_attrs);
 
 static struct b_action_info action[] = {
 	{"move", action_move_attr, action_move},
@@ -70,13 +70,10 @@ action_move(void *self, b_attribute *b, unsigned int attrs)
 	tmp->rb->rotation = quat_from_axis(&rot);
 }
 
-unsigned int
-action_move_attr(b_attribute **b, unsigned int prev_attrs)
+void
+action_move_attr(b_attribute **b, unsigned int *prev_attrs)
 {
 	
-	gh_array_resize((void**)b, prev_attrs, sizeof(b_attribute), 1);
-	b_create_attribute(&(*b)[prev_attrs], "speed", 'f', 1.f);
-
-	return 1;
+	b_add_attribute(b, prev_attrs, "speed", 'f', 1.f);
 }
 
