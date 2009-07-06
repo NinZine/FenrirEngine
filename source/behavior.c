@@ -23,8 +23,9 @@
 #include "rules.h"
 #include "vec3.h"
 
-static void b_parse_attribute(b_attribute *a, const char *name, const char type,
-	va_list *ap);
+static void b_init_attribute_value(void **value, bool alloc, size_t bytes,
+	void *data);
+static void b_parse_attribute(b_attribute *a, bool modify, va_list *ap);
 
 bool
 b_add_rule(b_behavior *b, const char *name)
@@ -64,18 +65,25 @@ b_add_action(b_behavior *b, const char *name)
 	return true;
 }
 
-b_attribute*
-b_create_attribute(const char *name, const char type, ...)
+void
+b_create_attribute(b_attribute *a, const char *name, const char type, ...)
 {
-	b_attribute *a;
 	va_list ap;
 
+	a->name = malloc(strlen(name) * sizeof(char));
+	strcpy(a->name, name);
+	a->type = type;
 	va_start(ap, type);
-	a = malloc(sizeof(b_attribute));
-	b_parse_attribute(a, name, type, &ap);
+	b_parse_attribute(a, false, &ap);
 	va_end(ap);
+}
 
-	return a;
+void
+b_create_behavior(b_behavior **b)
+{
+	
+	*b = malloc(sizeof(b_behavior));
+	bzero(*b, sizeof(b_behavior));
 }
 
 void
@@ -89,22 +97,22 @@ b_clean_attribute(b_attribute *a)
 }
 
 void
-b_exec(b_behavior *b)
+b_exec(void *self, b_behavior *b)
 {
 	int i;
 	unsigned int extra_attr = 0;
 	bool rules_passed = true;
 
 	for (i = 0; i < b->num_rules; ++i) {
-		if (false == b->rule[i](b->rule_attr, b->num_rule_attr, &b->action_attr,
-			b->num_action_attr, &extra_attr)) {
+		if (false == b->rule[i](self, b->rule_attr, b->num_rule_attr,
+			&b->action_attr, b->num_action_attr, &extra_attr)) {
 			rules_passed = false;
 			break;
 		}
 	}
 
 	if (rules_passed && 0 != b->action) {
-		b->action(b->action_attr, b->num_action_attr + extra_attr);
+		b->action(self, b->action_attr, b->num_action_attr + extra_attr);
 	}
 
 	/* Delete extra attributes */
@@ -133,35 +141,37 @@ b_find_attribute(const char *name, b_attribute *b, const unsigned int n)
 }
 
 void
-b_parse_attribute(b_attribute *a, const char *name, const char type,
-	va_list *ap)
+b_init_attribute_value(void **value, bool modify, size_t bytes, void *data)
+{
+	
+	if (!modify) {
+		*value = malloc(bytes);
+	}
+	memcpy(*value, data, bytes);
+}
+
+void
+b_parse_attribute(b_attribute *a, bool modify, va_list *ap)
 {
 
-	a->name = malloc(strlen(name) * sizeof(char));
-	strcpy(a->name, name);
-	a->type = type;
-
-	switch (type) {
+	switch (a->type) {
 		case 'e':
 		{
-			g_entity *ge = va_arg(*ap, g_entity*);
-			a->value = malloc(sizeof(g_entity*));
-			memcpy(a->value, &ge, sizeof(g_entity*));
+			g_entity *d = va_arg(*ap, g_entity*);
+			b_init_attribute_value(&a->value, modify, sizeof(d), (void*)&d);
 			break;
 		}
 		case 'd':
 		case 'f':
 		{
-			double f = va_arg(*ap, double);
-			a->value = malloc(sizeof(double));
-			memcpy(a->value, &f, sizeof(double));
+			float d = (float)va_arg(*ap, double);
+			b_init_attribute_value(&a->value, modify, sizeof(d), (void*)&d);
 			break;
 		}
 		case 'v':
 		{
-			vec3 v = va_arg(*ap, vec3);
-			a->value = malloc(sizeof(vec3));
-			memcpy(a->value, &v, sizeof(vec3));
+			vec3 d = va_arg(*ap, vec3);
+			b_init_attribute_value(&a->value, modify, sizeof(d), (void*)&d);
 		}
 		default:
 			break;
@@ -169,12 +179,12 @@ b_parse_attribute(b_attribute *a, const char *name, const char type,
 }
 
 void
-b_set_attribute(b_attribute *a, const char *name, const char type, ...)
+b_set_attribute(b_attribute *a, ...)
 {
 	va_list ap;
 
-	va_start(ap, type);
-	b_parse_attribute(a, name, type, &ap);
+	va_start(ap, a);
+	b_parse_attribute(a, true, &ap);
 	va_end(ap);
 }
 

@@ -22,8 +22,9 @@ typedef struct b_attribute {
 	void *value;
 } b_attribute;
 
-typedef bool (*b_rule)(b_attribute *a, const unsigned int attrs,
-	b_attribute **out, unsigned int previous_attr, unsigned int *n);
+typedef bool (*b_rule)(void *self, b_attribute *a, const unsigned int num_attr,
+	b_attribute **out, unsigned int prev_attr, unsigned int *n);
+typedef void (*b_action)(void *self, b_attribute *a, unsigned int n);
 
 typedef struct b_behavior {
 	b_attribute		*rule_attr;
@@ -33,17 +34,18 @@ typedef struct b_behavior {
 					num_rules;
 	
 	b_rule *rule;
-	void (*action)(b_attribute *a, unsigned int attrs);
+	b_action action;
 } b_behavior;
 
-bool			b_add_rule(b_behavior *b, const char *name);
 bool			b_add_action(b_behavior *b, const char *name);
-b_attribute*	b_create_attribute(const char *name, const char type, ...);
-void			b_clean_all_attributes(b_attribute *a);
-void			b_exec(b_behavior *b);
+bool			b_add_rule(b_behavior *b, const char *name);
+void			b_create_attribute(b_attribute *a, const char *name,
+					const char type, ...);
+void			b_create_behavior(b_behavior **b);
+void			b_clean_attribute(b_attribute *a);
+void			b_exec(void *self, b_behavior *b);
 b_attribute*	b_find_attribute(const char *name, b_attribute *b,
 					const unsigned int n);
-void			b_set_attribute(b_attribute *out, const char *name,
-					const char type, ...);
+void			b_set_attribute(b_attribute *out, ...);
 
 #endif

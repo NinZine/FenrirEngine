@@ -111,34 +111,13 @@ game_initialize()
 	game_initialize_light();
 	
 	/* Test behavior */
-	entity[2].b = malloc(sizeof(b_behavior));
-	bzero(entity[2].b, sizeof(b_behavior));
+	b_create_behavior(&entity[2].b);
 	b_add_rule(entity[2].b, "see");
-	*(float*)entity[2].b->rule_attr[0].value = 45.f;
-	entity[2].b->rule_attr[1].value = &entity[2];
-	entity[2].b->rule_attr[2].value = &entity[1];
+	b_set_attribute(&entity[2].b->rule_attr[0], 45.f);
+	b_set_attribute(&entity[2].b->rule_attr[1], &entity[1]);
 	b_add_action(entity[2].b, "move");
-	entity[2].b->action_attr[0].value = &entity[2];
 	
-	entity[3].b = malloc(sizeof(b_behavior));
-	bzero(entity[3].b, sizeof(b_behavior));
-	b_add_rule(entity[3].b, "see");
-	*(float*)entity[3].b->rule_attr[0].value = 45.f;
-	entity[3].b->rule_attr[1].value = &entity[3];
-	entity[3].b->rule_attr[2].value = &entity[1];
-	b_add_action(entity[3].b, "move");
-	entity[3].b->action_attr[0].value = &entity[3];
-	
-	entity[4].b = malloc(sizeof(b_behavior));
-	bzero(entity[4].b, sizeof(b_behavior));
-	b_add_rule(entity[4].b, "see");
-	*(float*)entity[4].b->rule_attr[0].value = 45.f;
-	entity[4].b->rule_attr[1].value = &entity[4];
-	entity[4].b->rule_attr[2].value = &entity[1];
-	b_add_action(entity[4].b, "move");
-	entity[4].b->action_attr[0].value = &entity[4];
-	
-	/*entity[3].b = entity[4].b = entity[2].b;*/
+	entity[3].b = entity[4].b = entity[2].b;
 	/* End test */
 }
 
@@ -399,7 +378,7 @@ game_update_entities(g_entity *e, const unsigned int n)
 	
 	for (i = 0; i < n; ++i) {
 		if (e[i].b) {
-			b_exec(e[i].b);
+			b_exec((void*)&e[i], e[i].b);
 		}
 	}
 }
