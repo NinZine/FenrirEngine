@@ -23,9 +23,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "array.h"
 #include "behavior.h"
 #include "box2d.h"
 #include "game.h"
+#include "game_entity.h"
 #include "game_helper.h"
 #include "mat4.h"
 #include "quat.h"
@@ -58,6 +60,8 @@ static struct gh_state state_current = {0,0};
 static struct gh_state state_previous = {0,0};
 static gh_time game_time = {0, 0, 0, 0, 0, 1.f / 20.f};
 static struct gh_input_queue input_queue;
+static g_entity *entity;
+static unsigned int entities = 0;
 
 static void game_initialize_light();
 static void game_input_handle();
@@ -67,49 +71,53 @@ static void game_render_state(struct gh_state *src);
 static void game_resolve_collisions(struct gh_state *curr,
 	struct gh_state *prev);
 static void game_update_state(struct gh_state *curr, struct gh_state *prev);
+static void game_update_entities(g_entity *e, const unsigned int n);
 
 void
 game_initialize()
 {
 	int i;
 
-	if (0 == state_current.count) {
-		state_current.count = state_previous.count = 5;
-
-		state_current.object = malloc(
-				sizeof(struct gh_rigid_body) * state_current.count);
-		bzero(state_current.object,
-				sizeof(struct gh_rigid_body) * state_current.count);
+	if (0 == entities) {
+		state_current.count = entities = 5;
 		
-		/* Set some positions */
-		for (i = 0; i < state_current.count; ++i) {
-			
+		state_current.object = malloc(sizeof(struct gh_rigid_body) * entities);
+		bzero(state_current.object, sizeof(struct gh_rigid_body) * entities);
+		
+		gh_array_resize((void**)&entity, 0, sizeof(g_entity), entities);
+		
+		for (i = 0; i < entities; ++i) {
 			vec3 position = {
 				0.f,
 				(state_current.count * -20.f) + (i * 40.f),
 				0.f};
-			vec3 velocity = {rand() % 10 - 5.f, rand() % 10 - 5.f, 0.f};
 			quat rotation = {10.f * i, 0.f, 0.f, 1.f};
-
-			state_current.object[i].position = position;
-			state_current.object[i].rotation = quat_from_axis(&rotation);
-			//state_current.object[i].linear_velocity = velocity;
+			
+			entity[i].rb = 0;
+			entity[i].rb = &state_current.object[i];
+			entity[i].rb->position = position;
+			entity[i].rb->rotation = quat_from_axis(&rotation);
 		}
-
-		gh_copy_state(&state_previous, &state_current, true);
 	}
+	
+	gh_copy_state(&state_previous, &state_current, true);
 
-	input_queue.capacity = 8;
+	input_queue.capacity = 1;
 	input_queue.count = 0;
 	input_queue.queue = (struct gh_input*)malloc(
 		sizeof(struct gh_input) * input_queue.capacity);
 	game_initialize_light();
 	
 	/* Test behavior */
-	b_attribute *b;
-	b = b_create_attribute("test", 'f', 20.0);
-	printf("Attribute %s(%c): %.2f", b->name, b->type, (*(double*)b->value));
-	b_clean_attribute(b);
+	entity[2].b = malloc(sizeof(b_behavior));
+	bzero(entity[2].b, sizeof(b_behavior));
+	b_add_rule(entity[2].b, "see");
+	*(float*)entity[2].b->rule_attr[0].value = 45.f;
+	entity[2].b->rule_attr[1].value = &entity[2];
+	entity[2].b->rule_attr[2].value = &entity[1];
+	b_add_action(entity[2].b, "move");
+	entity[2].b->action_attr[0].value = &entity[2];
+	b_exec(entity[2].b);
 	/* End test */
 }
 
@@ -173,13 +181,8 @@ game_input(struct gh_input gi)
 	
 	/* Increase size of array if necessarry */
 	if (input_queue.count >= input_queue.capacity) {
-		void *tmp = malloc(
-			sizeof(struct gh_input) * (input_queue.capacity + 10));
-		memcpy(tmp, input_queue.queue,
-			sizeof(struct gh_input) * input_queue.capacity);
-
-		free(input_queue.queue);
-		input_queue.queue = tmp;
+		gh_array_resize((void**)&input_queue.queue, input_queue.count,
+			sizeof(struct gh_input), 10);
 		input_queue.capacity += 10;
 	}
 
@@ -202,9 +205,6 @@ game_interpolate_states(struct gh_state *out, struct gh_state *curr,
 		
 		out->object[i].position = vec3_lerp(&prev->object[i].position,
 			&curr->object[i].position, t);
-		
-		/*out->object[i].rotation = quat_slerp(&curr->object[i].rotation,
-			&prev->object[i].rotation, t);*/
 		out->object[i].rotation = quat_slerp(&prev->object[i].rotation,
 			&curr->object[i].rotation, t);
 	}
@@ -361,11 +361,24 @@ game_update()
 	while (game_time.accumulator >= game_time.timestep) {
 		
 		game_input_handle();
+		game_update_entities(entity, entities);
 		game_update_state(&state_current, &state_previous);
 		game_resolve_collisions(&state_current, &state_previous);
 		
 		game_time.accumulator -= game_time.timestep;
 		game_time.frame += 1;
+	}
+}
+
+void
+game_update_entities(g_entity *e, const unsigned int n)
+{
+	int i;
+	
+	for (i = 0; i < n; ++i) {
+		if (e[i].b) {
+			b_exec(e[i].b);
+		}
 	}
 }
 

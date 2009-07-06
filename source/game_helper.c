@@ -9,6 +9,7 @@
 # include <nds/timers.h>
 #endif /* !__NDS__ */
 #include <stdlib.h>
+#include <string.h>
 
 #include "game_helper.h"
 

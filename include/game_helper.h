@@ -5,10 +5,13 @@
 #ifndef _GAME_HELPER_H_
 #define _GAME_HELPER_H_
 
+#include <ctype.h>
 #include <math.h>
 #include <stdint.h>
 #include <stdbool.h>
 
+#include "behavior.h"
+#include "game_entity.h"
 #include "mat4.h"
 #include "quat.h"
 #include "vec3.h"
@@ -23,14 +26,6 @@ typedef struct gh_button {
 struct gh_input {
 	int			button;
 	gh_button	*data;
-};
-
-struct gh_rigid_body {
-	int32_t id;
-	vec3	position;
-	quat	rotation;
-	vec3	linear_velocity;
-	vec3	angular_velocity;
 };
 
 struct gh_state
@@ -53,8 +48,8 @@ void	gh_copy_state(struct gh_state *dest, struct gh_state *src,
 			bool use_malloc);
 bool	gh_collides(const vec3 *edge, const int num_edges, const vec3 *poly1,
 			const vec3 *poly2, float_t *min_dist, int *axis);
-void	gh_project_vec3(const vec3 *axis, const vec3 *points, const int sz_points,
-			float_t *min, float_t *max);
+void	gh_project_vec3(const vec3 *axis, const vec3 *points,
+			const int sz_points, float_t *min, float_t *max);
 float_t gh_rad2deg(const float_t rad);
 float_t gh_time_elapsed();
 void	gh_transform_edges(const mat4 *tf, vec3 *edge, const int num_edges);
