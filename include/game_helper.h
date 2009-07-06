@@ -48,6 +48,8 @@ void	gh_copy_state(struct gh_state *dest, struct gh_state *src,
 			bool use_malloc);
 bool	gh_collides(const vec3 *edge, const int num_edges, const vec3 *poly1,
 			const vec3 *poly2, float_t *min_dist, int *axis);
+gh_button*	gh_get_input(const unsigned int n);
+void	gh_input(struct gh_input *button);
 void	gh_project_vec3(const vec3 *axis, const vec3 *points,
 			const int sz_points, float_t *min, float_t *max);
 float_t gh_rad2deg(const float_t rad);

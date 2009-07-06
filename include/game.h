@@ -9,7 +9,7 @@
 #include "rendering.h"
 
 void game_initialize();
-void game_input(struct gh_input gi);
+//void game_input(struct gh_input *gi);
 void game_render(struct r_gl_buffer *buffer);
 void game_update();
 

@@ -244,10 +244,9 @@ update
 	for (i = 0; i < num_buttons; ++i) {
 		struct gh_input gi;
 		
-		gi.button = 0;
-		gi.data = malloc(sizeof(struct gh_button));
-		memcpy(gi.data, &button[0], sizeof(gh_button));
-		game_input(gi);
+		gi.button = i;
+		gi.data = &button[i];
+		gh_input(&gi);
 	}
 	
 	game_update();

@@ -11,7 +11,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "array.h"
 #include "game_helper.h"
+
+static gh_button *button;
+static unsigned int buttons = 0;
 
 void
 gh_build_mat4(struct gh_rigid_body *obj, mat4 *out)
@@ -94,6 +98,28 @@ gh_copy_state(struct gh_state *dest, struct gh_state *src, bool use_malloc)
 		dest->object[i].linear_velocity = src->object[i].linear_velocity;
 		dest->object[i].angular_velocity = src->object[i].angular_velocity;
 	}
+}
+
+gh_button*
+gh_get_input(const unsigned int n)
+{
+	
+	if (n > buttons)
+		return 0;
+	
+	return &button[n];
+}
+
+void
+gh_input(struct gh_input *gi)
+{
+	if (gi->button >= buttons) {
+		gh_array_resize((void**)&button, buttons,
+						sizeof(struct gh_button), 1);
+		buttons += 1;
+	}
+	
+	button[gi->button] = *gi->data;
 }
 
 void

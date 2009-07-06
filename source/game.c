@@ -117,6 +117,11 @@ game_initialize()
 	b_set_attribute(&entity[2].b->rule_attr[1], &entity[1]);
 	b_add_action(entity[2].b, "move");
 	
+	b_create_behavior(&entity[1].b);
+	b_add_rule(entity[1].b, "input");
+	b_add_action(entity[1].b, "move");
+	b_set_attribute(&entity[1].b->action_attr[0], 2.f);
+	
 	entity[3].b = entity[4].b = entity[2].b;
 	/* End test */
 }
@@ -177,7 +182,7 @@ game_input_handle()
 
 /* Puts struct on a queue */
 void
-game_input(struct gh_input gi)
+game_input(struct gh_input *gi)
 {
 	
 	/* Increase size of array if necessarry */
@@ -188,7 +193,7 @@ game_input(struct gh_input gi)
 	}
 
 	/* Place input on queue */
-	input_queue.queue[input_queue.count] = gi;
+	input_queue.queue[input_queue.count] = *gi;
 	++input_queue.count;
 }
 
@@ -361,7 +366,7 @@ game_update()
 	
 	while (game_time.accumulator >= game_time.timestep) {
 		
-		game_input_handle();
+		//game_input_handle();
 		game_update_entities(entity, entities);
 		game_update_state(&state_current, &state_previous);
 		game_resolve_collisions(&state_current, &state_previous);

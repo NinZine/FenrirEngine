@@ -168,6 +168,12 @@ b_parse_attribute(b_attribute *a, bool modify, va_list *ap)
 			b_init_attribute_value(&a->value, modify, sizeof(d), (void*)&d);
 			break;
 		}
+		case 'i':
+		{
+			int d = (int)va_arg(*ap, int);
+			b_init_attribute_value(&a->value, modify, sizeof(d), (void*)&d);
+			break;
+		}
 		case 'v':
 		{
 			vec3 d = va_arg(*ap, vec3);
