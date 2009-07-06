@@ -34,12 +34,13 @@ quat_from_axis(const quat *a)
 	vec3 tmp = {a->x, a->y, a->z};
 	quat q;
 	
-	tmp = vec3_normalize(&tmp);
+	//tmp = vec3_normalize(&tmp);
 	q.w = cos(theta);
 	q.x = tmp.x * sin_theta;
 	q.y = tmp.y * sin_theta;
 	q.z = tmp.z * sin_theta;
-
+	q = quat_normalize(&q);
+	
 	return q;
 }
 

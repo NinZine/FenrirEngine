@@ -92,11 +92,13 @@ game_initialize()
 				(state_current.count * -20.f) + (i * 40.f),
 				0.f};
 			quat rotation = {10.f * i, 0.f, 0.f, 1.f};
+			vec3 ang_vec = {0.f, 0.f, (i > 2) ? 10.f : 0.f};
 			
 			entity[i].rb = 0;
 			entity[i].rb = &state_current.object[i];
 			entity[i].rb->position = position;
 			entity[i].rb->rotation = quat_from_axis(&rotation);
+			entity[i].rb->angular_velocity = ang_vec;
 		}
 	}
 	
@@ -117,7 +119,26 @@ game_initialize()
 	entity[2].b->rule_attr[2].value = &entity[1];
 	b_add_action(entity[2].b, "move");
 	entity[2].b->action_attr[0].value = &entity[2];
-	b_exec(entity[2].b);
+	
+	entity[3].b = malloc(sizeof(b_behavior));
+	bzero(entity[3].b, sizeof(b_behavior));
+	b_add_rule(entity[3].b, "see");
+	*(float*)entity[3].b->rule_attr[0].value = 45.f;
+	entity[3].b->rule_attr[1].value = &entity[3];
+	entity[3].b->rule_attr[2].value = &entity[1];
+	b_add_action(entity[3].b, "move");
+	entity[3].b->action_attr[0].value = &entity[3];
+	
+	entity[4].b = malloc(sizeof(b_behavior));
+	bzero(entity[4].b, sizeof(b_behavior));
+	b_add_rule(entity[4].b, "see");
+	*(float*)entity[4].b->rule_attr[0].value = 45.f;
+	entity[4].b->rule_attr[1].value = &entity[4];
+	entity[4].b->rule_attr[2].value = &entity[1];
+	b_add_action(entity[4].b, "move");
+	entity[4].b->action_attr[0].value = &entity[4];
+	
+	/*entity[3].b = entity[4].b = entity[2].b;*/
 	/* End test */
 }
 
@@ -154,7 +175,8 @@ game_input_handle()
 			{
 				if (gi.data->held > 0) {
 					quat tmp;
-					state_current.object[1].linear_velocity = gi.data->rotation;
+					state_current.object[1].linear_velocity =
+						vec3_mul(&gi.data->rotation, 2.5f);
 					/* Calculate angle */
 					tmp.w = -gh_rad2deg(atan2(gi.data->rotation.y, gi.data->rotation.x));
 					tmp.x = tmp.y = 0.f;
@@ -390,14 +412,19 @@ game_update_state(struct gh_state *curr, struct gh_state *prev)
 	gh_copy_state(prev, curr, false);
 
 	for (i = 0; i < curr->count; ++i) {
+		quat a = {1.f,
+			curr->object[i].angular_velocity.x,
+			curr->object[i].angular_velocity.y,
+			curr->object[i].angular_velocity.z
+		};
+		
+		curr->object[i].linear_velocity =
+			vec3_mul(&curr->object[i].linear_velocity, 0.9f);
 		curr->object[i].position = vec3_add(&curr->object[i].position,
 				&curr->object[i].linear_velocity);
 
-		if (i > 2) {
-			quat a = {10.f, 0.f, 1.f, 0.f};
-			a = quat_from_axis(&a);
-			curr->object[i].rotation = quat_mul(&curr->object[i].rotation, &a);
-		}
+		a = quat_from_axis(&a);
+		curr->object[i].rotation = quat_mul(&curr->object[i].rotation, &a);
 	}
 }
 
