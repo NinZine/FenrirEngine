@@ -13,6 +13,7 @@
 
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "array.h"
@@ -80,28 +81,14 @@ DECL_RULE(collide)
 	b_attribute	*tmp;
 	g_entity	*me,
 				*you;
-	mat4 tf1;
-	vec3 edge[4] = {
-		{1.f, 0.f, 0.f},
-		{0.f, 1.f, 0.f},
-		{1.f, 0.f, 0.f},
-		{0.f, 1.f, 0.f},
-	}; /* TODO: Find edges, this should be done at load. */
-	vec3 point1[4] = {
-		{-0.5f, -0.5f, 0.f},
-		{ 0.5f, -0.5f, 0.f},
-		{-0.5f,  0.5f, 0.f},
-		{ 0.5f,  0.5f, 0.f},
-	}; /* TODO: This is vertex data */
-	mat4 tf2;
-	vec3 point2[4] = {
-		{-0.5f, -0.5f, 0.f},
-		{ 0.5f, -0.5f, 0.f},
-		{-0.5f,  0.5f, 0.f},
-		{ 0.5f,  0.5f, 0.f},
-	};
+	mat4	tf1,
+			tf2;
+	vec3	*edge,
+			*point1,
+			*point2;
 	float_t min_dist = 0.f;
 	int axis = -1;
+	bool collides = false;
 	
 	tmp = b_find_attribute("you", b, attrs);
 	if (tmp) {
@@ -114,14 +101,23 @@ DECL_RULE(collide)
 	}
 	
 	me = (g_entity*)self;
+	edge = malloc(sizeof(vec3) * (me->m->edges + you->m->edges));
+	point1 = malloc(sizeof(vec3) * me->m->vertices);
+	point2 = malloc(sizeof(vec3) * you->m->vertices);
+	memcpy(edge, me->m->edge, sizeof(vec3) * me->m->edges);
+	memcpy(&edge[me->m->edges], you->m->edge, sizeof(vec3) * you->m->edges);
+	memcpy(point1, me->m->vertex, sizeof(vec3) * me->m->vertices);
+	memcpy(point2, you->m->vertex, sizeof(vec3) * you->m->vertices);
+
 	gh_build_mat4(me->rb, &tf1);
-	gh_transform_edges(&tf1, &edge[0], 2);
-	gh_transform_vec3(&tf1, point1, 4);
+	gh_transform_edges(&tf1, &edge[0], me->m->edges);
+	gh_transform_vec3(&tf1, point1, me->m->vertices);
 	gh_build_mat4(you->rb, &tf2);
-	gh_transform_edges(&tf2, &edge[2], 2);
-	gh_transform_vec3(&tf2, point2, 4);
+	gh_transform_edges(&tf2, &edge[me->m->edges], you->m->edges);
+	gh_transform_vec3(&tf2, point2, you->m->vertices);
 	
-	if (true == gh_collides(edge, 4, point1, point2, &min_dist, &axis)) {
+	if (true == gh_collides(edge, me->m->edges + you->m->edges,
+		point1, me->m->vertices, point2, you->m->vertices, &min_dist, &axis)) {
 		vec3 trans = edge[axis];
 		vec3 dist;
 		
@@ -137,10 +133,13 @@ DECL_RULE(collide)
 		bzero(&me->rb->linear_velocity, sizeof(vec3));
 		printf("Collision: %x and %x on axis %d dist (%.2f,%.2f)\n", me->rb, you->rb, axis, trans.x, trans.y);
 		//b_add_attribute(out, prev_attr, "direction", 'v', v);
-		return true;
+		collides = true;
 	}
 	
-	return false;
+	free(edge);
+	free(point1);
+	free(point2);
+	return collides;
 }
 
 DECL_RULE_ATTR(input)

@@ -38,6 +38,7 @@ drawHUD
 	glRotatef(90.0f, 0.0f, 0.0f, -1.0f); // For landscape mode
 	glColor4f(0.f, 0.f, 0.f, .5f);
 	glEnable(GL_BLEND);
+	glDisable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glMatrixMode(GL_MODELVIEW);
 	for (j = 0; j < num_buttons; ++j) {
@@ -54,6 +55,7 @@ drawHUD
 		//r_render_quad(1);
 		glPopMatrix();
 	}
+	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_BLEND);
 }
 

@@ -5,9 +5,8 @@
 #ifndef _RENDERING_H_
 #define _RENDERING_H_
 
-#include <sys/types.h>
-
 #include <math.h>
+#include <stdint.h>
 
 #if defined(__IPHONE__)
 # define __NDS__ 0
@@ -65,7 +64,7 @@ void r_render_circle(GLfloat radius);
 void r_render_cube(float_t side);
 void r_render_quad(float_t side);
 void r_render_sphere(GLfloat radius);
-void r_render_vertices(const GLfloat *vertices, struct r_color *color);
+void r_render_vertices(const GLfloat *vertices, uint8_t n);
 
 void r_set_clippingarea(int16_t x, int16_t y, int16_t width, int16_t height);
 void r_set_light_position(int n, vec3 *position);

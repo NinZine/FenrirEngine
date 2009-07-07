@@ -275,7 +275,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>21</integer>
+									<integer>16</integer>
 									<integer>15</integer>
 									<integer>0</integer>
 								</array>
@@ -318,7 +318,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>game.c</string>
+								<string>GameView.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -326,11 +326,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>game.c</string>
+										<string>GameView.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>1001E73910037BC5002343DB</string>
+										<string>1001E7DF1003A319002343DB</string>
 										<key>history</key>
 										<array>
 											<string>1052A81C0FFFAEAD00F39C1D</string>
@@ -340,7 +340,6 @@
 											<string>10FDC38910026D4E00DB4A59</string>
 											<string>10FDC38A10026D4E00DB4A59</string>
 											<string>10FDC38D10026D4E00DB4A59</string>
-											<string>10FDC38E10026D4E00DB4A59</string>
 											<string>10FDC38F10026D4E00DB4A59</string>
 											<string>10FDC39110026D4E00DB4A59</string>
 											<string>10FDC39210026D4E00DB4A59</string>
@@ -353,30 +352,28 @@
 											<string>10FDC4FD1002932700DB4A59</string>
 											<string>10FDC5C01002ACC000DB4A59</string>
 											<string>10FDC5FB1002B1B500DB4A59</string>
-											<string>10FDC6401002B4F500DB4A59</string>
-											<string>10FDC6411002B4F500DB4A59</string>
 											<string>1001E6111002CCAB002343DB</string>
-											<string>1001E65C1002D4AD002343DB</string>
-											<string>1001E68B1002DD69002343DB</string>
 											<string>1001E6AF1002E2C1002343DB</string>
-											<string>1001E6FD10036AB2002343DB</string>
-											<string>1001E71410036E8C002343DB</string>
 											<string>1001E71510036E8C002343DB</string>
-											<string>1001E71610036E8C002343DB</string>
-											<string>1001E71710036E8C002343DB</string>
+											<string>1001E76610038579002343DB</string>
+											<string>1001E77C10038903002343DB</string>
+											<string>1001E79F10039AF7002343DB</string>
+											<string>1001E7A010039AF7002343DB</string>
+											<string>1001E7A510039C9C002343DB</string>
+											<string>1001E7DA1003A319002343DB</string>
+											<string>1001E7DB1003A319002343DB</string>
+											<string>1001E7DC1003A319002343DB</string>
+											<string>1001E7DD1003A319002343DB</string>
 										</array>
 										<key>prevStack</key>
 										<array>
 											<string>10FDC3EF1002712E00DB4A59</string>
 											<string>10FDC3F01002712E00DB4A59</string>
 											<string>10FDC42D1002766600DB4A59</string>
-											<string>10FDC45010027A1A00DB4A59</string>
 											<string>10FDC45110027A1A00DB4A59</string>
 											<string>10FDC5021002932700DB4A59</string>
-											<string>10FDC50A1002932700DB4A59</string>
 											<string>10FDC57210029A7F00DB4A59</string>
 											<string>10FDC5C31002ACC000DB4A59</string>
-											<string>10FDC6491002B4F500DB4A59</string>
 											<string>10FDC66F1002B77300DB4A59</string>
 											<string>10FDC6951002BFE700DB4A59</string>
 											<string>1001E6151002CCAB002343DB</string>
@@ -385,15 +382,16 @@
 											<string>1001E63D1002CDDF002343DB</string>
 											<string>1001E6581002D2B3002343DB</string>
 											<string>1001E6601002D4AD002343DB</string>
-											<string>1001E6621002D4AD002343DB</string>
 											<string>1001E66D1002D685002343DB</string>
 											<string>1001E6781002D7EC002343DB</string>
 											<string>1001E68D1002DD69002343DB</string>
-											<string>1001E6DD100367CF002343DB</string>
 											<string>1001E71810036E8C002343DB</string>
-											<string>1001E71910036E8C002343DB</string>
 											<string>1001E71A10036E8C002343DB</string>
-											<string>1001E71B10036E8C002343DB</string>
+											<string>1001E7761003887B002343DB</string>
+											<string>1001E7A110039AF7002343DB</string>
+											<string>1001E7A210039AF7002343DB</string>
+											<string>1001E7A710039C9C002343DB</string>
+											<string>1001E7DE1003A319002343DB</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -566,7 +564,7 @@
 	<key>PerspectivesBarVisible</key>
 	<false/>
 	<key>PinnedNavigatorIdentifier</key>
-	<string>1052A9F61001407600F39C1D</string>
+	<string>1001E78D10039283002343DB</string>
 	<key>ShelfIsVisible</key>
 	<false/>
 	<key>SourceDescription</key>
@@ -589,6 +587,7 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>1C530D57069F1CE1000CFCEE</string>
 		<string>1001E6261002CCAB002343DB</string>
 		<string>1001E6271002CCAB002343DB</string>
 		<string>1CD10A99069EF8BA00B06720</string>
@@ -618,7 +617,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>game.c</string>
+								<string>rules.c</string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -829,12 +828,14 @@
 							<key>Dock</key>
 							<array>
 								<dict>
+									<key>BecomeActive</key>
+									<true/>
 									<key>ContentConfiguration</key>
 									<dict>
 										<key>PBXProjectModuleGUID</key>
 										<string>1CDD528C0622207200134675</string>
 										<key>PBXProjectModuleLabel</key>
-										<string></string>
+										<string>rendering.c</string>
 										<key>StatusBarVisibility</key>
 										<true/>
 									</dict>
@@ -855,8 +856,6 @@
 							<string>212pt</string>
 						</dict>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -892,8 +891,8 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C530D57069F1CE1000CFCEE</string>
-				<string>10FDC2871002540E00DB4A59</string>
-				<string>10FDC2881002540E00DB4A59</string>
+				<string>1001E79D10039AF5002343DB</string>
+				<string>1001E79E10039AF5002343DB</string>
 				<string>1CDD528C0622207200134675</string>
 				<string>1CD0528E0623707200166675</string>
 			</array>
@@ -902,7 +901,7 @@
 			<key>WindowToolGUID</key>
 			<string>1C530D57069F1CE1000CFCEE</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>Identifier</key>

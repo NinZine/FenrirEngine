@@ -268,6 +268,16 @@ r_render_sphere(GLfloat radius)
 }
 
 void
+r_render_vertices(const GLfloat *vertex, uint8_t n)
+{
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(3, GL_FLOAT, 0, vertex);
+	//glDrawArrays(GL_LINE_LOOP, 0, 2016);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, n);
+	glDisableClientState(GL_VERTEX_ARRAY);
+}
+
+void
 r_set_clippingarea(int16_t x, int16_t y, int16_t width, int16_t height)
 {
 	

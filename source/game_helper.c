@@ -39,7 +39,7 @@ gh_build_mat4(struct gh_rigid_body *obj, mat4 *out)
 
 bool
 gh_collides(const vec3 *edge, const int num_edges, const vec3 *poly1,
-	const vec3 *poly2, float_t *min_dist, int *axis)
+	uint8_t n1, const vec3 *poly2, uint8_t n2, float_t *min_dist, int *axis)
 {
 	bool first = true;
 	bool collide = true;
@@ -52,8 +52,8 @@ gh_collides(const vec3 *edge, const int num_edges, const vec3 *poly1,
 		float_t min1, max1, min2, max2, dist;
 		
 		/* Project both polygons on current edge */
-		gh_project_vec3(&edge[k], poly1, 4, &min1, &max1);
-		gh_project_vec3(&edge[k], poly2, 4, &min2, &max2);
+		gh_project_vec3(&edge[k], poly1, n1, &min1, &max1);
+		gh_project_vec3(&edge[k], poly2, n2, &min2, &max2);
 		
 		if (min1 < min2) {
 			dist = min2 - max1;

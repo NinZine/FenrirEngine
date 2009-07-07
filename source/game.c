@@ -53,8 +53,7 @@ struct gh_input_queue {
 	struct gh_input *queue;
 };
 
-static vec3 camera_current = {0.f, 0.f, 400.f};
-static vec3 camera_previous = {0.f, 0.f, 400.f};
+static struct gh_rigid_body *camera;
 static vec3 light_position = {0.0f, -1.0f, 0.0f};
 static struct gh_state state_current = {0,0};
 static struct gh_state state_previous = {0,0};
@@ -66,7 +65,8 @@ static void game_initialize_light();
 static void game_input_handle();
 static void game_interpolate_states(struct gh_state *out,
 	struct gh_state *curr, struct gh_state *prev, float_t t);
-static void game_render_state(struct gh_state *src);
+static void game_render_state(const g_entity *g, uint8_t n,
+	struct gh_state *src);
 static void game_resolve_collisions(struct gh_state *curr,
 	struct gh_state *prev);
 static void game_update_state(struct gh_state *curr);
@@ -78,20 +78,39 @@ game_initialize()
 	int i;
 
 	if (0 == entities) {
-		state_current.count = entities = 5;
+		state_current.count = 6;
+		entities = 5;
 		
-		state_current.object = malloc(sizeof(struct gh_rigid_body) * entities);
-		bzero(state_current.object, sizeof(struct gh_rigid_body) * entities);
-		
+		gh_array_resize((void**)&state_current.object, 0,
+			sizeof(struct gh_rigid_body), state_current.count);
 		gh_array_resize((void**)&entity, 0, sizeof(g_entity), entities);
 		
 		for (i = 0; i < entities; ++i) {
 			vec3 position = {
 				0.f,
-				(state_current.count * -20.f) + (i * 40.f),
+				(entities * -20.f) + (i * 40.f),
 				0.f};
 			quat rotation = {10.f * i, 0.f, 0.f, 1.f};
 			vec3 ang_vec = {0.f, 0.f, (i > 2) ? 10.f : 0.f};
+			vec3 edge[2] = {
+				{1.f, 0.f, 0.f},
+				{0.f, 1.f, 0.f},
+			}; /* TODO: Find edges, this should be done at load. */
+			vec3 point[4] = {
+				{-0.5f, -0.5f, 0.f},
+				{ 0.5f, -0.5f, 0.f},
+				{-0.5f,  0.5f, 0.f},
+				{ 0.5f,  0.5f, 0.f},
+			}; /* TODO: This is vertex data */
+			
+			gh_array_resize((void**)&entity[i].m, 0, sizeof(struct gh_model), 1);
+			entity[i].models = 1;
+			entity[i].m->vertices = 4;
+			entity[i].m->edges = 2;
+			gh_array_resize((void**)&entity[i].m->vertex, 0, sizeof(vec3), 4);
+			gh_array_resize((void**)&entity[i].m->edge, 0, sizeof(vec3), 2);
+			memcpy(entity[i].m->vertex, point, 4 * sizeof(vec3));
+			memcpy(entity[i].m->edge, edge, 2 * sizeof(vec3));
 			
 			entity[i].rb = 0;
 			entity[i].rb = &state_current.object[i];
@@ -99,6 +118,9 @@ game_initialize()
 			entity[i].rb->rotation = quat_from_axis(&rotation);
 			entity[i].rb->angular_velocity = ang_vec;
 		}
+		
+		/* Camera is also a rigid body */
+		camera = &state_current.object[i];
 	}
 	
 	gh_copy_state(&state_previous, &state_current, true);
@@ -120,7 +142,7 @@ game_initialize()
 	b_add_action(entity[1].b, "move");
 	b_set_attribute(entity[1].b->action_attr, entity[1].b->num_action_attr,
 		"speed", 4.f);
-	b_add_behavior(&entity[0].b, &entity[0].behaviors);
+	/*b_add_behavior(&entity[0].b, &entity[0].behaviors);
 	b_add_rule(&entity[0].b[0], "collide");
 	b_set_attribute(entity[0].b[0].rule_attr, entity[0].b[0].num_rule_attr,
 		"you", &entity[1]);
@@ -173,7 +195,6 @@ game_render(struct r_gl_buffer *buffer)
 {
 	static struct gh_state tmp = {};
 	static float_t aspect_ratio = 0.f;
-	vec3 camera_tmp;
 	float_t interpolate = /*1.0f - */game_time.accumulator/game_time.timestep;
 
 	/* First frame */
@@ -189,12 +210,13 @@ game_render(struct r_gl_buffer *buffer)
 	
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	//r_setup_orthogonal_view(buffer->width, buffer->height);
-	r_setup_perspective_view(60.0f, aspect_ratio, 0.01f, 1000.f);
-	camera_tmp = vec3_lerp(&camera_previous, &camera_current, interpolate);
+	r_setup_orthogonal_view(buffer->width, buffer->height);
+	//r_setup_perspective_view(60.0f, aspect_ratio, 0.01f, 1000.f);
+	//camera_tmp = vec3_lerp(&camera_previous, &camera_current, interpolate);
 	//glTranslatef(-camera_tmp.x, -camera_tmp.y, -camera_tmp.z);
 	glRotatef(90.0f, 0.0f, 0.0f, -1.0f); // For landscape mode
-	glTranslatef(-camera_tmp.x, -camera_tmp.y, -camera_tmp.z);
+	glTranslatef(-tmp.object[5].position.x, -tmp.object[5].position.y,
+				 -tmp.object[5].position.z);
 	
 	/* Clear buffers */
 	r_clear();
@@ -212,23 +234,26 @@ game_render(struct r_gl_buffer *buffer)
 	game_interpolate_states(&tmp, &state_current, &state_previous,
 			interpolate);
 	
-	game_render_state(&tmp);
+	game_render_state(entity, entities, &tmp);
 	
 	/* Make sure there is no error in OpenGL stuff */
 	assert(glGetError() == GL_NO_ERROR);
 }
 
 void
-game_render_state(struct gh_state *src)
+game_render_state(const g_entity *g, const uint8_t n, struct gh_state *src)
 {
 	static const struct r_color ambient = {1.f, 0.7f, 0.7f, 0.7f};
 	static const struct r_color diffuse = {1.f, 0.8f, 0.5f, 0.1f};
 	int i;
 
-	for (i = 0; i < src->count; ++i) {
-		/*quat q = quat_to_axis(&src->object[i].rotation);*/
+	for (i = 0; i < n; ++i) {
 		mat4 tf;
 
+		if (0 == g[i].rb || 0 == g[i].models) {
+			continue;
+		}
+		
 		glColor4f(0.9, 0.6, 0.4, 1.f);
 		glPushMatrix();
 		/* Only effective without glEnable(GL_COLOR_MATERIAL) */
@@ -238,7 +263,7 @@ game_render_state(struct gh_state *src)
 		glEnable(GL_COLOR_MATERIAL);
 		gh_build_mat4(&src->object[i], &tf);
 		glLoadMatrixf((GLfloat *)tf.m);
-		r_render_quad(1);
+		r_render_vertices((GLfloat *)g[i].m->vertex, g[i].m->vertices);
 		glPopMatrix();
 	}
 }
@@ -287,9 +312,8 @@ game_update_state(struct gh_state *curr)
 {
 	int16_t i;
 
-	camera_previous = camera_current;
-	camera_current.x = entity[1].rb->position.x;
-	camera_current.y = entity[1].rb->position.y;
+	camera->position.x = entity[1].rb->position.x;
+	camera->position.y = entity[1].rb->position.y;
 	//camera_current.z = entity[1].rb->position.z;
 
 	for (i = 0; i < curr->count; ++i) {

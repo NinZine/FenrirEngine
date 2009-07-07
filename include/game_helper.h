@@ -42,7 +42,8 @@ void	gh_build_mat4(struct gh_rigid_body *obj, mat4 *out);
 void	gh_copy_state(struct gh_state *dest, struct gh_state *src,
 			bool use_malloc);
 bool	gh_collides(const vec3 *edge, const int num_edges, const vec3 *poly1,
-			const vec3 *poly2, float_t *min_dist, int *axis);
+			uint8_t n1, const vec3 *poly2, uint8_t n2,
+			float_t *min_dist, int *axis);
 gh_button*	gh_get_input(const unsigned int n);
 void	gh_input(gh_button *button, const unsigned int n);
 void	gh_project_vec3(const vec3 *axis, const vec3 *points,
