@@ -15,7 +15,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 135";
 		rLen = 0;
-		rLoc = 2956;
+		rLoc = 2850;
 		rType = 0;
 		vrLen = 1061;
 		vrLoc = 2686;
@@ -25,7 +25,7 @@
 		fRef = 1052A7840FFF774700F39C1D /* behavior.c */;
 		name = "behavior.c: 116";
 		rLen = 0;
-		rLoc = 2411;
+		rLoc = 2381;
 		rType = 0;
 		vrLen = 685;
 		vrLoc = 1532;
@@ -35,7 +35,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 126";
 		rLen = 0;
-		rLoc = 4220;
+		rLoc = 4158;
 		rType = 0;
 		vrLen = 1159;
 		vrLoc = 2773;
@@ -55,7 +55,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 90";
 		rLen = 0;
-		rLoc = 2151;
+		rLoc = 2045;
 		rType = 0;
 		vrLen = 659;
 		vrLoc = 1630;
@@ -65,7 +65,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 284";
 		rLen = 0;
-		rLoc = 7670;
+		rLoc = 7595;
 		rType = 0;
 		vrLen = 1010;
 		vrLoc = 7158;
@@ -75,7 +75,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 135";
 		rLen = 0;
-		rLoc = 2956;
+		rLoc = 2850;
 		rType = 0;
 		vrLen = 1061;
 		vrLoc = 2686;
@@ -85,7 +85,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 126";
 		rLen = 0;
-		rLoc = 4220;
+		rLoc = 4158;
 		rType = 0;
 		vrLen = 1159;
 		vrLoc = 2773;
@@ -95,7 +95,7 @@
 		fRef = 1052A7840FFF774700F39C1D /* behavior.c */;
 		name = "behavior.c: 116";
 		rLen = 0;
-		rLoc = 2411;
+		rLoc = 2381;
 		rType = 0;
 		vrLen = 685;
 		vrLoc = 1532;
@@ -105,7 +105,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 126";
 		rLen = 0;
-		rLoc = 4220;
+		rLoc = 4158;
 		rType = 0;
 		vrLen = 1185;
 		vrLoc = 2770;
@@ -115,7 +115,7 @@
 		fRef = 1052A7840FFF774700F39C1D /* behavior.c */;
 		name = "behavior.c: 75";
 		rLen = 0;
-		rLoc = 1712;
+		rLoc = 1695;
 		rType = 0;
 		vrLen = 721;
 		vrLoc = 1532;
@@ -125,7 +125,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 126";
 		rLen = 0;
-		rLoc = 4220;
+		rLoc = 4158;
 		rType = 0;
 		vrLen = 1163;
 		vrLoc = 2770;
@@ -135,7 +135,7 @@
 		fRef = 1052A7840FFF774700F39C1D /* behavior.c */;
 		name = "behavior.c: 75";
 		rLen = 0;
-		rLoc = 1712;
+		rLoc = 1695;
 		rType = 0;
 		vrLen = 721;
 		vrLoc = 1532;
@@ -145,7 +145,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 126";
 		rLen = 0;
-		rLoc = 4244;
+		rLoc = 4182;
 		rType = 0;
 		vrLen = 1111;
 		vrLoc = 2766;
@@ -155,7 +155,7 @@
 		fRef = 1052A7840FFF774700F39C1D /* behavior.c */;
 		name = "behavior.c: 85";
 		rLen = 0;
-		rLoc = 1895;
+		rLoc = 1865;
 		rType = 0;
 		vrLen = 685;
 		vrLoc = 1532;
@@ -165,7 +165,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 103";
 		rLen = 0;
-		rLoc = 1964;
+		rLoc = 1856;
 		rType = 0;
 		vrLen = 889;
 		vrLoc = 2112;
@@ -175,7 +175,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 129";
 		rLen = 0;
-		rLoc = 4385;
+		rLoc = 4310;
 		rType = 0;
 		vrLen = 1111;
 		vrLoc = 2766;
@@ -185,7 +185,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 126";
 		rLen = 0;
-		rLoc = 4244;
+		rLoc = 4182;
 		rType = 0;
 		vrLen = 1111;
 		vrLoc = 2766;
@@ -195,7 +195,7 @@
 		fRef = 1052A7840FFF774700F39C1D /* behavior.c */;
 		name = "behavior.c: 75";
 		rLen = 0;
-		rLoc = 1712;
+		rLoc = 1695;
 		rType = 0;
 		vrLen = 685;
 		vrLoc = 1532;
@@ -205,7 +205,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 70";
 		rLen = 0;
-		rLoc = 1758;
+		rLoc = 1650;
 		rType = 0;
 		vrLen = 717;
 		vrLoc = 1491;
@@ -215,7 +215,7 @@
 		fRef = 1052A7840FFF774700F39C1D /* behavior.c */;
 		name = "behavior.c: 85";
 		rLen = 0;
-		rLoc = 1895;
+		rLoc = 1865;
 		rType = 0;
 		vrLen = 685;
 		vrLoc = 1532;
@@ -225,7 +225,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 129";
 		rLen = 0;
-		rLoc = 4385;
+		rLoc = 4310;
 		rType = 0;
 		vrLen = 1111;
 		vrLoc = 2766;
@@ -235,7 +235,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 70";
 		rLen = 0;
-		rLoc = 1758;
+		rLoc = 1650;
 		rType = 0;
 		vrLen = 862;
 		vrLoc = 2112;
@@ -245,7 +245,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 129";
 		rLen = 0;
-		rLoc = 4385;
+		rLoc = 4310;
 		rType = 0;
 		vrLen = 1111;
 		vrLoc = 2766;
@@ -255,7 +255,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 103";
 		rLen = 0;
-		rLoc = 1964;
+		rLoc = 1856;
 		rType = 0;
 		vrLen = 889;
 		vrLoc = 2112;
@@ -265,7 +265,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 123";
 		rLen = 0;
-		rLoc = 4265;
+		rLoc = 4203;
 		rType = 0;
 		vrLen = 1160;
 		vrLoc = 2721;
@@ -275,7 +275,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 123";
 		rLen = 0;
-		rLoc = 4299;
+		rLoc = 4232;
 		rType = 0;
 		vrLen = 1160;
 		vrLoc = 2721;
@@ -285,7 +285,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 123";
 		rLen = 0;
-		rLoc = 4299;
+		rLoc = 4232;
 		rType = 0;
 		vrLen = 1160;
 		vrLoc = 2721;
@@ -294,7 +294,7 @@
 		isa = PBXTextBookmark;
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		rLen = 0;
-		rLoc = 102;
+		rLoc = 100;
 		rType = 1;
 	};
 	1001E6491002CE12002343DB /* PBXTextBookmark */ = {
@@ -302,7 +302,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 123";
 		rLen = 0;
-		rLoc = 4299;
+		rLoc = 4232;
 		rType = 0;
 		vrLen = 1160;
 		vrLoc = 2721;
@@ -312,7 +312,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 113";
 		rLen = 0;
-		rLoc = 2127;
+		rLoc = 2021;
 		rType = 0;
 		vrLen = 870;
 		vrLoc = 2131;
@@ -322,7 +322,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 134";
 		rLen = 0;
-		rLoc = 2807;
+		rLoc = 2701;
 		rType = 0;
 		vrLen = 981;
 		vrLoc = 2593;
@@ -332,7 +332,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 70";
 		rLen = 0;
-		rLoc = 1742;
+		rLoc = 1634;
 		rType = 0;
 		vrLen = 1048;
 		vrLoc = 2674;
@@ -342,7 +342,7 @@
 		fRef = 1052A7840FFF774700F39C1D /* behavior.c */;
 		name = "behavior.c: 177";
 		rLen = 0;
-		rLoc = 3666;
+		rLoc = 3493;
 		rType = 0;
 		vrLen = 794;
 		vrLoc = 3380;
@@ -352,7 +352,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 242";
 		rLen = 0;
-		rLoc = 7670;
+		rLoc = 7595;
 		rType = 0;
 		vrLen = 1200;
 		vrLoc = 2628;
@@ -362,7 +362,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 134";
 		rLen = 0;
-		rLoc = 2807;
+		rLoc = 2701;
 		rType = 0;
 		vrLen = 802;
 		vrLoc = 1859;
@@ -372,7 +372,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 242";
 		rLen = 0;
-		rLoc = 7670;
+		rLoc = 7595;
 		rType = 0;
 		vrLen = 1244;
 		vrLoc = 2584;
@@ -382,7 +382,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 70";
 		rLen = 0;
-		rLoc = 1742;
+		rLoc = 1634;
 		rType = 0;
 		vrLen = 1048;
 		vrLoc = 2674;
@@ -392,7 +392,7 @@
 		fRef = 1052A7840FFF774700F39C1D /* behavior.c */;
 		name = "behavior.c: 177";
 		rLen = 0;
-		rLoc = 3666;
+		rLoc = 3493;
 		rType = 0;
 		vrLen = 794;
 		vrLoc = 3380;
@@ -402,7 +402,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 123";
 		rLen = 0;
-		rLoc = 4278;
+		rLoc = 4216;
 		rType = 0;
 		vrLen = 1153;
 		vrLoc = 2628;
@@ -432,7 +432,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 289";
 		rLen = 0;
-		rLoc = 8529;
+		rLoc = 8454;
 		rType = 0;
 		vrLen = 1001;
 		vrLoc = 5377;
@@ -442,7 +442,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 136";
 		rLen = 0;
-		rLoc = 2849;
+		rLoc = 2743;
 		rType = 0;
 		vrLen = 882;
 		vrLoc = 2346;
@@ -452,7 +452,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 136";
 		rLen = 0;
-		rLoc = 2849;
+		rLoc = 2743;
 		rType = 0;
 		vrLen = 842;
 		vrLoc = 1815;
@@ -472,7 +472,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 136";
 		rLen = 0;
-		rLoc = 2849;
+		rLoc = 2743;
 		rType = 0;
 		vrLen = 882;
 		vrLoc = 2346;
@@ -492,7 +492,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 289";
 		rLen = 0;
-		rLoc = 8529;
+		rLoc = 8454;
 		rType = 0;
 		vrLen = 1001;
 		vrLoc = 5377;
@@ -502,7 +502,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 136";
 		rLen = 0;
-		rLoc = 2921;
+		rLoc = 2815;
 		rType = 0;
 		vrLen = 1064;
 		vrLoc = 2732;
@@ -522,7 +522,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 136";
 		rLen = 0;
-		rLoc = 2921;
+		rLoc = 2815;
 		rType = 0;
 		vrLen = 1109;
 		vrLoc = 2732;
@@ -532,7 +532,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 136";
 		rLen = 0;
-		rLoc = 2921;
+		rLoc = 2815;
 		rType = 0;
 		vrLen = 1109;
 		vrLoc = 2732;
@@ -552,7 +552,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 137";
 		rLen = 0;
-		rLoc = 2995;
+		rLoc = 2889;
 		rType = 0;
 		vrLen = 1054;
 		vrLoc = 2552;
@@ -562,7 +562,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 137";
 		rLen = 0;
-		rLoc = 2995;
+		rLoc = 2889;
 		rType = 0;
 		vrLen = 953;
 		vrLoc = 3047;
@@ -572,7 +572,7 @@
 		fRef = 1052A7840FFF774700F39C1D /* behavior.c */;
 		name = "behavior.c: 119";
 		rLen = 0;
-		rLoc = 2486;
+		rLoc = 2446;
 		rType = 0;
 		vrLen = 724;
 		vrLoc = 2657;
@@ -590,7 +590,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 137";
 		rLen = 0;
-		rLoc = 2995;
+		rLoc = 2889;
 		rType = 0;
 		vrLen = 953;
 		vrLoc = 3047;
@@ -600,7 +600,7 @@
 		fRef = 1052A7840FFF774700F39C1D /* behavior.c */;
 		name = "behavior.c: 119";
 		rLen = 0;
-		rLoc = 2486;
+		rLoc = 2446;
 		rType = 0;
 		vrLen = 724;
 		vrLoc = 2657;
@@ -610,7 +610,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 261";
 		rLen = 0;
-		rLoc = 8004;
+		rLoc = 7929;
 		rType = 0;
 		vrLen = 768;
 		vrLoc = 6639;
@@ -620,7 +620,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 261";
 		rLen = 0;
-		rLoc = 8004;
+		rLoc = 7929;
 		rType = 0;
 		vrLen = 768;
 		vrLoc = 6639;
@@ -629,7 +629,7 @@
 		isa = PBXTextBookmark;
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		rLen = 0;
-		rLoc = 120;
+		rLoc = 118;
 		rType = 1;
 	};
 	1001E67D1002D7F7002343DB /* PBXTextBookmark */ = {
@@ -637,7 +637,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 261";
 		rLen = 0;
-		rLoc = 8004;
+		rLoc = 7929;
 		rType = 0;
 		vrLen = 768;
 		vrLoc = 6639;
@@ -647,7 +647,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 132";
 		rLen = 0;
-		rLoc = 2679;
+		rLoc = 2573;
 		rType = 0;
 		vrLen = 953;
 		vrLoc = 3047;
@@ -657,7 +657,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 132";
 		rLen = 0;
-		rLoc = 2679;
+		rLoc = 2573;
 		rType = 0;
 		vrLen = 883;
 		vrLoc = 2177;
@@ -667,7 +667,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 262";
 		rLen = 0;
-		rLoc = 8074;
+		rLoc = 7999;
 		rType = 0;
 		vrLen = 863;
 		vrLoc = 5893;
@@ -687,7 +687,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 132";
 		rLen = 0;
-		rLoc = 2679;
+		rLoc = 2573;
 		rType = 0;
 		vrLen = 883;
 		vrLoc = 2177;
@@ -697,7 +697,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 262";
 		rLen = 0;
-		rLoc = 8074;
+		rLoc = 7999;
 		rType = 0;
 		vrLen = 863;
 		vrLoc = 5893;
@@ -727,7 +727,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 132";
 		rLen = 0;
-		rLoc = 2679;
+		rLoc = 2573;
 		rType = 0;
 		vrLen = 883;
 		vrLoc = 2177;
@@ -757,7 +757,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 183";
 		rLen = 0;
-		rLoc = 3772;
+		rLoc = 3666;
 		rType = 0;
 		vrLen = 667;
 		vrLoc = 3856;
@@ -797,7 +797,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 53";
 		rLen = 0;
-		rLoc = 1412;
+		rLoc = 1304;
 		rType = 0;
 		vrLen = 876;
 		vrLoc = 660;
@@ -816,7 +816,7 @@
 		isa = PBXTextBookmark;
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 25";
-		rLen = 504;
+		rLen = 396;
 		rLoc = 718;
 		rType = 0;
 		vrLen = 876;
@@ -837,7 +837,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 134";
 		rLen = 0;
-		rLoc = 2720;
+		rLoc = 2614;
 		rType = 0;
 		vrLen = 1008;
 		vrLoc = 2480;
@@ -847,7 +847,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 134";
 		rLen = 0;
-		rLoc = 2719;
+		rLoc = 2613;
 		rType = 0;
 		vrLen = 1009;
 		vrLoc = 2480;
@@ -857,7 +857,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 134";
 		rLen = 0;
-		rLoc = 2719;
+		rLoc = 2613;
 		rType = 0;
 		vrLen = 1009;
 		vrLoc = 2480;
@@ -867,7 +867,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 134";
 		rLen = 0;
-		rLoc = 2719;
+		rLoc = 2613;
 		rType = 0;
 		vrLen = 1059;
 		vrLoc = 0;
@@ -877,7 +877,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 262";
 		rLen = 0;
-		rLoc = 8074;
+		rLoc = 7999;
 		rType = 0;
 		vrLen = 862;
 		vrLoc = 5893;
@@ -887,7 +887,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 134";
 		rLen = 0;
-		rLoc = 2719;
+		rLoc = 2613;
 		rType = 0;
 		vrLen = 1059;
 		vrLoc = 0;
@@ -897,7 +897,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 194";
 		rLen = 0;
-		rLoc = 6261;
+		rLoc = 6186;
 		rType = 0;
 		vrLen = 1060;
 		vrLoc = 4954;
@@ -907,7 +907,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 194";
 		rLen = 0;
-		rLoc = 6261;
+		rLoc = 6186;
 		rType = 0;
 		vrLen = 1058;
 		vrLoc = 4954;
@@ -927,7 +927,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 193";
 		rLen = 0;
-		rLoc = 6184;
+		rLoc = 6109;
 		rType = 0;
 		vrLen = 1038;
 		vrLoc = 4996;
@@ -937,7 +937,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 193";
 		rLen = 0;
-		rLoc = 6180;
+		rLoc = 6105;
 		rType = 0;
 		vrLen = 1020;
 		vrLoc = 4693;
@@ -947,7 +947,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 198";
 		rLen = 0;
-		rLoc = 6480;
+		rLoc = 6405;
 		rType = 0;
 		vrLen = 1056;
 		vrLoc = 4693;
@@ -957,7 +957,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 194";
 		rLen = 0;
-		rLoc = 6180;
+		rLoc = 6105;
 		rType = 0;
 		vrLen = 1072;
 		vrLoc = 4693;
@@ -967,7 +967,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 134";
 		rLen = 0;
-		rLoc = 2719;
+		rLoc = 2613;
 		rType = 0;
 		vrLen = 1059;
 		vrLoc = 0;
@@ -977,7 +977,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 197";
 		rLen = 80;
-		rLoc = 6340;
+		rLoc = 6265;
 		rType = 0;
 		vrLen = 1114;
 		vrLoc = 4831;
@@ -987,7 +987,7 @@
 		fRef = 10A5C2FA0FC6024300152875 /* GameView.m */;
 		name = "GameView.m: 37";
 		rLen = 0;
-		rLoc = 660;
+		rLoc = 658;
 		rType = 0;
 		vrLen = 1044;
 		vrLoc = 511;
@@ -997,7 +997,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 134";
 		rLen = 0;
-		rLoc = 2719;
+		rLoc = 2613;
 		rType = 0;
 		vrLen = 1059;
 		vrLoc = 0;
@@ -1007,7 +1007,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 197";
 		rLen = 80;
-		rLoc = 6340;
+		rLoc = 6265;
 		rType = 0;
 		vrLen = 1114;
 		vrLoc = 4831;
@@ -1017,7 +1017,7 @@
 		fRef = 10A5C2FA0FC6024300152875 /* GameView.m */;
 		name = "GameView.m: 40";
 		rLen = 0;
-		rLoc = 808;
+		rLoc = 806;
 		rType = 0;
 		vrLen = 885;
 		vrLoc = 511;
@@ -1027,7 +1027,7 @@
 		fRef = 10A5C2FA0FC6024300152875 /* GameView.m */;
 		name = "GameView.m: 40";
 		rLen = 0;
-		rLoc = 779;
+		rLoc = 777;
 		rType = 0;
 		vrLen = 885;
 		vrLoc = 511;
@@ -1037,7 +1037,7 @@
 		fRef = 10A5C2FA0FC6024300152875 /* GameView.m */;
 		name = "GameView.m: 40";
 		rLen = 0;
-		rLoc = 779;
+		rLoc = 777;
 		rType = 0;
 		vrLen = 923;
 		vrLoc = 511;
@@ -1047,7 +1047,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 197";
 		rLen = 80;
-		rLoc = 6340;
+		rLoc = 6265;
 		rType = 0;
 		vrLen = 1114;
 		vrLoc = 4831;
@@ -1057,7 +1057,7 @@
 		fRef = 10A5C2FA0FC6024300152875 /* GameView.m */;
 		name = "GameView.m: 40";
 		rLen = 0;
-		rLoc = 779;
+		rLoc = 777;
 		rType = 0;
 		vrLen = 923;
 		vrLoc = 511;
@@ -1067,7 +1067,7 @@
 		fRef = 10A5C2FA0FC6024300152875 /* GameView.m */;
 		name = "GameView.m: 40";
 		rLen = 0;
-		rLoc = 779;
+		rLoc = 777;
 		rType = 0;
 		vrLen = 923;
 		vrLoc = 511;
@@ -1077,7 +1077,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 197";
 		rLen = 80;
-		rLoc = 6340;
+		rLoc = 6265;
 		rType = 0;
 		vrLen = 1114;
 		vrLoc = 4831;
@@ -1087,7 +1087,7 @@
 		fRef = 10A5C2FA0FC6024300152875 /* GameView.m */;
 		name = "GameView.m: 266";
 		rLen = 0;
-		rLoc = 6217;
+		rLoc = 6215;
 		rType = 0;
 		vrLen = 1223;
 		vrLoc = 612;
@@ -1097,7 +1097,7 @@
 		fRef = 10A5C2FA0FC6024300152875 /* GameView.m */;
 		name = "GameView.m: 16";
 		rLen = 0;
-		rLoc = 249;
+		rLoc = 248;
 		rType = 0;
 		vrLen = 1051;
 		vrLoc = 133;
@@ -1107,7 +1107,7 @@
 		fRef = 10A5C2FA0FC6024300152875 /* GameView.m */;
 		name = "GameView.m: 16";
 		rLen = 0;
-		rLoc = 249;
+		rLoc = 248;
 		rType = 0;
 		vrLen = 1051;
 		vrLoc = 133;
@@ -1117,7 +1117,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 197";
 		rLen = 80;
-		rLoc = 6340;
+		rLoc = 6265;
 		rType = 0;
 		vrLen = 1114;
 		vrLoc = 4831;
@@ -1127,7 +1127,7 @@
 		fRef = 10A5C2FA0FC6024300152875 /* GameView.m */;
 		name = "GameView.m: 16";
 		rLen = 0;
-		rLoc = 249;
+		rLoc = 248;
 		rType = 0;
 		vrLen = 1051;
 		vrLoc = 133;
@@ -1137,7 +1137,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 308";
 		rLen = 0;
-		rLoc = 9003;
+		rLoc = 8928;
 		rType = 0;
 		vrLen = 1118;
 		vrLoc = 4777;
@@ -1157,7 +1157,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 184";
 		rLen = 0;
-		rLoc = 5857;
+		rLoc = 5782;
 		rType = 0;
 		vrLen = 1147;
 		vrLoc = 4777;
@@ -1177,7 +1177,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 184";
 		rLen = 0;
-		rLoc = 5857;
+		rLoc = 5782;
 		rType = 0;
 		vrLen = 1147;
 		vrLoc = 4777;
@@ -1187,7 +1187,7 @@
 		fRef = 10A5C2FA0FC6024300152875 /* GameView.m */;
 		name = "GameView.m: 56";
 		rLen = 0;
-		rLoc = 1411;
+		rLoc = 1409;
 		rType = 0;
 		vrLen = 908;
 		vrLoc = 458;
@@ -1197,7 +1197,7 @@
 		fRef = 10A5C2FA0FC6024300152875 /* GameView.m */;
 		name = "GameView.m: 42";
 		rLen = 0;
-		rLoc = 889;
+		rLoc = 887;
 		rType = 0;
 		vrLen = 924;
 		vrLoc = 458;
@@ -1207,7 +1207,7 @@
 		fRef = 10A5C2FA0FC6024300152875 /* GameView.m */;
 		name = "GameView.m: 42";
 		rLen = 0;
-		rLoc = 889;
+		rLoc = 887;
 		rType = 0;
 		vrLen = 924;
 		vrLoc = 458;
@@ -1217,7 +1217,7 @@
 		fRef = 10A5C2FA0FC6024300152875 /* GameView.m */;
 		name = "GameView.m: 42";
 		rLen = 0;
-		rLoc = 889;
+		rLoc = 887;
 		rType = 0;
 		vrLen = 924;
 		vrLoc = 458;
@@ -1227,7 +1227,7 @@
 		fRef = 10A5C2FA0FC6024300152875 /* GameView.m */;
 		name = "GameView.m: 42";
 		rLen = 0;
-		rLoc = 889;
+		rLoc = 887;
 		rType = 0;
 		vrLen = 959;
 		vrLoc = 458;
@@ -1237,7 +1237,7 @@
 		fRef = 1052A7840FFF774700F39C1D /* behavior.c */;
 		name = "behavior.c: 116";
 		rLen = 0;
-		rLoc = 2411;
+		rLoc = 2381;
 		rType = 0;
 		vrLen = 772;
 		vrLoc = 2200;
@@ -1247,7 +1247,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 183";
 		rLen = 0;
-		rLoc = 3653;
+		rLoc = 3547;
 		rType = 0;
 		vrLen = 667;
 		vrLoc = 3845;
@@ -1264,7 +1264,7 @@
 		fRef = 10A5C2FA0FC6024300152875 /* GameView.m */;
 		name = "GameView.m: 42";
 		rLen = 0;
-		rLoc = 889;
+		rLoc = 887;
 		rType = 0;
 		vrLen = 959;
 		vrLoc = 458;
@@ -1274,7 +1274,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 122";
 		rLen = 0;
-		rLoc = 4151;
+		rLoc = 4091;
 		rType = 0;
 		vrLen = 744;
 		vrLoc = 7083;
@@ -1284,7 +1284,7 @@
 		fRef = 1052A7840FFF774700F39C1D /* behavior.c */;
 		name = "behavior.c: 116";
 		rLen = 0;
-		rLoc = 2411;
+		rLoc = 2381;
 		rType = 0;
 		vrLen = 772;
 		vrLoc = 2200;
@@ -1294,7 +1294,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 183";
 		rLen = 0;
-		rLoc = 3653;
+		rLoc = 3547;
 		rType = 0;
 		vrLen = 667;
 		vrLoc = 3845;
@@ -1304,7 +1304,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 280";
 		rLen = 0;
-		rLoc = 8271;
+		rLoc = 8196;
 		rType = 0;
 		vrLen = 744;
 		vrLoc = 7083;
@@ -1314,7 +1314,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 193";
 		rLen = 0;
-		rLoc = 6090;
+		rLoc = 6015;
 		rType = 0;
 		vrLen = 1086;
 		vrLoc = 4863;
@@ -1344,7 +1344,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 293";
 		rLen = 0;
-		rLoc = 8500;
+		rLoc = 8425;
 		rType = 0;
 		vrLen = 707;
 		vrLoc = 7218;
@@ -1354,7 +1354,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 293";
 		rLen = 0;
-		rLoc = 8484;
+		rLoc = 8409;
 		rType = 0;
 		vrLen = 709;
 		vrLoc = 7218;
@@ -1374,7 +1374,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 198";
 		rLen = 0;
-		rLoc = 6403;
+		rLoc = 6328;
 		rType = 0;
 		vrLen = 1126;
 		vrLoc = 4791;
@@ -1384,7 +1384,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 198";
 		rLen = 0;
-		rLoc = 6403;
+		rLoc = 6328;
 		rType = 0;
 		vrLen = 1127;
 		vrLoc = 4791;
@@ -1394,7 +1394,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 294";
 		rLen = 0;
-		rLoc = 8527;
+		rLoc = 8452;
 		rType = 0;
 		vrLen = 855;
 		vrLoc = 7406;
@@ -1404,7 +1404,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 294";
 		rLen = 0;
-		rLoc = 8527;
+		rLoc = 8452;
 		rType = 0;
 		vrLen = 849;
 		vrLoc = 7406;
@@ -1414,7 +1414,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 294";
 		rLen = 0;
-		rLoc = 8484;
+		rLoc = 8409;
 		rType = 0;
 		vrLen = 851;
 		vrLoc = 7406;
@@ -1424,7 +1424,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 198";
 		rLen = 0;
-		rLoc = 6403;
+		rLoc = 6328;
 		rType = 0;
 		vrLen = 1054;
 		vrLoc = 4780;
@@ -1434,7 +1434,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 197";
 		rLen = 0;
-		rLoc = 6403;
+		rLoc = 6328;
 		rType = 0;
 		vrLen = 1043;
 		vrLoc = 4780;
@@ -1454,7 +1454,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 215";
 		rLen = 0;
-		rLoc = 6793;
+		rLoc = 6718;
 		rType = 0;
 		vrLen = 1129;
 		vrLoc = 5313;
@@ -1464,7 +1464,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 219";
 		rLen = 0;
-		rLoc = 6793;
+		rLoc = 6718;
 		rType = 0;
 		vrLen = 985;
 		vrLoc = 5313;
@@ -1474,7 +1474,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 217";
 		rLen = 0;
-		rLoc = 6793;
+		rLoc = 6718;
 		rType = 0;
 		vrLen = 984;
 		vrLoc = 5313;
@@ -1484,7 +1484,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 297";
 		rLen = 0;
-		rLoc = 8451;
+		rLoc = 8376;
 		rType = 0;
 		vrLen = 807;
 		vrLoc = 7307;
@@ -1494,7 +1494,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 130";
 		rLen = 0;
-		rLoc = 4484;
+		rLoc = 4409;
 		rType = 0;
 		vrLen = 1156;
 		vrLoc = 2650;
@@ -1504,7 +1504,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 216";
 		rLen = 0;
-		rLoc = 6793;
+		rLoc = 6718;
 		rType = 0;
 		vrLen = 954;
 		vrLoc = 5637;
@@ -1554,7 +1554,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 200";
 		rLen = 0;
-		rLoc = 6391;
+		rLoc = 6316;
 		rType = 0;
 		vrLen = 1094;
 		vrLoc = 4801;
@@ -1564,7 +1564,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 200";
 		rLen = 0;
-		rLoc = 6391;
+		rLoc = 6316;
 		rType = 0;
 		vrLen = 1113;
 		vrLoc = 4801;
@@ -1584,7 +1584,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 200";
 		rLen = 0;
-		rLoc = 6391;
+		rLoc = 6316;
 		rType = 0;
 		vrLen = 1113;
 		vrLoc = 4801;
@@ -1614,7 +1614,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 84";
 		rLen = 24;
-		rLoc = 1884;
+		rLoc = 1776;
 		rType = 0;
 		vrLen = 742;
 		vrLoc = 1688;
@@ -1624,7 +1624,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 199";
 		rLen = 0;
-		rLoc = 6391;
+		rLoc = 6316;
 		rType = 0;
 		vrLen = 1124;
 		vrLoc = 4801;
@@ -1644,7 +1644,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 84";
 		rLen = 24;
-		rLoc = 1884;
+		rLoc = 1776;
 		rType = 0;
 		vrLen = 742;
 		vrLoc = 1688;
@@ -1724,7 +1724,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 264";
 		rLen = 0;
-		rLoc = 7448;
+		rLoc = 7373;
 		rType = 0;
 		vrLen = 798;
 		vrLoc = 6746;
@@ -1734,7 +1734,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 264";
 		rLen = 0;
-		rLoc = 7459;
+		rLoc = 7384;
 		rType = 0;
 		vrLen = 445;
 		vrLoc = 7145;
@@ -1762,7 +1762,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 264";
 		rLen = 0;
-		rLoc = 7459;
+		rLoc = 7384;
 		rType = 0;
 		vrLen = 445;
 		vrLoc = 7145;
@@ -1809,7 +1809,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 263";
 		rLen = 0;
-		rLoc = 7430;
+		rLoc = 7355;
 		rType = 0;
 		vrLen = 866;
 		vrLoc = 6746;
@@ -1829,7 +1829,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 263";
 		rLen = 0;
-		rLoc = 7430;
+		rLoc = 7355;
 		rType = 0;
 		vrLen = 866;
 		vrLoc = 6746;
@@ -1869,7 +1869,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 84";
 		rLen = 24;
-		rLoc = 1884;
+		rLoc = 1776;
 		rType = 0;
 		vrLen = 742;
 		vrLoc = 1688;
@@ -1889,7 +1889,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 101";
 		rLen = 0;
-		rLoc = 2126;
+		rLoc = 2020;
 		rType = 0;
 		vrLen = 766;
 		vrLoc = 1692;
@@ -1899,7 +1899,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 101";
 		rLen = 0;
-		rLoc = 2126;
+		rLoc = 2020;
 		rType = 0;
 		vrLen = 766;
 		vrLoc = 1692;
@@ -1929,7 +1929,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 101";
 		rLen = 0;
-		rLoc = 2126;
+		rLoc = 2020;
 		rType = 0;
 		vrLen = 766;
 		vrLoc = 1692;
@@ -2019,7 +2019,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 99";
 		rLen = 0;
-		rLoc = 2126;
+		rLoc = 2020;
 		rType = 0;
 		vrLen = 1079;
 		vrLoc = 1835;
@@ -2029,7 +2029,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 208";
 		rLen = 0;
-		rLoc = 4835;
+		rLoc = 4723;
 		rType = 0;
 		vrLen = 1190;
 		vrLoc = 1856;
@@ -2049,7 +2049,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 209";
 		rLen = 0;
-		rLoc = 4839;
+		rLoc = 4727;
 		rType = 0;
 		vrLen = 541;
 		vrLoc = 1602;
@@ -2059,7 +2059,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 208";
 		rLen = 0;
-		rLoc = 4778;
+		rLoc = 4666;
 		rType = 0;
 		vrLen = 1325;
 		vrLoc = 2093;
@@ -2089,7 +2089,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 100";
 		rLen = 0;
-		rLoc = 2126;
+		rLoc = 2020;
 		rType = 0;
 		vrLen = 844;
 		vrLoc = 1683;
@@ -2099,7 +2099,7 @@
 		fRef = 10A5C2FA0FC6024300152875 /* GameView.m */;
 		name = "GameView.m: 42";
 		rLen = 0;
-		rLoc = 889;
+		rLoc = 887;
 		rType = 0;
 		vrLen = 959;
 		vrLoc = 458;
@@ -2109,7 +2109,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 100";
 		rLen = 0;
-		rLoc = 2126;
+		rLoc = 2020;
 		rType = 0;
 		vrLen = 844;
 		vrLoc = 1683;
@@ -2119,27 +2119,337 @@
 		fRef = 10A5C2FA0FC6024300152875 /* GameView.m */;
 		name = "GameView.m: 58";
 		rLen = 0;
-		rLoc = 1409;
+		rLoc = 1407;
 		rType = 0;
 		vrLen = 974;
 		vrLoc = 458;
 	};
-	1001E7EB1003A673002343DB /* game.c:315 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		countType = 0;
-		delayBeforeContinue = 0;
-		fileReference = 10A5C13B0FC57F6300152875 /* game.c */;
-		functionName = "game_update_state()";
-		hitCount = 1;
-		ignoreCount = 0;
-		lineNumber = 315;
-		location = Demo2;
-		modificationTime = 268674675.310083;
-		state = 1;
+	1001E8021003AE78002343DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 10A5C2FA0FC6024300152875 /* GameView.m */;
+		name = "GameView.m: 58";
+		rLen = 0;
+		rLoc = 1407;
+		rType = 0;
+		vrLen = 974;
+		vrLoc = 458;
+	};
+	1001E8031003AE78002343DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 10A5C0EE0FC56B6A00152875 /* rendering.c */;
+		name = "rendering.c: 317";
+		rLen = 0;
+		rLoc = 6681;
+		rType = 0;
+		vrLen = 1322;
+		vrLoc = 5905;
+	};
+	1001E8041003AE78002343DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 10A5C0EA0FC56B6A00152875 /* rendering.h */;
+		name = "rendering.h: 9";
+		rLen = 0;
+		rLoc = 99;
+		rType = 0;
+		vrLen = 769;
+		vrLoc = 420;
+	};
+	1001E8051003AE78002343DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
+		name = "game.c: 145";
+		rLen = 0;
+		rLoc = 4093;
+		rType = 0;
+		vrLen = 831;
+		vrLoc = 8173;
+	};
+	1001E8061003AE78002343DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1052AB61100167DD00F39C1D /* actions.c */;
+		name = "actions.c: 75";
+		rLen = 0;
+		rLoc = 1712;
+		rType = 0;
+		vrLen = 681;
+		vrLoc = 1363;
+	};
+	1001E8071003AE78002343DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1052A7830FFF74F300F39C1D /* behavior.h */;
+		name = "behavior.h: 25";
+		rLen = 0;
+		rLoc = 706;
+		rType = 0;
+		vrLen = 975;
+		vrLoc = 507;
+	};
+	1001E8081003AE78002343DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1052A986100130C100F39C1D /* rules.h */;
+		name = "rules.h: 21";
+		rLen = 0;
+		rLoc = 613;
+		rType = 0;
+		vrLen = 760;
+		vrLoc = 0;
+	};
+	1001E8091003AE78002343DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1052A9C81001361600F39C1D /* rules.c */;
+		name = "rules.c: 100";
+		rLen = 0;
+		rLoc = 2020;
+		rType = 0;
+		vrLen = 819;
+		vrLoc = 1708;
+	};
+	1001E80A1003AE78002343DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 10A5C0EA0FC56B6A00152875 /* rendering.h */;
+		name = "rendering.h: 9";
+		rLen = 0;
+		rLoc = 99;
+		rType = 0;
+		vrLen = 769;
+		vrLoc = 420;
+	};
+	1001E80B1003AE78002343DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
+		name = "game.c: 262";
+		rLen = 0;
+		rLoc = 7324;
+		rType = 0;
+		vrLen = 986;
+		vrLoc = 4769;
+	};
+	1001E80C1003AE78002343DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1052A9C81001361600F39C1D /* rules.c */;
+		name = "rules.c: 100";
+		rLen = 0;
+		rLoc = 2020;
+		rType = 0;
+		vrLen = 819;
+		vrLoc = 1708;
+	};
+	1001E80D1003AE78002343DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
+		name = "game.c: 194";
+		rLen = 0;
+		rLoc = 5425;
+		rType = 0;
+		vrLen = 787;
+		vrLoc = 7834;
+	};
+	1001E80E1003AE78002343DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1052AB61100167DD00F39C1D /* actions.c */;
+		name = "actions.c: 34";
+		rLen = 0;
+		rLoc = 948;
+		rType = 0;
+		vrLen = 683;
+		vrLoc = 1363;
+	};
+	1001E80F1003AE78002343DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
+		name = "game.c: 145";
+		rLen = 0;
+		rLoc = 4093;
+		rType = 0;
+		vrLen = 831;
+		vrLoc = 8173;
+	};
+	1001E8101003AE78002343DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1052AB61100167DD00F39C1D /* actions.c */;
+		name = "actions.c: 75";
+		rLen = 0;
+		rLoc = 1712;
+		rType = 0;
+		vrLen = 681;
+		vrLoc = 1363;
+	};
+	1001E8111003AE78002343DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1052A7830FFF74F300F39C1D /* behavior.h */;
+		name = "behavior.h: 25";
+		rLen = 0;
+		rLoc = 706;
+		rType = 0;
+		vrLen = 975;
+		vrLoc = 507;
+	};
+	1001E8121003AE78002343DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1052A986100130C100F39C1D /* rules.h */;
+		name = "rules.h: 21";
+		rLen = 0;
+		rLoc = 613;
+		rType = 0;
+		vrLen = 760;
+		vrLoc = 0;
+	};
+	1001E8131003AE78002343DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1052A9C81001361600F39C1D /* rules.c */;
+		name = "rules.c: 206";
+		rLen = 0;
+		rLoc = 4666;
+		rType = 0;
+		vrLen = 665;
+		vrLoc = 4001;
+	};
+	1001E8151003AE88002343DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1052A9C81001361600F39C1D /* rules.c */;
+		name = "rules.c: 206";
+		rLen = 0;
+		rLoc = 4666;
+		rType = 0;
+		vrLen = 665;
+		vrLoc = 4001;
+	};
+	1001E8161003AE88002343DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
+		rLen = 0;
+		rLoc = 314;
+		rType = 1;
+	};
+	1001E8171003AE88002343DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1052A9C81001361600F39C1D /* rules.c */;
+		name = "rules.c: 206";
+		rLen = 0;
+		rLoc = 4666;
+		rType = 0;
+		vrLen = 665;
+		vrLoc = 4001;
+	};
+	1001E8181003AE88002343DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
+		name = "game.c: 315";
+		rLen = 0;
+		rLoc = 8310;
+		rType = 0;
+		vrLen = 806;
+		vrLoc = 7834;
+	};
+	1001E81E1003AEFB002343DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
+		name = "game.c: 315";
+		rLen = 0;
+		rLoc = 8310;
+		rType = 0;
+		vrLen = 814;
+		vrLoc = 7834;
+	};
+	1001E81F1003AEFB002343DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
+		name = "game.c: 147";
+		rLen = 0;
+		rLoc = 4239;
+		rType = 0;
+		vrLen = 1022;
+		vrLoc = 3434;
+	};
+	1001E8221003AF74002343DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
+		name = "game.c: 147";
+		rLen = 0;
+		rLoc = 4239;
+		rType = 0;
+		vrLen = 1124;
+		vrLoc = 3434;
+	};
+	1001E8231003AF74002343DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
+		name = "game.c: 147";
+		rLen = 0;
+		rLoc = 4239;
+		rType = 0;
+		vrLen = 1124;
+		vrLoc = 3434;
+	};
+	1001E8241003AF74002343DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1052AB61100167DD00F39C1D /* actions.c */;
+		name = "actions.c: 75";
+		rLen = 0;
+		rLoc = 1712;
+		rType = 0;
+		vrLen = 629;
+		vrLoc = 1363;
+	};
+	1001E8271003B0ED002343DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1052AB61100167DD00F39C1D /* actions.c */;
+		name = "actions.c: 75";
+		rLen = 0;
+		rLoc = 1712;
+		rType = 0;
+		vrLen = 647;
+		vrLoc = 1318;
+	};
+	1001E8281003B0ED002343DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1052A9C81001361600F39C1D /* rules.c */;
+		name = "rules.c: 206";
+		rLen = 0;
+		rLoc = 4666;
+		rType = 0;
+		vrLen = 628;
+		vrLoc = 3563;
+	};
+	1001E8291003B0ED002343DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 10A5C2FA0FC6024300152875 /* GameView.m */;
+		name = "GameView.m: 58";
+		rLen = 0;
+		rLoc = 1407;
+		rType = 0;
+		vrLen = 977;
+		vrLoc = 457;
+	};
+	1001E82A1003B0ED002343DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1052AB61100167DD00F39C1D /* actions.c */;
+		name = "actions.c: 75";
+		rLen = 0;
+		rLoc = 1712;
+		rType = 0;
+		vrLen = 647;
+		vrLoc = 1318;
+	};
+	1001E82B1003B0ED002343DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1052A9C81001361600F39C1D /* rules.c */;
+		name = "rules.c: 206";
+		rLen = 0;
+		rLoc = 4666;
+		rType = 0;
+		vrLen = 628;
+		vrLoc = 3563;
+	};
+	1001E82C1003B0ED002343DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 10A5C2FA0FC6024300152875 /* GameView.m */;
+		name = "GameView.m: 17";
+		rLen = 0;
+		rLoc = 316;
+		rType = 0;
+		vrLen = 667;
+		vrLoc = 0;
 	};
 	103ED9AC0FCF2D90000BD67D /* quat.c */ = {
 		uiCtxt = {
@@ -2158,9 +2468,9 @@
 	};
 	1052A7830FFF74F300F39C1D /* behavior.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {533, 742}}";
-			sepNavSelRange = "{771, 0}";
-			sepNavVisRange = "{529, 1065}";
+			sepNavIntBoundsRect = "{{0, 0}, {533, 700}}";
+			sepNavSelRange = "{706, 0}";
+			sepNavVisRange = "{507, 975}";
 		};
 	};
 	1052A7840FFF774700F39C1D /* behavior.c */ = {
@@ -2196,9 +2506,9 @@
 	};
 	1052A9C81001361600F39C1D /* rules.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {486, 2772}}";
-			sepNavSelRange = "{4778, 0}";
-			sepNavVisRange = "{2389, 620}";
+			sepNavIntBoundsRect = "{{0, 0}, {672, 2702}}";
+			sepNavSelRange = "{4666, 0}";
+			sepNavVisRange = "{3563, 628}";
 		};
 	};
 	1052AA881001523800F39C1D /* array.h */ = {
@@ -2232,8 +2542,8 @@
 	1052AB61100167DD00F39C1D /* actions.c */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {533, 1302}}";
-			sepNavSelRange = "{948, 0}";
-			sepNavVisRange = "{1363, 683}";
+			sepNavSelRange = "{1712, 0}";
+			sepNavVisRange = "{1318, 647}";
 		};
 	};
 	108FFA6A0FDD583D004D4CFD /* box2d.h */ = {
@@ -2315,9 +2625,9 @@
 	};
 	10A5C13B0FC57F6300152875 /* game.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {633, 4662}}";
-			sepNavSelRange = "{6340, 0}";
-			sepNavVisRange = "{5883, 521}";
+			sepNavIntBoundsRect = "{{0, 0}, {533, 4704}}";
+			sepNavSelRange = "{4239, 0}";
+			sepNavVisRange = "{3434, 1124}";
 		};
 	};
 	10A5C2F90FC6024300152875 /* Demo2AppDelegate.m */ = {
@@ -2329,9 +2639,9 @@
 	};
 	10A5C2FA0FC6024300152875 /* GameView.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {534, 3836}}";
-			sepNavSelRange = "{1409, 0}";
-			sepNavVisRange = "{458, 974}";
+			sepNavIntBoundsRect = "{{0, 0}, {1272, 3766}}";
+			sepNavSelRange = "{316, 0}";
+			sepNavVisRange = "{0, 667}";
 		};
 	};
 	10A5C2FB0FC6024300152875 /* main.m */ = {
@@ -2365,7 +2675,7 @@
 		argumentStrings = (
 		);
 		autoAttachOnCrash = 1;
-		breakpointsEnabled = 1;
+		breakpointsEnabled = 0;
 		configStateDict = {
 		};
 		customDataFormattersEnabled = 1;
@@ -2566,7 +2876,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 118";
 		rLen = 0;
-		rLoc = 3809;
+		rLoc = 3783;
 		rType = 0;
 		vrLen = 1252;
 		vrLoc = 2708;
@@ -2576,7 +2886,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 123";
 		rLen = 0;
-		rLoc = 4342;
+		rLoc = 4267;
 		rType = 0;
 		vrLen = 1252;
 		vrLoc = 2708;
@@ -2596,7 +2906,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 123";
 		rLen = 0;
-		rLoc = 4342;
+		rLoc = 4267;
 		rType = 0;
 		vrLen = 1252;
 		vrLoc = 2708;
@@ -2616,7 +2926,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 123";
 		rLen = 0;
-		rLoc = 4342;
+		rLoc = 4267;
 		rType = 0;
 		vrLen = 1323;
 		vrLoc = 2670;
@@ -2626,7 +2936,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 123";
 		rLen = 0;
-		rLoc = 4342;
+		rLoc = 4267;
 		rType = 0;
 		vrLen = 1230;
 		vrLoc = 2763;
@@ -2636,7 +2946,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 121";
 		rLen = 0;
-		rLoc = 4342;
+		rLoc = 4267;
 		rType = 0;
 		vrLen = 1103;
 		vrLoc = 2924;
@@ -2716,7 +3026,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 121";
 		rLen = 0;
-		rLoc = 4342;
+		rLoc = 4267;
 		rType = 0;
 		vrLen = 1064;
 		vrLoc = 2708;
@@ -2726,7 +3036,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 117";
 		rLen = 0;
-		rLoc = 3718;
+		rLoc = 3705;
 		rType = 0;
 		vrLen = 1063;
 		vrLoc = 2708;
@@ -2736,7 +3046,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 121";
 		rLen = 0;
-		rLoc = 4342;
+		rLoc = 4267;
 		rType = 0;
 		vrLen = 1063;
 		vrLoc = 2708;
@@ -2746,7 +3056,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 118";
 		rLen = 0;
-		rLoc = 4342;
+		rLoc = 4267;
 		rType = 0;
 		vrLen = 984;
 		vrLoc = 2670;
@@ -2756,7 +3066,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 119";
 		rLen = 0;
-		rLoc = 4342;
+		rLoc = 4267;
 		rType = 0;
 		vrLen = 1028;
 		vrLoc = 2626;
@@ -2766,7 +3076,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 119";
 		rLen = 0;
-		rLoc = 4342;
+		rLoc = 4267;
 		rType = 0;
 		vrLen = 1027;
 		vrLoc = 2626;
@@ -2776,7 +3086,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 81";
 		rLen = 0;
-		rLoc = 4014;
+		rLoc = 3910;
 		rType = 0;
 		vrLen = 777;
 		vrLoc = 1494;
@@ -2786,7 +3096,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 81";
 		rLen = 0;
-		rLoc = 4014;
+		rLoc = 3910;
 		rType = 0;
 		vrLen = 776;
 		vrLoc = 1494;
@@ -2796,7 +3106,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 119";
 		rLen = 0;
-		rLoc = 4342;
+		rLoc = 4267;
 		rType = 0;
 		vrLen = 1027;
 		vrLoc = 2626;
@@ -2816,7 +3126,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 122";
 		rLen = 0;
-		rLoc = 4500;
+		rLoc = 4425;
 		rType = 0;
 		vrLen = 779;
 		vrLoc = 4647;
@@ -2846,7 +3156,7 @@
 		fRef = 10A5C2FA0FC6024300152875 /* GameView.m */;
 		name = "GameView.m: 249";
 		rLen = 0;
-		rLoc = 5975;
+		rLoc = 5973;
 		rType = 0;
 		vrLen = 685;
 		vrLoc = 5157;
@@ -2866,7 +3176,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 194";
 		rLen = 0;
-		rLoc = 4997;
+		rLoc = 4922;
 		rType = 0;
 		vrLen = 1196;
 		vrLoc = 1114;
@@ -2886,7 +3196,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 192";
 		rLen = 0;
-		rLoc = 4997;
+		rLoc = 4922;
 		rType = 0;
 		vrLen = 875;
 		vrLoc = 4652;
@@ -2926,7 +3236,7 @@
 		fRef = 10A5C2FA0FC6024300152875 /* GameView.m */;
 		name = "GameView.m: 249";
 		rLen = 0;
-		rLoc = 5955;
+		rLoc = 5953;
 		rType = 0;
 		vrLen = 685;
 		vrLoc = 5157;
@@ -2936,7 +3246,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 67";
 		rLen = 0;
-		rLoc = 3117;
+		rLoc = 3011;
 		rType = 0;
 		vrLen = 928;
 		vrLoc = 1525;
@@ -2946,7 +3256,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 122";
 		rLen = 0;
-		rLoc = 4048;
+		rLoc = 4005;
 		rType = 0;
 		vrLen = 1037;
 		vrLoc = 2549;
@@ -2966,7 +3276,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 40";
 		rLen = 0;
-		rLoc = 1382;
+		rLoc = 1274;
 		rType = 0;
 		vrLen = 944;
 		vrLoc = 529;
@@ -2986,7 +3296,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 76";
 		rLen = 0;
-		rLoc = 3249;
+		rLoc = 3143;
 		rType = 0;
 		vrLen = 883;
 		vrLoc = 1552;
@@ -2996,7 +3306,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 76";
 		rLen = 0;
-		rLoc = 3249;
+		rLoc = 3143;
 		rType = 0;
 		vrLen = 773;
 		vrLoc = 1552;
@@ -3016,7 +3326,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 77";
 		rLen = 0;
-		rLoc = 3293;
+		rLoc = 3187;
 		rType = 0;
 		vrLen = 776;
 		vrLoc = 1549;
@@ -3046,7 +3356,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 77";
 		rLen = 0;
-		rLoc = 3293;
+		rLoc = 3187;
 		rType = 0;
 		vrLen = 775;
 		vrLoc = 1549;
@@ -3066,7 +3376,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 76";
 		rLen = 0;
-		rLoc = 3249;
+		rLoc = 3143;
 		rType = 0;
 		vrLen = 832;
 		vrLoc = 1549;
@@ -3076,7 +3386,7 @@
 		fRef = 10A5C2FA0FC6024300152875 /* GameView.m */;
 		name = "GameView.m: 175";
 		rLen = 0;
-		rLoc = 4410;
+		rLoc = 4408;
 		rType = 0;
 		vrLen = 468;
 		vrLoc = 5374;
@@ -3096,7 +3406,7 @@
 		fRef = 10A5C2FA0FC6024300152875 /* GameView.m */;
 		name = "GameView.m: 247";
 		rLen = 0;
-		rLoc = 5950;
+		rLoc = 5948;
 		rType = 0;
 		vrLen = 768;
 		vrLoc = 3352;
@@ -3106,7 +3416,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 85";
 		rLen = 0;
-		rLoc = 3416;
+		rLoc = 3310;
 		rType = 0;
 		vrLen = 909;
 		vrLoc = 1921;
@@ -3116,7 +3426,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 123";
 		rLen = 0;
-		rLoc = 4149;
+		rLoc = 4089;
 		rType = 0;
 		vrLen = 1036;
 		vrLoc = 2549;
@@ -3126,7 +3436,7 @@
 		fRef = 1052A7830FFF74F300F39C1D /* behavior.h */;
 		name = "behavior.h: 49";
 		rLen = 0;
-		rLoc = 1517;
+		rLoc = 1405;
 		rType = 0;
 		vrLen = 1007;
 		vrLoc = 529;
@@ -3136,7 +3446,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 100";
 		rLen = 0;
-		rLoc = 3598;
+		rLoc = 3492;
 		rType = 0;
 		vrLen = 908;
 		vrLoc = 1921;
@@ -3146,7 +3456,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 165";
 		rLen = 0;
-		rLoc = 4997;
+		rLoc = 4922;
 		rType = 0;
 		vrLen = 920;
 		vrLoc = 4004;
@@ -3166,7 +3476,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 169";
 		rLen = 0;
-		rLoc = 4997;
+		rLoc = 4922;
 		rType = 0;
 		vrLen = 1023;
 		vrLoc = 8289;
@@ -3196,7 +3506,7 @@
 		fRef = 1052A7830FFF74F300F39C1D /* behavior.h */;
 		name = "behavior.h: 41";
 		rLen = 55;
-		rLoc = 1210;
+		rLoc = 1098;
 		rType = 0;
 		vrLen = 1077;
 		vrLoc = 508;
@@ -3206,7 +3516,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 120";
 		rLen = 0;
-		rLoc = 3977;
+		rLoc = 3934;
 		rType = 0;
 		vrLen = 1254;
 		vrLoc = 1558;
@@ -3236,7 +3546,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 27";
 		rLen = 0;
-		rLoc = 1260;
+		rLoc = 1152;
 		rType = 0;
 		vrLen = 935;
 		vrLoc = 635;
@@ -3246,7 +3556,7 @@
 		fRef = 1052A7830FFF74F300F39C1D /* behavior.h */;
 		name = "behavior.h: 41";
 		rLen = 55;
-		rLoc = 1210;
+		rLoc = 1098;
 		rType = 0;
 		vrLen = 1077;
 		vrLoc = 507;
@@ -3266,7 +3576,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 62";
 		rLen = 0;
-		rLoc = 3107;
+		rLoc = 3001;
 		rType = 0;
 		vrLen = 817;
 		vrLoc = 1373;
@@ -3276,9 +3586,9 @@
 		fRef = 1052A7830FFF74F300F39C1D /* behavior.h */;
 		name = "behavior.h: 41";
 		rLen = 102;
-		rLoc = 1107;
+		rLoc = 995;
 		rType = 0;
-		vrLen = 1105;
+		vrLen = 1087;
 		vrLoc = 507;
 	};
 	10FDC5B31002AB0D00DB4A59 /* PBXTextBookmark */ = {
@@ -3286,7 +3596,7 @@
 		fRef = 1052A7830FFF74F300F39C1D /* behavior.h */;
 		name = "behavior.h: 44";
 		rLen = 0;
-		rLoc = 1317;
+		rLoc = 1205;
 		rType = 0;
 		vrLen = 1036;
 		vrLoc = 529;
@@ -3306,7 +3616,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 124";
 		rLen = 0;
-		rLoc = 4139;
+		rLoc = 4029;
 		rType = 0;
 		vrLen = 726;
 		vrLoc = 2163;
@@ -3336,9 +3646,9 @@
 		fRef = 1052A7830FFF74F300F39C1D /* behavior.h */;
 		name = "behavior.h: 50";
 		rLen = 0;
-		rLoc = 1580;
+		rLoc = 1468;
 		rType = 0;
-		vrLen = 1081;
+		vrLen = 1065;
 		vrLoc = 529;
 	};
 	10FDC5D01002ADD600DB4A59 /* PBXTextBookmark */ = {
@@ -3346,7 +3656,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 113";
 		rLen = 0;
-		rLoc = 3933;
+		rLoc = 3829;
 		rType = 0;
 		vrLen = 726;
 		vrLoc = 2163;
@@ -3356,7 +3666,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 119";
 		rLen = 0;
-		rLoc = 3798;
+		rLoc = 3772;
 		rType = 0;
 		vrLen = 1061;
 		vrLoc = 2670;
@@ -3366,7 +3676,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 120";
 		rLen = 0;
-		rLoc = 3810;
+		rLoc = 3784;
 		rType = 0;
 		vrLen = 1061;
 		vrLoc = 2670;
@@ -3376,7 +3686,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 128";
 		rLen = 0;
-		rLoc = 4362;
+		rLoc = 4287;
 		rType = 0;
 		vrLen = 1088;
 		vrLoc = 2670;
@@ -3386,7 +3696,7 @@
 		fRef = 1052A7830FFF74F300F39C1D /* behavior.h */;
 		name = "behavior.h: 26";
 		rLen = 0;
-		rLoc = 771;
+		rLoc = 731;
 		rType = 0;
 		vrLen = 1065;
 		vrLoc = 529;
@@ -3396,7 +3706,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 121";
 		rLen = 0;
-		rLoc = 3845;
+		rLoc = 3819;
 		rType = 0;
 		vrLen = 1088;
 		vrLoc = 2670;
@@ -3416,7 +3726,7 @@
 		fRef = 1052A7830FFF74F300F39C1D /* behavior.h */;
 		name = "behavior.h: 26";
 		rLen = 0;
-		rLoc = 771;
+		rLoc = 731;
 		rType = 0;
 		vrLen = 1065;
 		vrLoc = 529;
@@ -3426,7 +3736,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 30";
 		rLen = 0;
-		rLoc = 1260;
+		rLoc = 1152;
 		rType = 0;
 		vrLen = 889;
 		vrLoc = 610;
@@ -3456,7 +3766,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 121";
 		rLen = 0;
-		rLoc = 3845;
+		rLoc = 3819;
 		rType = 0;
 		vrLen = 1088;
 		vrLoc = 2670;
@@ -3466,7 +3776,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 102";
 		rLen = 0;
-		rLoc = 3653;
+		rLoc = 3547;
 		rType = 0;
 		vrLen = 753;
 		vrLoc = 2123;
@@ -3476,7 +3786,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 121";
 		rLen = 0;
-		rLoc = 3845;
+		rLoc = 3819;
 		rType = 0;
 		vrLen = 1088;
 		vrLoc = 2670;
@@ -3486,7 +3796,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 123";
 		rLen = 0;
-		rLoc = 3938;
+		rLoc = 3895;
 		rType = 0;
 		vrLen = 1088;
 		vrLoc = 2670;
@@ -3496,7 +3806,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 76";
 		rLen = 0;
-		rLoc = 3293;
+		rLoc = 3187;
 		rType = 0;
 		vrLen = 706;
 		vrLoc = 1508;
@@ -3506,7 +3816,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 121";
 		rLen = 0;
-		rLoc = 3845;
+		rLoc = 3819;
 		rType = 0;
 		vrLen = 1088;
 		vrLoc = 2670;
@@ -3516,7 +3826,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 75";
 		rLen = 0;
-		rLoc = 3249;
+		rLoc = 3143;
 		rType = 0;
 		vrLen = 706;
 		vrLoc = 1508;
@@ -3536,7 +3846,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 121";
 		rLen = 0;
-		rLoc = 3845;
+		rLoc = 3819;
 		rType = 0;
 		vrLen = 1112;
 		vrLoc = 2626;
@@ -3566,7 +3876,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 75";
 		rLen = 0;
-		rLoc = 3253;
+		rLoc = 3147;
 		rType = 0;
 		vrLen = 706;
 		vrLoc = 1508;
@@ -3576,7 +3886,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 84";
 		rLen = 0;
-		rLoc = 3454;
+		rLoc = 3348;
 		rType = 0;
 		vrLen = 707;
 		vrLoc = 1508;
@@ -3626,7 +3936,7 @@
 		fRef = 10A5C2FA0FC6024300152875 /* GameView.m */;
 		name = "GameView.m: 244";
 		rLen = 0;
-		rLoc = 5950;
+		rLoc = 5948;
 		rType = 0;
 		vrLen = 658;
 		vrLoc = 5184;
@@ -3656,7 +3966,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 115";
 		rLen = 0;
-		rLoc = 3845;
+		rLoc = 3819;
 		rType = 0;
 		vrLen = 1110;
 		vrLoc = 2628;
@@ -3686,7 +3996,7 @@
 		fRef = 10A5C2FA0FC6024300152875 /* GameView.m */;
 		name = "GameView.m: 250";
 		rLen = 0;
-		rLoc = 6000;
+		rLoc = 5998;
 		rType = 0;
 		vrLen = 685;
 		vrLoc = 5157;
@@ -3696,7 +4006,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 76";
 		rLen = 0;
-		rLoc = 3304;
+		rLoc = 3198;
 		rType = 0;
 		vrLen = 718;
 		vrLoc = 1506;
@@ -3716,7 +4026,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 332";
 		rLen = 0;
-		rLoc = 8308;
+		rLoc = 8233;
 		rType = 0;
 		vrLen = 785;
 		vrLoc = 8228;
@@ -3726,7 +4036,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 332";
 		rLen = 0;
-		rLoc = 8308;
+		rLoc = 8233;
 		rType = 0;
 		vrLen = 785;
 		vrLoc = 8228;
@@ -3736,7 +4046,7 @@
 		fRef = 10A5C2FA0FC6024300152875 /* GameView.m */;
 		name = "GameView.m: 250";
 		rLen = 0;
-		rLoc = 6000;
+		rLoc = 5998;
 		rType = 0;
 		vrLen = 685;
 		vrLoc = 5157;
@@ -3746,7 +4056,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 75";
 		rLen = 0;
-		rLoc = 3249;
+		rLoc = 3143;
 		rType = 0;
 		vrLen = 720;
 		vrLoc = 1506;
@@ -3756,7 +4066,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 102";
 		rLen = 0;
-		rLoc = 3653;
+		rLoc = 3547;
 		rType = 0;
 		vrLen = 753;
 		vrLoc = 2135;
@@ -3776,7 +4086,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 118";
 		rLen = 0;
-		rLoc = 3845;
+		rLoc = 3819;
 		rType = 0;
 		vrLen = 1064;
 		vrLoc = 2721;
@@ -3786,7 +4096,7 @@
 		fRef = 1052A9C81001361600F39C1D /* rules.c */;
 		name = "rules.c: 102";
 		rLen = 0;
-		rLoc = 3653;
+		rLoc = 3547;
 		rType = 0;
 		vrLen = 753;
 		vrLoc = 2135;
@@ -3796,7 +4106,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 115";
 		rLen = 0;
-		rLoc = 3845;
+		rLoc = 3819;
 		rType = 0;
 		vrLen = 1119;
 		vrLoc = 2666;
@@ -3806,7 +4116,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 115";
 		rLen = 0;
-		rLoc = 3845;
+		rLoc = 3819;
 		rType = 0;
 		vrLen = 1118;
 		vrLoc = 2666;
@@ -3816,7 +4126,7 @@
 		fRef = 1052A7840FFF774700F39C1D /* behavior.c */;
 		name = "behavior.c: 138";
 		rLen = 0;
-		rLoc = 3063;
+		rLoc = 2900;
 		rType = 0;
 		vrLen = 862;
 		vrLoc = 2330;
@@ -3826,7 +4136,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 115";
 		rLen = 0;
-		rLoc = 3845;
+		rLoc = 3819;
 		rType = 0;
 		vrLen = 1118;
 		vrLoc = 2666;
@@ -3836,7 +4146,7 @@
 		fRef = 1052A7840FFF774700F39C1D /* behavior.c */;
 		name = "behavior.c: 116";
 		rLen = 0;
-		rLoc = 2411;
+		rLoc = 2381;
 		rType = 0;
 		vrLen = 964;
 		vrLoc = 2367;
@@ -3846,7 +4156,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 115";
 		rLen = 0;
-		rLoc = 3845;
+		rLoc = 3819;
 		rType = 0;
 		vrLen = 1118;
 		vrLoc = 2666;
@@ -3856,7 +4166,7 @@
 		fRef = 1052A7840FFF774700F39C1D /* behavior.c */;
 		name = "behavior.c: 139";
 		rLen = 0;
-		rLoc = 3133;
+		rLoc = 2960;
 		rType = 0;
 		vrLen = 899;
 		vrLoc = 2367;
@@ -3866,7 +4176,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 115";
 		rLen = 0;
-		rLoc = 3845;
+		rLoc = 3819;
 		rType = 0;
 		vrLen = 1118;
 		vrLoc = 2666;
@@ -3876,7 +4186,7 @@
 		fRef = 1052A7840FFF774700F39C1D /* behavior.c */;
 		name = "behavior.c: 116";
 		rLen = 0;
-		rLoc = 2411;
+		rLoc = 2381;
 		rType = 0;
 		vrLen = 964;
 		vrLoc = 2367;
@@ -3886,7 +4196,7 @@
 		fRef = 10A5C13B0FC57F6300152875 /* game.c */;
 		name = "game.c: 128";
 		rLen = 0;
-		rLoc = 4482;
+		rLoc = 4407;
 		rType = 0;
 		vrLen = 1248;
 		vrLoc = 2832;
@@ -3900,12 +4210,11 @@
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
 		activeBuildConfigurationName = Debug;
 		activeExecutable = 10FB3C4E0FBAE557005CC6FA /* TopdownConcept */;
-		activeSDKPreference = iphoneos3.0;
+		activeSDKPreference = iphonesimulator3.0;
 		activeTarget = 1D6058900D05DD3D006BFB54 /* TopdownConcept */;
 		addToTargets = (
 		);
 		breakpoints = (
-			1001E7EB1003A673002343DB /* game.c:315 */,
 		);
 		codeSenseManager = 10FB3C5C0FBAE576005CC6FA /* Code sense */;
 		executables = (
@@ -4212,6 +4521,39 @@
 			1001E7DD1003A319002343DB /* PBXTextBookmark */ = 1001E7DD1003A319002343DB /* PBXTextBookmark */;
 			1001E7DE1003A319002343DB /* PBXTextBookmark */ = 1001E7DE1003A319002343DB /* PBXTextBookmark */;
 			1001E7DF1003A319002343DB /* PBXTextBookmark */ = 1001E7DF1003A319002343DB /* PBXTextBookmark */;
+			1001E8021003AE78002343DB /* PBXTextBookmark */ = 1001E8021003AE78002343DB /* PBXTextBookmark */;
+			1001E8031003AE78002343DB /* PBXTextBookmark */ = 1001E8031003AE78002343DB /* PBXTextBookmark */;
+			1001E8041003AE78002343DB /* PBXTextBookmark */ = 1001E8041003AE78002343DB /* PBXTextBookmark */;
+			1001E8051003AE78002343DB /* PBXTextBookmark */ = 1001E8051003AE78002343DB /* PBXTextBookmark */;
+			1001E8061003AE78002343DB /* PBXTextBookmark */ = 1001E8061003AE78002343DB /* PBXTextBookmark */;
+			1001E8071003AE78002343DB /* PBXTextBookmark */ = 1001E8071003AE78002343DB /* PBXTextBookmark */;
+			1001E8081003AE78002343DB /* PBXTextBookmark */ = 1001E8081003AE78002343DB /* PBXTextBookmark */;
+			1001E8091003AE78002343DB /* PBXTextBookmark */ = 1001E8091003AE78002343DB /* PBXTextBookmark */;
+			1001E80A1003AE78002343DB /* PBXTextBookmark */ = 1001E80A1003AE78002343DB /* PBXTextBookmark */;
+			1001E80B1003AE78002343DB /* PBXTextBookmark */ = 1001E80B1003AE78002343DB /* PBXTextBookmark */;
+			1001E80C1003AE78002343DB /* PBXTextBookmark */ = 1001E80C1003AE78002343DB /* PBXTextBookmark */;
+			1001E80D1003AE78002343DB /* PBXTextBookmark */ = 1001E80D1003AE78002343DB /* PBXTextBookmark */;
+			1001E80E1003AE78002343DB /* PBXTextBookmark */ = 1001E80E1003AE78002343DB /* PBXTextBookmark */;
+			1001E80F1003AE78002343DB /* PBXTextBookmark */ = 1001E80F1003AE78002343DB /* PBXTextBookmark */;
+			1001E8101003AE78002343DB /* PBXTextBookmark */ = 1001E8101003AE78002343DB /* PBXTextBookmark */;
+			1001E8111003AE78002343DB /* PBXTextBookmark */ = 1001E8111003AE78002343DB /* PBXTextBookmark */;
+			1001E8121003AE78002343DB /* PBXTextBookmark */ = 1001E8121003AE78002343DB /* PBXTextBookmark */;
+			1001E8131003AE78002343DB /* PBXTextBookmark */ = 1001E8131003AE78002343DB /* PBXTextBookmark */;
+			1001E8151003AE88002343DB /* PBXTextBookmark */ = 1001E8151003AE88002343DB /* PBXTextBookmark */;
+			1001E8161003AE88002343DB /* PBXTextBookmark */ = 1001E8161003AE88002343DB /* PBXTextBookmark */;
+			1001E8171003AE88002343DB /* PBXTextBookmark */ = 1001E8171003AE88002343DB /* PBXTextBookmark */;
+			1001E8181003AE88002343DB /* PBXTextBookmark */ = 1001E8181003AE88002343DB /* PBXTextBookmark */;
+			1001E81E1003AEFB002343DB /* PBXTextBookmark */ = 1001E81E1003AEFB002343DB /* PBXTextBookmark */;
+			1001E81F1003AEFB002343DB /* PBXTextBookmark */ = 1001E81F1003AEFB002343DB /* PBXTextBookmark */;
+			1001E8221003AF74002343DB /* PBXTextBookmark */ = 1001E8221003AF74002343DB /* PBXTextBookmark */;
+			1001E8231003AF74002343DB /* PBXTextBookmark */ = 1001E8231003AF74002343DB /* PBXTextBookmark */;
+			1001E8241003AF74002343DB /* PBXTextBookmark */ = 1001E8241003AF74002343DB /* PBXTextBookmark */;
+			1001E8271003B0ED002343DB /* PBXTextBookmark */ = 1001E8271003B0ED002343DB /* PBXTextBookmark */;
+			1001E8281003B0ED002343DB /* PBXTextBookmark */ = 1001E8281003B0ED002343DB /* PBXTextBookmark */;
+			1001E8291003B0ED002343DB /* PBXTextBookmark */ = 1001E8291003B0ED002343DB /* PBXTextBookmark */;
+			1001E82A1003B0ED002343DB /* PBXTextBookmark */ = 1001E82A1003B0ED002343DB /* PBXTextBookmark */;
+			1001E82B1003B0ED002343DB /* PBXTextBookmark */ = 1001E82B1003B0ED002343DB /* PBXTextBookmark */;
+			1001E82C1003B0ED002343DB /* PBXTextBookmark */ = 1001E82C1003B0ED002343DB /* PBXTextBookmark */;
 			1052A81C0FFFAEAD00F39C1D = 1052A81C0FFFAEAD00F39C1D /* PBXTextBookmark */;
 			10FDC37F10026D4E00DB4A59 = 10FDC37F10026D4E00DB4A59 /* PBXTextBookmark */;
 			10FDC38210026D4E00DB4A59 = 10FDC38210026D4E00DB4A59 /* PBXTextBookmark */;

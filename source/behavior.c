@@ -41,7 +41,7 @@ b_add_action(b_behavior *b, const char *name)
 	}
 	
 	if (a->create_default_attr) {
-		a->create_default_attr(&b->action_attr, &b->num_action_attr);
+		a->create_default_attr(&b->attr, &b->attrs);
 	}
 	b->action = a->action;
 	return true;
@@ -80,7 +80,7 @@ b_add_rule(b_behavior *b, const char *name)
 	}
 	
 	if (r->create_default_attr) {
-		r->create_default_attr(&b->rule_attr, &b->num_rule_attr);
+		r->create_default_attr(&b->attr, &b->attrs);
 	}
 	gh_array_resize((void**)&b->rule, b->num_rules, sizeof(b_rule), 1);
 	b->rule[b->num_rules] = r->rule;
@@ -113,30 +113,29 @@ void
 b_exec(void *self, b_behavior *b)
 {
 	int i;
-	unsigned int extra_attr = b->num_action_attr;
+	unsigned int extra_attr = b->attrs;
 	bool rules_passed = true;
 
 	for (i = 0; i < b->num_rules; ++i) {
-		if (false == b->rule[i](self, b->rule_attr, b->num_rule_attr,
-			&b->action_attr, &b->num_action_attr)) {
+		if (false == b->rule[i](self, &b->attr, &b->attrs)) {
 			rules_passed = false;
 			break;
 		}
 	}
 
 	if (rules_passed && 0 != b->action) {
-		b->action(self, b->action_attr, b->num_action_attr);
+		b->action(self, b->attr, b->attrs);
 	}
 
 	/* Delete extra attributes */
-	extra_attr = b->num_action_attr - extra_attr;
-	for (i = b->num_action_attr-1; i < b->num_action_attr - 1 + extra_attr; ++i) {
-		b_clean_attribute(&b->action_attr[i]);
+	extra_attr = b->attrs - extra_attr;
+	for (i = b->attrs-1; i < b->attrs - 1 + extra_attr; ++i) {
+		b_clean_attribute(&b->attr[i]);
 	}
 	if (extra_attr > 0) {
-		gh_array_resize((void**)b->action_attr, b->num_action_attr,
+		gh_array_resize((void**)b->attr, b->attrs,
 			sizeof(b_attribute), -extra_attr);
-		b->num_action_attr -= extra_attr;
+		b->attrs -= extra_attr;
 	}
 }
 

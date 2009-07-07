@@ -30,8 +30,7 @@
 static void \
 rule_##x##_attr (b_attribute **, unsigned int *); \
 static bool \
-rule_##x (void *self, b_attribute *a, const unsigned int attrs, \
-			 b_attribute **out, unsigned int *prev_attr)
+rule_##x (void *self, b_attribute **a, unsigned int *attrs)
 
 #define DECL_RULE_ATTR(x) \
 void \
@@ -39,8 +38,7 @@ rule_##x##_attr(b_attribute **a, unsigned int *n)
 
 #define DECL_RULE(x) \
 bool \
-rule_##x (void *self, b_attribute *b, const unsigned int attrs, \
-			 b_attribute **out, unsigned int *prev_attr)
+rule_##x (void *self, b_attribute **b, unsigned int *attrs)
 
 /* Prototypes */
 DEF_RULE(collide);
@@ -90,7 +88,7 @@ DECL_RULE(collide)
 	int axis = -1;
 	bool collides = false;
 	
-	tmp = b_find_attribute("you", b, attrs);
+	tmp = b_find_attribute("you", *b, *attrs);
 	if (tmp) {
 		you = *(g_entity**)tmp->value;
 		if (0 == you) {
@@ -153,7 +151,7 @@ DECL_RULE(input)
 	gh_button *tmp;
 	vec3 v;
 	
-	button = b_find_attribute("button", b, attrs);
+	button = b_find_attribute("button", *b, *attrs);
 	if (button) {
 		tmp = gh_get_input(*(int*)button->value);
 		if (0 == tmp || 0 == tmp->held) {
@@ -164,7 +162,7 @@ DECL_RULE(input)
 	}
 	
 	v = vec3_normalize(&tmp->rotation);
-	b_add_attribute(out, prev_attr, "direction", 'v', v);
+	b_add_attribute(b, attrs, "direction", 'v', v);
 	return true;
 }
 
@@ -181,8 +179,8 @@ DECL_RULE(see)
 				*you;
 	vec3 v = {0.f, 1.f, 0.f};
 
-	distance = b_find_attribute("distance", b, attrs);
-	you = b_find_attribute("you", b, attrs);
+	distance = b_find_attribute("distance", *b, *attrs);
+	you = b_find_attribute("you", *b, *attrs);
 
 	if (distance && you) {
 		float len;
@@ -201,7 +199,7 @@ DECL_RULE(see)
 		return false;
 	}
 
-	b_add_attribute(out, prev_attr, "direction", 'v', v);
+	b_add_attribute(b, attrs, "direction", 'v', v);
 	return true;
 }
 

@@ -13,8 +13,8 @@
 #include "vec3.h"
 
 static gh_button button[] = {
-	{{-170.f, -90.f, -1.f}, {0.f, 0.f, 0.f}, 70.f, 0}, /* Left stick */
-	{{200.f, -90.f, -1.f}, {0.f, 0.f, 0.f}, 40.f, 0}, /* Right button */
+	{{-170.f, -90.f, 0.f}, {0.f, 0.f, 0.f}, 70.f, 0}, /* Left stick */
+	{{200.f, -90.f, 0.f}, {0.f, 0.f, 0.f}, 40.f, 0}, /* Right button */
 };
 static int num_buttons = sizeof(button)/sizeof(gh_button);
 

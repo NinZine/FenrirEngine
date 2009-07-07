@@ -129,22 +129,22 @@ game_initialize()
 	/* Test behavior */
 	b_add_behavior(&entity[2].b, &entity[2].behaviors);
 	b_add_rule(entity[2].b, "see");
-	b_set_attribute(entity[2].b->rule_attr, entity[2].b->num_rule_attr,
+	b_set_attribute(entity[2].b->attr, entity[2].b->attrs,
 		"distance", 45.f);
-	b_set_attribute(entity[2].b->rule_attr, entity[2].b->num_rule_attr,
+	b_set_attribute(entity[2].b->attr, entity[2].b->attrs,
 		"you", &entity[1]);
 	b_add_action(entity[2].b, "move");
-	b_set_attribute(entity[2].b->action_attr, entity[2].b->num_action_attr,
+	b_set_attribute(entity[2].b->attr, entity[2].b->attrs,
 		"speed", 2.f);
 	
 	b_add_behavior(&entity[1].b, &entity[1].behaviors);
 	b_add_rule(entity[1].b, "input");
 	b_add_action(entity[1].b, "move");
-	b_set_attribute(entity[1].b->action_attr, entity[1].b->num_action_attr,
+	b_set_attribute(entity[1].b->attr, entity[1].b->attrs,
 		"speed", 4.f);
-	/*b_add_behavior(&entity[0].b, &entity[0].behaviors);
+	b_add_behavior(&entity[0].b, &entity[0].behaviors);
 	b_add_rule(&entity[0].b[0], "collide");
-	b_set_attribute(entity[0].b[0].rule_attr, entity[0].b[0].num_rule_attr,
+	b_set_attribute(entity[0].b[0].attr, entity[0].b[0].attrs,
 		"you", &entity[1]);
 	//b_exec(&entity[1], &entity[1].b[0]);
 	

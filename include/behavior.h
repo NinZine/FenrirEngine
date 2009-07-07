@@ -22,15 +22,12 @@ typedef struct b_attribute {
 	void *value;
 } b_attribute;
 
-typedef bool (*b_rule)(void *self, b_attribute *a, const unsigned int num_attr,
-	b_attribute **out, unsigned int *prev_attr);
+typedef bool (*b_rule)(void *self, b_attribute **a, unsigned int *num_attr);
 typedef void (*b_action)(void *self, b_attribute *a, unsigned int n);
 
 typedef struct b_behavior {
-	b_attribute		*rule_attr;
-	b_attribute		*action_attr;
-	unsigned int	num_rule_attr,
-					num_action_attr,
+	b_attribute		*attr;
+	unsigned int	attrs,
 					num_rules;
 	
 	b_rule *rule;
