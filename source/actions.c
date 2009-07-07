@@ -20,12 +20,27 @@
 #include "game_helper.h"
 #include "vec3.h"
 
-static void action_move(void *self, b_attribute *b, unsigned int attrs);
-static void action_move_attr(b_attribute **b,
-	unsigned int *prev_attrs);
+#define ADD_ACTION(x) \
+{#x, &action_##x##_attr, &action_##x }
+
+#define DEF_ACTION(x) \
+static void \
+action_##x##_attr(b_attribute **b, unsigned int *prev_attrs); \
+static void \
+action_##x (void *self, b_attribute *b, unsigned int attrs)
+
+#define DECL_ACTION_ATTR(x) \
+void \
+action_##x##_attr(b_attribute **b, unsigned int *prev_attrs)
+
+#define DECL_ACTION(x) \
+void \
+action_##x (void *self, b_attribute *b, unsigned int attrs)
+
+DEF_ACTION(move);
 
 static struct b_action_info action[] = {
-	{"move", action_move_attr, action_move},
+	ADD_ACTION(move),
 };
 static unsigned int actions = sizeof(action) / sizeof(struct b_action_info);
 
@@ -42,8 +57,7 @@ b_get_action(const char *name, struct b_action_info **info)
 	}
 }
 
-void
-action_move(void *self, b_attribute *b, unsigned int attrs)
+DECL_ACTION(move)
 {
 	b_attribute *direction,
 				*speed;
@@ -70,8 +84,7 @@ action_move(void *self, b_attribute *b, unsigned int attrs)
 	tmp->rb->rotation = quat_from_axis(&rot);
 }
 
-void
-action_move_attr(b_attribute **b, unsigned int *prev_attrs)
+DECL_ACTION_ATTR(move)
 {
 	
 	b_add_attribute(b, prev_attrs, "speed", 'f', 1.f);

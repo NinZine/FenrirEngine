@@ -22,30 +22,35 @@
 #include "rules.h"
 #include "vec3.h"
 
+#define ADD_RULE(x) \
+{#x, &rule_##x##_attr, &rule_##x }
+
+#define DEF_RULE(x) \
+static void \
+rule_##x##_attr (b_attribute **, unsigned int *); \
+static bool \
+rule_##x (void *self, b_attribute *a, const unsigned int attrs, \
+			 b_attribute **out, unsigned int *prev_attr)
+
+#define DECL_RULE_ATTR(x) \
+void \
+rule_##x##_attr(b_attribute **a, unsigned int *n)
+
+#define DECL_RULE(x) \
+bool \
+rule_##x (void *self, b_attribute *b, const unsigned int attrs, \
+			 b_attribute **out, unsigned int *prev_attr)
+
 /* Prototypes */
-static void
-rule_collide_attr(b_attribute **a, unsigned int *n);
-static bool
-rule_collide(void *self, b_attribute *a, const unsigned int num_attr,
-		   b_attribute **out, unsigned int *prev_attr);
-
-static void
-rule_input_attr(b_attribute **a, unsigned int *n);
-static bool
-rule_input(void *self, b_attribute *a, const unsigned int num_attr,
-		b_attribute **out, unsigned int *prev_attr);
-
-static void
-rule_see_attr(b_attribute **a, unsigned int *n);
-static bool
-rule_see(void *self, b_attribute *a, const unsigned int num_attr,
-	b_attribute **out, unsigned int *prev_attr);
+DEF_RULE(collide);
+DEF_RULE(input);
+DEF_RULE(see);
 
 /* Table with all the rules */
 static struct b_rule_info rule[] = {
-	{"collide", &rule_collide_attr, &rule_collide},
-	{"input", &rule_input_attr, &rule_input},
-	{"see", &rule_see_attr, &rule_see},
+	ADD_RULE(collide),
+	ADD_RULE(input),
+	ADD_RULE(see),
 };
 
 static unsigned int num_rules = sizeof(rule) / sizeof(struct b_rule_info);
@@ -63,17 +68,14 @@ b_get_rule(const char *name, struct b_rule_info **info)
 	}
 }
 
-void
-rule_collide_attr(b_attribute **a, unsigned int *n)
+DECL_RULE_ATTR(collide)
 {
 	
 	b_add_attribute(a, n, "bounce", 'b', false);
 	b_add_attribute(a, n, "you", 'e', 0);
 }
 
-bool
-rule_collide(void *self, b_attribute *b, const unsigned int attrs,
-		   b_attribute **out, unsigned int *prev_attr)
+DECL_RULE(collide)
 {
 	b_attribute	*tmp;
 	g_entity	*me,
@@ -129,7 +131,7 @@ rule_collide(void *self, b_attribute *b, const unsigned int attrs,
 		}
 		
 		/* Project out of collision */
-		trans = vec3_mul(&trans, min_dist);
+		trans = vec3_mul(&trans, min_dist+0.05f);
 		trans = vec3_add(&me->rb->position, &trans);
 		me->rb->position = trans;
 		bzero(&me->rb->linear_velocity, sizeof(vec3));
@@ -141,15 +143,12 @@ rule_collide(void *self, b_attribute *b, const unsigned int attrs,
 	return false;
 }
 
-void
-rule_input_attr(b_attribute **a, unsigned int *n)
+DECL_RULE_ATTR(input)
 {
 	b_add_attribute(a, n, "button", 'i', 0);
 }
 
-bool
-rule_input(void *self, b_attribute *b, const unsigned int attrs,
-	b_attribute **out, unsigned int *prev_attr)
+DECL_RULE(input)
 {
 	b_attribute	*button;
 	gh_button *tmp;
@@ -170,24 +169,21 @@ rule_input(void *self, b_attribute *b, const unsigned int attrs,
 	return true;
 }
 
-void
-rule_see_attr(b_attribute **a, unsigned int *n)
+DECL_RULE_ATTR(see)
 {
 
 	b_add_attribute(a, n, "distance", 'f', 20.f);
 	b_add_attribute(a, n, "you", 'e', 0);
 }
 
-bool
-rule_see(void *self, b_attribute *b, const unsigned int num_attr,
-	b_attribute **out, unsigned int *prev_attr)
+DECL_RULE(see)
 {
 	b_attribute *distance,
 				*you;
 	vec3 v = {0.f, 1.f, 0.f};
 
-	distance = b_find_attribute("distance", b, num_attr);
-	you = b_find_attribute("you", b, num_attr);
+	distance = b_find_attribute("distance", b, attrs);
+	you = b_find_attribute("you", b, attrs);
 
 	if (distance && you) {
 		float len;

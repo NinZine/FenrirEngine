@@ -20,6 +20,11 @@
 #include "quat.h"
 #include "vec3.h"
 
+enum gh_type {
+	T_SOLID,
+	T_MOVEABLE,
+};
+
 struct gh_rigid_body {
 	int32_t id;
 	vec3	position;
