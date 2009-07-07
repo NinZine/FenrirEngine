@@ -69,7 +69,7 @@ static void game_interpolate_states(struct gh_state *out,
 static void game_render_state(struct gh_state *src);
 static void game_resolve_collisions(struct gh_state *curr,
 	struct gh_state *prev);
-static void game_update_state(struct gh_state *curr, struct gh_state *prev);
+static void game_update_state(struct gh_state *curr);
 static void game_update_entities(g_entity *e, const unsigned int n);
 
 void
@@ -105,27 +105,27 @@ game_initialize()
 	
 	game_initialize_light();
 	/* Test behavior */
-	b_add_behavior(&entity[2].b, &entity[2].behaviors);
+	/*b_add_behavior(&entity[2].b, &entity[2].behaviors);
 	b_add_rule(entity[2].b, "see");
 	b_set_attribute(entity[2].b->rule_attr, entity[2].b->num_rule_attr,
 		"distance", 45.f);
 	b_set_attribute(entity[2].b->rule_attr, entity[2].b->num_rule_attr,
 		"you", &entity[1]);
-	b_add_action(entity[2].b, "move");
-	b_exec(&entity[2], &entity[2].b[0]);
-	b_exec(&entity[2], &entity[2].b[0]);
-	b_exec(&entity[2], &entity[2].b[0]);
-	b_exec(&entity[2], &entity[2].b[0]);
+	b_add_action(entity[2].b, "move");*/
 	
 	b_add_behavior(&entity[1].b, &entity[1].behaviors);
 	b_add_rule(entity[1].b, "input");
 	b_add_action(entity[1].b, "move");
 	b_set_attribute(entity[1].b->action_attr, entity[1].b->num_action_attr,
 		"speed", 2.f);
+	b_add_behavior(&entity[0].b, &entity[0].behaviors);
+	b_add_rule(&entity[0].b[0], "collide");
+	b_set_attribute(entity[0].b[0].rule_attr, entity[0].b[0].num_rule_attr,
+		"you", &entity[1]);
 	//b_exec(&entity[1], &entity[1].b[0]);
 	
-	entity[3].b = entity[4].b = &entity[2].b[0];
-	entity[3].behaviors = entity[4].behaviors = 1;
+	//entity[3].b = entity[4].b = &entity[2].b[0];
+	//entity[3].behaviors = entity[4].behaviors = 1;
 	/* End test */
 }
 
@@ -242,65 +242,6 @@ game_render_state(struct gh_state *src)
 }
 
 void
-game_resolve_collisions(struct gh_state *curr, struct gh_state *prev)
-{
-	int i, j;
-	
-	for (i = 0; i < curr->count-1; ++i) {
-		mat4 tf1;
-		vec3 edge[4] = {
-			{1.f, 0.f, 0.f},
-			{0.f, 1.f, 0.f},
-			{1.f, 0.f, 0.f},
-			{0.f, 1.f, 0.f},
-		}; /* TODO: Find edges, this should be done at load. */
-		vec3 point1[4] = {
-			{-0.5f, -0.5f, 0.f},
-			{ 0.5f, -0.5f, 0.f},
-			{-0.5f,  0.5f, 0.f},
-			{ 0.5f,  0.5f, 0.f},
-		}; /* TODO: This is vertex data */
-
-		gh_build_mat4(&curr->object[i], &tf1);
-		
-		gh_transform_edges(&tf1, &edge[0], 2);
-		gh_transform_vec3(&tf1, point1, 4);
-		
-		for (j = i+1; j < curr->count; ++j) {
-			mat4 tf2;
-			vec3 point2[4] = {
-				{-0.5f, -0.5f, 0.f},
-				{ 0.5f, -0.5f, 0.f},
-				{-0.5f,  0.5f, 0.f},
-				{ 0.5f,  0.5f, 0.f},
-			};
-			float_t min_dist = 0.f;
-			int axis = -1;
-			
-			gh_build_mat4(&curr->object[j], &tf2);
-			gh_transform_edges(&tf2, &edge[2], 2);
-			gh_transform_vec3(&tf2, point2, 4);
-			
-			if (true == gh_collides(edge, 4, point1, point2, &min_dist, &axis)) {
-				vec3 trans = edge[axis];
-				vec3 dist;
-				
-				dist = vec3_sub(&curr->object[i].position, &curr->object[j].position);
-				if (vec3_dot(&dist, &trans) < 0) {
-					trans.x = -trans.x; trans.y = -trans.y; trans.z = -trans.z;
-				}
-				
-				/* Project out of collision */
-				trans = vec3_mul(&trans, min_dist);
-				trans = vec3_add(&curr->object[i].position, &trans);
-				curr->object[i].position = trans;
-				printf("Collision: %d and %d on axis %d dist (%.2f,%.2f)\n", i, j, axis, trans.x, trans.y);
-			}
-		}
-	}
-}
-
-void
 game_update()
 {
 
@@ -316,10 +257,9 @@ game_update()
 	
 	while (game_time.accumulator >= game_time.timestep) {
 		
-		//game_input_handle();
+		gh_copy_state(&state_previous, &state_current, false);
 		game_update_entities(entity, entities);
-		game_update_state(&state_current, &state_previous);
-		game_resolve_collisions(&state_current, &state_previous);
+		game_update_state(&state_current);
 		
 		game_time.accumulator -= game_time.timestep;
 		game_time.frame += 1;
@@ -341,11 +281,9 @@ game_update_entities(g_entity *e, const unsigned int n)
 }
 
 void
-game_update_state(struct gh_state *curr, struct gh_state *prev)
+game_update_state(struct gh_state *curr)
 {
 	int16_t i;
-
-	gh_copy_state(prev, curr, false);
 
 	for (i = 0; i < curr->count; ++i) {
 		quat a = {1.f,

@@ -28,10 +28,19 @@ struct gh_rigid_body {
 	vec3	angular_velocity;
 };
 
+struct gh_model {
+	/*char *filename;
+	 int texture;*/
+	vec3	*vertex,
+			*edge;
+	uint8_t vertices,
+			edges;
+};
+
 typedef struct g_entity {
 	b_behavior *b;
 	struct gh_rigid_body *rb;
-	/*model *m;*/
+	/*struct gh_model *m;*/
 	 unsigned int behaviors;
 } g_entity;
 

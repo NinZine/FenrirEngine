@@ -24,6 +24,12 @@
 
 /* Prototypes */
 static void
+rule_collide_attr(b_attribute **a, unsigned int *n);
+static bool
+rule_collide(void *self, b_attribute *a, const unsigned int num_attr,
+		   b_attribute **out, unsigned int *prev_attr);
+
+static void
 rule_input_attr(b_attribute **a, unsigned int *n);
 static bool
 rule_input(void *self, b_attribute *a, const unsigned int num_attr,
@@ -37,6 +43,7 @@ rule_see(void *self, b_attribute *a, const unsigned int num_attr,
 
 /* Table with all the rules */
 static struct b_rule_info rule[] = {
+	{"collide", &rule_collide_attr, &rule_collide},
 	{"input", &rule_input_attr, &rule_input},
 	{"see", &rule_see_attr, &rule_see},
 };
@@ -54,6 +61,84 @@ b_get_rule(const char *name, struct b_rule_info **info)
 			break;
 		}
 	}
+}
+
+void
+rule_collide_attr(b_attribute **a, unsigned int *n)
+{
+	
+	b_add_attribute(a, n, "bounce", 'b', false);
+	b_add_attribute(a, n, "you", 'e', 0);
+}
+
+bool
+rule_collide(void *self, b_attribute *b, const unsigned int attrs,
+		   b_attribute **out, unsigned int *prev_attr)
+{
+	b_attribute	*tmp;
+	g_entity	*me,
+				*you;
+	mat4 tf1;
+	vec3 edge[4] = {
+		{1.f, 0.f, 0.f},
+		{0.f, 1.f, 0.f},
+		{1.f, 0.f, 0.f},
+		{0.f, 1.f, 0.f},
+	}; /* TODO: Find edges, this should be done at load. */
+	vec3 point1[4] = {
+		{-0.5f, -0.5f, 0.f},
+		{ 0.5f, -0.5f, 0.f},
+		{-0.5f,  0.5f, 0.f},
+		{ 0.5f,  0.5f, 0.f},
+	}; /* TODO: This is vertex data */
+	mat4 tf2;
+	vec3 point2[4] = {
+		{-0.5f, -0.5f, 0.f},
+		{ 0.5f, -0.5f, 0.f},
+		{-0.5f,  0.5f, 0.f},
+		{ 0.5f,  0.5f, 0.f},
+	};
+	float_t min_dist = 0.f;
+	int axis = -1;
+	
+	tmp = b_find_attribute("you", b, attrs);
+	if (tmp) {
+		you = *(g_entity**)tmp->value;
+		if (0 == you) {
+			return false;
+		}
+	} else {
+		return false;
+	}
+	
+	me = (g_entity*)self;
+	gh_build_mat4(me->rb, &tf1);
+	gh_transform_edges(&tf1, &edge[0], 2);
+	gh_transform_vec3(&tf1, point1, 4);
+	gh_build_mat4(you->rb, &tf2);
+	gh_transform_edges(&tf2, &edge[2], 2);
+	gh_transform_vec3(&tf2, point2, 4);
+	
+	if (true == gh_collides(edge, 4, point1, point2, &min_dist, &axis)) {
+		vec3 trans = edge[axis];
+		vec3 dist;
+		
+		dist = vec3_sub(&me->rb->position, &you->rb->position);
+		if (vec3_dot(&dist, &trans) < 0) {
+			trans.x = -trans.x; trans.y = -trans.y; trans.z = -trans.z;
+		}
+		
+		/* Project out of collision */
+		trans = vec3_mul(&trans, min_dist);
+		trans = vec3_add(&me->rb->position, &trans);
+		me->rb->position = trans;
+		bzero(&me->rb->linear_velocity, sizeof(vec3));
+		printf("Collision: %x and %x on axis %d dist (%.2f,%.2f)\n", me->rb, you->rb, axis, trans.x, trans.y);
+		//b_add_attribute(out, prev_attr, "direction", 'v', v);
+		return true;
+	}
+	
+	return false;
 }
 
 void

@@ -172,6 +172,12 @@ b_parse_attribute(b_attribute *a, bool modify, va_list *ap)
 {
 
 	switch (a->type) {
+		case 'b':
+		{
+			bool d = (bool)va_arg(*ap, int);
+			b_init_attribute_value(&a->value, modify, sizeof(d), (void*)&d);
+			break;
+		}
 		case 'e':
 		{
 			g_entity *d = va_arg(*ap, g_entity*);
