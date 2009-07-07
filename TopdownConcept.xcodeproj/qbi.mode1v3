@@ -275,7 +275,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>17</integer>
+									<integer>21</integer>
 									<integer>15</integer>
 									<integer>0</integer>
 								</array>
@@ -318,7 +318,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>rules.c</string>
+								<string>game.c</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -326,11 +326,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>rules.c</string>
+										<string>game.c</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>1001E6B41002E30E002343DB</string>
+										<string>1001E73910037BC5002343DB</string>
 										<key>history</key>
 										<array>
 											<string>1052A81C0FFFAEAD00F39C1D</string>
@@ -355,19 +355,15 @@
 											<string>10FDC5FB1002B1B500DB4A59</string>
 											<string>10FDC6401002B4F500DB4A59</string>
 											<string>10FDC6411002B4F500DB4A59</string>
-											<string>10FDC6671002B77300DB4A59</string>
-											<string>10FDC66B1002B77300DB4A59</string>
 											<string>1001E6111002CCAB002343DB</string>
 											<string>1001E65C1002D4AD002343DB</string>
-											<string>1001E6751002D7EC002343DB</string>
-											<string>1001E6811002DBFC002343DB</string>
 											<string>1001E68B1002DD69002343DB</string>
 											<string>1001E6AF1002E2C1002343DB</string>
-											<string>1001E6B01002E2C1002343DB</string>
-										</array>
-										<key>nextStack</key>
-										<array>
-											<string>1001E6B11002E2C1002343DB</string>
+											<string>1001E6FD10036AB2002343DB</string>
+											<string>1001E71410036E8C002343DB</string>
+											<string>1001E71510036E8C002343DB</string>
+											<string>1001E71610036E8C002343DB</string>
+											<string>1001E71710036E8C002343DB</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -377,7 +373,6 @@
 											<string>10FDC45010027A1A00DB4A59</string>
 											<string>10FDC45110027A1A00DB4A59</string>
 											<string>10FDC5021002932700DB4A59</string>
-											<string>10FDC5041002932700DB4A59</string>
 											<string>10FDC50A1002932700DB4A59</string>
 											<string>10FDC57210029A7F00DB4A59</string>
 											<string>10FDC5C31002ACC000DB4A59</string>
@@ -391,12 +386,14 @@
 											<string>1001E6581002D2B3002343DB</string>
 											<string>1001E6601002D4AD002343DB</string>
 											<string>1001E6621002D4AD002343DB</string>
-											<string>1001E6631002D4AD002343DB</string>
 											<string>1001E66D1002D685002343DB</string>
 											<string>1001E6781002D7EC002343DB</string>
-											<string>1001E67D1002D7F7002343DB</string>
-											<string>1001E6841002DBFC002343DB</string>
 											<string>1001E68D1002DD69002343DB</string>
+											<string>1001E6DD100367CF002343DB</string>
+											<string>1001E71810036E8C002343DB</string>
+											<string>1001E71910036E8C002343DB</string>
+											<string>1001E71A10036E8C002343DB</string>
+											<string>1001E71B10036E8C002343DB</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -595,8 +592,8 @@
 		<string>1001E6261002CCAB002343DB</string>
 		<string>1001E6271002CCAB002343DB</string>
 		<string>1CD10A99069EF8BA00B06720</string>
-		<string>1C78EAAD065D492600B07095</string>
 		<string>10FB3C8F0FBB0550005CC6FA</string>
+		<string>1C78EAAD065D492600B07095</string>
 		<string>/Users/qbi/Code/iPhone/TopdownConcept/TopdownConcept.xcodeproj</string>
 	</array>
 	<key>WindowString</key>

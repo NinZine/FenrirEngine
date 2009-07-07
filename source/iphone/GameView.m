@@ -13,8 +13,8 @@
 #include "vec3.h"
 
 static gh_button button[] = {
-	{{-170.f, -90.f, 0.f}, {0.f, 0.f, 0.f}, 70.f, 0}, /* Left stick */
-	{{200.f, -90.f, 0.f}, {0.f, 0.f, 0.f}, 40.f, 0}, /* Right button */
+	{{-170.f, -90.f, -1.f}, {0.f, 0.f, 0.f}, 70.f, 0}, /* Left stick */
+	{{200.f, -90.f, -1.f}, {0.f, 0.f, 0.f}, 40.f, 0}, /* Right button */
 };
 static int num_buttons = sizeof(button)/sizeof(gh_button);
 
@@ -32,6 +32,14 @@ drawHUD
 			size;
 	int j;
 	
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	r_setup_orthogonal_view(buffer.width, buffer.height);
+	glRotatef(90.0f, 0.0f, 0.0f, -1.0f); // For landscape mode
+	glColor4f(0.f, 0.f, 0.f, .5f);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glMatrixMode(GL_MODELVIEW);
 	for (j = 0; j < num_buttons; ++j) {
 		angle = atan2(button[j].rotation.y, button[j].rotation.x);
 		angle = gh_rad2deg(angle);
@@ -46,6 +54,7 @@ drawHUD
 		//r_render_quad(1);
 		glPopMatrix();
 	}
+	glDisable(GL_BLEND);
 }
 
 - (id)

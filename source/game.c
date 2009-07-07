@@ -53,8 +53,8 @@ struct gh_input_queue {
 	struct gh_input *queue;
 };
 
-static vec3 camera_current = {0.f, 0.f, 200.f};
-static vec3 camera_previous = {0.f, 0.f, 200.f};
+static vec3 camera_current = {0.f, 0.f, 400.f};
+static vec3 camera_previous = {0.f, 0.f, 400.f};
 static vec3 light_position = {0.0f, -1.0f, 0.0f};
 static struct gh_state state_current = {0,0};
 static struct gh_state state_previous = {0,0};
@@ -105,19 +105,21 @@ game_initialize()
 	
 	game_initialize_light();
 	/* Test behavior */
-	/*b_add_behavior(&entity[2].b, &entity[2].behaviors);
+	b_add_behavior(&entity[2].b, &entity[2].behaviors);
 	b_add_rule(entity[2].b, "see");
 	b_set_attribute(entity[2].b->rule_attr, entity[2].b->num_rule_attr,
 		"distance", 45.f);
 	b_set_attribute(entity[2].b->rule_attr, entity[2].b->num_rule_attr,
 		"you", &entity[1]);
-	b_add_action(entity[2].b, "move");*/
+	b_add_action(entity[2].b, "move");
+	b_set_attribute(entity[2].b->action_attr, entity[2].b->num_action_attr,
+		"speed", 2.f);
 	
 	b_add_behavior(&entity[1].b, &entity[1].behaviors);
 	b_add_rule(entity[1].b, "input");
 	b_add_action(entity[1].b, "move");
 	b_set_attribute(entity[1].b->action_attr, entity[1].b->num_action_attr,
-		"speed", 2.f);
+		"speed", 4.f);
 	b_add_behavior(&entity[0].b, &entity[0].behaviors);
 	b_add_rule(&entity[0].b[0], "collide");
 	b_set_attribute(entity[0].b[0].rule_attr, entity[0].b[0].num_rule_attr,
@@ -187,12 +189,12 @@ game_render(struct r_gl_buffer *buffer)
 	
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	r_setup_orthogonal_view(buffer->width, buffer->height);
-	//r_setup_perspective_view(60.0f, aspect_ratio,
-	//		0.01f, 1000.f);
-	camera_tmp = vec3_lerp(&camera_current, &camera_previous, interpolate);
+	//r_setup_orthogonal_view(buffer->width, buffer->height);
+	r_setup_perspective_view(60.0f, aspect_ratio, 0.01f, 1000.f);
+	camera_tmp = vec3_lerp(&camera_previous, &camera_current, interpolate);
 	//glTranslatef(-camera_tmp.x, -camera_tmp.y, -camera_tmp.z);
 	glRotatef(90.0f, 0.0f, 0.0f, -1.0f); // For landscape mode
+	glTranslatef(-camera_tmp.x, -camera_tmp.y, -camera_tmp.z);
 	
 	/* Clear buffers */
 	r_clear();
@@ -213,7 +215,7 @@ game_render(struct r_gl_buffer *buffer)
 	game_render_state(&tmp);
 	
 	/* Make sure there is no error in OpenGL stuff */
-	//assert(glGetError() == GL_NO_ERROR);
+	assert(glGetError() == GL_NO_ERROR);
 }
 
 void
@@ -284,6 +286,11 @@ void
 game_update_state(struct gh_state *curr)
 {
 	int16_t i;
+
+	camera_previous = camera_current;
+	camera_current.x = entity[1].rb->position.x;
+	camera_current.y = entity[1].rb->position.y;
+	//camera_current.z = entity[1].rb->position.z;
 
 	for (i = 0; i < curr->count; ++i) {
 		quat a = {1.f,
