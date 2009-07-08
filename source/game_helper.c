@@ -28,9 +28,9 @@ gh_build_mat4(struct gh_rigid_body *obj, mat4 *out)
 	pos.m[3][1] = obj->position.y;
 	pos.m[3][2] = obj->position.z;
 	mat4_identity(&sca);
-	sca.m[0][0] = 20.f;
-	sca.m[1][1] = 20.f;
-	sca.m[2][2] = 20.f;
+	sca.m[0][0] = obj->scale.x;
+	sca.m[1][1] = obj->scale.y;
+	sca.m[2][2] = obj->scale.z;
 	mat4_mul(&sca, &rot, &rot);
 	mat4_mul(&rot, &pos, &pos); /* Translation matrix in pos */
 	
@@ -95,6 +95,7 @@ gh_copy_state(struct gh_state *dest, struct gh_state *src, bool use_malloc)
 		dest->object[i].id = src->object[i].id;
 		dest->object[i].position = src->object[i].position;
 		dest->object[i].rotation = src->object[i].rotation;
+		dest->object[i].scale = src->object[i].scale;
 		dest->object[i].linear_velocity = src->object[i].linear_velocity;
 		dest->object[i].angular_velocity = src->object[i].angular_velocity;
 	}

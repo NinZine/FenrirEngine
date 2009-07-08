@@ -51,13 +51,19 @@ void
 b_add_attribute(b_attribute **a, unsigned int *n, const char *name,
 	const char type, ...)
 {
+	b_attribute *tmp;
 	va_list ap;
 	
-	gh_array_resize((void**)a, *n, sizeof(b_attribute), 1);
-	*n += 1;
-	
 	va_start(ap, type);
-	b_create_attribute(&(*a)[*n-1], name, type, &ap);
+	tmp = b_find_attribute(name, *a, *n);
+	if (0 == tmp) {
+		gh_array_resize((void**)a, *n, sizeof(b_attribute), 1);
+		*n += 1;
+		b_create_attribute(&(*a)[*n-1], name, type, &ap);
+	} else {
+		b_parse_attribute(tmp, true, &ap);
+	}
+	
 	va_end(ap);
 }
 
@@ -119,7 +125,6 @@ b_exec(void *self, b_behavior *b)
 	for (i = 0; i < b->num_rules; ++i) {
 		if (false == b->rule[i](self, &b->attr, &b->attrs)) {
 			rules_passed = false;
-			break;
 		}
 	}
 

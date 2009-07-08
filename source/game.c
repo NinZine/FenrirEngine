@@ -85,12 +85,13 @@ game_initialize()
 			sizeof(struct gh_rigid_body), state_current.count);
 		gh_array_resize((void**)&entity, 0, sizeof(g_entity), entities);
 		
-		for (i = 0; i < entities; ++i) {
+		for (i = 1; i < entities; ++i) {
 			vec3 position = {
 				0.f,
 				(entities * -20.f) + (i * 40.f),
 				0.f};
 			quat rotation = {10.f * i, 0.f, 0.f, 1.f};
+			vec3 scale = {20.f, 20.f, 20.f};
 			vec3 ang_vec = {0.f, 0.f, (i > 2) ? 10.f : 0.f};
 			vec3 edge[2] = {
 				{1.f, 0.f, 0.f},
@@ -107,6 +108,7 @@ game_initialize()
 			entity[i].models = 1;
 			entity[i].m->vertices = 4;
 			entity[i].m->edges = 2;
+			entity[0].m->shape = S_POLYGON;
 			gh_array_resize((void**)&entity[i].m->vertex, 0, sizeof(vec3), 4);
 			gh_array_resize((void**)&entity[i].m->edge, 0, sizeof(vec3), 2);
 			memcpy(entity[i].m->vertex, point, 4 * sizeof(vec3));
@@ -116,6 +118,7 @@ game_initialize()
 			entity[i].rb = &state_current.object[i];
 			entity[i].rb->position = position;
 			entity[i].rb->rotation = quat_from_axis(&rotation);
+			entity[i].rb->scale = scale;
 			entity[i].rb->angular_velocity = ang_vec;
 		}
 		
@@ -142,10 +145,19 @@ game_initialize()
 	b_add_action(entity[1].b, "move");
 	b_set_attribute(entity[1].b->attr, entity[1].b->attrs,
 		"speed", 4.f);
+	
+	/* Ball */
+	entity[0].m->shape = S_CIRCLE;
 	b_add_behavior(&entity[0].b, &entity[0].behaviors);
+	b_add_rule(&entity[0].b[0], "input");
 	b_add_rule(&entity[0].b[0], "collide");
 	b_set_attribute(entity[0].b[0].attr, entity[0].b[0].attrs,
 		"you", &entity[1]);
+	b_set_attribute(entity[0].b[0].attr, entity[0].b[0].attrs, "button", 1);
+	b_add_action(&entity[0].b[0], "move");
+	b_set_attribute(entity[0].b[0].attr, entity[0].b->attrs, "speed", 10.f);
+	entity[0].rb->scale.x = entity[0].rb->scale.y = entity[0].rb->scale.z = 9.f;
+	
 	//b_exec(&entity[1], &entity[1].b[0]);
 	
 	//entity[3].b = entity[4].b = &entity[2].b[0];
@@ -263,7 +275,10 @@ game_render_state(const g_entity *g, const uint8_t n, struct gh_state *src)
 		glEnable(GL_COLOR_MATERIAL);
 		gh_build_mat4(&src->object[i], &tf);
 		glLoadMatrixf((GLfloat *)tf.m);
-		r_render_vertices((GLfloat *)g[i].m->vertex, g[i].m->vertices);
+		if (i == 0)
+			r_render_circle(1);
+		else
+			r_render_vertices((GLfloat *)g[i].m->vertex, g[i].m->vertices);
 		glPopMatrix();
 	}
 }

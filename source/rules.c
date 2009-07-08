@@ -114,6 +114,13 @@ DECL_RULE(collide)
 	gh_transform_edges(&tf2, &edge[me->m->edges], you->m->edges);
 	gh_transform_vec3(&tf2, point2, you->m->vertices);
 	
+	/* TODO: Circle poly collision
+	   Find closest point to center of circle
+	   Create vector and normalize
+	   Project polygon on that vector
+	   Project circle on that vector (vector * (pos +/-radius))
+	*/
+
 	if (true == gh_collides(edge, me->m->edges + you->m->edges,
 		point1, me->m->vertices, point2, you->m->vertices, &min_dist, &axis)) {
 		vec3 trans = edge[axis];
@@ -126,11 +133,10 @@ DECL_RULE(collide)
 		
 		/* Project out of collision */
 		trans = vec3_mul(&trans, min_dist+0.05f);
-		trans = vec3_add(&me->rb->position, &trans);
-		me->rb->position = trans;
+		me->rb->position = vec3_add(&me->rb->position, &trans);
 		bzero(&me->rb->linear_velocity, sizeof(vec3));
 		printf("Collision: %x and %x on axis %d dist (%.2f,%.2f)\n", me->rb, you->rb, axis, trans.x, trans.y);
-		//b_add_attribute(out, prev_attr, "direction", 'v', v);
+		b_add_attribute(b, attrs, "direction", 'v', trans);
 		collides = true;
 	}
 	

@@ -25,10 +25,16 @@ enum gh_type {
 	T_MOVEABLE,
 };
 
+enum gh_shape {
+	S_CIRCLE,
+	S_POLYGON,
+};
+
 struct gh_rigid_body {
 	int32_t id;
 	vec3	position;
 	quat	rotation;
+	vec3	scale;
 	vec3	linear_velocity;
 	vec3	angular_velocity;
 };
@@ -36,6 +42,7 @@ struct gh_rigid_body {
 struct gh_model {
 	/*char *filename;
 	 int texture;*/
+	enum gh_shape shape;
 	vec3	*vertex,
 			*edge;
 	uint8_t vertices,
