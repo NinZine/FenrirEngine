@@ -15,6 +15,8 @@
 	[application setStatusBarOrientation:UIInterfaceOrientationLandscapeRight animated:NO];
 	[[UIApplication sharedApplication] setStatusBarHidden:YES animated:NO];
 	
+	[application setIdleTimerDisabled:YES]; /* Unlimited idle */
+	
 	// Create window
 	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     

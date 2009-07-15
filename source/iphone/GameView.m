@@ -64,21 +64,21 @@ initWithFrame:(CGRect)frame
 {
 	CAEAGLLayer *gl_layer;
 
-	self = [super initWithFrame:frame];
-
-	/* Init OpenGL */
-	gl_layer = (CAEAGLLayer*)self.layer;
-	gl_layer.opaque = YES;
-	gl_layer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:FALSE], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
-	
-	context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
-	assert(context);
-	
-	/* Enable multiple touches */
-	[self setMultipleTouchEnabled:YES];
-	
-	/* Nullify buffer info */
-	bzero(&buffer, sizeof(buffer));
+	if (self = [super initWithFrame:frame]) {
+		/* Init OpenGL */
+		gl_layer = (CAEAGLLayer*)self.layer;
+		gl_layer.opaque = YES;
+		gl_layer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:FALSE], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
+		
+		context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
+		assert(context);
+		
+		/* Enable multiple touches */
+		[self setMultipleTouchEnabled:YES];
+		
+		/* Nullify buffer info */
+		bzero(&buffer, sizeof(buffer));
+	}
 	
 	return self;
 }

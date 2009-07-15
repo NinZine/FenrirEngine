@@ -78,14 +78,14 @@ game_initialize()
 	int i;
 
 	if (0 == entities) {
-		state_current.count = 6;
+		state_current.count = 6; /* One extra for camera */
 		entities = 5;
 		
 		gh_array_resize((void**)&state_current.object, 0,
 			sizeof(struct gh_rigid_body), state_current.count);
 		gh_array_resize((void**)&entity, 0, sizeof(g_entity), entities);
 		
-		for (i = 1; i < entities; ++i) {
+		for (i = 0; i < entities; ++i) {
 			vec3 position = {
 				0.f,
 				(entities * -20.f) + (i * 40.f),
@@ -108,7 +108,7 @@ game_initialize()
 			entity[i].models = 1;
 			entity[i].m->vertices = 4;
 			entity[i].m->edges = 2;
-			entity[0].m->shape = S_POLYGON;
+			entity[i].m->shape = S_POLYGON;
 			gh_array_resize((void**)&entity[i].m->vertex, 0, sizeof(vec3), 4);
 			gh_array_resize((void**)&entity[i].m->edge, 0, sizeof(vec3), 2);
 			memcpy(entity[i].m->vertex, point, 4 * sizeof(vec3));
@@ -147,7 +147,8 @@ game_initialize()
 		"speed", 4.f);
 	
 	/* Ball */
-	entity[0].m->shape = S_CIRCLE;
+	//entity[0].m = malloc(sizeof(struct gh_model));
+	//entity[0].m->shape = S_CIRCLE;
 	b_add_behavior(&entity[0].b, &entity[0].behaviors);
 	b_add_rule(&entity[0].b[0], "input");
 	b_add_rule(&entity[0].b[0], "collide");
@@ -156,6 +157,7 @@ game_initialize()
 	b_set_attribute(entity[0].b[0].attr, entity[0].b[0].attrs, "button", 1);
 	b_add_action(&entity[0].b[0], "move");
 	b_set_attribute(entity[0].b[0].attr, entity[0].b->attrs, "speed", 10.f);
+	//entity[0].rb = &state_current.object[0];
 	entity[0].rb->scale.x = entity[0].rb->scale.y = entity[0].rb->scale.z = 9.f;
 	
 	//b_exec(&entity[1], &entity[1].b[0]);
