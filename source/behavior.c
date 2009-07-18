@@ -11,6 +11,7 @@
 	 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
+#include <err.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -127,6 +128,19 @@ b_clean_attribute(b_attribute *a)
 }
 
 void
+b_clean_behavior(b_behavior *b)
+{
+	int i;
+	
+	for (i = 0; i < b->attrs; ++i) {
+		b_clean_attribute(&b->attr[i]);
+	}
+	free(b->attr);
+	free(b->rule);
+	bzero(b, sizeof(b_behavior));
+}
+
+void
 b_exec(void *self, b_behavior *b)
 {
 	int i;
@@ -185,40 +199,24 @@ b_init_attribute_value(void **value, bool modify, size_t bytes, void *data)
 void
 b_parse_attribute(b_attribute *a, bool modify, va_list *ap)
 {
-
-	switch (a->type) {
-		case 'b':
-		{
-			bool d = (bool)va_arg(*ap, int);
-			b_init_attribute_value(&a->value, modify, sizeof(d), (void*)&d);
-			break;
-		}
-		case 'e':
-		{
-			g_entity *d = va_arg(*ap, g_entity*);
-			b_init_attribute_value(&a->value, modify, sizeof(d), (void*)&d);
-			break;
-		}
-		case 'd':
-		case 'f':
-		{
-			float d = (float)va_arg(*ap, double);
-			b_init_attribute_value(&a->value, modify, sizeof(d), (void*)&d);
-			break;
-		}
-		case 'i':
-		{
-			int d = (int)va_arg(*ap, int);
-			b_init_attribute_value(&a->value, modify, sizeof(d), (void*)&d);
-			break;
-		}
-		case 'v':
-		{
-			vec3 d = va_arg(*ap, vec3);
-			b_init_attribute_value(&a->value, modify, sizeof(d), (void*)&d);
-		}
-		default:
-			break;
+	
+	if ('b' == a->type)	{
+		bool d = (bool)va_arg(*ap, int);
+		b_init_attribute_value(&a->value, modify, sizeof(d), (void*)&d);
+	} else if ('d' == a->type || 'f' == a->type) {
+		float d = (float)va_arg(*ap, double);
+		b_init_attribute_value(&a->value, modify, sizeof(d), (void*)&d);
+	} else if ('i' == a->type) {
+		int d = (int)va_arg(*ap, int);
+		b_init_attribute_value(&a->value, modify, sizeof(d), (void*)&d);
+	} else if ('u' == a->type) {
+		uint32_t d = (uint32_t)va_arg(*ap, uint32_t);
+		b_init_attribute_value(&a->value, modify, sizeof(d), (void*)&d);
+	} else if('v' == a->type) {
+		vec3 d = va_arg(*ap, vec3);
+		b_init_attribute_value(&a->value, modify, sizeof(d), (void*)&d);
+	} else {
+		err(1, "Failed to parse type %c", a->type);
 	}
 }
 

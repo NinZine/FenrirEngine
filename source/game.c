@@ -55,12 +55,12 @@ struct gh_input_queue {
 
 static uint32_t camera_id;
 static vec3 light_position = {0.0f, -1.0f, 0.0f};
+static g_entities entities = {};
 static struct gh_state state_current = {0,0};
 static struct gh_state state_previous = {0,0};
 static gh_time game_time = {0, 0, 0, 0, 0, 1.f / 20.f};
-static g_entity *entity;
-static unsigned int entities = 0;
 
+static int gh_index_of_entity(uint32_t id);
 static void game_initialize_light();
 static void game_input_handle();
 static void game_interpolate_states(struct gh_state *out,
@@ -70,7 +70,114 @@ static void game_render_state(const g_entity *g, uint8_t n,
 static void game_resolve_collisions(struct gh_state *curr,
 	struct gh_state *prev);
 static void game_update_state(struct gh_state *curr);
-static void game_update_entities(g_entity *e, const unsigned int n);
+static void game_update_entities(g_entities *e);
+
+g_entity*
+gh_create_entity()
+{
+	static int id = 0;
+	g_entities *state = &entities;
+	
+	gh_array_resize((void**)&state->object, state->count,
+					sizeof(g_entity), 1);
+	
+	bzero(&state->object[state->count], sizeof(g_entity));
+	state->object[state->count].id = ++id;
+	++state->count;
+	return &state->object[state->count-1];
+}
+
+uint32_t
+gh_create_rigidbody(vec3 *position, quat *rotation,
+					vec3 *scale, vec3 *vel, vec3 *ang_vel)
+{
+	static uint32_t id = 0;
+	struct gh_state *state = &state_current;
+	
+	gh_array_resize((void**)&state->object, state->count,
+					sizeof(struct gh_rigid_body), 1);
+	
+	bzero(&state->object[state->count], sizeof(gh_rigid_body));
+	state->object[state->count].id = ++id;
+	if (0 != position) {
+		state->object[state->count].position = *position;
+	}
+	if (0 != rotation) {
+		state->object[state->count].rotation = quat_from_axis(rotation);
+	}
+	if (0 != scale) {
+		state->object[state->count].scale = *scale;
+	}
+	if (0 != vel) {
+		state->object[state->count].linear_velocity = *vel;
+	}
+	if (0 != ang_vel) {
+		state->object[state->count].angular_velocity = *ang_vel;
+	}
+	
+	++state->count;
+	return state->object[state->count-1].id;
+}
+
+void
+gh_delete_entity(uint32_t id)
+{
+	int i;
+	g_entity tmp;
+	
+	/* Locate it */
+	i = gh_index_of_entity(id);
+	if (-1 == i) {
+		return;
+	}
+	/* Place it last in the array */
+	tmp = entities.object[i];
+	entities.object[i] = entities.object[entities.count-1];
+	/* Clean it */
+	for (i = 0; i < tmp.behaviors; ++i) {
+		b_clean_behavior(&tmp.b[i]);
+	}
+	for (i = 0; i < tmp.models; ++i) {
+		if (0 != tmp.m[i].edges) free(tmp.m[i].edge);
+		if (0 != tmp.m[i].vertices) free(tmp.m[i].vertex);
+	}
+	if (0 != tmp.b) free(tmp.b);
+	if (0 != tmp.m) free(tmp.m);
+	
+	/* Resize the array */
+	gh_array_resize((void**)&entities.object, entities.count,
+		sizeof(g_entity), -1);
+	/* TODO: Sort the array */
+}
+
+int
+gh_index_of_entity(uint32_t id)
+{
+	int i, index;
+	bool found = false;
+	
+	for (i = 0; !found && i < entities.count; ++i) {
+		if (entities.object[i].id == id) {
+			index = i;
+			found = true;
+		}
+	}
+	
+	return index;
+}
+
+g_entity*
+game_get_entity(uint32_t id)
+{
+	int i;
+	
+	i = gh_index_of_entity(id);
+	if (-1 == i) {
+		return 0;
+	} else {
+		return &entities.object[i];
+	}
+}
 
 struct gh_rigid_body*
 game_get_rigidbody(uint32_t id)
@@ -94,17 +201,17 @@ game_initialize()
 {
 	int i;
 
-	if (0 == entities) {
-		entities = 5;
-		gh_array_resize((void**)&entity, 0, sizeof(g_entity), entities);
+	if (0 == entities.count) {
 		
-		for (i = 0; i < entities; ++i) {
+		for (i = 0; i < 5; ++i) {
+			g_entity *e;
 			vec3 position = {
 				0.f,
-				(entities * -20.f) + (i * 40.f),
+				(5 * -20.f) + (i * 40.f),
 				0.f};
 			quat rotation = {10.f * i, 0.f, 0.f, 1.f};
 			vec3 scale = {20.f, 20.f, 20.f};
+			vec3 vel = {0.f, 0.f, 0.f};
 			vec3 ang_vec = {0.f, 0.f, (i > 2) ? 10.f : 0.f};
 			vec3 edge[2] = {
 				{1.f, 0.f, 0.f},
@@ -117,48 +224,49 @@ game_initialize()
 				{ 0.5f,  0.5f, 0.f},
 			}; /* TODO: This is vertex data */
 			
-			gh_array_resize((void**)&entity[i].m, 0, sizeof(struct gh_model), 1);
-			entity[i].models = 1;
-			entity[i].m->vertices = 4;
-			entity[i].m->edges = 2;
-			entity[i].m->shape = S_POLYGON;
-			gh_array_resize((void**)&entity[i].m->vertex, 0, sizeof(vec3), 4);
-			gh_array_resize((void**)&entity[i].m->edge, 0, sizeof(vec3), 2);
-			memcpy(entity[i].m->vertex, point, 4 * sizeof(vec3));
-			memcpy(entity[i].m->edge, edge, 2 * sizeof(vec3));
+			e = gh_create_entity();
+			gh_array_resize((void**)&e->m, 0, sizeof(struct gh_model), 1);
+			e->models = 1;
+			e->m->vertices = 4;
+			e->m->edges = 2;
+			e->m->shape = S_POLYGON;
+			gh_array_resize((void**)&e->m->vertex, 0, sizeof(vec3), 4);
+			gh_array_resize((void**)&e->m->edge, 0, sizeof(vec3), 2);
+			memcpy(e->m->vertex, point, 4 * sizeof(vec3));
+			memcpy(e->m->edge, edge, 2 * sizeof(vec3));
 			
-			entity[i].rb = gh_create_rigidbody(&state_current, &position,
-					&rotation, &scale, 0, &ang_vec);
+			e->rb = gh_create_rigidbody(&position,
+					&rotation, &scale, &vel, &ang_vec);
 		}
 		
 		/* Camera is also a rigid body */
-		camera_id = gh_create_rigidbody(&state_current, 0, 0, 0, 0, 0);
+		camera_id = gh_create_rigidbody(0, 0, 0, 0, 0);
 	}
 	
 	gh_copy_state(&state_previous, &state_current, true);
 	
 	game_initialize_light();
 	/* Test behavior */
-	b_add_behavior(&entity[2].b, &entity[2].behaviors);
-	b_add_rule(entity[2].b, "see");
-	b_set_attribute(entity[2].b->attr, entity[2].b->attrs,
+	b_add_behavior(&entities.object[2].b, &entities.object[2].behaviors);
+	b_add_rule(entities.object[2].b, "see");
+	b_set_attribute(entities.object[2].b->attr, entities.object[2].b->attrs,
 		"distance", 100.f);
-	b_set_attribute(entity[2].b->attr, entity[2].b->attrs,
-		"you", &entity[1]);
-	b_add_action(entity[2].b, "move");
-	b_set_attribute(entity[2].b->attr, entity[2].b->attrs,
+	b_set_attribute(entities.object[2].b->attr, entities.object[2].b->attrs,
+		"you", entities.object[1].id);
+	b_add_action(entities.object[2].b, "move");
+	b_set_attribute(entities.object[2].b->attr, entities.object[2].b->attrs,
 		"speed", 2.f);
 	
-	b_add_behavior(&entity[1].b, &entity[1].behaviors);
-	b_add_rule(entity[1].b, "input");
-	b_add_action(entity[1].b, "move");
-	b_set_attribute(entity[1].b->attr, entity[1].b->attrs,
+	b_add_behavior(&entities.object[1].b, &entities.object[1].behaviors);
+	b_add_rule(entities.object[1].b, "input");
+	b_add_action(entities.object[1].b, "move");
+	b_set_attribute(entities.object[1].b->attr, entities.object[1].b->attrs,
 		"speed", 4.f);
-	/* Right button /
-	b_add_behavior(&entity[1].b, &entity[1].behaviors);
-	b_add_rule(&entity[1].b[1], "input");
-	b_set_attribute(entity[1].b[1].attr, entity[1].b[1].attrs, "button", 1);
-	b_add_action(&entity[1].b[1], "shoot");*/
+	/* Right button */
+	b_add_behavior(&entities.object[1].b, &entities.object[1].behaviors);
+	b_add_rule(&entities.object[1].b[1], "input");
+	b_set_attribute(entities.object[1].b[1].attr, entities.object[1].b[1].attrs, "button", 1);
+	b_add_action(&entities.object[1].b[1], "shoot");
 	
 	/* End test */
 }
@@ -188,10 +296,10 @@ game_interpolate_states(struct gh_state *out, struct gh_state *curr,
 	int i;
 
 	if (out->count != curr->count || out->count != prev->count) {
-		err(1, "gh_state is not the same size");
+		//warn("gh_state is not the same size");
 	}
 
-	for (i = 0; i < curr->count; ++i) {
+	for (i = 0; i < prev->count; ++i) {
 		
 		out->object[i].position = vec3_lerp(&prev->object[i].position,
 			&curr->object[i].position, t);
@@ -209,10 +317,13 @@ game_render(struct r_gl_buffer *buffer)
 
 	/* First frame */
 	if (0 == tmp.count) {
-		gh_copy_state(&tmp, &state_current, true);
+		//gh_copy_state(&tmp, &state_current, false);
 
 		aspect_ratio = (float_t)buffer->width / (float_t)buffer->height;
 	}
+	gh_copy_state(&tmp, &state_current, false);
+	game_interpolate_states(&tmp, &state_current, &state_previous,
+							interpolate);
 
 	/* Setup buffers and view */
 	r_bind_buffers(buffer);
@@ -241,10 +352,7 @@ game_render(struct r_gl_buffer *buffer)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	
-	game_interpolate_states(&tmp, &state_current, &state_previous,
-			interpolate);
-	
-	game_render_state(entity, entities, &tmp);
+	game_render_state(entities.object, entities.count, &tmp);
 	
 	/* Make sure there is no error in OpenGL stuff */
 	assert(glGetError() == GL_NO_ERROR);
@@ -298,7 +406,7 @@ game_update()
 	while (game_time.accumulator >= game_time.timestep) {
 		
 		gh_copy_state(&state_previous, &state_current, false);
-		game_update_entities(entity, entities);
+		game_update_entities(&entities);
 		game_update_state(&state_current);
 		
 		game_time.accumulator -= game_time.timestep;
@@ -307,14 +415,14 @@ game_update()
 }
 
 void
-game_update_entities(g_entity *e, const unsigned int n)
+game_update_entities(g_entities *e)
 {
 	int i, j;
 	
-	for (i = 0; i < n; ++i) {
-		if (e[i].b) {
-			for (j = 0; j < e[i].behaviors; ++j) {
-				b_exec((void*)&e[i], &e[i].b[j]);
+	for (i = 0; i < e->count; ++i) {
+		if (0 != e->object[i].behaviors) {
+			for (j = 0; j < e->object[i].behaviors; ++j) {
+				b_exec((void*)&e->object[i], &e->object[i].b[j]);
 			}
 		}
 	}
@@ -328,7 +436,7 @@ game_update_state(struct gh_state *curr)
 					*player;
 	
 	camera = game_get_rigidbody(camera_id);
-	player = game_get_rigidbody(entity[1].rb);
+	player = game_get_rigidbody(entities.object[1].rb);
 	camera->position.x = player->position.x;
 	camera->position.y = player->position.y;
 	//camera_current.z = entity[1].rb->position.z;
@@ -339,6 +447,7 @@ game_update_state(struct gh_state *curr)
 			curr->object[i].angular_velocity.y,
 			curr->object[i].angular_velocity.z
 		};
+		gh_rigid_body *rb = &curr->object[i];
 		
 		curr->object[i].linear_velocity =
 			vec3_mul(&curr->object[i].linear_velocity, 0.9f);

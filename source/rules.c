@@ -181,7 +181,7 @@ DECL_RULE_ATTR(see)
 {
 
 	b_add_attribute(a, n, "distance", 'f', 20.f);
-	b_add_attribute(a, n, "you", 'e', 0);
+	b_add_attribute(a, n, "you", 'u', 0);
 }
 
 DECL_RULE(see)
@@ -196,7 +196,7 @@ DECL_RULE(see)
 	if (distance && you) {
 		float len;
 		float dist = *((float*)distance->value);
-		g_entity *y = *(g_entity**)you->value;
+		g_entity *y = game_get_entity(*(uint32_t*)you->value);
 		g_entity *e = (g_entity*)self;
 		gh_rigid_body	*me_rb,
 						*you_rb;

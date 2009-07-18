@@ -28,14 +28,19 @@ gh_array_resize(void **array, unsigned int num_elements, size_t size_element,
 	new_size = num_elements + plus_elements;
 	bytes = size_element * (new_size);
 	
-	if (0 == new_size && num_elements > 0) {
+	/*if (0 == plus_elements) {
+		return;
+	} else */if (0 == new_size && num_elements > 0) {
 		free(*array);
 		*array = 0;
 		return;
 	} else if (0 == num_elements) {
 		tmp = calloc(new_size, size_element);
 	} else if (new_size > 0) {
+		unsigned char *c;
 		tmp = realloc(*array, bytes);
+		//c = (unsigned char*)tmp + num_elements*size_element;
+		//bzero(c, size_element*plus_elements);
 	}
 	
 	if (0 == tmp) {

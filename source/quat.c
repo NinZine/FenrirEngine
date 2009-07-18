@@ -144,13 +144,13 @@ quat_to_axis(const quat *q)
 	float_t length;
 
 	tmp.w = 2 * acos(q->w);
-	if ((int)(tmp.w) > 0 || (int)(tmp.w) < 0) {
+	//if ((int)(tmp.w) > 0 || (int)(tmp.w) < 0) {
 		length = vec3_length(&axis);
 		tmp.x = q->x / length;
 		tmp.y = q->y / length;
 		tmp.z = q->z / length;
 		tmp.w = tmp.w * (180.f/PI); /* To degrees */
-	}
+	//}
 
 	return tmp;
 }

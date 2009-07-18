@@ -40,6 +40,7 @@ void			b_add_attribute(b_attribute **a, unsigned int *n,
 void			b_add_behavior(b_behavior **b, unsigned int *n);
 bool			b_add_rule(b_behavior *b, const char *name);
 void			b_clean_attribute(b_attribute *a);
+void			b_clean_behavior(b_behavior *b);
 void			b_exec(void *self, b_behavior *b);
 b_attribute*	b_find_attribute(const char *name, b_attribute *b,
 					const unsigned int n);

@@ -79,56 +79,16 @@ gh_collides(const vec3 *edge, const int num_edges, const vec3 *poly1,
 	return collide;
 }
 
-uint32_t
-gh_create_rigidbody(struct gh_state *state, vec3 *position, quat *rotation,
-	vec3 *scale, vec3 *vel, vec3 *ang_vel)
-{
-	static uint32_t id = 0;
-	
-	gh_array_resize((void**)&state->object, state->count,
-					sizeof(struct gh_rigid_body), 1);
-	
-	state->object[state->count].id = ++id;
-	if (0 != position) {
-		state->object[state->count].position = *position;
-	}
-	if (0 != rotation) {
-		state->object[state->count].rotation = quat_from_axis(rotation);
-	}
-	if (0 != scale) {
-		state->object[state->count].scale = *scale;
-	}
-	if (0 != vel) {
-		state->object[state->count].linear_velocity = *vel;
-	}
-	if (0 != ang_vel) {
-		state->object[state->count].angular_velocity = *ang_vel;
-	}
-	
-	++state->count;
-	return state->object[state->count-1].id;
-}
-
 void
 gh_copy_state(struct gh_state *dest, struct gh_state *src, bool use_malloc)
 {
-	int i;
-
+	
+	if (0 != (src->count - dest->count) ){
+		gh_array_resize((void**)&dest->object, dest->count,
+			sizeof(struct gh_rigid_body), src->count - dest->count);
+	}
 	dest->count = src->count;
-
-	if (true == use_malloc) {
-		dest->object = calloc(src->count, sizeof(struct gh_rigid_body));
-	}
-
-	for (i = 0; i < src->count; ++i) {
-
-		dest->object[i].id = src->object[i].id;
-		dest->object[i].position = src->object[i].position;
-		dest->object[i].rotation = src->object[i].rotation;
-		dest->object[i].scale = src->object[i].scale;
-		dest->object[i].linear_velocity = src->object[i].linear_velocity;
-		dest->object[i].angular_velocity = src->object[i].angular_velocity;
-	}
+	memcpy(dest->object, src->object, sizeof(gh_rigid_body) * dest->count);
 }
 
 gh_button*
