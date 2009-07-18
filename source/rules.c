@@ -18,6 +18,7 @@
 
 #include "array.h"
 #include "behavior.h"
+#include "game.h"
 #include "game_entity.h"
 #include "game_helper.h"
 #include "rules.h"
@@ -79,6 +80,8 @@ DECL_RULE(collide)
 	b_attribute	*tmp;
 	g_entity	*me,
 				*you;
+	gh_rigid_body	*me_rb,
+					*you_rb;
 	mat4	tf1,
 			tf2;
 	vec3	*edge,
@@ -107,10 +110,12 @@ DECL_RULE(collide)
 	memcpy(point1, me->m->vertex, sizeof(vec3) * me->m->vertices);
 	memcpy(point2, you->m->vertex, sizeof(vec3) * you->m->vertices);
 
-	gh_build_mat4(me->rb, &tf1);
+	me_rb = game_get_rigidbody(me->rb);
+	you_rb = game_get_rigidbody(you->rb);
+	gh_build_mat4(me_rb, &tf1);
 	gh_transform_edges(&tf1, &edge[0], me->m->edges);
 	gh_transform_vec3(&tf1, point1, me->m->vertices);
-	gh_build_mat4(you->rb, &tf2);
+	gh_build_mat4(you_rb, &tf2);
 	gh_transform_edges(&tf2, &edge[me->m->edges], you->m->edges);
 	gh_transform_vec3(&tf2, point2, you->m->vertices);
 	
@@ -126,16 +131,16 @@ DECL_RULE(collide)
 		vec3 trans = edge[axis];
 		vec3 dist;
 		
-		dist = vec3_sub(&me->rb->position, &you->rb->position);
+		dist = vec3_sub(&me_rb->position, &you_rb->position);
 		if (vec3_dot(&dist, &trans) < 0) {
 			trans.x = -trans.x; trans.y = -trans.y; trans.z = -trans.z;
 		}
 		
 		/* Project out of collision */
 		trans = vec3_mul(&trans, min_dist+0.05f);
-		me->rb->position = vec3_add(&me->rb->position, &trans);
-		bzero(&me->rb->linear_velocity, sizeof(vec3));
-		printf("Collision: %x and %x on axis %d dist (%.2f,%.2f)\n", me->rb, you->rb, axis, trans.x, trans.y);
+		me_rb->position = vec3_add(&me_rb->position, &trans);
+		bzero(&me_rb->linear_velocity, sizeof(vec3));
+		printf("Collision: %x and %x on axis %d dist (%.2f,%.2f)\n", me_rb, you_rb, axis, trans.x, trans.y);
 		b_add_attribute(b, attrs, "direction", 'v', trans);
 		collides = true;
 	}
@@ -193,9 +198,13 @@ DECL_RULE(see)
 		float dist = *((float*)distance->value);
 		g_entity *y = *(g_entity**)you->value;
 		g_entity *e = (g_entity*)self;
+		gh_rigid_body	*me_rb,
+						*you_rb;
 		
-		v = vec3_sub(&y->rb->position,
-			&e->rb->position);
+		me_rb = game_get_rigidbody(e->rb);
+		you_rb = game_get_rigidbody(y->rb);
+		v = vec3_sub(&you_rb->position,
+			&me_rb->position);
 		len = vec3_length(&v);
 
 		if (len > dist) {

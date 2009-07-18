@@ -16,6 +16,7 @@
 #include "actions.h"
 #include "array.h"
 #include "behavior.h"
+#include "game.h"
 #include "game_entity.h"
 #include "game_helper.h"
 #include "vec3.h"
@@ -38,9 +39,11 @@ void \
 action_##x (void *self, b_attribute *b, unsigned int attrs)
 
 DEF_ACTION(move);
+DEF_ACTION(shoot);
 
 static struct b_action_info action[] = {
 	ADD_ACTION(move),
+	ADD_ACTION(shoot),
 };
 static unsigned int actions = sizeof(action) / sizeof(struct b_action_info);
 
@@ -61,7 +64,7 @@ DECL_ACTION(move)
 {
 	b_attribute *direction,
 				*speed;
-	g_entity	*tmp;
+	gh_rigid_body	*tmp;
 	vec3		v;
 	quat		rot;
 
@@ -72,16 +75,16 @@ DECL_ACTION(move)
 		return;
 	}
 
-	tmp = (g_entity*)self;
+	tmp = game_get_rigidbody(((g_entity*)self)->rb);
 	v = *(vec3*)direction->value;
 	v = vec3_normalize(&v);
 	rot.w = -gh_rad2deg(atan2(v.y, v.x));
 	
 	v = vec3_mul(&v, *(float*)speed->value);
-	tmp->rb->linear_velocity = v;
+	tmp->linear_velocity = v;
 	rot.x = rot.y = 0.f;
 	rot.z = 1.f;
-	tmp->rb->rotation = quat_from_axis(&rot);
+	tmp->rotation = quat_from_axis(&rot);
 }
 
 DECL_ACTION_ATTR(move)
@@ -90,3 +93,18 @@ DECL_ACTION_ATTR(move)
 	b_add_attribute(b, prev_attrs, "speed", 'f', 1.f);
 }
 
+DECL_ACTION(shoot)
+{
+	g_entity *bullet;
+	
+	/* Spawn particle / entity *//*
+	bullet = malloc(sizeof(g_entity));
+	gh_create_model();
+	gh_create_rigidbody();
+	gh_create_behavior();
+	bullet = gh_create_entity(model, rigidbody, NULL);*/
+}
+
+DECL_ACTION_ATTR(shoot)
+{
+}

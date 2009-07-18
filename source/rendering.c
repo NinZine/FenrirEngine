@@ -400,9 +400,9 @@ r_take_screenshot(char *pixels, struct r_gl_buffer *buffer)
 {
 
 #if __IPHONE__ == 1
-	glPixelStorei(GL_PACK_ALIGNMENT, 1);
+	/*glPixelStorei(GL_PACK_ALIGNMENT, 1);*/
 	assert(glGetError() == GL_NO_ERROR);
-	glReadPixels(0, 0, buffer->width, buffer->height, GL_BGRA,
+	glReadPixels(0, 0, buffer->width, buffer->height, GL_RGBA,
 		GL_UNSIGNED_BYTE, pixels);
 #elif __NDS__ == 1
 #endif

@@ -53,7 +53,7 @@ struct gh_input_queue {
 	struct gh_input *queue;
 };
 
-static struct gh_rigid_body *camera;
+static uint32_t camera_id;
 static vec3 light_position = {0.0f, -1.0f, 0.0f};
 static struct gh_state state_current = {0,0};
 static struct gh_state state_previous = {0,0};
@@ -72,17 +72,30 @@ static void game_resolve_collisions(struct gh_state *curr,
 static void game_update_state(struct gh_state *curr);
 static void game_update_entities(g_entity *e, const unsigned int n);
 
+struct gh_rigid_body*
+game_get_rigidbody(uint32_t id)
+{
+	int i;
+	bool found = false;
+	struct gh_rigid_body *tmp = 0;
+	
+	for (i = 0; !found && i < state_current.count; ++i) {
+		if (state_current.object[i].id == id) {
+			tmp = &state_current.object[i];
+			found = true;
+		}
+	}
+	
+	return tmp;
+}
+
 void
 game_initialize()
 {
 	int i;
 
 	if (0 == entities) {
-		state_current.count = 6; /* One extra for camera */
 		entities = 5;
-		
-		gh_array_resize((void**)&state_current.object, 0,
-			sizeof(struct gh_rigid_body), state_current.count);
 		gh_array_resize((void**)&entity, 0, sizeof(g_entity), entities);
 		
 		for (i = 0; i < entities; ++i) {
@@ -114,16 +127,12 @@ game_initialize()
 			memcpy(entity[i].m->vertex, point, 4 * sizeof(vec3));
 			memcpy(entity[i].m->edge, edge, 2 * sizeof(vec3));
 			
-			entity[i].rb = 0;
-			entity[i].rb = &state_current.object[i];
-			entity[i].rb->position = position;
-			entity[i].rb->rotation = quat_from_axis(&rotation);
-			entity[i].rb->scale = scale;
-			entity[i].rb->angular_velocity = ang_vec;
+			entity[i].rb = gh_create_rigidbody(&state_current, &position,
+					&rotation, &scale, 0, &ang_vec);
 		}
 		
 		/* Camera is also a rigid body */
-		camera = &state_current.object[i];
+		camera_id = gh_create_rigidbody(&state_current, 0, 0, 0, 0, 0);
 	}
 	
 	gh_copy_state(&state_previous, &state_current, true);
@@ -133,7 +142,7 @@ game_initialize()
 	b_add_behavior(&entity[2].b, &entity[2].behaviors);
 	b_add_rule(entity[2].b, "see");
 	b_set_attribute(entity[2].b->attr, entity[2].b->attrs,
-		"distance", 45.f);
+		"distance", 100.f);
 	b_set_attribute(entity[2].b->attr, entity[2].b->attrs,
 		"you", &entity[1]);
 	b_add_action(entity[2].b, "move");
@@ -145,25 +154,12 @@ game_initialize()
 	b_add_action(entity[1].b, "move");
 	b_set_attribute(entity[1].b->attr, entity[1].b->attrs,
 		"speed", 4.f);
+	/* Right button /
+	b_add_behavior(&entity[1].b, &entity[1].behaviors);
+	b_add_rule(&entity[1].b[1], "input");
+	b_set_attribute(entity[1].b[1].attr, entity[1].b[1].attrs, "button", 1);
+	b_add_action(&entity[1].b[1], "shoot");*/
 	
-	/* Ball */
-	//entity[0].m = malloc(sizeof(struct gh_model));
-	//entity[0].m->shape = S_CIRCLE;
-	b_add_behavior(&entity[0].b, &entity[0].behaviors);
-	b_add_rule(&entity[0].b[0], "input");
-	b_add_rule(&entity[0].b[0], "collide");
-	b_set_attribute(entity[0].b[0].attr, entity[0].b[0].attrs,
-		"you", &entity[1]);
-	b_set_attribute(entity[0].b[0].attr, entity[0].b[0].attrs, "button", 1);
-	b_add_action(&entity[0].b[0], "move");
-	b_set_attribute(entity[0].b[0].attr, entity[0].b->attrs, "speed", 10.f);
-	//entity[0].rb = &state_current.object[0];
-	entity[0].rb->scale.x = entity[0].rb->scale.y = entity[0].rb->scale.z = 9.f;
-	
-	//b_exec(&entity[1], &entity[1].b[0]);
-	
-	//entity[3].b = entity[4].b = &entity[2].b[0];
-	//entity[3].behaviors = entity[4].behaviors = 1;
 	/* End test */
 }
 
@@ -328,9 +324,13 @@ void
 game_update_state(struct gh_state *curr)
 {
 	int16_t i;
-
-	camera->position.x = entity[1].rb->position.x;
-	camera->position.y = entity[1].rb->position.y;
+	gh_rigid_body	*camera,
+					*player;
+	
+	camera = game_get_rigidbody(camera_id);
+	player = game_get_rigidbody(entity[1].rb);
+	camera->position.x = player->position.x;
+	camera->position.y = player->position.y;
 	//camera_current.z = entity[1].rb->position.z;
 
 	for (i = 0; i < curr->count; ++i) {

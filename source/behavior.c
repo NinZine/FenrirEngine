@@ -29,6 +29,17 @@ static void b_init_attribute_value(void **value, bool alloc, size_t bytes,
 				void *data);
 static void b_parse_attribute(b_attribute *a, bool modify, va_list *ap);
 
+/* TODO: Use this in the future instead of a big switch!
+struct parser {
+	char type;
+	void (parser*)(void*);
+};
+
+static struct attribute_parser[] = {
+	{'b', b_parse_bool},
+};
+uint8_t attribute_parsers = sizeof(attribute_parser) / sizeof(parser);
+*/
 
 bool
 b_add_action(b_behavior *b, const char *name)
@@ -98,7 +109,7 @@ void
 b_create_attribute(b_attribute *a, const char *name, const char type,
 	va_list *ap)
 {
-	
+
 	a->name = malloc(strlen(name) * sizeof(char));
 	strcpy(a->name, name);
 	a->type = type;

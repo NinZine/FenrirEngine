@@ -30,14 +30,14 @@ enum gh_shape {
 	S_POLYGON,
 };
 
-struct gh_rigid_body {
-	int32_t id;
+typedef struct gh_rigid_body {
+	uint32_t id;
 	vec3	position;
 	quat	rotation;
 	vec3	scale;
 	vec3	linear_velocity;
 	vec3	angular_velocity;
-};
+} gh_rigid_body;
 
 struct gh_model {
 	/*char *filename;
@@ -51,7 +51,7 @@ struct gh_model {
 
 typedef struct g_entity {
 	b_behavior *b;
-	struct gh_rigid_body *rb;
+	uint32_t rb;	/* Rigid body id */
 	struct gh_model	*m;
 	
 	unsigned int behaviors,

@@ -44,6 +44,9 @@ void	gh_copy_state(struct gh_state *dest, struct gh_state *src,
 bool	gh_collides(const vec3 *edge, const int num_edges, const vec3 *poly1,
 			uint8_t n1, const vec3 *poly2, uint8_t n2,
 			float_t *min_dist, int *axis);
+uint32_t gh_create_rigidbody(struct gh_state *state,
+			vec3 *position, quat *rotation, vec3 *scale, vec3 *vel,
+			vec3 *ang_vel);
 gh_button*	gh_get_input(const unsigned int n);
 void	gh_input(gh_button *button, const unsigned int n);
 void	gh_project_vec3(const vec3 *axis, const vec3 *points,
