@@ -28,6 +28,7 @@ enum gh_type {
 enum gh_shape {
 	S_CIRCLE,
 	S_POLYGON,
+	S_QUAD,
 	S_RAY,
 };
 
@@ -40,7 +41,7 @@ typedef struct gh_rigid_body {
 	vec3	angular_velocity;
 } gh_rigid_body;
 
-struct gh_model {
+typedef struct gh_model {
 	/*char *filename;
 	 int texture;
 	 GLfloat *color;*/
@@ -49,7 +50,7 @@ struct gh_model {
 			*edge;
 	uint8_t vertices,
 			edges;
-};
+} gh_model;
 
 typedef struct g_entity {
 	uint32_t id;

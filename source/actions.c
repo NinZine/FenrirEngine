@@ -109,37 +109,25 @@ DECL_ACTION(shoot)
 {
 	gh_rigid_body *me;
 	g_entity *e;
-	vec3 scale = {3.f, 3.f, 3.f};
+	vec3 position;
+	quat rotation;
+	vec3 scale = {300.f, 300.f, 300.f};
 	vec3 vel = {1.f, 0.f, 0.f};
-	vec3 edge[2] = {
-		{1.f, 0.f, 0.f},
-		{0.f, 1.f, 0.f},
-	}; /* TODO: Find edges, this should be done at load. */
-	vec3 point[4] = {
-		{-0.5f, -0.5f, 0.f},
-		{ 0.5f, -0.5f, 0.f},
-		{-0.5f,  0.5f, 0.f},
-		{ 0.5f,  0.5f, 0.f},
-	}; /* TODO: This is vertex data */
 	mat4 m;
 	
 	me = game_get_rigidbody(((g_entity*)self)->id);
 	e = gh_create_entity();
 	gh_array_resize((void**)&e->m, 0, sizeof(struct gh_model), 1);
+	gh_create_model(e->m, S_RAY);
 	e->models = 1;
-	e->m->vertices = 4;
-	e->m->edges = 2;
-	e->m->shape = S_POLYGON;
-	gh_array_resize((void**)&e->m->vertex, 0, sizeof(vec3), 4);
-	gh_array_resize((void**)&e->m->edge, 0, sizeof(vec3), 2);
-	memcpy(e->m->vertex, point, 4 * sizeof(vec3));
-	memcpy(e->m->edge, edge, 2 * sizeof(vec3));
 	
+	position = me->position;
+	rotation = quat_to_axis(&me->rotation);
 	quat_to_mat4(&me->rotation, &m);
 	mat4_mul_vec3(&m, &vel, 1.f, &vel);
-	vel = vec3_mul(&vel, 30.f);
+	vel = vec3_mul(&vel, 0.f);
 	/* Spawn particle / entity */
-	e->rb = gh_create_rigidbody(&me->position, 0, &scale, &vel, 0);
+	e->rb = gh_create_rigidbody(&position, &rotation, &scale, &vel, 0);
 	//b_add_behavior(&e->b, &e->behaviors);
 	/* Collides with anything but spawner,
 	   spawn an explosion and delete myself
@@ -151,5 +139,5 @@ DECL_ACTION(shoot)
 DECL_ACTION_ATTR(shoot)
 {
 	
-	b_add_attribute(b, n, "bullet", 'i', 0);
+	b_add_attribute(b, prev_attrs, "bullet", 'i', 0);
 }

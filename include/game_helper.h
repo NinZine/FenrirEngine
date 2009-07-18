@@ -45,16 +45,22 @@ typedef struct gh_time {
 } gh_time;
 
 void		gh_build_mat4(struct gh_rigid_body *obj, mat4 *out);
+
 void		gh_copy_state(struct gh_state *dest, struct gh_state *src,
 						  bool use_malloc);
 bool		gh_collides(const vec3 *edge, const int num_edges, const vec3 *poly1,
 						uint8_t n1, const vec3 *poly2, uint8_t n2,
 						float_t *min_dist, int *axis);
+void		gh_create_model(gh_model *m, enum gh_shape shape, ...);
+
 gh_button*	gh_get_input(const unsigned int n);
+
 void		gh_input(gh_button *button, const unsigned int n);
+
 void		gh_project_vec3(const vec3 *axis, const vec3 *points,
 							const int sz_points, float_t *min, float_t *max);
 float_t		gh_rad2deg(const float_t rad);
+
 float_t		gh_time_elapsed();
 void		gh_transform_edges(const mat4 *tf, vec3 *edge, const int num_edges);
 void		gh_transform_vec3(const mat4 *tf, vec3 *v, const int num_points);

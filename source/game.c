@@ -87,6 +87,7 @@ gh_create_entity()
 	return &state->object[state->count-1];
 }
 
+/* FIXME: Something weird happens with to many entities. */
 uint32_t
 gh_create_rigidbody(vec3 *position, quat *rotation,
 					vec3 *scale, vec3 *vel, vec3 *ang_vel)
@@ -138,8 +139,10 @@ gh_delete_entity(uint32_t id)
 		b_clean_behavior(&tmp.b[i]);
 	}
 	for (i = 0; i < tmp.models; ++i) {
-		if (0 != tmp.m[i].edges) free(tmp.m[i].edge);
-		if (0 != tmp.m[i].vertices) free(tmp.m[i].vertex);
+		if (S_POLYGON == tmp.m[i].shape) {
+			if (0 != tmp.m[i].edges) free(tmp.m[i].edge);
+			if (0 != tmp.m[i].vertices) free(tmp.m[i].vertex);
+		}
 	}
 	if (0 != tmp.b) free(tmp.b);
 	if (0 != tmp.m) free(tmp.m);
@@ -381,10 +384,14 @@ game_render_state(const g_entity *g, const uint8_t n, struct gh_state *src)
 		glEnable(GL_COLOR_MATERIAL);
 		gh_build_mat4(&src->object[i], &tf);
 		glLoadMatrixf((GLfloat *)tf.m);
-		if (i == 0)
+		if (S_CIRCLE == g[i].m->shape)
 			r_render_circle(1);
-		else
+		else if (S_POLYGON == g[i].m->shape)
 			r_render_vertices((GLfloat *)g[i].m->vertex, g[i].m->vertices);
+		else if (S_QUAD == g[i].m->shape)
+			r_render_quad(1);
+		else if (S_RAY == g[i].m->shape)
+			r_render_ray();
 		glPopMatrix();
 	}
 }
@@ -447,7 +454,6 @@ game_update_state(struct gh_state *curr)
 			curr->object[i].angular_velocity.y,
 			curr->object[i].angular_velocity.z
 		};
-		gh_rigid_body *rb = &curr->object[i];
 		
 		curr->object[i].linear_velocity =
 			vec3_mul(&curr->object[i].linear_velocity, 0.9f);

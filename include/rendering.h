@@ -63,6 +63,7 @@ void r_enable_light(int8_t n);
 void r_render_circle(GLfloat radius);
 void r_render_cube(float_t side);
 void r_render_quad(float_t side);
+void r_render_ray();
 void r_render_sphere(GLfloat radius);
 void r_render_vertices(const GLfloat *vertices, uint8_t n);
 

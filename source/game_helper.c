@@ -8,6 +8,8 @@
 # include <nds.h>
 # include <nds/timers.h>
 #endif /* !__NDS__ */
+#include <err.h>
+#include <stdarg.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -89,6 +91,116 @@ gh_copy_state(struct gh_state *dest, struct gh_state *src, bool use_malloc)
 	}
 	dest->count = src->count;
 	memcpy(dest->object, src->object, sizeof(gh_rigid_body) * dest->count);
+}
+
+void
+gh_create_model(gh_model *m, enum gh_shape shape, ...)
+{
+	static vec3 circle[63] = {
+		{1.00f, -0.00f, 0.f},
+		{0.99f, -0.10f, 0.f},
+		{0.98f, -0.20f, 0.f},
+		{0.95f, -0.30f, 0.f},
+		{0.92f, -0.39f, 0.f},
+		{0.88f, -0.48f, 0.f},
+		{0.82f, -0.57f, 0.f},
+		{0.76f, -0.65f, 0.f},
+		{0.69f, -0.72f, 0.f},
+		{0.62f, -0.79f, 0.f},
+		{0.54f, -0.84f, 0.f},
+		{0.45f, -0.89f, 0.f},
+		{0.36f, -0.93f, 0.f},
+		{0.26f, -0.96f, 0.f},
+		{0.17f, -0.99f, 0.f},
+		{0.07f, -1.00f, 0.f},
+		{-0.03f, -1.00f, 0.f},
+		{-0.13f, -0.99f, 0.f},
+		{-0.23f, -0.97f, 0.f},
+		{-0.33f, -0.95f, 0.f},
+		{-0.42f, -0.91f, 0.f},
+		{-0.51f, -0.86f, 0.f},
+		{-0.59f, -0.81f, 0.f},
+		{-0.67f, -0.74f, 0.f},
+		{-0.74f, -0.67f, 0.f},
+		{-0.80f, -0.60f, 0.f},
+		{-0.86f, -0.51f, 0.f},
+		{-0.91f, -0.42f, 0.f},
+		{-0.94f, -0.33f, 0.f},
+		{-0.97f, -0.24f, 0.f},
+		{-0.99f, -0.14f, 0.f},
+		{-1.00f, -0.04f, 0.f},
+		{-1.00f, 0.06f, 0.f},
+		{-0.99f, 0.16f, 0.f},
+		{-0.97f, 0.26f, 0.f},
+		{-0.94f, 0.35f, 0.f},
+		{-0.90f, 0.45f, 0.f},
+		{-0.85f, 0.53f, 0.f},
+		{-0.79f, 0.61f, 0.f},
+		{-0.72f, 0.69f, 0.f},
+		{-0.65f, 0.76f, 0.f},
+		{-0.57f, 0.82f, 0.f},
+		{-0.49f, 0.87f, 0.f},
+		{-0.40f, 0.92f, 0.f},
+		{-0.30f, 0.95f, 0.f},
+		{-0.21f, 0.98f, 0.f},
+		{-0.11f, 0.99f, 0.f},
+		{-0.01f, 1.00f, 0.f},
+		{0.09f, 1.00f, 0.f},
+		{0.19f, 0.98f, 0.f},
+		{0.29f, 0.96f, 0.f},
+		{0.38f, 0.92f, 0.f},
+		{0.47f, 0.88f, 0.f},
+		{0.56f, 0.83f, 0.f},
+		{0.64f, 0.77f, 0.f},
+		{0.71f, 0.70f, 0.f},
+		{0.78f, 0.63f, 0.f},
+		{0.84f, 0.55f, 0.f},
+		{0.89f, 0.46f, 0.f},
+		{0.93f, 0.37f, 0.f},
+		{0.96f, 0.28f, 0.f},
+		{0.98f, 0.18f, 0.f},
+		{1.00f, 0.08f, 0.f},
+	};
+	static vec3 quad_edge[2] = {
+		{1.f, 0.f, 0.f},
+		{0.f, 1.f, 0.f},
+	};
+	static vec3 quad[4] = {
+		{-0.5f, -0.5f, 0.f},
+		{ 0.5f, -0.5f, 0.f},
+		{-0.5f,  0.5f, 0.f},
+		{ 0.5f,  0.5f, 0.f},
+	};
+	va_list ap;
+	
+	m->shape = shape;
+	va_start(ap, shape);
+	if (S_CIRCLE == shape) {
+		m->vertex = circle;
+		m->vertices = 63;
+	} else if (S_POLYGON == shape) {
+		vec3 *point;
+		vec3 *edge;
+		
+		point = va_arg(ap, vec3*);
+		m->vertices = va_arg(ap, int);
+		edge = va_arg(ap, vec3*);
+		m->edges = va_arg(ap, int);
+		gh_array_resize((void**)&m->vertex, 0, sizeof(vec3), m->vertices);
+		gh_array_resize((void**)&m->edge, 0, sizeof(vec3), m->edges);
+		memcpy(m->vertex, point, m->vertices * sizeof(vec3));
+		memcpy(m->edge, edge, m->edges * sizeof(vec3));
+	} else if (S_QUAD == shape) {
+		m->vertex = quad;
+		m->vertices = 4;
+		m->edge = quad_edge;
+		m->edges = 2;
+	} else if (S_RAY == shape) {
+	} else {
+		err(0, "Failed to create shape!");
+	}
+	
+	va_end(ap);
 }
 
 gh_button*

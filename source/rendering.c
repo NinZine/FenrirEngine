@@ -215,6 +215,22 @@ r_render_quad(float_t side)
 	glPopMatrix();
 }
 
+void
+r_render_ray()
+{
+	static const GLfloat ray[] = {
+		0.0f, 0.f, 0.f,
+		1.0f, 0.f, 0.f,
+	};
+	
+	glPushMatrix();
+	glVertexPointer(3, GL_FLOAT, 0, ray);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glDrawArrays(GL_LINE_STRIP, 0, 2);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glPopMatrix();
+}
+
 /*
  * FIXME: Broken, looks like something round but...
  */
