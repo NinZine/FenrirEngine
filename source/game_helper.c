@@ -171,6 +171,9 @@ gh_create_model(gh_model *m, enum gh_shape shape, ...)
 		{-0.5f,  0.5f, 0.f},
 		{ 0.5f,  0.5f, 0.f},
 	};
+	static vec3 ray[1] = {
+		{1.0f, 0.f, 0.f},
+	};
 	va_list ap;
 	
 	m->shape = shape;
@@ -196,6 +199,8 @@ gh_create_model(gh_model *m, enum gh_shape shape, ...)
 		m->edge = quad_edge;
 		m->edges = 2;
 	} else if (S_RAY == shape) {
+		m->edge = ray;
+		m->edges = 1;
 	} else {
 		err(0, "Failed to create shape!");
 	}

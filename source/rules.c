@@ -72,7 +72,7 @@ DECL_RULE_ATTR(collide)
 {
 	
 	b_add_attribute(a, n, "bounce", 'b', false);
-	b_add_attribute(a, n, "you", 'e', 0);
+	b_add_attribute(a, n, "you", 'u', 0);
 }
 
 DECL_RULE(collide)
@@ -93,7 +93,7 @@ DECL_RULE(collide)
 	
 	tmp = b_find_attribute("you", *b, *attrs);
 	if (tmp) {
-		you = *(g_entity**)tmp->value;
+		you = game_get_entity(*(uint32_t*)tmp->value);
 		if (0 == you) {
 			return false;
 		}
@@ -102,6 +102,11 @@ DECL_RULE(collide)
 	}
 	
 	me = (g_entity*)self;
+	
+	if (0 == me->models || 0 == me->rb || 0 == you->models || 0 == you->rb) {
+		return false;
+	}
+	
 	edge = malloc(sizeof(vec3) * (me->m->edges + you->m->edges));
 	point1 = malloc(sizeof(vec3) * me->m->vertices);
 	point2 = malloc(sizeof(vec3) * you->m->vertices);
@@ -125,7 +130,15 @@ DECL_RULE(collide)
 	   Project polygon on that vector
 	   Project circle on that vector (vector * (pos +/-radius))
 	*/
-
+	
+	/* TODO: Circle ray collsion */
+	/* TODO: Ray poly collision */
+	/* TODO: Consider velocity
+	   Project velocity on axis
+	   Add to min/max of this polygon
+	   Test for overlap again
+	*/
+	
 	if (true == gh_collides(edge, me->m->edges + you->m->edges,
 		point1, me->m->vertices, point2, you->m->vertices, &min_dist, &axis)) {
 		vec3 trans = edge[axis];

@@ -104,6 +104,7 @@ gh_create_rigidbody(vec3 *position, quat *rotation,
 		state->object[state->count].position = *position;
 	}
 	if (0 != rotation) {
+		/* FIXME: Don't convert here. */
 		state->object[state->count].rotation = quat_from_axis(rotation);
 	}
 	if (0 != scale) {
