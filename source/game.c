@@ -217,27 +217,11 @@ game_initialize()
 			vec3 scale = {20.f, 20.f, 20.f};
 			vec3 vel = {0.f, 0.f, 0.f};
 			vec3 ang_vec = {0.f, 0.f, (i > 2) ? 10.f : 0.f};
-			vec3 edge[2] = {
-				{1.f, 0.f, 0.f},
-				{0.f, 1.f, 0.f},
-			}; /* TODO: Find edges, this should be done at load. */
-			vec3 point[4] = {
-				{-0.5f, -0.5f, 0.f},
-				{ 0.5f, -0.5f, 0.f},
-				{-0.5f,  0.5f, 0.f},
-				{ 0.5f,  0.5f, 0.f},
-			}; /* TODO: This is vertex data */
 			
 			e = gh_create_entity();
 			gh_array_resize((void**)&e->m, 0, sizeof(struct gh_model), 1);
+			gh_create_model(&e->m[0], S_QUAD);
 			e->models = 1;
-			e->m->vertices = 4;
-			e->m->edges = 2;
-			e->m->shape = S_POLYGON;
-			gh_array_resize((void**)&e->m->vertex, 0, sizeof(vec3), 4);
-			gh_array_resize((void**)&e->m->edge, 0, sizeof(vec3), 2);
-			memcpy(e->m->vertex, point, 4 * sizeof(vec3));
-			memcpy(e->m->edge, edge, 2 * sizeof(vec3));
 			
 			e->rb = gh_create_rigidbody(&position,
 					&rotation, &scale, &vel, &ang_vec);

@@ -237,16 +237,14 @@ r_render_ray()
 void
 r_render_sphere(GLfloat radius)
 {
-	const GLfloat PI = 3.14;
-	const GLfloat PI2 = 6.28;
 	GLfloat *vertex = malloc(
-		((GLuint)(PI/.1f + 1) * ((GLuint)(PI2/.1f + 1)))
+		((GLuint)(M_PI/.1f + 1) * ((GLuint)(M_2_PI/.1f + 1)))
 		* 3 * sizeof(GLfloat));
-	GLfloat angle = PI2;
+	GLfloat angle = M_2_PI;
 	GLuint i = 0;
 
 	do {
-		GLfloat z_angle = PI;
+		GLfloat z_angle = M_PI;
 		
 		do {
 			GLfloat x, y, z;
