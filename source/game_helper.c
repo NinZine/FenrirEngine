@@ -14,7 +14,10 @@
 #include <string.h>
 
 #include "array.h"
+#include "game.h"
 #include "game_helper.h"
+
+
 
 static gh_button button[10];
 static unsigned int buttons = 10;
@@ -40,45 +43,66 @@ gh_build_mat4(struct gh_rigid_body *obj, mat4 *out)
 }
 
 bool
-gh_collides(const vec3 *edge, const int num_edges, const vec3 *poly1,
-	uint8_t n1, const vec3 *poly2, uint8_t n2, float_t *min_dist, int *axis)
+gh_collides(g_entity *me, g_entity *you, vec3 *direction, float_t *distance)
 {
-	bool first = true;
-	bool collide = true;
-	int k;
-
-	*min_dist = 0.f;
-	*axis = -1;
+	gh_rigid_body	*me_rb,
+					*you_rb;
+	mat4	tf1,
+			tf2;
+	vec3	*edge,
+			*point1,
+			*point2;
+	int axis = -1;
+	bool collides = false;
 	
-	for (k = 0; k < num_edges; ++k) {
-		float_t min1, max1, min2, max2, dist;
+	if (S_CIRCLE == me->m->shape || S_CIRCLE == you->m->shape) {
 		
-		/* Project both polygons on current edge */
-		gh_project_vec3(&edge[k], poly1, n1, &min1, &max1);
-		gh_project_vec3(&edge[k], poly2, n2, &min2, &max2);
+	} else {
+	
+		/* Ray poly
+			hitta rays normal, detta är dess edge  -y,-x
+			ray har en "point"
+			gör som vanligt
+		 */
 		
-		if (min1 < min2) {
-			dist = min2 - max1;
-		} else {
-			dist = min1 - max2;
-		}
+		/* Copy polygons and edges, since we need to transform the points. */
+		edge = malloc(sizeof(vec3) * (me->m->edges + you->m->edges));
+		point1 = malloc(sizeof(vec3) * me->m->vertices);
+		point2 = malloc(sizeof(vec3) * you->m->vertices);
+		memcpy(edge, me->m->edge, sizeof(vec3) * me->m->edges);
+		memcpy(&edge[me->m->edges], you->m->edge, sizeof(vec3) * you->m->edges);
+		memcpy(point1, me->m->vertex, sizeof(vec3) * me->m->vertices);
+		memcpy(point2, you->m->vertex, sizeof(vec3) * you->m->vertices);
 		
-		/* No collision on this axis, so no collision at all */
-		if (dist > 0) {
-			collide = false;
-			break;
-		}
+		me_rb = game_get_rigidbody(me->rb);
+		you_rb = game_get_rigidbody(you->rb);
+		gh_build_mat4(me_rb, &tf1);
+		gh_transform_edges(&tf1, &edge[0], me->m->edges);
+		gh_transform_vec3(&tf1, point1, me->m->vertices);
+		gh_build_mat4(you_rb, &tf2);
+		gh_transform_edges(&tf2, &edge[me->m->edges], you->m->edges);
+		gh_transform_vec3(&tf2, point2, you->m->vertices);
 		
-		/* Collision, get minimum distance/axis */
-		dist = fabs(dist);
-		if (first || dist < *min_dist) {
-			first = false;
-			*min_dist = dist;
-			*axis = k;
+		collides = gh_poly_collides(edge, me->m->edges + you->m->edges, point1,
+			me->m->vertices, point2, you->m->vertices, distance, &axis);
+		if (true == collides) {
+			vec3 tmp;
+			
+			*direction = edge[axis];
+			tmp = vec3_sub(&me_rb->position, &you_rb->position);
+			if (vec3_dot(&tmp, direction) < 0) {
+				direction->x = -direction->x;
+				direction->y = -direction->y;
+				direction->z = -direction->z;
+			}
 		}
 	}
 	
-	return collide;
+	free(edge);
+	free(point1);
+	free(point2);
+	
+	return collides;
 }
 
 void
@@ -172,7 +196,10 @@ gh_create_model(gh_model *m, enum gh_shape shape, ...)
 		{ 0.5f,  0.5f, 0.f},
 	};
 	static vec3 ray[1] = {
-		{1.0f, 0.f, 0.f},
+		{1.f, 0.f, 0.f},
+	};
+	static vec3 ray_edge[1] = {
+		{0.f, 1.f, 0.f},
 	};
 	va_list ap;
 	
@@ -199,6 +226,8 @@ gh_create_model(gh_model *m, enum gh_shape shape, ...)
 		m->edge = quad_edge;
 		m->edges = 2;
 	} else if (S_RAY == shape) {
+		m->vertex = ray;
+		m->vertices = 1;
 		m->edge = ray;
 		m->edges = 1;
 	} else {
@@ -227,6 +256,48 @@ gh_input(gh_button *b, const unsigned int n)
 	
 	button[n] = *b;
 }
+	
+bool
+gh_poly_collides(const vec3 *edge, const int num_edges, const vec3 *poly1,
+	uint8_t n1, const vec3 *poly2, uint8_t n2, float_t *min_dist, int *axis)
+{
+	bool first = true;
+	bool collide = true;
+	int k;
+	
+	*min_dist = 0.f;
+	*axis = -1;
+	
+	for (k = 0; k < num_edges; ++k) {
+		float_t min1, max1, min2, max2, dist;
+		
+		/* Project both polygons on current edge */
+		gh_project_vec3(&edge[k], poly1, n1, &min1, &max1);
+		gh_project_vec3(&edge[k], poly2, n2, &min2, &max2);
+		
+		if (min1 < min2) {
+			dist = min2 - max1;
+		} else {
+			dist = min1 - max2;
+		}
+		
+		/* No collision on this axis, so no collision at all */
+		if (dist > 0) {
+			collide = false;
+			break;
+		}
+		
+		/* Collision, get minimum distance/axis */
+		dist = fabs(dist);
+		if (first || dist < *min_dist) {
+			first = false;
+			*min_dist = dist;
+			*axis = k;
+		}
+	}
+	
+	return collide;
+}
 
 void
 gh_project_vec3(const vec3 *axis, const vec3 *point, const int sz_points,
@@ -252,8 +323,8 @@ gh_project_vec3(const vec3 *axis, const vec3 *point, const int sz_points,
 float_t
 gh_rad2deg(const float_t rad)
 {
-	static const float PI = 3.14159265359;
-	return rad * (180.f / PI);
+	
+	return rad * (180.f / M_PI);
 }
 
 #if __NDS__ == 0

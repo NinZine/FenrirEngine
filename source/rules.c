@@ -80,15 +80,8 @@ DECL_RULE(collide)
 	b_attribute	*tmp;
 	g_entity	*me,
 				*you;
-	gh_rigid_body	*me_rb,
-					*you_rb;
-	mat4	tf1,
-			tf2;
-	vec3	*edge,
-			*point1,
-			*point2;
-	float_t min_dist = 0.f;
-	int axis = -1;
+	vec3		direction;
+	float_t distance = 0.f;
 	bool collides = false;
 	
 	tmp = b_find_attribute("you", *b, *attrs);
@@ -107,23 +100,6 @@ DECL_RULE(collide)
 		return false;
 	}
 	
-	edge = malloc(sizeof(vec3) * (me->m->edges + you->m->edges));
-	point1 = malloc(sizeof(vec3) * me->m->vertices);
-	point2 = malloc(sizeof(vec3) * you->m->vertices);
-	memcpy(edge, me->m->edge, sizeof(vec3) * me->m->edges);
-	memcpy(&edge[me->m->edges], you->m->edge, sizeof(vec3) * you->m->edges);
-	memcpy(point1, me->m->vertex, sizeof(vec3) * me->m->vertices);
-	memcpy(point2, you->m->vertex, sizeof(vec3) * you->m->vertices);
-
-	me_rb = game_get_rigidbody(me->rb);
-	you_rb = game_get_rigidbody(you->rb);
-	gh_build_mat4(me_rb, &tf1);
-	gh_transform_edges(&tf1, &edge[0], me->m->edges);
-	gh_transform_vec3(&tf1, point1, me->m->vertices);
-	gh_build_mat4(you_rb, &tf2);
-	gh_transform_edges(&tf2, &edge[me->m->edges], you->m->edges);
-	gh_transform_vec3(&tf2, point2, you->m->vertices);
-	
 	/* TODO: Circle poly collision
 	   Find closest point to center of circle
 	   Create vector and normalize
@@ -139,28 +115,23 @@ DECL_RULE(collide)
 	   Test for overlap again
 	*/
 	
-	if (true == gh_collides(edge, me->m->edges + you->m->edges,
-		point1, me->m->vertices, point2, you->m->vertices, &min_dist, &axis)) {
-		vec3 trans = edge[axis];
-		vec3 dist;
+	collides = gh_collides(me, you, &direction, &distance);
+	if (true == collides) {
+		gh_rigid_body	*me_rb,
+						*you_rb;
 		
-		dist = vec3_sub(&me_rb->position, &you_rb->position);
-		if (vec3_dot(&dist, &trans) < 0) {
-			trans.x = -trans.x; trans.y = -trans.y; trans.z = -trans.z;
-		}
+		me_rb = game_get_rigidbody(me->rb);
+		you_rb = game_get_rigidbody(you->rb);
 		
 		/* Project out of collision */
-		trans = vec3_mul(&trans, min_dist+0.05f);
-		me_rb->position = vec3_add(&me_rb->position, &trans);
+		direction = vec3_mul(&direction, distance+0.05f);
+		me_rb->position = vec3_add(&me_rb->position, &direction);
 		bzero(&me_rb->linear_velocity, sizeof(vec3));
-		printf("Collision: %x and %x on axis %d dist (%.2f,%.2f)\n", me_rb, you_rb, axis, trans.x, trans.y);
-		b_add_attribute(b, attrs, "direction", 'v', trans);
+		printf("Collision: %x and %x direction (%.2f,%.2f)\n", me_rb, you_rb, direction.x, direction.y);
+		b_add_attribute(b, attrs, "direction", 'v', direction);
 		collides = true;
 	}
 	
-	free(edge);
-	free(point1);
-	free(point2);
 	return collides;
 }
 

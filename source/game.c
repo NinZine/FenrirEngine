@@ -160,6 +160,7 @@ gh_index_of_entity(uint32_t id)
 	int i, index;
 	bool found = false;
 	
+	index = -1;
 	for (i = 0; !found && i < entities.count; ++i) {
 		if (entities.object[i].id == id) {
 			index = i;
@@ -234,7 +235,7 @@ game_initialize()
 	gh_copy_state(&state_previous, &state_current, true);
 	
 	game_initialize_light();
-	/* Test behavior */
+	/* Test behavior /
 	b_add_behavior(&entities.object[2].b, &entities.object[2].behaviors);
 	b_add_rule(entities.object[2].b, "see");
 	b_set_attribute(entities.object[2].b->attr, entities.object[2].b->attrs,
@@ -243,7 +244,7 @@ game_initialize()
 		"you", entities.object[1].id);
 	b_add_action(entities.object[2].b, "move");
 	b_set_attribute(entities.object[2].b->attr, entities.object[2].b->attrs,
-		"speed", 2.f);
+		"speed", 2.f);*/
 	
 	b_add_behavior(&entities.object[1].b, &entities.object[1].behaviors);
 	b_add_rule(entities.object[1].b, "input");

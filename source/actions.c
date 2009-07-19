@@ -128,11 +128,12 @@ DECL_ACTION(shoot)
 	vel = vec3_mul(&vel, 0.f);
 	/* Spawn particle / entity */
 	e->rb = gh_create_rigidbody(&position, &rotation, &scale, &vel, 0);
-	//b_add_behavior(&e->b, &e->behaviors);
 	/* Collides with anything but spawner,
 	   spawn an explosion and delete myself
 	*/
-	//b_add_rule(&e->b[0], "collide");
+	b_add_behavior(&e->b, &e->behaviors);
+	b_add_rule(&e->b[0], "collide");
+	b_set_attribute(e->b[0].attr, e->b[0].attrs, "you", 3);
 	//b_add_action(&e->b[0], "explode");
 }
 
