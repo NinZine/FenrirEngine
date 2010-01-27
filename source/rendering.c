@@ -61,6 +61,7 @@ void
 r_clear(float r, float g, float b)
 {
 	
+	glEnable(GL_DEPTH_TEST);
 #if defined(__NDS__)
 	glClearColor(31, 31, 31, 31);
 	glClearDepth(0x7FFF);
@@ -161,7 +162,7 @@ r_present()
 }
 
 void
-r_render_circle(GLfloat radius)
+r_render_circle(float radius)
 {
 	static GLfloat *vertex = NULL;
 	GLfloat angle = 6.28f;
@@ -204,7 +205,7 @@ r_render_circle(GLfloat radius)
 
 /* TODO: Load a custom matrix instead */
 void
-r_render_cube(float_t side)
+r_render_cube(float side)
 {
 
 	glPushMatrix();
@@ -243,7 +244,7 @@ r_render_cube(float_t side)
 }
 
 void
-r_render_quad(float_t side)
+r_render_quad(float side)
 {
 	static const GLfloat quad[] = {
 		-0.5f, -0.5f,
@@ -253,7 +254,7 @@ r_render_quad(float_t side)
 	};
 	
 	glPushMatrix();
-	//glScalef(side, side, side);
+	glScalef(side, side, side);
 	glNormal3f(0.0f, 0.0f, 1.0f);
 #if defined(__NDS__)
 	/* TODO: Implement glCallList or glDrawArrays */
@@ -295,7 +296,7 @@ r_render_ray()
  * FIXME: Broken, looks like something round but...
  */
 void
-r_render_sphere(GLfloat radius)
+r_render_sphere(float radius)
 {
 	GLfloat *vertex = malloc(
 		((GLuint)(M_PI/.1f + 1) * ((GLuint)(M_2_PI/.1f + 1)))
@@ -342,7 +343,7 @@ r_render_sphere(GLfloat radius)
 }
 
 void
-r_render_vertices(const GLfloat *vertex, uint8_t n)
+r_render_vertices(const float *vertex, uint8_t n)
 {
 
 #if defined(__NDS__)
@@ -451,7 +452,7 @@ r_setup_diffuse_light(int8_t light_num, struct r_color color)
  * Sets the current viewport with orthogonal
  */
 void
-r_setup_orthogonal_view(GLfloat width, GLfloat height)
+r_setup_orthogonal_view(float width, float height)
 {
 	
 	glOrthof(-(width/2.0f), (width/2.0f), -(height/2.0f), (height/2.0f),
@@ -462,7 +463,7 @@ r_setup_orthogonal_view(GLfloat width, GLfloat height)
  * Sets the current viewport with perspective
  */
 void
-r_setup_perspective_view(GLfloat fov, GLfloat aspect, GLfloat near, GLfloat far)
+r_setup_perspective_view(float fov, float aspect, float near, float far)
 {
 	GLfloat top = tan(fov*3.14159/360.0) * near;
 	GLfloat bottom = -top;

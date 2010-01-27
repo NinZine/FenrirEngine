@@ -33,7 +33,7 @@ report (lua_State *L, int status)
 	return status;
 }
 
-static void
+static SDL_Surface*
 sdl_init()
 {
 	SDL_Surface *surface;
@@ -42,28 +42,32 @@ sdl_init()
 	uint8_t depth = 0;
 
 
-	SDL_Init(SDL_INIT_EVERYTHING);
+	if (SDL_Init(SDL_INIT_EVERYTHING))
+		printf("sdl> failed SDL_INIT_EVERYTHING");
 	info = SDL_GetVideoInfo();
 	depth = info->vfmt->BitsPerPixel;
-	flags = SDL_OPENGL | SDL_GL_DOUBLEBUFFER;
-	if (info->hw_available)
-		flags |= SDL_HWSURFACE;
-	if (info->blit_hw)
-		flags |= SDL_HWACCEL;
+	flags = SDL_OPENGL;
+
+	if (SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1))
+		printf("sdl> no double buffer");
+	if (SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 8))
+		printf("sdl> no depth buffer");
+	if (SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8))
+		printf("sdl> no stencil buffer");
+	if (SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1))
+		printf("sdl> no swapping");
 
 	surface = SDL_SetVideoMode(800, 600, depth, flags);
 	if (!surface)
-		printf("Video fail!");
-
-	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
+		printf("sdl> no video");
 
     SDL_EnableUNICODE(1);
+	return surface;
 }
 
 int main(int argc,char* argv[])
 {
+	SDL_Surface *s;
 	lua_State *L;
 	int status;
 
@@ -72,7 +76,7 @@ int main(int argc,char* argv[])
 		return 0;
 	}
 
-	sdl_init();
+	s = sdl_init();
 
 	L=lua_open();
 	/*luaopen_base(L);*/
@@ -89,6 +93,8 @@ int main(int argc,char* argv[])
 		printf("unable to load %s\n",argv[1]);
 	}
 	lua_close(L);
+
+	SDL_Quit();
 	return status;
 }
 

@@ -4,8 +4,8 @@ state = render.new_state()
 --state.depthbuffer = render.generate_depthbuffer()
 
 --render.bind_buffers(state)
---render.setup_orthogonal_view()
-local i = 0.01
+render.setup_orthogonal_view(800, 600)
+local i = 1
 while true do
     e = event.poll()
     while e.type ~= event.EMPTY do
@@ -15,8 +15,9 @@ while true do
     end
 
     --render.bind_buffers(state)
+    i = i + 1
     render.clear(0.0, 1.0, 0.0)
-    render.render_quad(0.5)
+    render.render_quad(i)
     render.present()
     event.sleep(1)
 end
