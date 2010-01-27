@@ -27,7 +27,7 @@ gh_build_mat4(struct gh_rigid_body *obj, mat4 *out)
 {
 	mat4 pos, rot, sca;
 	
-	quat_to_mat4(&obj->rotation, &rot);
+	rot = quat_to_mat4(&obj->rotation);
 	mat4_identity(&pos);
 	pos.m[3][0] = obj->position.x;
 	pos.m[3][1] = obj->position.y;
@@ -36,8 +36,8 @@ gh_build_mat4(struct gh_rigid_body *obj, mat4 *out)
 	sca.m[0][0] = obj->scale.x;
 	sca.m[1][1] = obj->scale.y;
 	sca.m[2][2] = obj->scale.z;
-	mat4_mul(&sca, &rot, &rot);
-	mat4_mul(&rot, &pos, &pos); /* Translation matrix in pos */
+	rot = mat4_mul(&sca, &rot);
+	pos = mat4_mul(&rot, &pos); /* Translation matrix in pos */
 	
 	*out = pos;
 }
@@ -382,7 +382,7 @@ gh_transform_edges(const mat4 *tf, vec3 *edge, const int num_edges)
 	int i;
 	
 	for (i = 0; i < num_edges; ++i) {
-		mat4_mul_vec3(tf, &edge[i], 0.f, &edge[i]);
+		edge[i] = mat4_mul_vec3(tf, &edge[i], 0.f);
 		edge[i] = vec3_normalize(&edge[i]);
 	}
 }
@@ -393,7 +393,7 @@ gh_transform_vec3(const mat4 *tf, vec3 *v, const int num_points)
 	int p;
 	
 	for (p = 0; p < num_points; ++p) {
-		mat4_mul_vec3(tf, &v[p], 1.f, &v[p]);
+		v[p] = mat4_mul_vec3(tf, &v[p], 1.f);
 	}
 }
 

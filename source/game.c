@@ -15,9 +15,11 @@
 
 #include <alloca.h>
 #include <assert.h>
-#if __IPHONE__ == 1
-#include <err.h>
+
+#if defined(__IPHONE__)
+# include <err.h>
 #endif /* !__IPHONE__ */
+
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -298,7 +300,7 @@ game_interpolate_states(struct gh_state *out, struct gh_state *curr,
 }
 
 void
-game_render(struct r_gl_buffer *buffer)
+game_render(r_state *buffer)
 {
 	static struct gh_state tmp = {};
 	static float_t aspect_ratio = 0.f;
@@ -329,7 +331,7 @@ game_render(struct r_gl_buffer *buffer)
 				 -tmp.object[5].position.z);
 	
 	/* Clear buffers */
-	r_clear();
+	r_clear(0,0,0);
 	r_enable_culling(GL_BACK);
 #if __IPHONE__ == 1
 	glEnable(GL_DEPTH_TEST);

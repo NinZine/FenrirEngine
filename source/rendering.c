@@ -6,68 +6,98 @@
 #include <math.h>
 #include <stdlib.h>
 
+#include <SDL/SDL.h>
+
 #include "rendering.h"
 
+#if defined(__NDS__)
+#elif defined(__IPHONE__)
+# define glBindFramebuffer glBindFramebufferOES
+# define glBindRenderbuffer glBindRenderbufferOES
+# define glCheckFramebufferStatus glCheckFramebufferStatusOES
+# define glFramebufferRenderbuffer glFramebufferRenderbufferOES
+# define glGenFramebuffers glGenFramebuffersOES
+# define glGenRenderbuffers glGenRenderbuffersOES
+# define glRenderbufferStorage glRenderBufferStorageOES
+#else
+# define glBindFramebuffer glBindFramebufferEXT
+# define glBindRenderbuffer glBindRenderbufferEXT
+# define glCheckFramebufferStatus glCheckFramebufferStatusEXT
+# define glFramebufferRenderbuffer glFramebufferRenderbufferEXT
+# define glGenFramebuffers glGenFramebuffersEXT
+# define glGenRenderbuffers glGenRenderbuffersEXT
+# define glRenderbufferStorage glRenderbufferStorageEXT
+#endif
+
 void
-r_bind_buffers(struct r_gl_buffer *buffer)
+r_bind_buffers(r_state *buffer)
 {
 	
-#if	__IPHONE__ == 1
-	glBindFramebufferOES(GL_FRAMEBUFFER_OES, buffer->frame);
-	glBindRenderbufferOES(GL_RENDERBUFFER_OES, buffer->render);
+#if	defined(__NDS__)
+#else /* !__NDS__ */
+# if defined(__IPHONE__)
+	glBindFramebuffer(GL_FRAMEBUFFER_, buffer->framebuffer);
+	glBindRenderbuffer(GL_RENDERBUFFER, buffer->renderbuffer);
+# else /* !__IPHONE__ */
+	glBindFramebuffer(GL_FRAMEBUFFER_EXT, buffer->framebuffer);
+	glBindRenderbuffer(GL_RENDERBUFFER_EXT, buffer->renderbuffer);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT,
+        GL_RENDERBUFFER_EXT, buffer->renderbuffer);
+# endif
 #endif
 }
 
 void
-r_bind_depthbuffer(struct r_gl_buffer *buffer)
+r_bind_depthbuffer(r_state *buffer)
 {
 	
-#if	__IPHONE__ == 1
-	glBindRenderbufferOES(GL_RENDERBUFFER_OES, buffer->depth);
+#if	defined(__NDS__)
+#else /* !__NDS__ */
+	glBindRenderbuffer(GL_RENDERBUFFER_EXT, buffer->depth);
 #endif
 }
 
 void
-r_clear()
+r_clear(float r, float g, float b)
 {
 	
-#if __IPHONE__ == 1
-	glClearColor(1.0f, 1.0f, 1.0f, 1.f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-#elif __NDS__ == 1 /* !__IPHONE__ */
+#if defined(__NDS__)
 	glClearColor(31, 31, 31, 31);
 	glClearDepth(0x7FFF);
-#endif /* !__NDS__ */
+#else /* !__NDS__ */
+	glClearColor(r, g, b, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+#endif
 }
 
 void
 r_disable_culling()
 {
 
-#if __IPHONE__ == 1
-	glDisable(GL_CULL_FACE);
-#elif __NDS__ == 1 /* !__IPHONE__*/
+#if defined(__NDS__)
 	glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE);
-#endif /* !__NDS__ */
+#else /* !__NDS__ */
+	glDisable(GL_CULL_FACE);
+#endif
 }
 
 void
 r_enable_culling(GLenum culling)
 {
 
-#if __IPHONE__ == 1
+#if defined(__NDS__)
+    glPolyFmt(POLY_ALPHA(31) | culling | POLY_FORMAT_LIGHT0);
+#else /* !__NDS__ */
 	glCullFace(culling);
 	glEnable(GL_CULL_FACE);
-#elif __NDS__ == 1 /* !__IPHONE__ */
-    glPolyFmt(POLY_ALPHA(31) | culling | POLY_FORMAT_LIGHT0);
-#endif /* !__NDS__ */
+#endif
 }
 
 void
 r_enable_light(int8_t light_num)
 {
 	
-#if __IPHONE__ == 1
+#if !defined(__NDS__)
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0 + light_num);
 	//glEnable(GL_COLOR_MATERIAL); /* Color is the material */
@@ -75,32 +105,59 @@ r_enable_light(int8_t light_num)
 #endif
 }
 
-void
-r_generate_depthbuffer(struct r_gl_buffer *buffer)
+uint32_t
+r_generate_depthbuffer(int16_t w, int16_t h)
 {
+	uint32_t d;
+
+#if !defined(__NDS__)
+    d = r_generate_renderbuffer();
 	
-#if __IPHONE__ == 1
-	glGenRenderbuffersOES(1, &buffer->depth);
+	glBindRenderbuffer(GL_RENDERBUFFER_EXT, d);
+	glRenderbufferStorage(GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT16, w, h);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER_EXT,
+		GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, d);
 	
-	glBindRenderbufferOES(GL_RENDERBUFFER_OES, buffer->depth);
-	glRenderbufferStorageOES(GL_RENDERBUFFER_OES, GL_DEPTH_COMPONENT16_OES,
-		buffer->width, buffer->height);
-	glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES,
-		GL_DEPTH_ATTACHMENT_OES, GL_RENDERBUFFER_OES, buffer->depth);
-	
-	assert(glCheckFramebufferStatusOES(GL_FRAMEBUFFER_OES)
-		== GL_FRAMEBUFFER_COMPLETE_OES);
+	assert(glCheckFramebufferStatus(GL_FRAMEBUFFER_EXT)
+		== GL_FRAMEBUFFER_COMPLETE_EXT);
 #endif
+
+    return d;
+}
+
+uint32_t
+r_generate_framebuffer()
+{
+    uint32_t r;
+
+#if defined(__NDS__)
+#else /* !__NDS__ */
+	glGenFramebuffers(1, &r);
+#endif
+
+    return r;
+}
+
+uint32_t
+r_generate_renderbuffer()
+{
+    uint32_t r;
+
+#if defined(__NDS__)
+#else /* !__NDS__ */
+	glGenRenderbuffers(1, &r);
+#endif
+
+    return r;
 }
 
 void
-r_generate_renderbuffers(struct r_gl_buffer *buffer)
+r_present()
 {
-
-#if __IPHONE__ == 1
-	glGenFramebuffersOES(1, &buffer->frame);
-	glGenRenderbuffersOES(1, &buffer->render);
-#endif
+    
+    glFlush();
+    glFinish();
+    SDL_GL_SwapBuffers();
 }
 
 void
@@ -129,16 +186,16 @@ r_render_circle(GLfloat radius)
 	glRotatef(180.f, 0.f, 1.f, 0.f); /* FIXME: This is a hack */
 	glScalef(radius, radius, 1.f);
 	glNormal3f(0.0f, 0.0f, 1.0f);
-#if __IPHONE__ == 1
+#if defined(__NDS__)
+	/* TODO: Use a glCallList or something even faster */
+	glBegin(GL_TRIANGLE_STRIP);
+	glEnd();
+#else /* !__NDS__ */
 	glVertexPointer(2, GL_FLOAT, 0, vertex);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	//glDrawArrays(GL_LINE_LOOP, 0, 63);
 	glDrawArrays(GL_TRIANGLE_FAN, 0, 63);
 	glDisableClientState(GL_VERTEX_ARRAY);
-#elif __NDS__ == 1
-	/* TODO: Use a glCallList or something even faster */
-	glBegin(GL_TRIANGLE_STRIP);
-	glEnd();
 #endif
 	glPopMatrix();
 	
@@ -198,12 +255,7 @@ r_render_quad(float_t side)
 	glPushMatrix();
 	//glScalef(side, side, side);
 	glNormal3f(0.0f, 0.0f, 1.0f);
-#if __IPHONE__ == 1
-	glVertexPointer(2, GL_FLOAT, 0, quad);
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-	glDisableClientState(GL_VERTEX_ARRAY);
-#elif __NDS__ == 1
+#if defined(__NDS__)
 	/* TODO: Implement glCallList or glDrawArrays */
 	glBegin(GL_TRIANGLE_STRIP);
 	glVertex3f(quad[0], quad[1], 0);
@@ -211,6 +263,11 @@ r_render_quad(float_t side)
 	glVertex3f(quad[4], quad[5], 0);
 	glVertex3f(quad[6], quad[7], 0);
 	glEnd();
+#else /* !__NDS__ */
+	glVertexPointer(2, GL_FLOAT, 0, quad);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glDisableClientState(GL_VERTEX_ARRAY);
 #endif
 	glPopMatrix();
 }
@@ -223,12 +280,15 @@ r_render_ray()
 		1.0f, 0.f, 0.f,
 	};
 	
+#if defined(__NDS__)
+#else /* !__NDS__ */
 	glPushMatrix();
 	glVertexPointer(3, GL_FLOAT, 0, ray);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glDrawArrays(GL_LINE_STRIP, 0, 2);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glPopMatrix();
+#endif
 }
 
 /*
@@ -267,14 +327,14 @@ r_render_sphere(GLfloat radius)
 	glPushMatrix();
 	glColor4f(0.f, 0.f, 0.f, 1.f);
 	glScalef(radius, radius, radius);
-#if __IPHONE__ == 1
+#if defined(__NDS__)
+	/* TODO: Definately build a glCallList or implement glDrawArrays */
+#else /* !__NDS__ */
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, 0, vertex);
 	//glDrawArrays(GL_LINE_LOOP, 0, 2016);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 2016);
 	glDisableClientState(GL_VERTEX_ARRAY);
-#elif __NDS__ == 1
-	/* TODO: Definately build a glCallList or implement glDrawArrays */
 #endif
 	glPopMatrix();
 	
@@ -284,18 +344,23 @@ r_render_sphere(GLfloat radius)
 void
 r_render_vertices(const GLfloat *vertex, uint8_t n)
 {
+
+#if defined(__NDS__)
+#else /* !__NDS__ */
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, 0, vertex);
 	//glDrawArrays(GL_LINE_LOOP, 0, 2016);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, n);
 	glDisableClientState(GL_VERTEX_ARRAY);
+#endif
 }
 
 void
 r_set_clippingarea(int16_t x, int16_t y, int16_t width, int16_t height)
 {
-	
-#if __IPHONE__ == 1
+
+#if defined(__NDS__)
+#else /* !__NDS__ */
 	glScissor(x, y, width, height);
 	glEnable(GL_SCISSOR_TEST);
 #endif
@@ -304,18 +369,19 @@ r_set_clippingarea(int16_t x, int16_t y, int16_t width, int16_t height)
 void
 r_set_light_position(int light_num, struct vec3 *position)
 {
-#if __IPHONE__ == 1
-	GLfloat light_position[] = { position->x, position->y, position->z, 1.0 };
 
-	glLightfv(GL_LIGHT0 + light_num, GL_POSITION, light_position);
-#elif __NDS__ == 1 /* !__IPHONE__ */
+#if defined(__NDS__)
 	struct vec3 tmp = vec3_normalize(position);
 
 	light_num = (light_num & 3) << 30;
 	GFX_LIGHT_VECTOR = light_num | ((floattov10(tmp.z) & 0x3FF) << 20)
 		| ((floattov10(tmp.y) & 0x3FF) << 10)
 		| (floattov10(tmp.x) & 0x3FF);
-#endif /* !__NDS__ */
+#else /* !__NDS__ */
+	GLfloat light_position[] = { position->x, position->y, position->z, 1.0 };
+
+	glLightfv(GL_LIGHT0 + light_num, GL_POSITION, light_position);
+#endif
 }
 
 void
@@ -323,17 +389,7 @@ r_set_material(GLenum type, struct r_color color)
 {
 	GLfloat tmp[] = { color.red, color.green, color.blue, color.alpha };
 	
-#if __IPHONE__ == 1
-	if (type == GL_AMBIENT) {
-		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, tmp); 
-	} else if (type == GL_DIFFUSE) {
-		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, tmp); 
-	} else if (type == GL_EMISSION) {
-		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, tmp); 
-	} else if (type == GL_SPECULAR) {
-		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, tmp); 
-	}
-#elif __NDS__ == 1 /* !__IPHONE__ */
+#if defined(__NDS__)
 	if (type == GL_AMBIENT) {
 		glMaterialf(GL_AMBIENT, RGB15( (uint8_t)(tmp[0]*31),
 			(uint8_t)(tmp[1]*31), (uint8_t)(tmp[2]*31) ));
@@ -347,38 +403,48 @@ r_set_material(GLenum type, struct r_color color)
 		glMaterialf(GL_SPECULAR, BIT(15) | RGB15( (uint8_t)(tmp[0]*16),
 			(uint8_t)(tmp[1]*16), (uint8_t)(tmp[2]*16) ));
 	}
-#endif /* !__NDS__ */
+#else /* !__NDS__ */
+	if (type == GL_AMBIENT) {
+		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, tmp); 
+	} else if (type == GL_DIFFUSE) {
+		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, tmp); 
+	} else if (type == GL_EMISSION) {
+		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, tmp); 
+	} else if (type == GL_SPECULAR) {
+		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, tmp); 
+	}
+#endif
 }
 
 void
 r_setup_ambient_light(int8_t light_num, struct r_color color)
 {
-#if __IPHONE__ == 1
-	GLfloat light_ambient_color[] = { color.red, color.green, color.blue, color.alpha };
-	
-	//glLightModelfv(GL_LIGHT_MODEL_AMBIENT, light_ambient_color);
-	glLightfv(GL_LIGHT0 + light_num, GL_AMBIENT, light_ambient_color);
-#elif __NDS__ == 1 /* !__IPHONE__ */
+#if defined(__NDS__)
 	rgb tmp = RGB15(((uint8_t)color.red*31), ((uint8_t)color.green*31),
 		((uint8_t)color.blue*31));
 	
 	GFX_LIGHT_COLOR = light_num | tmp;
-#endif /* !__NDS__ */
+#else /* !__NDS__ */
+	GLfloat light_ambient_color[] = {color.red, color.green, color.blue, color.alpha};
+	
+	//glLightModelfv(GL_LIGHT_MODEL_AMBIENT, light_ambient_color);
+	glLightfv(GL_LIGHT0 + light_num, GL_AMBIENT, light_ambient_color);
+#endif
 }
 
 void
 r_setup_diffuse_light(int8_t light_num, struct r_color color)
 {
-#if __IPHONE__ == 1
-	GLfloat light_diffuse_color[] = { color.red, color.green, color.blue, color.alpha };
-	
-	glLightfv(GL_LIGHT0 + light_num, GL_DIFFUSE, light_diffuse_color);
-#elif __NDS__ == 1 /* !__IPHONE__ */
+#if defined(__NDS__)
 	rgb tmp = RGB15(((uint8_t)color.red*31), ((uint8_t)color.green*31),
 		((uint8_t)color.blue*31));
 
 	GFX_LIGHT_COLOR = light_num | tmp;
-#endif /* !__NDS__ */
+#else /* !__NDS__ */
+	GLfloat light_diffuse_color[] = {color.red, color.green, color.blue, color.alpha};
+	
+	glLightfv(GL_LIGHT0 + light_num, GL_DIFFUSE, light_diffuse_color);
+#endif
 }
 
 /*
@@ -410,15 +476,15 @@ r_setup_perspective_view(GLfloat fov, GLfloat aspect, GLfloat near, GLfloat far)
  * Takes screenshot. One pixel is 4 bytes
  */
 void
-r_take_screenshot(char *pixels, struct r_gl_buffer *buffer)
+r_take_screenshot(char *pixels, r_state *buffer)
 {
 
-#if __IPHONE__ == 1
+#if defined(__IPHONE__)
 	/*glPixelStorei(GL_PACK_ALIGNMENT, 1);*/
 	assert(glGetError() == GL_NO_ERROR);
 	glReadPixels(0, 0, buffer->width, buffer->height, GL_RGBA,
 		GL_UNSIGNED_BYTE, pixels);
-#elif __NDS__ == 1
+#elif defined(__NDS__)
 #endif
 }
 

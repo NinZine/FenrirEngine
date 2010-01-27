@@ -20,7 +20,7 @@ struct gh_rigid_body*	game_get_rigidbody(uint32_t id);
 void game_initialize();
 //void game_input(struct gh_input *gi);
 
-void game_render(struct r_gl_buffer *buffer);
+void game_render(r_state *buffer);
 
 void game_update();
 

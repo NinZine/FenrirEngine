@@ -123,8 +123,8 @@ DECL_ACTION(shoot)
 	
 	position = me->position;
 	rotation = quat_to_axis(&me->rotation);
-	quat_to_mat4(&me->rotation, &m);
-	mat4_mul_vec3(&m, &vel, 1.f, &vel);
+	m = quat_to_mat4(&me->rotation);
+	vel = mat4_mul_vec3(&m, &vel, 1.f);
 	vel = vec3_mul(&vel, 0.f);
 	/* Spawn particle / entity */
 	e->rb = gh_create_rigidbody(&position, &rotation, &scale, &vel, 0);

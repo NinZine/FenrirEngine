@@ -2,10 +2,10 @@
  * License
  */
 
+#include <math.h>
+
 #include "quat.h"
 #include "vec3.h"
-
-static const float_t PI = 3.14159265359;
 
 quat
 quat_add(const quat *q1, const quat *q2)
@@ -29,7 +29,7 @@ quat_dot(const quat *q1, const quat *q2)
 quat
 quat_from_axis(const quat *a)
 {
-	float_t theta = (a->w * 0.5f) * (PI/180.f); /* To radians */
+	float_t theta = (a->w * 0.5f) * (M_PI/180.f); /* To radians */
 	float_t sin_theta = sin(theta);
 	vec3 tmp = {a->x, a->y, a->z};
 	quat q;
@@ -149,15 +149,17 @@ quat_to_axis(const quat *q)
 		tmp.x = q->x / length;
 		tmp.y = q->y / length;
 		tmp.z = q->z / length;
-		tmp.w = tmp.w * (180.f/PI); /* To degrees */
+		tmp.w = tmp.w * (180.f/M_PI); /* To degrees */
 	//}
 
 	return tmp;
 }
 
-void
-quat_to_mat4(const quat *q, mat4 *m)
+mat4
+quat_to_mat4(const quat *q)
 {
+    mat4 n;
+    mat4 *m = &n;
 	float x2 = 2.0f * q->x,  y2 = 2.0f * q->y,  z2 = 2.0f * q->z;
 	float xx = x2 * q->x,  xw = x2 * q->w,  yz = y2 * q->z;
 	float xy = x2 * q->y,  xz = x2 * q->z;
@@ -183,4 +185,7 @@ quat_to_mat4(const quat *q, mat4 *m)
 	m->m[3][1] = 0.0f; 
 	m->m[3][2] = 0.0f; 
 	m->m[3][3] = 1.0f;
+
+    return n;
 }
+

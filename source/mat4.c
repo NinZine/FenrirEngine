@@ -18,11 +18,13 @@ swap(float_t *x, float_t *y)
 	*y = tmp;
 }
 
-void
-mat4_copy(const mat4 *in, mat4 *m)
+mat4
+mat4_copy(const mat4 *in)
 {
-	
-	memcpy(m->m, in->m, sizeof(float_t)*16);
+	mat4 m;
+
+	memcpy(m.m, in->m, sizeof(float_t)*16);
+    return m;
 }
 
 float_t
@@ -63,35 +65,41 @@ mat4_identity(mat4 *m)
 }
 
 /* TODO: Implement */
-void
-mat4_inverse(const mat4 *m, mat4 *out)
+mat4
+mat4_inverse(const mat4 *m)
 {
+    mat4 out;
+
+    return out;
 }
 
-void
-mat4_lerp(const mat4 *m, const mat4 *in, mat4 *out, float t)
+mat4
+mat4_lerp(const mat4 *m, const mat4 *in, float t)
 {
-	
-	out->m[0][0] = m->m[0][0] + ((m->m[0][0] - in->m[0][0]) * t);
-	out->m[0][1] = m->m[0][1] + ((m->m[0][1] - in->m[0][1]) * t);
-	out->m[0][2] = m->m[0][2] + ((m->m[0][2] - in->m[0][2]) * t);
-	out->m[0][3] = m->m[0][3] + ((m->m[0][3] - in->m[0][3]) * t);
-	out->m[1][0] = m->m[1][0] + ((m->m[1][0] - in->m[1][0]) * t);
-	out->m[1][1] = m->m[1][1] + ((m->m[1][1] - in->m[1][1]) * t);
-	out->m[1][2] = m->m[1][2] + ((m->m[1][2] - in->m[1][2]) * t);
-	out->m[1][3] = m->m[1][3] + ((m->m[1][3] - in->m[1][3]) * t);
-	out->m[2][0] = m->m[2][0] + ((m->m[2][0] - in->m[2][0]) * t);
-	out->m[2][1] = m->m[2][1] + ((m->m[2][1] - in->m[2][1]) * t);
-	out->m[2][2] = m->m[2][2] + ((m->m[2][2] - in->m[2][2]) * t);
-	out->m[2][3] = m->m[2][3] + ((m->m[2][3] - in->m[2][3]) * t);
-	out->m[3][0] = m->m[3][0] + ((m->m[3][0] - in->m[3][0]) * t);
-	out->m[3][1] = m->m[3][1] + ((m->m[3][1] - in->m[3][1]) * t);
-	out->m[3][2] = m->m[3][2] + ((m->m[3][2] - in->m[3][2]) * t);
-	out->m[3][3] = m->m[3][3] + ((m->m[3][3] - in->m[3][3]) * t);
+	mat4 out;
+
+	out.m[0][0] = m->m[0][0] + ((in->m[0][0] - m->m[0][0]) * t);
+	out.m[0][1] = m->m[0][1] + ((in->m[0][1] - m->m[0][1]) * t);
+	out.m[0][2] = m->m[0][2] + ((in->m[0][2] - m->m[0][2]) * t);
+	out.m[0][3] = m->m[0][3] + ((in->m[0][3] - m->m[0][3]) * t);
+	out.m[1][0] = m->m[1][0] + ((in->m[1][0] - m->m[1][0]) * t);
+	out.m[1][1] = m->m[1][1] + ((in->m[1][1] - m->m[1][1]) * t);
+	out.m[1][2] = m->m[1][2] + ((in->m[1][2] - m->m[1][2]) * t);
+	out.m[1][3] = m->m[1][3] + ((in->m[1][3] - m->m[1][3]) * t);
+	out.m[2][0] = m->m[2][0] + ((in->m[2][0] - m->m[2][0]) * t);
+	out.m[2][1] = m->m[2][1] + ((in->m[2][1] - m->m[2][1]) * t);
+	out.m[2][2] = m->m[2][2] + ((in->m[2][2] - m->m[2][2]) * t);
+	out.m[2][3] = m->m[2][3] + ((in->m[2][3] - m->m[2][3]) * t);
+	out.m[3][0] = m->m[3][0] + ((in->m[3][0] - m->m[3][0]) * t);
+	out.m[3][1] = m->m[3][1] + ((in->m[3][1] - m->m[3][1]) * t);
+	out.m[3][2] = m->m[3][2] + ((in->m[3][2] - m->m[3][2]) * t);
+	out.m[3][3] = m->m[3][3] + ((in->m[3][3] - m->m[3][3]) * t);
+
+    return out;
 }
 
-void
-mat4_mul(const mat4 *m, const mat4 *in, mat4 *out)
+mat4
+mat4_mul(const mat4 *m, const mat4 *in)
 {
 	mat4 tmp;
 	
@@ -142,11 +150,11 @@ mat4_mul(const mat4 *m, const mat4 *in, mat4 *out)
 	tmp.m[3][3] = m->m[3][0]*in->m[0][3]+m->m[3][1]*in->m[1][3]
 		+m->m[3][2]*in->m[2][3]+m->m[3][3]*in->m[3][3];
 
-	mat4_copy(&tmp, out);
+    return tmp;
 }
 
-void
-mat4_mul_vec3(const mat4 *m, const vec3 *v, float w, vec3 *out)
+vec3
+mat4_mul_vec3(const mat4 *m, const vec3 *v, float w)
 {
 	vec3 tmp;
 
@@ -157,14 +165,14 @@ mat4_mul_vec3(const mat4 *m, const vec3 *v, float w, vec3 *out)
 	tmp.z = m->m[0][2] * v->x + m->m[1][2] * v->y + m->m[2][2] * v->z +
 		m->m[3][2] * w;
 	
-	*out = tmp;
+    return tmp;
 }
 
 void
 mat4_print(const mat4 *m)
 {
-	
-	for(int i=0; i<16; i++)
+	int i;
+	for(i=0; i<16; i++)
 	{
 		if (!(i%4)) {
 			printf("\n");
@@ -189,8 +197,8 @@ mat4_rotate(mat4 *m, float angle, float x, float y, float z)
 	mat4 tmp;
 	
 	mat4_rotation(&tmp, angle, x, y, z);
-	mat4_mul(m, &tmp, &tmp);
-	mat4_copy(&tmp, m);
+	tmp = mat4_mul(m, &tmp);
+	*m = mat4_copy(&tmp);
 }
 
 void
@@ -229,3 +237,4 @@ mat4_transpose(mat4 *m)
 	swap(&m->m[1][3], &m->m[3][1]);
 	swap(&m->m[2][3], &m->m[3][2]);
 }
+
