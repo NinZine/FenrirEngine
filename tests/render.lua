@@ -3,7 +3,7 @@ state = render.new_state()
 --state.renderbuffer = render.generate_renderbuffer()
 --state.depthbuffer = render.generate_depthbuffer()
 
---render.bind_buffers(state)
+render.bind_buffers(state)
 render.setup_orthogonal_view(800, 600)
 local i = 1
 while true do

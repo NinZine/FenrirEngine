@@ -6,19 +6,28 @@
 #include <math.h>
 #include <stdlib.h>
 
-#include <SDL/SDL.h>
+#if defined(__SDL__)
+# include <SDL/SDL.h>
+#endif
 
 #include "rendering.h"
 
 #if defined(__NDS__)
 #elif defined(__IPHONE__)
+# define GL_DEPTH_ATTACHMENT_EXT GL_DEPTH_ATTACHMENT_OES
+# define GL_DEPTH_COMPONENT16 GL_DEPTH_COMPONENT16_OES
+# define GL_FRAMEBUFFER_COMPLETE_EXT GL_FRAMEBUFFER_COMPLETE_OES
+# define GL_FRAMEBUFFER_EXT GL_FRAMEBUFFER_OES
+# define GL_RENDERBUFFER_EXT GL_RENDERBUFFER_OES
+# define GL_RGBA32F_ARB GL_RGBA
+
 # define glBindFramebuffer glBindFramebufferOES
 # define glBindRenderbuffer glBindRenderbufferOES
 # define glCheckFramebufferStatus glCheckFramebufferStatusOES
 # define glFramebufferRenderbuffer glFramebufferRenderbufferOES
 # define glGenFramebuffers glGenFramebuffersOES
 # define glGenRenderbuffers glGenRenderbuffersOES
-# define glRenderbufferStorage glRenderBufferStorageOES
+# define glRenderbufferStorage glRenderbufferStorageOES
 #else
 # define glBindFramebuffer glBindFramebufferEXT
 # define glBindRenderbuffer glBindRenderbufferEXT
@@ -36,13 +45,14 @@ r_bind_buffers(r_state *buffer)
 #if	defined(__NDS__)
 #else /* !__NDS__ */
 # if defined(__IPHONE__)
-	glBindFramebuffer(GL_FRAMEBUFFER_, buffer->framebuffer);
-	glBindRenderbuffer(GL_RENDERBUFFER, buffer->renderbuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER_OES, (GLuint)buffer->framebuffer);
+	glBindRenderbuffer(GL_RENDERBUFFER_OES, (GLuint)buffer->renderbuffer);
 # else /* !__IPHONE__ */
 	glBindFramebuffer(GL_FRAMEBUFFER_EXT, buffer->framebuffer);
 	glBindRenderbuffer(GL_RENDERBUFFER_EXT, buffer->renderbuffer);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT,
+    /*glFramebufferRenderbuffer(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT,
         GL_RENDERBUFFER_EXT, buffer->renderbuffer);
+    */
 # endif
 #endif
 }
@@ -52,7 +62,9 @@ r_bind_depthbuffer(r_state *buffer)
 {
 	
 #if	defined(__NDS__)
-#else /* !__NDS__ */
+#elif defined(__IPHONE__) /* !__NDS__ */
+	glBindRenderbuffer(GL_RENDERBUFFER_OES, buffer->depth);
+#else
 	glBindRenderbuffer(GL_RENDERBUFFER_EXT, buffer->depth);
 #endif
 }
@@ -61,7 +73,6 @@ void
 r_clear(float r, float g, float b)
 {
 	
-	glEnable(GL_DEPTH_TEST);
 #if defined(__NDS__)
 	glClearColor(31, 31, 31, 31);
 	glClearDepth(0x7FFF);
@@ -147,6 +158,10 @@ r_generate_renderbuffer()
 #if defined(__NDS__)
 #else /* !__NDS__ */
 	glGenRenderbuffers(1, &r);
+	/*
+    glBindRenderbuffer(GL_RENDERBUFFER_EXT, r);
+	glRenderbufferStorage(GL_RENDERBUFFER_EXT, GL_RGBA32F_ARB, 800, 600);
+    glBindRenderbuffer(GL_RENDERBUFFER_EXT, 0);*/
 #endif
 
     return r;
@@ -157,8 +172,9 @@ r_present()
 {
     
     glFlush();
-    glFinish();
+#if defined(__SDL__)
     SDL_GL_SwapBuffers();
+#endif
 }
 
 void

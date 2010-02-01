@@ -21,7 +21,7 @@
 # define glOrthof				glOrtho
 # define glPopMatrix() 			glPopMatrix(1)
 
-#elif __APPLE__ /* !__NDS__ */
+#elif defined(__APPLE__) /* !__NDS__ */
 # include <OpenGL/OpenGL.h>
 # define glFrustumf		glFrustum
 # define glOrthof		glOrtho
@@ -33,8 +33,8 @@ typedef struct r_state {
 	uint8_t framebuffer;
 	uint8_t renderbuffer;
 	uint8_t depth;
-	int16_t width;
-	int16_t height;
+	int32_t width;
+	int32_t height;
 } r_state;
 
 struct r_color {

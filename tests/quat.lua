@@ -46,5 +46,5 @@ quat_print(s)
 
 m = quat.to_mat4(q)
 table.foreach(getmetatable(m),print)
-print(mat4.mat4_get(m, 0, 0))
+print(mat4.get(m, 0, 0))
 

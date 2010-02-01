@@ -4,9 +4,11 @@
 
 #import <CoreGraphics/CoreGraphics.h>
 #import <QuartzCore/QuartzCore.h>
+#import <UIKit/UIKit.h>
 
 #import "GameView.h"
 
+#include "event.h"
 #include "game.h"
 #include "game_helper.h"
 #include "rendering.h"
@@ -87,30 +89,24 @@ initWithFrame:(CGRect)frame
 layoutSubviews
 {
 	
-	if ( [EAGLContext setCurrentContext:context] == NO )
-		NSLog(@"Helvete");
+	assert( [EAGLContext setCurrentContext:context] != NO );
 
-	r_generate_renderbuffers(&buffer);
+	buffer.renderbuffer = r_generate_renderbuffer();
+	buffer.framebuffer = r_generate_framebuffer();
 	r_bind_buffers(&buffer);
-	if ( [context renderbufferStorage:GL_RENDERBUFFER_OES fromDrawable:(id<EAGLDrawable>)self.layer]
-		== NO )
-		NSLog(@"HELLVETTE");
+	assert( [context renderbufferStorage:GL_RENDERBUFFER_OES fromDrawable:(id<EAGLDrawable>)self.layer]
+		!= NO );
 	
 	glGetRenderbufferParameterivOES(GL_RENDERBUFFER_OES,
 									GL_RENDERBUFFER_WIDTH_OES, &buffer.width);
 	glGetRenderbufferParameterivOES(GL_RENDERBUFFER_OES,
 									GL_RENDERBUFFER_HEIGHT_OES, &buffer.height);
 	glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES,
-								 GL_RENDERBUFFER_OES, buffer.render);
-	r_generate_depthbuffer(&buffer);
+								 GL_RENDERBUFFER_OES, buffer.renderbuffer);
+	buffer.depth = r_generate_depthbuffer(buffer.width, buffer.height);
 	r_bind_buffers(&buffer);
-	
-	/*
-	UIAlertView *hello = [[UIAlertView alloc] initWithTitle:@"Yo maddafakkas!"
-		message:@"Let's rock!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-	[hello show];
-	[hello release];
-	*/
+	/* Make sure there is no error in OpenGL stuff */
+	assert(glGetError() == GL_NO_ERROR);
 
 	game_initialize();
 }
@@ -266,3 +262,16 @@ update
 
 @end
 
+void
+event_sleep(uint32_t ms)
+{
+	
+}
+
+event
+event_poll()
+{
+	event e;
+	
+	return e;
+}

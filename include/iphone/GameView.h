@@ -13,7 +13,7 @@
 @interface GameView : UIView
 {
 	EAGLContext 		*context;
-	struct r_gl_buffer 	buffer;
+	r_state 	buffer;
 }
 
 - (void)	drawHUD;

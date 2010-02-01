@@ -331,7 +331,7 @@ game_render(r_state *buffer)
 				 -tmp.object[5].position.z);
 	
 	/* Clear buffers */
-	r_clear(0,0,0);
+	r_clear(1,1,1);
 	r_enable_culling(GL_BACK);
 #if __IPHONE__ == 1
 	glEnable(GL_DEPTH_TEST);
