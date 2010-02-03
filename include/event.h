@@ -15,12 +15,13 @@ typedef union event {
     struct {
         enum event_t type;
         char c;
-        uint8_t sym;
+        uint16_t sym;
     } key;
 } event;
 
 event   event_poll();
 void    event_sleep(unsigned int ms);
+float	event_time();
 
 #endif
 

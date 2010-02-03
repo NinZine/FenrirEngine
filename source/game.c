@@ -265,19 +265,17 @@ game_initialize()
 void
 game_initialize_light()
 {
-	struct r_color color = {1.0f, 1.f, 1.f, 1.f};
-	struct r_color material = {1.0f, 0.0f, 0.0f, 0.0f};
 
 	//r_enable_light(0);
 	r_set_light_position(0, &light_position);
-	r_setup_ambient_light(0, material);
-	r_setup_diffuse_light(0, color);
+	r_setup_ambient_light(0, 0.0f, 0.0f, 0.0f);
+	r_setup_diffuse_light(0, 1.f, 1.f, 1.f);
 
 	/* Set default material for everything, need to do this for DS */
-	r_set_material(GL_AMBIENT, material);
-	r_set_material(GL_DIFFUSE, material);
-	r_set_material(GL_EMISSION, material);
-	r_set_material(GL_SPECULAR, material);
+	r_set_material(GL_AMBIENT, 0.0f, 0.0f, 0.0f);
+	r_set_material(GL_DIFFUSE, 0.0f, 0.0f, 0.0f);
+	r_set_material(GL_EMISSION, 0.0f, 0.0f, 0.0f);
+	r_set_material(GL_SPECULAR, 0.0f, 0.0f, 0.0f);
 }
 
 void
@@ -352,8 +350,6 @@ game_render(r_state *buffer)
 void
 game_render_state(const g_entity *g, const uint8_t n, struct gh_state *src)
 {
-	static const struct r_color ambient = {1.f, 0.7f, 0.7f, 0.7f};
-	static const struct r_color diffuse = {1.f, 0.8f, 0.5f, 0.1f};
 	int i;
 
 	for (i = 0; i < n; ++i) {
@@ -366,8 +362,8 @@ game_render_state(const g_entity *g, const uint8_t n, struct gh_state *src)
 		glColor4f(0.9, 0.6, 0.4, 1.f);
 		glPushMatrix();
 		/* Only effective without glEnable(GL_COLOR_MATERIAL) */
-		r_set_material(GL_AMBIENT, ambient);
-		r_set_material(GL_DIFFUSE, diffuse);
+		r_set_material(GL_AMBIENT, 0.7f, 0.7f, 0.7f);
+		r_set_material(GL_DIFFUSE, 0.8f, 0.5f, 0.1f);
 		
 		glEnable(GL_COLOR_MATERIAL);
 		gh_build_mat4(&src->object[i], &tf);

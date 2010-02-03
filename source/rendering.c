@@ -83,6 +83,13 @@ r_clear(float r, float g, float b)
 }
 
 void
+r_color(float r, float g, float b)
+{
+	
+	glColor3f(r, g, b);
+}
+
+void
 r_disable_culling()
 {
 
@@ -168,6 +175,18 @@ r_generate_renderbuffer()
 }
 
 void
+r_load_identity()
+{
+    glLoadIdentity();
+}
+
+void
+r_pop_matrix()
+{
+    glPopMatrix();
+}
+
+void
 r_present()
 {
     
@@ -175,6 +194,12 @@ r_present()
 #if defined(__SDL__)
     SDL_GL_SwapBuffers();
 #endif
+}
+
+void
+r_push_matrix()
+{
+    glPushMatrix();
 }
 
 void
@@ -373,6 +398,13 @@ r_render_vertices(const float *vertex, uint8_t n)
 }
 
 void
+r_rotate(float degrees, float x, float y, float z)
+{
+
+    glRotatef(degrees, x, y, z);
+}
+
+void
 r_set_clippingarea(int16_t x, int16_t y, int16_t width, int16_t height)
 {
 
@@ -402,65 +434,66 @@ r_set_light_position(int light_num, struct vec3 *position)
 }
 
 void
-r_set_material(GLenum type, struct r_color color)
+r_set_material(GLenum type, float r, float g, float b)
 {
-	GLfloat tmp[] = { color.red, color.green, color.blue, color.alpha };
 	
 #if defined(__NDS__)
 	if (type == GL_AMBIENT) {
-		glMaterialf(GL_AMBIENT, RGB15( (uint8_t)(tmp[0]*31),
-			(uint8_t)(tmp[1]*31), (uint8_t)(tmp[2]*31) ));
+		glMaterialf(GL_AMBIENT, RGB15( (uint8_t)(r*31),
+			(uint8_t)(g*31), (uint8_t)(b*31) ));
 	} else if (type == GL_DIFFUSE) {
-		glMaterialf(GL_DIFFUSE, RGB15( (uint8_t)(tmp[0]*31),
-			(uint8_t)(tmp[1]*31), (uint8_t)(tmp[2]*31) ));
+		glMaterialf(GL_DIFFUSE, RGB15( (uint8_t)(r*31),
+			(uint8_t)(g*31), (uint8_t)(b*31) ));
 	} else if (type == GL_EMISSION) {
-		glMaterialf(GL_EMISSION, RGB15( (uint8_t)(tmp[0]*31),
-			(uint8_t)(tmp[1]*31), (uint8_t)(tmp[2]*31) ));
+		glMaterialf(GL_EMISSION, RGB15( (uint8_t)(r*31),
+			(uint8_t)(g*31), (uint8_t)(b*31) ));
 	} else if (type == GL_SPECULAR) {
-		glMaterialf(GL_SPECULAR, BIT(15) | RGB15( (uint8_t)(tmp[0]*16),
-			(uint8_t)(tmp[1]*16), (uint8_t)(tmp[2]*16) ));
+		glMaterialf(GL_SPECULAR, BIT(15) | RGB15( (uint8_t)(r*16),
+			(uint8_t)(g*16), (uint8_t)(b*16) ));
 	}
 #else /* !__NDS__ */
+    GLfloat t[4] = {r, g, b, 1.0f};
+
 	if (type == GL_AMBIENT) {
-		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, tmp); 
+		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, t);
 	} else if (type == GL_DIFFUSE) {
-		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, tmp); 
+		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, t);
 	} else if (type == GL_EMISSION) {
-		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, tmp); 
+		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, t);
 	} else if (type == GL_SPECULAR) {
-		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, tmp); 
+		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, t); 
 	}
 #endif
 }
 
 void
-r_setup_ambient_light(int8_t light_num, struct r_color color)
+r_setup_ambient_light(int8_t light_num, float r, float g, float b)
 {
 #if defined(__NDS__)
-	rgb tmp = RGB15(((uint8_t)color.red*31), ((uint8_t)color.green*31),
-		((uint8_t)color.blue*31));
+	rgb tmp = RGB15(((uint8_t)r*31), ((uint8_t)g*31),
+		((uint8_t)b*31));
 	
 	GFX_LIGHT_COLOR = light_num | tmp;
 #else /* !__NDS__ */
-	GLfloat light_ambient_color[] = {color.red, color.green, color.blue, color.alpha};
-	
+	GLfloat t[4] = {r, g, b, 1.0f};
+
 	//glLightModelfv(GL_LIGHT_MODEL_AMBIENT, light_ambient_color);
-	glLightfv(GL_LIGHT0 + light_num, GL_AMBIENT, light_ambient_color);
+	glLightfv(GL_LIGHT0 + light_num, GL_AMBIENT, t);
 #endif
 }
 
 void
-r_setup_diffuse_light(int8_t light_num, struct r_color color)
+r_setup_diffuse_light(int8_t light_num, float r, float g, float b)
 {
 #if defined(__NDS__)
-	rgb tmp = RGB15(((uint8_t)color.red*31), ((uint8_t)color.green*31),
-		((uint8_t)color.blue*31));
+	rgb tmp = RGB15(((uint8_t)r*31), ((uint8_t)g*31),
+		((uint8_t)b*31));
 
 	GFX_LIGHT_COLOR = light_num | tmp;
 #else /* !__NDS__ */
-	GLfloat light_diffuse_color[] = {color.red, color.green, color.blue, color.alpha};
-	
-	glLightfv(GL_LIGHT0 + light_num, GL_DIFFUSE, light_diffuse_color);
+	GLfloat t[4] = {r, g, b, 1.0f};
+
+	glLightfv(GL_LIGHT0 + light_num, GL_DIFFUSE, t);
 #endif
 }
 
@@ -470,9 +503,11 @@ r_setup_diffuse_light(int8_t light_num, struct r_color color)
 void
 r_setup_orthogonal_view(float width, float height)
 {
-	
+
+	glMatrixMode(GL_PROJECTION);
 	glOrthof(-(width/2.0f), (width/2.0f), -(height/2.0f), (height/2.0f),
 			-200.0f, 200.0f);
+	glMatrixMode(GL_MODELVIEW);
 }
 
 /*
@@ -503,5 +538,12 @@ r_take_screenshot(char *pixels, r_state *buffer)
 		GL_UNSIGNED_BYTE, pixels);
 #elif defined(__NDS__)
 #endif
+}
+
+void
+r_translate(const vec3 *v)
+{
+	
+	glTranslatef(v->x, v->y, v->z);
 }
 
