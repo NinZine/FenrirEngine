@@ -14,9 +14,18 @@ ship.old_rotation = 0
 ship.rotate = 0
 ship.gas = 0
 
-local asteroid = {}
+local asteroid = { }
 local bullet = {}
 local last_fire = 0
+local quad = { 
+		-0.5, -0.5,
+		0.5,  -0.5,
+		-0.5,   0.5,
+		0.5,  0.5}
+
+local function new_asteroid(position, direction, size)
+	return { position = position, direction = direction, size = size }
+end
 
 local function new_bullet(position, direction)
 	return { position = position, direction = direction }
@@ -24,20 +33,16 @@ end
 
 local function on_screen(p)
 	if p.position.x > 165 then
-		p.position.x = -165
-		return false
+		return false, -165, p.position.y
 	elseif p.position.x < -165 then
-		p.position.x = 165
-		return false
+		return false, 165, p.position.y
 	end
 	if p.position.y > 125 then
-		p.position.y = -125
-		return false
-	elseif ship.position.y < -125 then
-		p.position.y = 125
-		return false
+		return false, p.position.x, -125
+	elseif p.position.y < -125 then
+		return false, p.position.x, 125
 	end
-	return true
+	return true, p.position.x, p.position.y
 end
 
 local function asteroid_update(b)
@@ -70,7 +75,7 @@ local function event_update()
 				local t = vec3.new_vec3()
 				t.x = -math.sin(math.rad(ship.rotation))
 				t.y = math.cos(math.rad(ship.rotation))
-				table.insert(bullet, new_bullet(ship.position, vec3.mul(t, 20)))
+				table.insert(bullet, new_bullet(ship.position, vec3.mul(t, 18)))
 			end
 		elseif e.type == event.KEYUP then
 			if e.key.sym == 275 or e.key.sym == 276 then
@@ -96,6 +101,7 @@ local function scene_render()
 	render.rotate(ship.old_rotation + ((ship.rotation - ship.old_rotation) * t),
 		0, 0, 1)
 	render.render_quad(10)
+	--render.render_vertices(quad)
 	render.pop_matrix()
 
 	for i,b in pairs(bullet) do
@@ -103,6 +109,14 @@ local function scene_render()
 		render.translate(vec3.lerp(vec3.sub(b.position, b.direction),
 			b.position, t))
 		render.render_quad(2)
+		render.pop_matrix()
+	end
+
+	for i,b in pairs(asteroid) do
+		render.push_matrix()
+		render.translate(vec3.lerp(vec3.sub(b.position, b.direction),
+			b.position, t))
+		render.render_quad(b.size)
 		render.pop_matrix()
 	end
 end
@@ -121,20 +135,15 @@ local function ship_update()
 		ship.direction = vec3.mul(vec3.normalize(ship.direction), 8)
 	end
 	ship.position = vec3.add(ship.position, ship.direction)
-	if ship.position.x > 165 then
-		ship.position.x = -165
-	elseif ship.position.x < -165 then
-		ship.position.x = 165
-	end
-	if ship.position.y > 125 then
-		ship.position.y = -125
-	elseif ship.position.y < -125 then
-		ship.position.y = 125
-	end
+	_, ship.position.x, ship.position.y = on_screen(ship)
 
 end
 
 render.setup_orthogonal_view(320, 240)
+local a = new_asteroid(vec3.new_vec3(), vec3.new_vec3(), 20)
+a.direction.x = -1
+table.insert(asteroid, a)
+
 while true do
 	dt.now = event.time()
 	dt.delta = dt.now - dt.absolute
@@ -151,6 +160,12 @@ while true do
 			for i,b in pairs(bullet) do
 				bullet_update(b)
 				if false == on_screen(b) then table.remove(bullet, i) end
+			end
+
+			for i,a in pairs(asteroid) do
+				local b
+				asteroid_update(a)
+				b, a.position.x, a.position.y = on_screen(a)
 			end
 
 			dt.accumulator = dt.accumulator - dt.step
