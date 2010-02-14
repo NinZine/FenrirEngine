@@ -2,8 +2,8 @@ local function quat_print(n)
     print("Quat: (" .. n.w .. "," .. n.x .. "," .. n.y .. "," .. n.z .. ")")
 end
 
-q = quat.new_quat()
-r = quat.new_quat()
+q = quat.quat()
+r = quat.quat()
 
 print(q)
 q.x = 10.0

@@ -9,9 +9,9 @@
 #include "vec3.h"
 
 static void
-swap(float_t *x, float_t *y)
+swap(float *x, float *y)
 {
-	float_t tmp;
+	float tmp;
 	
 	tmp = *x;
 	*x = *y;
@@ -23,32 +23,34 @@ mat4_copy(const mat4 *in)
 {
 	mat4 m;
 
-	memcpy(m.m, in->m, sizeof(float_t)*16);
+	memcpy(m.m, in->m, sizeof(float)*16);
     return m;
 }
 
-float_t
+float
 mat4_determinant(mat4 *m)
 {
-	float_t a00 = m->m[1][1] * m->m[2][2] * m->m[3][3] - m->m[1][1] * m->m[2][3] * m->m[3][2]
+	float a00, a01, a02, a03;
+
+	a00 = m->m[1][1] * m->m[2][2] * m->m[3][3] - m->m[1][1] * m->m[2][3] * m->m[3][2]
 	- m->m[1][2] * m->m[2][1] * m->m[3][3] + m->m[1][2] * m->m[2][3] * m->m[3][1]
 	+ m->m[1][3] * m->m[2][1] * m->m[3][2] - m->m[1][3] * m->m[2][2] * m->m[3][1];
 	
 	a00 = m->m[0][0] * a00;
 	
-	float_t a01 = m->m[1][0] * m->m[2][2] * m->m[3][3] - m->m[1][0] * m->m[2][3] * m->m[3][2]
+	a01 = m->m[1][0] * m->m[2][2] * m->m[3][3] - m->m[1][0] * m->m[2][3] * m->m[3][2]
 	- m->m[1][2] * m->m[2][0] * m->m[3][3] + m->m[1][2] * m->m[2][3] * m->m[3][0]
 	+ m->m[1][3] * m->m[2][0] * m->m[3][2] - m->m[1][3] * m->m[2][2] * m->m[3][0];
 	
 	a01 = m->m[0][1] * a01;
 	
-	float_t a02 = m->m[1][0] * m->m[2][1] * m->m[3][3] - m->m[1][0] * m->m[2][3] * m->m[3][1]
+	a02 = m->m[1][0] * m->m[2][1] * m->m[3][3] - m->m[1][0] * m->m[2][3] * m->m[3][1]
 	- m->m[1][1] * m->m[2][0] * m->m[3][3] + m->m[1][1] * m->m[2][3] * m->m[3][0]
 	+ m->m[1][3] * m->m[2][0] * m->m[3][1] - m->m[1][3] * m->m[2][1] * m->m[3][0];
 	
 	a02 = m->m[0][2] * a02;
 	
-	float_t a03 = m->m[1][0] * m->m[2][1] * m->m[3][2] - m->m[1][0] * m->m[2][2] * m->m[3][1]
+	a03 = m->m[1][0] * m->m[2][1] * m->m[3][2] - m->m[1][0] * m->m[2][2] * m->m[3][1]
 	- m->m[1][1] * m->m[2][0] * m->m[3][2] + m->m[1][1] * m->m[2][2] * m->m[3][0]
 	+ m->m[1][2] * m->m[2][0] * m->m[3][1] - m->m[1][2] * m->m[2][1] * m->m[3][0];
 	
@@ -60,7 +62,7 @@ mat4_determinant(mat4 *m)
 void
 mat4_identity(mat4 *m)
 {
-	bzero(m->m, sizeof(float_t)*16);
+	memset(m->m, 0, sizeof(float)*16);
 	m->m[0][0]=m->m[1][1]=m->m[2][2]=m->m[3][3]=1.0f;
 }
 
@@ -187,7 +189,7 @@ void
 mat4_reset(mat4 *m)
 {
 	
-	bzero(m->m, sizeof(float_t)*16);
+	memset(m->m, 0, sizeof(float)*16);
 }
 
 

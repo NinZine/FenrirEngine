@@ -1,17 +1,12 @@
-/*
- *  sound.h
- *  HooverCat
- *
- *  Created by Andreas Kröhnke on 8/8/09.
- *  Copyright 2009 BTH. All rights reserved.
- *
- */
-
 #ifndef _SOUND_H_
 #define _SOUND_H_
 
-#include <AudioToolbox/AudioToolbox.h>
-#include <OpenAL/al.h>
+#if defined(__APPLE__)
+# include <AudioToolbox/AudioToolbox.h>
+# include <OpenAL/al.h>
+#else
+# include <AL/al.h>
+#endif
 
 void s_free_buffer(ALuint n, ALuint *buf);
 void s_free_source(ALuint *source, bool force);
@@ -23,3 +18,4 @@ void s_quit();
 void s_update();
 
 #endif
+

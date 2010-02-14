@@ -9,7 +9,7 @@
 #include <stdbool.h>
 
 typedef struct box2d {
-	float_t x1,
+	float x1,
 			y1,
 			x2,
 			y2;

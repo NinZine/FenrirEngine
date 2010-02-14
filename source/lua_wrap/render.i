@@ -1,7 +1,6 @@
 %module render
 
 %{
-	#define SWIG_init_user SWIG_init_user_render
 	#include "rendering.h"
 %}
 

@@ -1,6 +1,5 @@
 %module mat4
 %{
-    #define SWIG_init_user SWIG_init_user_mat4
     #include "mat4.h"
 %}
 

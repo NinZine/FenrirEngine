@@ -1,7 +1,6 @@
 %module event
 
 %{
-    #define SWIG_init_user SWIG_init_user_event
     #include "event.h"
 %}
 

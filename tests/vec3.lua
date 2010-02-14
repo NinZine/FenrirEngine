@@ -2,7 +2,7 @@ local function vec3_string(v)
     return "(" .. v.x .. "," .. v.y .. "," .. v.z .. ")"
 end
 
-v = vec3.new_vec3()
+v = vec3.vec3()
 
 v.x, v.y, v.z = 1, 2, 3
 print("assign: " .. vec3_string(v))

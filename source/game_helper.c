@@ -8,7 +8,7 @@
 # include <nds.h>
 # include <nds/timers.h>
 #endif /* !__NDS__ */
-#include <err.h>
+//#include <err.h>
 #include <stdarg.h>
 #include <stdlib.h>
 #include <string.h>
@@ -231,7 +231,7 @@ gh_create_model(gh_model *m, enum gh_shape shape, ...)
 		m->edge = ray;
 		m->edges = 1;
 	} else {
-		err(0, "Failed to create shape!");
+		//err(0, "Failed to create shape!");
 	}
 	
 	va_end(ap);

@@ -11,7 +11,7 @@
 	 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-#include <err.h>
+//#include <err.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -44,7 +44,7 @@ gh_array_resize(void **array, unsigned int num_elements, size_t size_element,
 	}
 	
 	if (0 == tmp) {
-		err(1, "Failed to resize array!");
+		//err(1, "Failed to resize array!");
 	}
 	*array = tmp;
 }

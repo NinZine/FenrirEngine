@@ -1,4 +1,4 @@
-state = render.new_state()
+state = render.state()
 --state.framebuffer = render.generate_framebuffer()
 --state.renderbuffer = render.generate_renderbuffer()
 --state.depthbuffer = render.generate_depthbuffer()

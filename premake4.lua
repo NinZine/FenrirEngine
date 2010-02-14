@@ -7,22 +7,24 @@ solution "ConceptEngine"
 	language "C"
 	
 	configuration { "gmake" }
-	    buildoptions { "-mno-cygwin", "-Wall" }
+	    buildoptions { "-Wall", "-mno-cygwin" }
 	    defines { "__SDL__", "WIN32" }
 	    files { "source/*.c", "source/sdl/*.c", "source/win/*.c",
 		    "source/lua_wrap/*.c" }
-	    includedirs {"include", "/usr/local/include",
+	    includedirs {"include", "/cygdrive/d/dev/SDL-1.2.14/lib", "/usr/local/include",
 		    "/cygdrive/d/dev/lua-5.1.4/src",
-		    "/cygdrive/d/MinGW/include"}
-	    libdirs { "/usr/local/lib", "/cygdrive/d/dev/lua-5.1.4/src",
-		    "/cygdrive/d/MinGW/lib" }
-	    links { "mingw32", "SDLmain", "opengl32", "openal32", "SDL",
-	    "lua", "cygwin" }
-	    linkoptions { "-mwindows", "-mno-cygwin" }
+		    "/cygdrive/d/MinGW/include"
+		    }
+	    libdirs { "/cygdrive/d/dev/SDL-1.2.14/lib", "/usr/local/lib", "/cygdrive/d/dev/lua-5.1.4/src",
+		    "/cygdrive/d/MinGW/lib"
+		    }
+	    links { "mingw32", "SDLmain", "SDL", "lua", "opengl32", "openal32",
+	    "m", }
+	    linkoptions { "-mno-cygwin", "-Wl,--subsystem,console", "-Wl,-u,_WinMain@16" }
 
 	configuration { "gmake", "Debug" }
 	    defines { "DEBUG" }
-	    buildoptions { "-g" }
+	    buildoptions { "-gdwarf-2" }
 
 	configuration { "vs2008" }
 	    defines { "__SDL__", "WIN32", "_USE_MATH_DEFINES" }

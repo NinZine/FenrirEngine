@@ -1,4 +1,4 @@
-m = mat4.new_mat4()
+m = mat4.mat4()
 
 n = mat4.copy(m)
 mat4.set(m, 0, 0, 10)

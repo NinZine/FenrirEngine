@@ -2,7 +2,7 @@
  * License
  */
 
-#include <strings.h>
+#include <string.h>
 
 #include "vec3.h"
 
@@ -30,24 +30,24 @@ vec3_cross(const vec3 *v, const vec3 *u)
 	return w;
 }
 
-float_t
+float
 vec3_dot(const vec3 *v, const vec3 *u)
 {
 	return (v->x * u->x) + (v->y * u->y) + (v->z * u->z);
 }
 
-float_t
+float
 vec3_length(const vec3 *v)
 {
-	return sqrt(v->x*v->x + v->y*v->y + v->z*v->z);
+	return sqrtf(v->x*v->x + v->y*v->y + v->z*v->z);
 }
 
 vec3
-vec3_lerp(const vec3 *v, const vec3 *u, float_t t)
+vec3_lerp(const vec3 *v, const vec3 *u, float t)
 {
 	vec3 w;
 	
-	bzero(&w, sizeof(w));
+	memset(&w, 0, sizeof(w));
 	w = vec3_sub(u, v);
 	w = vec3_mul(&w, t);
 	w = vec3_add(v, &w);
@@ -56,7 +56,7 @@ vec3_lerp(const vec3 *v, const vec3 *u, float_t t)
 }
 
 vec3
-vec3_mul(const vec3 *v, float_t scale)
+vec3_mul(const vec3 *v, float scale)
 {
 	vec3 w;
 	w.x = scale * v->x;
@@ -68,7 +68,7 @@ vec3_mul(const vec3 *v, float_t scale)
 vec3
 vec3_normalize(const vec3 *v)
 {
-	float_t len = vec3_length(v);
+	float len = vec3_length(v);
 	vec3 u;
 	
 	u.x = v->x / len;
@@ -83,7 +83,7 @@ vec3
 vec3_project(const vec3 *v, const vec3 *u)
 {
 	vec3 w;
-	float_t tmp;
+	float tmp;
 
 	tmp = ((v->x * u->x + v->y * u->y) / (pow(u->x,2) + pow(u->y,2)));
 	w.x = tmp * u->x;
@@ -94,12 +94,12 @@ vec3_project(const vec3 *v, const vec3 *u)
 
 /* FIXME: Broken, entities "disappears" */
 vec3
-vec3_slerp(const vec3 *v, const vec3 *u, float_t t)
+vec3_slerp(const vec3 *v, const vec3 *u, float t)
 {
 	const double DOT_THRESHOLD = 0.9995;
 	
-	float_t dot;
-	float_t theta;
+	float dot;
+	float theta;
 	vec3	v0,
 			u0,
 			w;

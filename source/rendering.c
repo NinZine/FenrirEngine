@@ -4,6 +4,7 @@
 
 #include <assert.h>
 #include <math.h>
+#include <stdint.h>
 #include <stdlib.h>
 
 #if defined(__SDL__)
@@ -28,7 +29,7 @@
 # define glGenFramebuffers glGenFramebuffersOES
 # define glGenRenderbuffers glGenRenderbuffersOES
 # define glRenderbufferStorage glRenderbufferStorageOES
-#else
+#elif defined(__APPLE__)
 # define glBindFramebuffer glBindFramebufferEXT
 # define glBindRenderbuffer glBindRenderbufferEXT
 # define glCheckFramebufferStatus glCheckFramebufferStatusEXT
@@ -43,17 +44,15 @@ r_bind_buffers(r_state *buffer)
 {
 	
 #if	defined(__NDS__)
-#else /* !__NDS__ */
-# if defined(__IPHONE__)
+#elif defined(__IPHONE__) /* !__NDS__ */
 	glBindFramebuffer(GL_FRAMEBUFFER_OES, (GLuint)buffer->framebuffer);
 	glBindRenderbuffer(GL_RENDERBUFFER_OES, (GLuint)buffer->renderbuffer);
-# else /* !__IPHONE__ */
+#else /* !__IPHONE__ */
 	glBindFramebuffer(GL_FRAMEBUFFER_EXT, buffer->framebuffer);
 	glBindRenderbuffer(GL_RENDERBUFFER_EXT, buffer->renderbuffer);
     /*glFramebufferRenderbuffer(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT,
         GL_RENDERBUFFER_EXT, buffer->renderbuffer);
     */
-# endif
 #endif
 }
 
@@ -209,8 +208,8 @@ r_render_circle(float radius)
 	GLfloat angle = 6.28f;
 	
 	if (vertex == NULL) {
-		vertex = malloc((GLuint)(angle/.1f + 1) * 2 * sizeof(GLfloat));
-		GLuint i = 0;
+		vertex = (GLfloat*)malloc((GLuint)(angle/.1f + 1) * 2 * sizeof(GLfloat));
+		uint16_t i = 0;
 		do {
 			GLfloat x, y;
 			x = /*point.x + */cos(angle);
@@ -339,7 +338,7 @@ r_render_ray()
 void
 r_render_sphere(float radius)
 {
-	GLfloat *vertex = malloc(
+	GLfloat *vertex = (GLfloat*)malloc(
 		((GLuint)(M_PI/.1f + 1) * ((GLuint)(M_2_PI/.1f + 1)))
 		* 3 * sizeof(GLfloat));
 	GLfloat angle = M_2_PI;
@@ -497,9 +496,6 @@ r_setup_diffuse_light(int8_t light_num, float r, float g, float b)
 #endif
 }
 
-/*
- * Sets the current viewport with orthogonal
- */
 void
 r_setup_orthogonal_view(float width, float height)
 {
@@ -510,18 +506,15 @@ r_setup_orthogonal_view(float width, float height)
 	glMatrixMode(GL_MODELVIEW);
 }
 
-/*
- * Sets the current viewport with perspective
- */
 void
-r_setup_perspective_view(float fov, float aspect, float near, float far)
+r_setup_perspective_view(float fov, float aspect, float n, float f)
 {
-	GLfloat top = tan(fov*3.14159/360.0) * near;
+	GLfloat top = tan(fov*M_PI/360.0) * n;
 	GLfloat bottom = -top;
 	GLfloat left = aspect * bottom;
 	GLfloat right = aspect * top;
 	
-	glFrustumf(left, right, bottom, top, near, far);
+	glFrustumf(left, right, bottom, top, n, f);
 }
 
 /*

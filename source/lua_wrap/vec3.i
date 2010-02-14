@@ -1,7 +1,6 @@
 %module vec3
 
 %{
-    #define SWIG_init_user SWIG_init_user_vec3
     #include "vec3.h"
 %}
 

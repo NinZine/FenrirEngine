@@ -11,7 +11,7 @@
 	 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-#include <err.h>
+//#include <err.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -137,7 +137,7 @@ b_clean_behavior(b_behavior *b)
 	}
 	free(b->attr);
 	free(b->rule);
-	bzero(b, sizeof(b_behavior));
+	memset(b, 0, sizeof(b_behavior));
 }
 
 void
@@ -216,7 +216,7 @@ b_parse_attribute(b_attribute *a, bool modify, va_list *ap)
 		vec3 d = va_arg(*ap, vec3);
 		b_init_attribute_value(&a->value, modify, sizeof(d), (void*)&d);
 	} else {
-		err(1, "Failed to parse type %c", a->type);
+		//err(1, "Failed to parse type %c", a->type);
 	}
 }
 

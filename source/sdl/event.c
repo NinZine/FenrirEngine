@@ -1,4 +1,4 @@
-#include <sys/time.h>
+#include <sys/timeb.h>
 
 #if defined(__SDL__)
 # include <SDL/SDL.h>
@@ -54,7 +54,16 @@ event_sleep(unsigned int ms)
 float
 event_time()
 {
-#if !defined(__NDS__)
+#if defined(WIN32)
+	uint32_t ms;
+	float tmp;
+
+	ms = SDL_GetTicks();
+	tmp = ms / 1000.f;
+
+	return tmp;
+
+#elif !defined(__NDS__)
 	static struct timeval start = {0,0};
 	struct timeval counter;
 	

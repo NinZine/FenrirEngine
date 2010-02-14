@@ -21,11 +21,15 @@
 # define glOrthof				glOrtho
 # define glPopMatrix() 			glPopMatrix(1)
 
-#elif defined(__APPLE__) /* !__NDS__ */
-# include <OpenGL/OpenGL.h>
+#else
+# if defined(__APPLE__) /* !__NDS__ */
+#  include <OpenGL/OpenGL.h>
+# else
+#  include "GLee.h"
+# endif
 # define glFrustumf		glFrustum
 # define glOrthof		glOrtho
-#endif /* !__APPLE__ */
+#endif
 
 #include "vec3.h"
 
@@ -74,7 +78,7 @@ void r_set_material(GLenum type, float r, float g, float b);
 void r_setup_ambient_light(int8_t n, float r, float g, float b);
 void r_setup_diffuse_light(int8_t n, float r, float g, float b);
 void r_setup_orthogonal_view(float width, float height);
-void r_setup_perspective_view(float fov, float aspect, float near, float far);
+void r_setup_perspective_view(float fov, float aspect, float n, float f);
 
 void r_take_screenshot(char *pixels, r_state *buffer);
 void r_translate(const vec3 *v);

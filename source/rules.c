@@ -126,7 +126,7 @@ DECL_RULE(collide)
 		/* Project out of collision */
 		direction = vec3_mul(&direction, distance+0.05f);
 		me_rb->position = vec3_add(&me_rb->position, &direction);
-		bzero(&me_rb->linear_velocity, sizeof(vec3));
+		memset(&me_rb->linear_velocity, 0, sizeof(vec3));
 		printf("Collision: %x and %x direction (%.2f,%.2f)\n", me_rb, you_rb, direction.x, direction.y);
 		b_add_attribute(b, attrs, "direction", 'v', direction);
 		collides = true;

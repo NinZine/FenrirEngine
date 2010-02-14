@@ -20,7 +20,7 @@ quat_add(const quat *q1, const quat *q2)
 	return q;
 }
 
-float_t
+float
 quat_dot(const quat *q1, const quat *q2)
 {
 	return q1->w*q2->w + q1->x*q2->x + q1->y*q2->y + q1->z*q2->z;
@@ -29,8 +29,8 @@ quat_dot(const quat *q1, const quat *q2)
 quat
 quat_from_axis(const quat *a)
 {
-	float_t theta = (a->w * 0.5f) * (M_PI/180.f); /* To radians */
-	float_t sin_theta = sin(theta);
+	float theta = (a->w * 0.5f) * (M_PI/180.f); /* To radians */
+	float sin_theta = sin(theta);
 	vec3 tmp = {a->x, a->y, a->z};
 	quat q;
 	
@@ -44,14 +44,14 @@ quat_from_axis(const quat *a)
 	return q;
 }
 
-float_t
+float
 quat_length(const quat *q)
 {
-	return sqrt(pow(q->w,2) + pow(q->x,2) + pow(q->y,2) + pow(q->z,2));
+	return sqrtf(pow(q->w,2) + pow(q->x,2) + pow(q->y,2) + pow(q->z,2));
 }
 
 quat
-quat_lerp(const quat *q1, const quat *q2, float_t t)
+quat_lerp(const quat *q1, const quat *q2, float t)
 {
 	quat q3, q4;
 
@@ -78,7 +78,7 @@ quat_mul(const quat *q1, const quat *q2)
 quat
 quat_normalize(const quat *q)
 {
-	float_t length;
+	float length;
 	quat tmp = *q;
 
 	length = quat_length(q);
@@ -91,7 +91,7 @@ quat_normalize(const quat *q)
 }
 
 quat
-quat_scale(const quat *q1, float_t t)
+quat_scale(const quat *q1, float t)
 {
 	quat q2;
 
@@ -104,15 +104,15 @@ quat_scale(const quat *q1, float_t t)
 }
 
 quat
-quat_slerp(const quat *q1, const quat *q2, float_t t)
+quat_slerp(const quat *q1, const quat *q2, float t)
 {
-	float_t cos_theta = quat_dot(q1, q2);
-	float_t theta = acos(cos_theta);
-	float_t sin_theta = sin(theta);
+	float cos_theta = quat_dot(q1, q2);
+	float theta = acos(cos_theta);
+	float sin_theta = sin(theta);
 
 	if (sin_theta > 0.001f) {
-		float_t w1 = sin( (1.f-t) * theta) / sin_theta;
-		float_t w2 = sin(t * theta) / sin_theta;
+		float w1 = sin( (1.f-t) * theta) / sin_theta;
+		float w2 = sin(t * theta) / sin_theta;
 		quat q3, q4;
 
 		q3 = quat_scale(q1, w1);
@@ -141,7 +141,7 @@ quat_to_axis(const quat *q)
 {
 	vec3 axis = {q->x, q->y, q->z};
 	quat tmp = {0.f, 1.f, 0.f, 0.f};
-	float_t length;
+	float length;
 
 	tmp.w = 2 * acos(q->w);
 	//if ((int)(tmp.w) > 0 || (int)(tmp.w) < 0) {

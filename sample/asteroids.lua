@@ -1,14 +1,14 @@
-local state = render.new_state()
+local state = render.state()
 local dt = { absolute = 0, accumulator = 0, delta = 0, frame = 0, now = 0,
 	step = 1 / 20.0}
 
 local ship = {}
-ship.position = vec3.new_vec3()
+ship.position = vec3.vec3()
 ship.position.x = 0
 ship.position.y = 0
-ship.direction = vec3.new_vec3()
+ship.direction = vec3.vec3()
 
-ship.speed = vec3.new_vec3() 
+ship.speed = vec3.vec3()
 ship.rotation = 0
 ship.old_rotation = 0
 ship.rotate = 0
@@ -17,7 +17,7 @@ ship.gas = 0
 local asteroid = { }
 local bullet = {}
 local last_fire = 0
-local quad = { 
+local quad = {
 		-0.5, -0.5,
 		0.5,  -0.5,
 		-0.5,   0.5,
@@ -61,7 +61,7 @@ local function event_update()
 			end
 			-- Rotation
 			if e.key.sym == 276 then
-				ship.rotate = 16 
+				ship.rotate = 16
 			elseif e.key.sym == 275 then
 				ship.rotate = -16
 			end
@@ -72,7 +72,7 @@ local function event_update()
 			-- Shoot
 			if e.key.c == " " then --and dt.now - last_fire > 0.2 then
 				last_fire = dt.now
-				local t = vec3.new_vec3()
+				local t = vec3.vec3()
 				t.x = -math.sin(math.rad(ship.rotation))
 				t.y = math.cos(math.rad(ship.rotation))
 				table.insert(bullet, new_bullet(ship.position, vec3.mul(t, 18)))
@@ -124,7 +124,7 @@ end
 local function ship_update()
 	ship.old_rotation = ship.rotation
 	ship.rotation = ship.rotation + ship.rotate
-	--[[if ship.rotation > 359 then ship.rotation = ship.rotation - 359 
+	--[[if ship.rotation > 359 then ship.rotation = ship.rotation - 359
 	elseif ship.rotation < 0 then ship.rotation = ship.rotation + 359
 	end]]--
 
@@ -140,7 +140,7 @@ local function ship_update()
 end
 
 render.setup_orthogonal_view(320, 240)
-local a = new_asteroid(vec3.new_vec3(), vec3.new_vec3(), 20)
+local a = new_asteroid(vec3.vec3(), vec3.vec3(), 20)
 a.direction.x = -1
 table.insert(asteroid, a)
 

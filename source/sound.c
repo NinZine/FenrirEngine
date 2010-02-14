@@ -1,7 +1,16 @@
-#include <OpenAL/al.h>
-#include <OpenAL/alc.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include <string.h>
+
+#if defined(__APPLE__)
+# include <OpenAL/al.h>
+# include <OpenAL/alc.h>
+#else
+# include <AL/al.h>
+# include <AL/alc.h>
 /*#include <OpenAL/oalStaticBufferExtension.h>
 */
+#endif
 
 #include "sound.h"
 
@@ -97,7 +106,7 @@ s_init_openal()
 void
 s_open_file(const char *filename, const char *type, ALuint *buf)
 {
-	
+#if defined(__APPLE__)	
 	AudioFileID outAFID;
 	CFStringRef f = CFStringCreateWithCString(NULL, filename,
 		kCFStringEncodingISOLatin1);
@@ -111,12 +120,13 @@ s_open_file(const char *filename, const char *type, ALuint *buf)
 	unsigned char *data;
 	
 	
-#if TARGET_OS_IPHONE
+# if TARGET_OS_IPHONE
 	OSStatus result = AudioFileOpenURL((CFURLRef)afUrl,
 		kAudioFileReadPermission, 0, &outAFID);
-#else
-	OSStatus result = AudioFileOpenURL((CFURLRef)afUrl, fsRdPerm, 0, &outAFID);
-#endif
+# else
+	OSStatus result = AudioFileOpenURL((CFURLRef)afUrl,
+	    fsRdPerm, 0, &outAFID);
+# endif
 
 	if (result != 0) printf("Cannot open file: %x", afUrl);	
 	result = AudioFileGetProperty(outAFID,
@@ -143,6 +153,7 @@ s_open_file(const char *filename, const char *type, ALuint *buf)
 	CFRelease(afUrl);
 	CFRelease(t);
 	CFRelease(f);
+#endif
 }
 
 void
@@ -171,14 +182,14 @@ s_quit()
 			alDeleteSources(1, &latched[i]);
 		}
 	}
-	bzero(latched, sizeof(ALuint) * 255);
+	memset(latched, 0, sizeof(ALuint) * 255);
 	
 	for (i = 0; i < 32; ++i) {
 		if (0 != buffer[i]) {
 			alDeleteBuffers(1, &buffer[i]);
 		}
 	}
-	bzero(buffer, sizeof(ALuint) * 32);
+	memset(buffer, 0, sizeof(ALuint) * 32);
 	buffers = 0;
 	
 	alcDestroyContext(context);

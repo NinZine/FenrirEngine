@@ -13,7 +13,7 @@
 
 #include <sys/time.h>
 
-#include <alloca.h>
+//#include <alloca.h>
 #include <assert.h>
 
 #if defined(__IPHONE__)
@@ -83,7 +83,7 @@ gh_create_entity()
 	gh_array_resize((void**)&state->object, state->count,
 					sizeof(g_entity), 1);
 	
-	bzero(&state->object[state->count], sizeof(g_entity));
+	memset(&state->object[state->count], 0, sizeof(g_entity));
 	state->object[state->count].id = ++id;
 	++state->count;
 	return &state->object[state->count-1];
@@ -100,7 +100,7 @@ gh_create_rigidbody(vec3 *position, quat *rotation,
 	gh_array_resize((void**)&state->object, state->count,
 					sizeof(struct gh_rigid_body), 1);
 	
-	bzero(&state->object[state->count], sizeof(gh_rigid_body));
+	memset(&state->object[state->count], 0, sizeof(gh_rigid_body));
 	state->object[state->count].id = ++id;
 	if (0 != position) {
 		state->object[state->count].position = *position;
