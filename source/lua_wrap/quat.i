@@ -17,8 +17,5 @@
 %rename(to_axis) quat_to_axis;
 %rename(to_mat4) quat_to_mat4;
 
-%nodefaultctor;
-
 %include "../../include/quat.h"
-
 

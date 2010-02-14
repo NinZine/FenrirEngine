@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2F0D30461127848C00CF9354 /* event.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F0D30441127848C00CF9354 /* event.c */; };
+		2F0D30471127848C00CF9354 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F0D30451127848C00CF9354 /* main.c */; };
 		2F2E9FE2110A0581002FCC3F /* actions.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2E9FD7110A0581002FCC3F /* actions.c */; };
 		2F2E9FE3110A0581002FCC3F /* array.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2E9FD8110A0581002FCC3F /* array.c */; };
 		2F2E9FE4110A0581002FCC3F /* behavior.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2E9FD9110A0581002FCC3F /* behavior.c */; };
@@ -18,7 +20,6 @@
 		2F2E9FEB110A0581002FCC3F /* rules.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2E9FE0110A0581002FCC3F /* rules.c */; };
 		2F2E9FEC110A0581002FCC3F /* vec3.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2E9FE1110A0581002FCC3F /* vec3.c */; };
 		2F2E9FF0110A05D7002FCC3F /* SDLMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F2E9FEF110A05D7002FCC3F /* SDLMain.m */; };
-		2F2EA012110A0904002FCC3F /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2EA011110A0904002FCC3F /* main.c */; };
 		2F2EA078110AD30B002FCC3F /* include in Resources */ = {isa = PBXBuildFile; fileRef = 2F2EA071110AD30B002FCC3F /* include */; };
 		2F2EA0CB110AD323002FCC3F /* lapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2EA07D110AD323002FCC3F /* lapi.c */; };
 		2F2EA0CC110AD323002FCC3F /* lauxlib.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2EA07F110AD323002FCC3F /* lauxlib.c */; };
@@ -54,13 +55,14 @@
 		2F2EA250110B6AAF002FCC3F /* quat_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2EA249110B6AAF002FCC3F /* quat_wrap.c */; };
 		2F2EA252110B6AAF002FCC3F /* vec3_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2EA24B110B6AAF002FCC3F /* vec3_wrap.c */; };
 		2F396F5C110F028500998DC1 /* render_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F396F5A110F028500998DC1 /* render_wrap.c */; };
-		2F396FC6110F4C4900998DC1 /* event.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F396FC5110F4C4900998DC1 /* event.c */; };
 		2F396FE0110F505600998DC1 /* event_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F396FDE110F505600998DC1 /* event_wrap.c */; };
 		2F39702111105C3F00998DC1 /* game.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2E9FDC110A0581002FCC3F /* game.c */; };
 		2F3972111110A6D700998DC1 /* sound.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F3972101110A6D700998DC1 /* sound.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2F0D30441127848C00CF9354 /* event.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = event.c; sourceTree = "<group>"; };
+		2F0D30451127848C00CF9354 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		2F2E9F65110A043A002FCC3F /* ConceptEngine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConceptEngine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F2E9F68110A043A002FCC3F /* ConceptEngine-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ConceptEngine-Info.plist"; sourceTree = "<group>"; };
 		2F2E9FD7110A0581002FCC3F /* actions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = actions.c; path = ../../source/actions.c; sourceTree = SOURCE_ROOT; };
@@ -88,7 +90,6 @@
 		2F2EA000110A06AE002FCC3F /* rendering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = rendering.h; path = ../../include/rendering.h; sourceTree = SOURCE_ROOT; };
 		2F2EA001110A06AE002FCC3F /* rules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = rules.h; path = ../../include/rules.h; sourceTree = SOURCE_ROOT; };
 		2F2EA002110A06AE002FCC3F /* vec3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = vec3.h; path = ../../include/vec3.h; sourceTree = SOURCE_ROOT; };
-		2F2EA011110A0904002FCC3F /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		2F2EA071110AD30B002FCC3F /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; name = include; path = ../../../../SDK/lua5.1.4/include; sourceTree = SOURCE_ROOT; };
 		2F2EA07D110AD323002FCC3F /* lapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lapi.c; sourceTree = "<group>"; };
 		2F2EA07E110AD323002FCC3F /* lapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lapi.h; sourceTree = "<group>"; };
@@ -150,7 +151,6 @@
 		2F2EA24B110B6AAF002FCC3F /* vec3_wrap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vec3_wrap.c; sourceTree = "<group>"; };
 		2F396F5A110F028500998DC1 /* render_wrap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = render_wrap.c; sourceTree = "<group>"; };
 		2F396F5B110F028500998DC1 /* render.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; path = render.i; sourceTree = "<group>"; };
-		2F396FC5110F4C4900998DC1 /* event.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = event.c; path = ../../source/osx/event.c; sourceTree = SOURCE_ROOT; };
 		2F396FC7110F4C5D00998DC1 /* event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = event.h; path = ../../include/event.h; sourceTree = SOURCE_ROOT; };
 		2F396FDE110F505600998DC1 /* event_wrap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = event_wrap.c; sourceTree = "<group>"; };
 		2F396FDF110F505600998DC1 /* event.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; path = event.i; sourceTree = "<group>"; };
@@ -169,6 +169,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2F0D30431127848C00CF9354 /* sdl */ = {
+			isa = PBXGroup;
+			children = (
+				2F0D30441127848C00CF9354 /* event.c */,
+				2F0D30451127848C00CF9354 /* main.c */,
+			);
+			name = sdl;
+			path = ../../source/sdl;
+			sourceTree = SOURCE_ROOT;
+		};
 		2F2E9F3B1109FA66002FCC3F = {
 			isa = PBXGroup;
 			children = (
@@ -206,11 +216,11 @@
 			children = (
 				2F2EA244110B6AAF002FCC3F /* lua_wrap */,
 				2F2E9FED110A05D7002FCC3F /* osx */,
+				2F0D30431127848C00CF9354 /* sdl */,
 				2F2E9FD7110A0581002FCC3F /* actions.c */,
 				2F2E9FD8110A0581002FCC3F /* array.c */,
 				2F2E9FD9110A0581002FCC3F /* behavior.c */,
 				2F2E9FDA110A0581002FCC3F /* box2d.c */,
-				2F396FC5110F4C4900998DC1 /* event.c */,
 				2F2E9FDB110A0581002FCC3F /* game_helper.c */,
 				2F2E9FDC110A0581002FCC3F /* game.c */,
 				2F2E9FDD110A0581002FCC3F /* mat4.c */,
@@ -234,7 +244,6 @@
 		2F2E9FED110A05D7002FCC3F /* osx */ = {
 			isa = PBXGroup;
 			children = (
-				2F2EA011110A0904002FCC3F /* main.c */,
 				2F2E9FEE110A05D7002FCC3F /* SDLMain.h */,
 				2F2E9FEF110A05D7002FCC3F /* SDLMain.m */,
 			);
@@ -394,7 +403,6 @@
 				2F2E9FEB110A0581002FCC3F /* rules.c in Sources */,
 				2F2E9FEC110A0581002FCC3F /* vec3.c in Sources */,
 				2F2E9FF0110A05D7002FCC3F /* SDLMain.m in Sources */,
-				2F2EA012110A0904002FCC3F /* main.c in Sources */,
 				2F2EA0CB110AD323002FCC3F /* lapi.c in Sources */,
 				2F2EA0CC110AD323002FCC3F /* lauxlib.c in Sources */,
 				2F2EA0CD110AD323002FCC3F /* lbaselib.c in Sources */,
@@ -429,10 +437,11 @@
 				2F2EA250110B6AAF002FCC3F /* quat_wrap.c in Sources */,
 				2F2EA252110B6AAF002FCC3F /* vec3_wrap.c in Sources */,
 				2F396F5C110F028500998DC1 /* render_wrap.c in Sources */,
-				2F396FC6110F4C4900998DC1 /* event.c in Sources */,
 				2F396FE0110F505600998DC1 /* event_wrap.c in Sources */,
 				2F39702111105C3F00998DC1 /* game.c in Sources */,
 				2F3972111110A6D700998DC1 /* sound.c in Sources */,
+				2F0D30461127848C00CF9354 /* event.c in Sources */,
+				2F0D30471127848C00CF9354 /* main.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
