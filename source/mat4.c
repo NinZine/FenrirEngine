@@ -24,6 +24,7 @@ mat4_copy(const mat4 *in)
 	mat4 m;
 
 	memcpy(m.m, in->m, sizeof(float)*16);
+
     return m;
 }
 
@@ -59,11 +60,15 @@ mat4_determinant(mat4 *m)
 	return (a00 + a01 + a02 + a03);
 }
 
-void
-mat4_identity(mat4 *m)
+mat4
+mat4_identity()
 {
-	memset(m->m, 0, sizeof(float)*16);
-	m->m[0][0]=m->m[1][1]=m->m[2][2]=m->m[3][3]=1.0f;
+    mat4 m;
+
+	memset(m.m, 0, sizeof(float)*16);
+	m.m[0][0]=m.m[1][1]=m.m[2][2]=m.m[3][3]=1.0f;
+    
+    return m;
 }
 
 /* TODO: Implement */
@@ -193,50 +198,86 @@ mat4_reset(mat4 *m)
 }
 
 
-void
-mat4_rotate(mat4 *m, float angle, float x, float y, float z)
+mat4
+mat4_rotate(const mat4 *m, float angle, float x, float y, float z)
 {
 	mat4 tmp;
 	
-	mat4_rotation(&tmp, angle, x, y, z);
-	tmp = mat4_mul(m, &tmp);
-	*m = mat4_copy(&tmp);
+    tmp = mat4_identity();
+	tmp = mat4_rotation(angle, x, y, z);
+	tmp = mat4_mul(&tmp, m);
+    
+    return tmp;
 }
 
-void
-mat4_rotation(mat4 *m, float angle, float x, float y, float z)
+mat4
+mat4_rotation(float angle, float x, float y, float z)
 {
+    mat4 m;
 	const float DEG2RAD = M_PI / 180.0f;
 	float fcos = cosf(angle * DEG2RAD);
 	float fsin = sinf(angle * DEG2RAD);
 	vec3 dir = {x, y, z};
 	
 	dir = vec3_normalize(&dir);
-	m->m[0][0] = (dir.x * dir.x) * (1.0f - fcos) + fcos;
-	m->m[0][1] = (dir.x * dir.y) * (1.0f - fcos ) - (dir.z * fsin);
-	m->m[0][2] = (dir.x * dir.z) * (1.0f - fcos ) + (dir.y * fsin);
+	m.m[0][0] = (dir.x * dir.x) * (1.0f - fcos) + fcos;
+	m.m[0][1] = (dir.x * dir.y) * (1.0f - fcos ) - (dir.z * fsin);
+	m.m[0][2] = (dir.x * dir.z) * (1.0f - fcos ) + (dir.y * fsin);
 	
-	m->m[1][0] = (dir.y * dir.x) * (1.0f - fcos ) + (dir.z * fsin);
-	m->m[1][1] = (dir.y * dir.y) * (1.0f - fcos ) + fcos ;
-	m->m[1][2] = (dir.y * dir.z) * (1.0f - fcos ) - (dir.x * fsin);
+	m.m[1][0] = (dir.y * dir.x) * (1.0f - fcos ) + (dir.z * fsin);
+	m.m[1][1] = (dir.y * dir.y) * (1.0f - fcos ) + fcos ;
+	m.m[1][2] = (dir.y * dir.z) * (1.0f - fcos ) - (dir.x * fsin);
 	
-	m->m[2][0] = (dir.z * dir.x) * (1.0f - fcos ) - (dir.y * fsin);
-	m->m[2][1] = (dir.z * dir.y) * (1.0f - fcos ) + (dir.x * fsin);
-	m->m[2][2] = (dir.z * dir.z) * (1.0f - fcos ) + fcos;
+	m.m[2][0] = (dir.z * dir.x) * (1.0f - fcos ) - (dir.y * fsin);
+	m.m[2][1] = (dir.z * dir.y) * (1.0f - fcos ) + (dir.x * fsin);
+	m.m[2][2] = (dir.z * dir.z) * (1.0f - fcos ) + fcos;
 	
-	m->m[0][3] = m->m[1][3] = m->m[2][3] = 0;
-	m->m[3][0] = m->m[3][1] = m->m[3][2] = 0;
-	m->m[3][3] = 1;
+	m.m[0][3] = m.m[1][3] = m.m[2][3] = 0;
+	m.m[3][0] = m.m[3][1] = m.m[3][2] = 0;
+	m.m[3][3] = 1;
+
+    return m;
 }
 
-void
-mat4_transpose(mat4 *m)
+mat4
+mat4_scale(const mat4 *m, float x, float y, float z)
 {
-	swap(&m->m[0][1], &m->m[1][2]);
-	swap(&m->m[0][2], &m->m[2][2]);
-	swap(&m->m[0][3], &m->m[3][0]);
-	swap(&m->m[1][2], &m->m[2][1]);
-	swap(&m->m[1][3], &m->m[3][1]);
-	swap(&m->m[2][3], &m->m[3][2]);
+    mat4 n;
+
+    n = mat4_identity();
+    n.m[0][0] = m->m[0][0] * x;
+    n.m[1][1] = m->m[1][1] * y;
+    n.m[2][2] = m->m[2][2] * z;
+
+    return n;
+}
+
+mat4
+mat4_translate(const mat4 *m, float x, float y, float z)
+{
+    mat4 n;
+
+    n = mat4_copy(m);
+    
+    n.m[3][0] = m->m[3][0] + x;
+    n.m[3][1] = m->m[3][1] + y;
+    n.m[3][2] = m->m[3][2] + z;
+
+    return n;
+}
+
+mat4
+mat4_transpose()
+{
+	mat4 m;
+	
+	swap(&m.m[0][1], &m.m[1][2]);
+	swap(&m.m[0][2], &m.m[2][2]);
+	swap(&m.m[0][3], &m.m[3][0]);
+	swap(&m.m[1][2], &m.m[2][1]);
+	swap(&m.m[1][3], &m.m[3][1]);
+	swap(&m.m[2][3], &m.m[3][2]);
+	
+	return m;
 }
 

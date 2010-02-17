@@ -16,17 +16,19 @@
 %rename(reset) mat4_reset;
 %rename(rotate) mat4_rotate;
 %rename(rotation) mat4_rotation;
+%rename(scale) mat4_scale;
+%rename(translate) mat4_translate;
 %rename(transpose) mat4_transpose;
 
 %inline %{
 float
-mat4_get(mat4 *m, int x, int y)
+mat4_get(mat4 *m, int y, int x)
 {
     return m->m[y][x];
 }
 
 void
-mat4_set(mat4 *m, int x, int y, float f)
+mat4_set(mat4 *m, int y, int x, float f)
 {
     m->m[y][x] = f;
 }
