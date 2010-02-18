@@ -6,7 +6,11 @@ chdir 'source/lua_wrap';
 my @files = <*.i>;
 
 foreach my $file(@files) {
-    print `swig -lua $file`;
+    if ($#ARGV >= 0) {
+        print `swig -lua -D$ARGV[0] $file`;
+    } else {
+        print `swig -lua $file`;
+    }
 }
 
 @ARGV = <*.c>;
