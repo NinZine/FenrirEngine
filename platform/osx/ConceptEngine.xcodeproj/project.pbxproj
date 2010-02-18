@@ -54,6 +54,8 @@
 		2F2EA24E110B6AAF002FCC3F /* mat4_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2EA247110B6AAF002FCC3F /* mat4_wrap.c */; };
 		2F2EA250110B6AAF002FCC3F /* quat_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2EA249110B6AAF002FCC3F /* quat_wrap.c */; };
 		2F2EA252110B6AAF002FCC3F /* vec3_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2EA24B110B6AAF002FCC3F /* vec3_wrap.c */; };
+		2F375B50112D849F00D5DC5E /* net.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F375B4F112D849F00D5DC5E /* net.c */; };
+		2F375B98112D99AD00D5DC5E /* net_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F375B96112D99AD00D5DC5E /* net_wrap.c */; };
 		2F396F5C110F028500998DC1 /* render_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F396F5A110F028500998DC1 /* render_wrap.c */; };
 		2F396FE0110F505600998DC1 /* event_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F396FDE110F505600998DC1 /* event_wrap.c */; };
 		2F39702111105C3F00998DC1 /* game.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2E9FDC110A0581002FCC3F /* game.c */; };
@@ -149,6 +151,10 @@
 		2F2EA249110B6AAF002FCC3F /* quat_wrap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = quat_wrap.c; sourceTree = "<group>"; };
 		2F2EA24A110B6AAF002FCC3F /* vec3.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; path = vec3.i; sourceTree = "<group>"; };
 		2F2EA24B110B6AAF002FCC3F /* vec3_wrap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vec3_wrap.c; sourceTree = "<group>"; };
+		2F375B4F112D849F00D5DC5E /* net.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = net.c; path = ../../source/net.c; sourceTree = SOURCE_ROOT; };
+		2F375B51112D84B000D5DC5E /* net.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = net.h; path = ../../include/net.h; sourceTree = SOURCE_ROOT; };
+		2F375B96112D99AD00D5DC5E /* net_wrap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = net_wrap.c; sourceTree = "<group>"; };
+		2F375B97112D99AD00D5DC5E /* net.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; path = net.i; sourceTree = "<group>"; };
 		2F396F5A110F028500998DC1 /* render_wrap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = render_wrap.c; sourceTree = "<group>"; };
 		2F396F5B110F028500998DC1 /* render.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; path = render.i; sourceTree = "<group>"; };
 		2F396FC7110F4C5D00998DC1 /* event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = event.h; path = ../../include/event.h; sourceTree = SOURCE_ROOT; };
@@ -200,6 +206,7 @@
 				2F2E9FF9110A06AE002FCC3F /* behavior.h */,
 				2F2E9FFA110A06AE002FCC3F /* box2d.h */,
 				2F2E9FFB110A06AE002FCC3F /* game_entity.h */,
+				2F375B51112D84B000D5DC5E /* net.h */,
 				2F2E9FFC110A06AE002FCC3F /* game_helper.h */,
 				2F2E9FFD110A06AE002FCC3F /* game.h */,
 				2F2E9FFE110A06AE002FCC3F /* mat4.h */,
@@ -222,6 +229,7 @@
 				2F2E9FD9110A0581002FCC3F /* behavior.c */,
 				2F2E9FDA110A0581002FCC3F /* box2d.c */,
 				2F2E9FDB110A0581002FCC3F /* game_helper.c */,
+				2F375B4F112D849F00D5DC5E /* net.c */,
 				2F2E9FDC110A0581002FCC3F /* game.c */,
 				2F2E9FDD110A0581002FCC3F /* mat4.c */,
 				2F2E9FDE110A0581002FCC3F /* quat.c */,
@@ -323,6 +331,8 @@
 		2F2EA244110B6AAF002FCC3F /* lua_wrap */ = {
 			isa = PBXGroup;
 			children = (
+				2F375B96112D99AD00D5DC5E /* net_wrap.c */,
+				2F375B97112D99AD00D5DC5E /* net.i */,
 				2F396FDE110F505600998DC1 /* event_wrap.c */,
 				2F396FDF110F505600998DC1 /* event.i */,
 				2F396F5A110F028500998DC1 /* render_wrap.c */,
@@ -442,6 +452,8 @@
 				2F3972111110A6D700998DC1 /* sound.c in Sources */,
 				2F0D30461127848C00CF9354 /* event.c in Sources */,
 				2F0D30471127848C00CF9354 /* main.c in Sources */,
+				2F375B50112D849F00D5DC5E /* net.c in Sources */,
+				2F375B98112D99AD00D5DC5E /* net_wrap.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
