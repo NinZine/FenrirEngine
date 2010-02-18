@@ -1,4 +1,4 @@
-#include <sys/timeb.h>
+#include <sys/time.h>
 
 #if defined(__SDL__)
 # include <SDL/SDL.h>

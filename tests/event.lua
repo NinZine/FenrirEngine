@@ -1,3 +1,5 @@
+print(event.KEY_DOWN)
+
 while true do
     e = event.poll()
     while e.type ~= event.EMPTY do
@@ -6,6 +8,7 @@ while true do
                 return
             else
                 print("keydown: " .. e.key.c)
+                print("key sym: " .. e.key.sym)
             end
         end
 
