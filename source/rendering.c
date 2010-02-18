@@ -180,6 +180,12 @@ r_load_identity()
 }
 
 void
+r_load_matrix(const float m[4][4])
+{
+	glLoadMatrixf((GLfloat *)m);
+}
+
+void
 r_pop_matrix()
 {
     glPopMatrix();
@@ -284,6 +290,26 @@ r_render_cube(float side)
 }
 
 void
+r_render_line(float x1, float y1, float z1, float x2, float y2, float z2)
+{
+	static GLfloat ray[] = {
+		0.0f, 0.f, 0.f,
+		1.0f, 0.f, 0.f,
+	};
+
+    ray[0] = x1; ray[1] = y1; ray[2] = z1;
+    ray[3] = x2; ray[4] = y2; ray[5] = z2;
+	
+#if defined(__NDS__)
+#else /* !__NDS__ */
+	glVertexPointer(3, GL_FLOAT, 0, ray);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glDrawArrays(GL_LINE_STRIP, 0, 2);
+	glDisableClientState(GL_VERTEX_ARRAY);
+#endif
+}
+
+void
 r_render_quad(float side)
 {
 	static const GLfloat quad[] = {
@@ -383,7 +409,7 @@ r_render_sphere(float radius)
 }
 
 void
-r_render_vertices(const float *vertex, uint8_t n)
+r_render_vertices(const float *vertex, uint16_t n)
 {
 
 #if defined(__NDS__)
@@ -401,6 +427,13 @@ r_rotate(float degrees, float x, float y, float z)
 {
 
     glRotatef(degrees, x, y, z);
+}
+
+void
+r_scale(float sx, float sy, float sz)
+{
+    
+    glScalef(sx, sy, sz);
 }
 
 void

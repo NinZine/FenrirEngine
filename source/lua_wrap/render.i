@@ -17,16 +17,19 @@
 %rename(enable_culling) r_enable_culling;
 %rename(enable_light) r_enable_light;
 %rename(load_identity) r_load_identity;
+%rename(load_matrix) r_load_matrix;
 %rename(pop_matrix) r_pop_matrix;
 %rename(present) r_present;
 %rename(push_matrix) r_push_matrix;
 %rename(render_circle) r_render_circle;
 %rename(render_cube) r_render_cube;
+%rename(render_line) r_render_line;
 %rename(render_quad) r_render_quad;
 %rename(render_ray) r_render_ray;
 %rename(render_sphere) r_render_sphere;
 %rename(render_vertices) r_render_vertices;
 %rename(rotate) r_rotate;
+%rename(scale) r_scale;
 %rename(set_clippingarea) r_set_clippingarea;
 %rename(set_light_position) r_set_light_position;
 %rename(set_material) r_set_material;
@@ -38,5 +41,8 @@
 %rename(translate) r_translate;
 
 %include <stdint.i>
+%include <carrays.i>
+%array_functions(float, uint16_t);
+
 %include "../../include/rendering.h"
 
