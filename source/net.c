@@ -3,6 +3,7 @@
 #include <sys/socket.h>
 
 #include <arpa/inet.h>
+#include <errno.h>
 #include <netdb.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -25,6 +26,16 @@ net_iptoi(const char *ip)
     return inet_addr(ip);
 }
 
+char*
+net_itoip(uint32_t ip)
+{
+	struct in_addr in;
+
+	in.s_addr = ip;
+
+    return inet_ntoa(in);
+}
+
 int
 net_open_udp(uint32_t ip, uint16_t port)
 {
@@ -32,7 +43,7 @@ net_open_udp(uint32_t ip, uint16_t port)
     int s;
 
     s = socket(AF_INET, SOCK_DGRAM, 0);
-    //fcntl(s, F_SETFL, O_NONBLOCK);
+    fcntl(s, F_SETFL, O_NONBLOCK);
     sin.sin_family = AF_INET;
     sin.sin_port = htons(port);
 
@@ -49,28 +60,35 @@ net_open_udp(uint32_t ip, uint16_t port)
 	return s;
 }
 
-char*
+packet
 net_recv(int s)
 {
     struct sockaddr_in sin;
     int bytes;
     socklen_t sin_len;
-    char *str = 0;
+    /*static char str[1024];*/ /* Every packet uses this same string. */
+	char *str = 0;
+	packet p;
 
+	memset(&p, sizeof(packet), 0);
     sin_len = sizeof(sin);
-    str = malloc(1024 * sizeof(char));
+    str = malloc(1024 * sizeof(char)); /* TODO: Potential leak in Lua? */
+	str[0] = 0;
     bytes = recvfrom(s, str, 1024, 0, (struct sockaddr *)&sin, &sin_len);
+	p.ip = sin.sin_addr.s_addr;
+	p.port = ntohs(sin.sin_port);
+	p.msg = str;
 
     if (-1 == bytes) {
-        printf("net> failed to recieve");
-        return 0;
+		if (EWOULDBLOCK != errno)
+        	printf("net> failed to recieve. %s\n", strerror(errno));
+        
     } else if (0 == bytes) {
-        return 0;
-    }
-    printf("recieved %d bytes from %s\n", bytes, inet_ntoa(sin.sin_addr));
+    } else {
+    	printf("recieved %d bytes from %s\n", bytes, inet_ntoa(sin.sin_addr));
+	}
 
-
-    return str;
+    return p;
 }
 
 uint32_t
@@ -98,7 +116,7 @@ net_send(int socket, const char *msg, uint32_t ip, uint16_t port)
     bytes = sendto(socket, msg, strlen(msg)+1, 0, (struct sockaddr *)&sin,
         sizeof(sin));
     if (-1 == bytes) {
-        printf("net> failed to send.");
+        printf("net> failed to send.%s\n", strerror(errno));
     } else {
         printf("sent %d bytes to %s\n", bytes, inet_ntoa(sin.sin_addr));
     }
