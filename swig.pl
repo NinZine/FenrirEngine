@@ -9,7 +9,9 @@ foreach my $file(@files) {
     if ($#ARGV >= 0) {
         print `swig -lua -D$ARGV[0] $file`;
     } else {
-        print `swig -lua $file`;
+        #print `swig -lua $file`;
+        print "usage: swig.pl platform\n";
+        exit
     }
 }
 

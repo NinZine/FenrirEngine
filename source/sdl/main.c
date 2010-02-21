@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <SDL/SDL.h>
 
@@ -33,47 +34,23 @@ report (lua_State *L, int status)
 	return status;
 }
 
-static SDL_Surface*
+static bool 
 sdl_init()
 {
-	SDL_Surface *surface;
-	const SDL_VideoInfo *info;
-	int flags = 0;
-	uint8_t depth = 0;
-
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
 		printf("sdl> failed SDL_INIT_EVERYTHING\n");
+		return false;
 	}
 	//freopen( "CON", "w", stdout );
 	//freopen( "CON", "w", stderr );
 
-	info = SDL_GetVideoInfo();
-	depth = info->vfmt->BitsPerPixel;
-	flags = SDL_OPENGL;
-
-	if (SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1))
-	    printf("sdl> no double buffer\n");
-	if (SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 8))
-	    printf("sdl> no depth buffer\n");
-	if (SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8))
-	    printf("sdl> no stencil buffer\n");
-	if (SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1))
-	    printf("sdl> no swapping\n");
-
-	surface = SDL_SetVideoMode(800, 600, depth, flags);
-	if (!surface) {
-	    printf("sdl> no video\n");
-	    exit(1);
-	}
-
 	SDL_EnableUNICODE(1);
-	return surface;
+	return true;
 }
 
 int main(int argc,char* argv[])
 {
-	SDL_Surface *s = 0;
 	lua_State *L = 0;
 	int status;
 	int *a = 0;
@@ -84,7 +61,10 @@ int main(int argc,char* argv[])
 	}
 
 	printf("sdl> init\n");
-	s = sdl_init();
+	if (false == sdl_init()) {
+		printf("sdl> failed to initialize\n");
+		return 0;
+	}
 	printf("sdl> initialized\n");
 
 	L=lua_open();

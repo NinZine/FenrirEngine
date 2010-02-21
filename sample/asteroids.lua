@@ -2,7 +2,7 @@ local client = {}
 
 local state = render.state()
 local dt = { absolute = 0, accumulator = 0, delta = 0, frame = 0, now = 0,
-	step = 1 / 20.0}
+	step = 1000 / 20 }
 
 local ship = {} 
 local asteroid = {}
@@ -169,10 +169,13 @@ end
 
 local function scene_render()
 	local t = dt.accumulator / dt.step
-	
+	if 2 == server then
+		t = (dt.now + dt.step - (dt.absolute + dt.step)) / dt.step
+	end
+
 	render.clear(0, 0, 0)
 	
-	for i,s in pairs(ship) do
+	for i,s in ipairs(ship) do
 		render.color(1, 1, 1)
 		render.load_matrix(mat4.lerp(s.matrix.old, s.matrix.new, t).m)
 		render_ship()
@@ -181,7 +184,7 @@ local function scene_render()
 	end
 
 	render.load_identity()
-	for i,b in pairs(bullet) do
+	for i,b in ipairs(bullet) do
 		render.push_matrix()
 		render.translate(vec3.lerp(vec3.sub(b.position, b.direction),
 			b.position, t))
@@ -189,7 +192,7 @@ local function scene_render()
 		render.pop_matrix()
 	end
 
-	for i,b in pairs(asteroid) do
+	for i,b in ipairs(asteroid) do
 		render.push_matrix()
 		render.translate(vec3.lerp(vec3.sub(b.position, b.direction),
 			b.position, t))
@@ -219,8 +222,13 @@ local function ship_update(ship)
 	if false == visible then
 		mat4.set(ship.matrix.new, 3, 0, x)
 		mat4.set(ship.matrix.new, 3, 1, y)
-		ship.matrix.old = ship.matrix.new
 	end
+
+	-- correct the old matrix if we wrapped
+	mat4.set(ship.matrix.old, 3, 0, mat4.get(ship.matrix.new, 3, 0))
+	mat4.set(ship.matrix.old, 3, 1, mat4.get(ship.matrix.new, 3, 1))
+	ship.matrix.old = mat4.translate(ship.matrix.old, -ship.direction.x,
+	-ship.direction.y, -ship.direction.z)
 end
 
 
@@ -251,24 +259,24 @@ local function select_connection()
 end
 
 local function update_entities()
-	for i,s in pairs(ship) do
+	for i,s in ipairs(ship) do
 		ship_update(s)
 	end
 
-	for j,b in pairs(bullet) do
+	for j,b in ipairs(bullet) do
 		bullet_update(b)
 		if false == on_screen(b.position.x, b.position.y) then
 			table.remove(bullet, j)
 		end
 	end
 
-	for i,a in pairs(asteroid) do
+	for i,a in ipairs(asteroid) do
 		local b, s, v
 		asteroid_update(a)
 		b, a.position.x, a.position.y = on_screen(a.position.x,
 			a.position.y)
 
-		for j,sh in pairs(ship) do
+		for j,sh in ipairs(ship) do
 			s, v = circles_collide(mat4.get(sh.matrix.new, 3, 0),
 				mat4.get(sh.matrix.new, 3, 1), sh.size, a.position.x,
 				a.position.y, a.size)
@@ -280,8 +288,8 @@ local function update_entities()
 	end
 
 	-- Collision
-	for j,b in pairs(bullet) do
-		for i,a in pairs(asteroid) do
+	for j,b in ipairs(bullet) do
+		for i,a in ipairs(asteroid) do
 			local p
 
 			p, _ = circles_collide(b.position.x, b.position.y, 1,
@@ -347,7 +355,7 @@ local function update_game()
 	while true do
 		dt.now = event.time()
 		dt.delta = dt.now - dt.absolute
-		if dt.delta > 0.01 and (1 == server or (2 == server and true ==
+		if dt.delta > 1 and (1 == server or (2 == server and true ==
 			update_network())) then
 			dt.absolute = dt.now
 			dt.accumulator = dt.accumulator + dt.delta
@@ -382,6 +390,7 @@ local function update_game()
 end
 
 
+render.create_window(640, 480)
 table.insert(ship, new_ship())
 select_connection()
 render.setup_orthogonal_view(320, 240)
@@ -391,4 +400,5 @@ table.insert(asteroid, a)
 
 update_game()
 --net.send(socket, "quit" ...
+render.quit()
 

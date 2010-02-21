@@ -39,6 +39,10 @@
 # define glRenderbufferStorage glRenderbufferStorageEXT
 #endif
 
+#if defined(__SDL__)
+static SDL_Surface *surface;
+#endif
+
 void
 r_bind_buffers(r_state *buffer)
 {
@@ -86,6 +90,35 @@ r_color(float r, float g, float b)
 {
 	
 	glColor3f(r, g, b);
+}
+
+void
+r_create_window(uint16_t w, uint16_t h)
+{
+#if defined(__SDL__)
+	const SDL_VideoInfo *info;
+	int flags = 0;
+	uint8_t depth = 0;
+
+	info = SDL_GetVideoInfo();
+	depth = info->vfmt->BitsPerPixel;
+	flags = SDL_OPENGL;
+
+	if (SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1))
+	    printf("sdl> no double buffer\n");
+	if (SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 8))
+	    printf("sdl> no depth buffer\n");
+	if (SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8))
+	    printf("sdl> no stencil buffer\n");
+	if (SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1))
+	    printf("sdl> no swapping\n");
+
+	surface = SDL_SetVideoMode(w, h, depth, flags);
+	if (!surface) {
+	    printf("sdl> no video\n");
+	    exit(1);
+	}
+#endif
 }
 
 void
@@ -205,6 +238,16 @@ void
 r_push_matrix()
 {
     glPushMatrix();
+}
+
+void
+r_quit()
+{
+	
+#if defined(__SDL__)
+	SDL_FreeSurface(surface);
+	surface = 0;
+#endif
 }
 
 void

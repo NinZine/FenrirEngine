@@ -10,6 +10,7 @@
 %rename(bind_depthbuffer) r_bind_depthbuffer;
 %rename(clear) r_clear;
 %rename(color) r_color;
+%rename(create_window) r_create_window;
 %rename(generate_depthbuffer) r_generate_depthbuffer;
 %rename(generate_framebuffer) r_generate_framebuffer;
 %rename(generate_renderbuffer) r_generate_renderbuffer;
@@ -21,6 +22,7 @@
 %rename(pop_matrix) r_pop_matrix;
 %rename(present) r_present;
 %rename(push_matrix) r_push_matrix;
+%rename(quit) r_quit;
 %rename(render_circle) r_render_circle;
 %rename(render_cube) r_render_cube;
 %rename(render_line) r_render_line;

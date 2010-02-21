@@ -51,21 +51,17 @@ event_sleep(unsigned int ms)
     SDL_Delay(ms);
 }
 
-float
+uint32_t
 event_time()
 {
 #if defined(WIN32)
-	uint32_t ms;
-	float tmp;
 
-	ms = SDL_GetTicks();
-	tmp = ms / 1000.f;
-
-	return tmp;
+	return SDL_GetTicks();
 
 #elif !defined(__NDS__)
 	static struct timeval start = {0,0};
 	struct timeval counter;
+	uint32_t tmp;
 	
 	if (0 == start.tv_sec && 0 == start.tv_usec) {
 		gettimeofday(&start, 0);
@@ -76,7 +72,7 @@ event_time()
 	counter.tv_sec = counter.tv_sec - start.tv_sec;
 	counter.tv_usec = counter.tv_usec - start.tv_usec;
 	
-	float tmp = ((counter.tv_sec * 1000000) + counter.tv_usec) / 1000000.f;
+	tmp = ((counter.tv_sec * 1000000) + counter.tv_usec) / 1000;
     return tmp;
 
 #else /* !__IPHONE__ */

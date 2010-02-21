@@ -47,6 +47,7 @@ void r_bind_depthbuffer(r_state *state);
 
 void r_clear(float r, float g, float b);
 void r_color(float r, float g, float b);
+void r_create_window(uint16_t w, uint16_t h);
 
 uint32_t r_generate_depthbuffer(int16_t w, int16_t h);
 uint32_t r_generate_framebuffer();
@@ -63,6 +64,8 @@ void r_load_matrix(const float m[4][4]);
 void r_pop_matrix();
 void r_present();
 void r_push_matrix();
+
+void r_quit();
 
 void r_render_circle(float radius);
 void r_render_cube(float side);

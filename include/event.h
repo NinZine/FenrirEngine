@@ -176,9 +176,9 @@ typedef union event {
     } key;
 } event;
 
-event   event_poll();
-void    event_sleep(unsigned int ms);
-float	event_time();
+event		event_poll();
+void		event_sleep(unsigned int ms);
+uint32_t	event_time();
 
 #endif
 

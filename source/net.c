@@ -85,7 +85,7 @@ net_recv(int s)
         
     } else if (0 == bytes) {
     } else {
-    	printf("recieved %d bytes from %s\n", bytes, inet_ntoa(sin.sin_addr));
+    	//printf("recieved %d bytes from %s\n", bytes, inet_ntoa(sin.sin_addr));
 	}
 
     return p;
@@ -118,7 +118,7 @@ net_send(int socket, const char *msg, uint32_t ip, uint16_t port)
     if (-1 == bytes) {
         printf("net> failed to send.%s\n", strerror(errno));
     } else {
-        printf("sent %d bytes to %s\n", bytes, inet_ntoa(sin.sin_addr));
+        //printf("sent %d bytes to %s\n", bytes, inet_ntoa(sin.sin_addr));
     }
 }
 
