@@ -590,7 +590,9 @@ r_setup_perspective_view(float fov, float aspect, float n, float f)
 	GLfloat left = aspect * bottom;
 	GLfloat right = aspect * top;
 	
+	glMatrixMode(GL_PROJECTION);
 	glFrustumf(left, right, bottom, top, n, f);
+	glMatrixMode(GL_MODELVIEW);
 }
 
 /*
@@ -610,9 +612,9 @@ r_take_screenshot(char *pixels, r_state *buffer)
 }
 
 void
-r_translate(const vec3 *v)
+r_translate(float x, float y, float z)
 {
 	
-	glTranslatef(v->x, v->y, v->z);
+	glTranslatef(x, y, z);
 }
 

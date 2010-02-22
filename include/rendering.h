@@ -87,7 +87,7 @@ void r_setup_orthogonal_view(float width, float height);
 void r_setup_perspective_view(float fov, float aspect, float n, float f);
 
 void r_take_screenshot(char *pixels, r_state *buffer);
-void r_translate(const vec3 *v);
+void r_translate(float x, float y, float z);
 
 #endif /* !_RENDERING_H_ */
 
