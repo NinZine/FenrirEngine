@@ -7,6 +7,7 @@
 #include "lauxlib.h"
 
 extern int luaopen_event(lua_State* L);
+extern int luaopen_image(lua_State* L);
 extern int luaopen_mat4(lua_State* L);
 extern int luaopen_net(lua_State* L);
 extern int luaopen_quat(lua_State* L);
@@ -74,6 +75,7 @@ int main(int argc,char* argv[])
 	luaopen_quat(L);
 	luaopen_vec3(L);
 	luaopen_event(L);
+	luaopen_image(L);
 	luaopen_render(L);
 	luaopen_net(L);
 

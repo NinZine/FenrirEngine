@@ -8,6 +8,7 @@
 
 %rename(bind_buffers) r_bind_buffers;
 %rename(bind_depthbuffer) r_bind_depthbuffer;
+%rename(bind_texture) r_bind_texture;
 %rename(clear) r_clear;
 %rename(color) r_color;
 %rename(create_window) r_create_window;
@@ -41,6 +42,7 @@
 %rename(setup_perspective_view) r_setup_perspective_view;
 %rename(take_screenshot) r_take_screenshot;
 %rename(translate) r_translate;
+%rename(upload_texture) r_upload_texture;
 
 %include <stdint.i>
 %include <carrays.i>

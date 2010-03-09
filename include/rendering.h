@@ -44,6 +44,7 @@ typedef struct r_state {
 
 void r_bind_buffers(r_state *state);
 void r_bind_depthbuffer(r_state *state);
+void r_bind_texture(uint16_t id);
 
 void r_clear(float r, float g, float b);
 void r_color(float r, float g, float b);
@@ -88,6 +89,8 @@ void r_setup_perspective_view(float fov, float aspect, float n, float f);
 
 void r_take_screenshot(char *pixels, r_state *buffer);
 void r_translate(float x, float y, float z);
+
+uint16_t r_upload_texture(uint32_t w, uint32_t h, void *image_data);
 
 #endif /* !_RENDERING_H_ */
 

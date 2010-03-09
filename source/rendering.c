@@ -73,6 +73,13 @@ r_bind_depthbuffer(r_state *buffer)
 }
 
 void
+r_bind_texture(uint16_t id)
+{
+    
+    glBindTexture(GL_TEXTURE_2D, id);
+}
+
+void
 r_clear(float r, float g, float b)
 {
 	
@@ -357,9 +364,15 @@ r_render_quad(float side)
 {
 	static const GLfloat quad[] = {
 		-0.5f, -0.5f,
-		0.5f,  -0.5f,
-		-0.5f,   0.5f,
-		0.5f,  0.5f,
+		 0.5f, -0.5f,
+		-0.5f,  0.5f,
+		 0.5f,  0.5f,
+	};
+	static const GLfloat coords[] = {
+		0.0f, 0.0f,
+		1.0f, 0.0f,
+		0.0f, 1.0f,
+		1.0f, 1.0f,
 	};
 	
 	glPushMatrix();
@@ -374,10 +387,15 @@ r_render_quad(float side)
 	glVertex3f(quad[6], quad[7], 0);
 	glEnd();
 #else /* !__NDS__ */
+    glEnable(GL_TEXTURE_2D);
+	glTexCoordPointer(2, GL_FLOAT, 0, coords);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glVertexPointer(2, GL_FLOAT, 0, quad);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glDisable(GL_TEXTURE_2D);
 #endif
 	glPopMatrix();
 }
@@ -616,5 +634,21 @@ r_translate(float x, float y, float z)
 {
 	
 	glTranslatef(x, y, z);
+}
+
+uint16_t
+r_upload_texture(uint32_t w, uint32_t h, void *image_data)
+{
+    GLuint id;
+
+    glGenTextures(1, &id);
+    glBindTexture(GL_TEXTURE_2D, id);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE,
+        (GLvoid*)image_data);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    
+    return id;
 }
 

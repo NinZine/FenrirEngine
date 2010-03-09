@@ -66,8 +66,7 @@ end
 
 local function new_ship()
 	return { direction = vec3.vec3(), speed = vec3.vec3(), rotate = 0, gas = 0,
-	matrix = { new = mat4.identity(), old = mat4.identity(),
-	next = mat4.identity() }, size = 1 }
+	matrix = { new = mat4.identity(), old = mat4.identity() }, size = 1 }
 end
 
 local function on_screen(x, y)
@@ -179,23 +178,21 @@ local function scene_render()
 		render.color(1, 1, 1)
 		render.load_matrix(mat4.lerp(s.matrix.old, s.matrix.new, t).m)
 		render_ship()
-		--render.render_quad(10)
-		--render.render_vertices(fquad, 4)
 	end
 
 	render.load_identity()
 	for i,b in ipairs(bullet) do
+		local v = vec3.lerp(vec3.sub(b.position, b.direction), b.position, t)
 		render.push_matrix()
-		render.translate(vec3.lerp(vec3.sub(b.position, b.direction),
-			b.position, t))
+		render.translate(v.x, v.y, v.z)
 		render.render_quad(2)
 		render.pop_matrix()
 	end
 
 	for i,b in ipairs(asteroid) do
+		local v = vec3.lerp(vec3.sub(b.position, b.direction), b.position, t)
 		render.push_matrix()
-		render.translate(vec3.lerp(vec3.sub(b.position, b.direction),
-			b.position, t))
+		render.translate(v.x, v.y, v.z)
 		render.render_quad(b.size)
 		render.pop_matrix()
 	end
@@ -336,8 +333,20 @@ local function update_network(time)
 				_, _, id, mat = string.find(v, "(%d+):(.+)")
 				id = tonumber(id)
 				ship[id].matrix.old = ship[id].matrix.new
-				ship[id].matrix.new = ship[id].matrix.next
-				ship[id].matrix.next = string_to_mat4(mat)
+				ship[id].matrix.new = string_to_mat4(mat)
+
+				ship[id].direction.x = mat4.get(ship[id].matrix.old, 3, 0) -
+					mat4.get(ship[id].matrix.new, 3, 0)
+				ship[id].direction.y = mat4.get(ship[id].matrix.old, 3, 1) -
+					mat4.get(ship[id].matrix.new, 3, 1)
+
+				mat4.set(ship[id].matrix.old, 3, 0,
+					mat4.get(ship[id].matrix.new, 3, 0))
+				mat4.set(ship[id].matrix.old, 3, 1,
+					mat4.get(ship[id].matrix.new, 3, 1))
+				ship[id].matrix.old = mat4.translate(ship[id].matrix.old,
+					-ship[id].direction.x, -ship[id].direction.y,
+					-ship[id].direction.z)
 			else
 				print("unknown msg: " .. p.msg)
 			end
@@ -355,8 +364,7 @@ local function update_game()
 	while true do
 		dt.now = event.time()
 		dt.delta = dt.now - dt.absolute
-		if dt.delta > 1 and (1 == server or (2 == server and true ==
-			update_network())) then
+		if dt.delta > dt.step then
 			dt.absolute = dt.now
 			dt.accumulator = dt.accumulator + dt.delta
 
@@ -365,8 +373,11 @@ local function update_game()
 					return
 				end
 
-				if 1 == server then
-					update_network()
+				if 2 == server and false == update_network() then
+					dt.absolute = dt.delta
+					dt.accumulator = dt.accumulator - dt.delta
+					break
+				elseif 1 == server then
 					update_entities()
 					if client.ip then
 						net_send("ship:1:" .. mat4_to_string(

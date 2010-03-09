@@ -60,6 +60,8 @@
 		2F396FE0110F505600998DC1 /* event_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F396FDE110F505600998DC1 /* event_wrap.c */; };
 		2F39702111105C3F00998DC1 /* game.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2E9FDC110A0581002FCC3F /* game.c */; };
 		2F3972111110A6D700998DC1 /* sound.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F3972101110A6D700998DC1 /* sound.c */; };
+		2FFADBA811453E1F00218944 /* image.c in Sources */ = {isa = PBXBuildFile; fileRef = 2FFADBA711453E1F00218944 /* image.c */; };
+		2FFADBB8114540B600218944 /* image_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 2FFADBB6114540B600218944 /* image_wrap.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -162,6 +164,10 @@
 		2F396FDF110F505600998DC1 /* event.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; path = event.i; sourceTree = "<group>"; };
 		2F39720F1110A6C900998DC1 /* sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sound.h; path = ../../include/sound.h; sourceTree = SOURCE_ROOT; };
 		2F3972101110A6D700998DC1 /* sound.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sound.c; path = ../../source/sound.c; sourceTree = SOURCE_ROOT; };
+		2FCE73151142C9B500D77BBC /* image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = image.h; path = ../../include/image.h; sourceTree = SOURCE_ROOT; };
+		2FFADBA711453E1F00218944 /* image.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = image.c; path = ../../source/image.c; sourceTree = SOURCE_ROOT; };
+		2FFADBB6114540B600218944 /* image_wrap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = image_wrap.c; sourceTree = "<group>"; };
+		2FFADBB7114540B600218944 /* image.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; path = image.i; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,6 +206,7 @@
 			isa = PBXGroup;
 			children = (
 				2F39720F1110A6C900998DC1 /* sound.h */,
+				2FCE73151142C9B500D77BBC /* image.h */,
 				2F396FC7110F4C5D00998DC1 /* event.h */,
 				2F2E9FF7110A06AE002FCC3F /* actions.h */,
 				2F2E9FF8110A06AE002FCC3F /* array.h */,
@@ -228,9 +235,10 @@
 				2F2E9FD8110A0581002FCC3F /* array.c */,
 				2F2E9FD9110A0581002FCC3F /* behavior.c */,
 				2F2E9FDA110A0581002FCC3F /* box2d.c */,
-				2F2E9FDB110A0581002FCC3F /* game_helper.c */,
-				2F375B4F112D849F00D5DC5E /* net.c */,
 				2F2E9FDC110A0581002FCC3F /* game.c */,
+				2F2E9FDB110A0581002FCC3F /* game_helper.c */,
+				2FFADBA711453E1F00218944 /* image.c */,
+				2F375B4F112D849F00D5DC5E /* net.c */,
 				2F2E9FDD110A0581002FCC3F /* mat4.c */,
 				2F2E9FDE110A0581002FCC3F /* quat.c */,
 				2F2E9FDF110A0581002FCC3F /* rendering.c */,
@@ -331,6 +339,8 @@
 		2F2EA244110B6AAF002FCC3F /* lua_wrap */ = {
 			isa = PBXGroup;
 			children = (
+				2FFADBB6114540B600218944 /* image_wrap.c */,
+				2FFADBB7114540B600218944 /* image.i */,
 				2F375B96112D99AD00D5DC5E /* net_wrap.c */,
 				2F375B97112D99AD00D5DC5E /* net.i */,
 				2F396FDE110F505600998DC1 /* event_wrap.c */,
@@ -454,6 +464,8 @@
 				2F0D30471127848C00CF9354 /* main.c in Sources */,
 				2F375B50112D849F00D5DC5E /* net.c in Sources */,
 				2F375B98112D99AD00D5DC5E /* net_wrap.c in Sources */,
+				2FFADBA811453E1F00218944 /* image.c in Sources */,
+				2FFADBB8114540B600218944 /* image_wrap.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -486,11 +498,16 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = /usr/local/include;
 				INFOPLIST_FILE = "ConceptEngine-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = /Users/ninzine/Code/SDK/lua5_1_4_Darwin94x86_lib/lib;
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/lib,
+					/Users/ninzine/Code/SDK/lua5_1_4_Darwin94x86_lib/lib,
+				);
 				OTHER_CFLAGS = "-D__SDL__";
 				OTHER_LDFLAGS = (
+					"-lpng",
 					"-framework",
 					Cocoa,
 					"-framework",
