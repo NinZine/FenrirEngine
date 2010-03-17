@@ -23,6 +23,7 @@ typedef struct blender_file_block {
     int32_t count;
 
     void    *data;
+	void	*next;
 } blender_file_block;
 
 typedef struct dna_struct_field {
@@ -33,8 +34,6 @@ typedef struct dna_struct_field {
 typedef struct dna_struct {
 	uint16_t type_idx;
 	uint16_t fields;
-
-	dna_struct_field *field;
 } dna_struct;
 
 typedef struct dna {
@@ -45,7 +44,7 @@ typedef struct dna {
 
 	char 	*name;
 	char	*type;
-	int16_t *bytes;
+	int16_t *byte;
 	dna_struct *structure;
 } dna;
 
@@ -53,6 +52,8 @@ static void 	model_read_file_block(const blender_header *bh,
             		blender_file_block *bfp, FILE *fp);
 static dna		parse_dna(const blender_file_block *bfp);
 static int32_t 	parse_int(const blender_header *bh, int32_t i);
+static void		print_dna(const dna *d);
+
 
 model
 model_open_cex(const char *filename)
@@ -80,11 +81,11 @@ model_open_blender(const char *filename)
     FILE *fp;
     model m;
     blender_header bh;
-    blender_file_block bfp;
+    blender_file_block *bfp, *first_bfp;
+	dna d;
 
     memset(&m, 0, sizeof(m));
     memset(&bh, 0, sizeof(bh));
-    memset(&bfp, 0, sizeof(bfp));
 
     fp = fopen(filename, "rb");
     if (!fp) {
@@ -103,13 +104,18 @@ model_open_blender(const char *filename)
     if ('_' == bh.ptr_size) bh.ptr_size = 4;
     else if ('-' == bh.ptr_size) bh.ptr_size = 8;
 	
-    model_read_file_block(&bh, &bfp, fp);
-    while (0 != strncmp(bfp.code, "ENDB", 4)) {
-		if (0 == strncmp(bfp.code, "DNA1", 4)) {
-			parse_dna(&bfp);
+	first_bfp = bfp = malloc(sizeof(blender_file_block));
+    memset(bfp, 0, sizeof(bfp));
+    model_read_file_block(&bh, bfp, fp);
+    while (0 != strncmp(bfp->code, "ENDB", 4)) {
+		if (0 == strncmp(bfp->code, "DNA1", 4)) {
+			d = parse_dna(bfp);
+			print_dna(&d);
 		}
-        memset(&bfp, 0, sizeof(bfp));
-        model_read_file_block(&bh, &bfp, fp);
+		bfp->next = malloc(sizeof(blender_file_block));
+		bfp = bfp->next;
+		memset(bfp, 0, sizeof(bfp));
+        model_read_file_block(&bh, bfp, fp);
     }
 
 	fclose(fp);
@@ -134,6 +140,7 @@ model_read_file_block(const blender_header *bh, blender_file_block *bfp, FILE *f
         bfp->code[2], bfp->code[3], bfp->sdna_idx);
 }
 
+/* Sets up then pointers in the dna structure. */
 dna
 parse_dna(const blender_file_block *bfp)
 {
@@ -143,61 +150,33 @@ parse_dna(const blender_file_block *bfp)
 	
 	d.id = bfp->data;
 	d.names = (int32_t*)bfp->data+2;
-	printf("names: %d\n", *d.names);
 
 	tmp = bfp->data+12;
+	d.name = tmp;
 	for (i = 0; i < *d.names; ++i) {
-		printf("%s, ", tmp);
-		
 		while (0 != *tmp) ++tmp;
 		++tmp;
 	}
-	printf("\n");
 
 	tmp += 7;
 	d.types = (int32_t*)tmp;
 	tmp += 4;
-	printf("types: %d\n", *d.types);
+	d.type = tmp;
 	for (i = 0; i < *d.types; ++i) {
-		printf("%s, ", tmp);
-		
 		while (0 != *tmp) ++tmp;
 		++tmp;
 	}
-	printf("\n");
 
 	tmp += 1;
-	printf("%c%c%c%c\n", tmp[0], tmp[1], tmp[2], tmp[3]);
 	tmp += 4;
-	d.bytes = (int16_t*)tmp;
-	for (i = 0; i < *d.types; ++i) {
-		printf("%d, ", *(int16_t*)tmp);
-		
-		tmp += 2;
-	}
-	printf("\n");
 
-	printf("%c%c%c%c\n", tmp[0], tmp[1], tmp[2], tmp[3]);
+	d.byte = (int16_t*)tmp;
+	tmp += 2 * (*d.types);
+
 	tmp += 4;
 	d.structures = (int32_t*)tmp;
-	printf("structs: %d\n", *d.structures);
 	tmp += 4;
 	d.structure = (dna_struct*)tmp;
-	for (i = 0; i < *d.structures; ++i) {
-		dna_struct *dstr;
-		int j;
-		
-		dstr = (dna_struct*)tmp;
-		tmp += 4;
-		printf("index: %d fields: %d\n", dstr->type_idx, dstr->fields);
-		for (j = 0; j < dstr->fields; ++j) {
-			dna_struct_field *f;
-
-			f = (dna_struct_field*)tmp;
-			tmp += 4;
-			printf("\tindex: %d name: %d\n", f->type_idx, f->name_idx);
-		}
-	}
 
 	return d;
 }
@@ -219,5 +198,57 @@ parse_int(const blender_header *bh, int32_t i)
 	}
 
 	return j;
+}
+
+void
+print_dna(const dna *d)
+{
+	int i;
+	char *tmp;
+	
+	printf("names: %d\n", *d->names);
+	tmp = d->name;
+	for (i = 0; i < *d->names; ++i) {
+		printf("%s, ", tmp);
+		
+		while (0 != *tmp) ++tmp;
+		++tmp;
+	}
+
+	printf("\ntypes: %d\n", *d->types);
+	tmp = d->type;
+	for (i = 0; i < *d->types; ++i) {
+		printf("%s, ", tmp);
+		
+		while (0 != *tmp) ++tmp;
+		++tmp;
+	}
+
+	tmp += 1;
+	printf("\n%c%c%c%c\n", tmp[0], tmp[1], tmp[2], tmp[3]);
+	for (i = 0; i < *d->types; ++i) {
+		printf("%d, ", d->byte[i]);
+	}
+
+	tmp = (char*)&d->byte[i];
+	printf("\n%c%c%c%c\n", tmp[0], tmp[1], tmp[2], tmp[3]);
+	printf("structs: %d\n", *d->structures);
+	tmp = (char*)d->structure;
+	for (i = 0; i < *d->structures; ++i) {
+		dna_struct *dstr;
+		int j;
+		
+		dstr = (dna_struct*)tmp;
+		printf("index: %d fields: %d\n", dstr->type_idx, dstr->fields);
+		tmp += sizeof(dna_struct);
+		for (j = 0; j < dstr->fields; ++j) {
+			dna_struct_field *f;
+			
+			f = (dna_struct_field*)tmp;
+			printf("\tindex: %d name: %d\n", f->type_idx,
+				f->name_idx);
+			tmp += sizeof(dna_struct_field);
+		}
+	}
 }
 
