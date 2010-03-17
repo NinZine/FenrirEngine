@@ -48,12 +48,28 @@ typedef struct dna {
 	dna_struct *structure;
 } dna;
 
+static char*	get_name_ptr(char *characters, int n);
 static void 	model_read_file_block(const blender_header *bh,
             		blender_file_block *bfp, FILE *fp);
 static dna		parse_dna(const blender_file_block *bfp);
 static int32_t 	parse_int(const blender_header *bh, int32_t i);
 static void		print_dna(const dna *d);
 
+
+char*
+get_name_ptr(char *characters, int n)
+{
+	char *tmp;
+	int i;
+
+	tmp = characters;
+	for (i = 0; i < n; ++i) {
+		while ('\0' != *tmp) ++tmp;
+		++tmp;
+	}
+
+	return tmp;
+}
 
 model
 model_open_cex(const char *filename)
@@ -149,9 +165,9 @@ parse_dna(const blender_file_block *bfp)
 	int 	i;
 	
 	d.id = bfp->data;
-	d.names = (int32_t*)bfp->data+2;
+	d.names = (int32_t*)bfp->data+2;	/* # names */
 
-	tmp = bfp->data+12;
+	tmp = bfp->data+12;					/* sequence of names start here */
 	d.name = tmp;
 	for (i = 0; i < *d.names; ++i) {
 		while (0 != *tmp) ++tmp;
@@ -159,24 +175,24 @@ parse_dna(const blender_file_block *bfp)
 	}
 
 	tmp += 7;
-	d.types = (int32_t*)tmp;
+	d.types = (int32_t*)tmp;			/* # types */
 	tmp += 4;
-	d.type = tmp;
+	d.type = tmp;						/* sequence of type names start here */
 	for (i = 0; i < *d.types; ++i) {
 		while (0 != *tmp) ++tmp;
 		++tmp;
 	}
 
-	tmp += 1;
+	tmp += 1;							/* TLEN */
 	tmp += 4;
 
-	d.byte = (int16_t*)tmp;
+	d.byte = (int16_t*)tmp;				/* # bytes for each type */
 	tmp += 2 * (*d.types);
 
+	tmp += 4;							/* STRC */
+	d.structures = (int32_t*)tmp;		/* # structures */
 	tmp += 4;
-	d.structures = (int32_t*)tmp;
-	tmp += 4;
-	d.structure = (dna_struct*)tmp;
+	d.structure = (dna_struct*)tmp;		/* first structure */
 
 	return d;
 }
@@ -239,14 +255,15 @@ print_dna(const dna *d)
 		int j;
 		
 		dstr = (dna_struct*)tmp;
-		printf("index: %d fields: %d\n", dstr->type_idx, dstr->fields);
+		printf("structure: %s fields: %d\n", get_name_ptr(d->type, dstr->type_idx),
+			dstr->fields);
 		tmp += sizeof(dna_struct);
 		for (j = 0; j < dstr->fields; ++j) {
 			dna_struct_field *f;
 			
 			f = (dna_struct_field*)tmp;
-			printf("\tindex: %d name: %d\n", f->type_idx,
-				f->name_idx);
+			printf("\tname: %s type: %s\n", get_name_ptr(d->name, f->name_idx),
+				get_name_ptr(d->type, f->type_idx));
 			tmp += sizeof(dna_struct_field);
 		}
 	}
