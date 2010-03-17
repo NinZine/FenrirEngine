@@ -120,7 +120,7 @@ void
 model_read_file_block(const blender_header *bh, blender_file_block *bfp, FILE *fp)
 {
 
-    printf("model> reading block\n");
+    //printf("model> reading block\n");
     fread(bfp->code, 1, 4, fp);
     fread(&bfp->size, 4, 1, fp);
     fread(&bfp->old_adress, bh->ptr_size, 1, fp);
@@ -130,8 +130,8 @@ model_read_file_block(const blender_header *bh, blender_file_block *bfp, FILE *f
 	bfp->data = malloc(bfp->size);
 	fread(bfp->data, 1, bfp->size, fp);
 	//parse_int(bh, bfp->size);
-    printf("model> blender code: %c%c%c%c\n", bfp->code[0], bfp->code[1],
-        bfp->code[2], bfp->code[3]);
+    printf("model> blender code: %c%c%c%c dna: %d\n", bfp->code[0], bfp->code[1],
+        bfp->code[2], bfp->code[3], bfp->sdna_idx);
 }
 
 dna
