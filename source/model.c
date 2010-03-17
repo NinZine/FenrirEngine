@@ -49,6 +49,7 @@ typedef struct dna {
 } dna;
 
 static char*	get_name_ptr(char *characters, int n);
+static void 	model_free_block(blender_file_block *bfp, bool all_next);
 static void 	model_read_file_block(const blender_header *bh,
             		blender_file_block *bfp, FILE *fp);
 static dna		parse_dna(const blender_file_block *bfp);
@@ -69,6 +70,19 @@ get_name_ptr(char *characters, int n)
 	}
 
 	return tmp;
+}
+
+void
+model_free_block(blender_file_block *bfp, bool all_next)
+{
+	blender_file_block *next;
+	
+	do {
+		next = bfp->next;
+		free(bfp->data);
+		free(bfp);
+		bfp = next;
+	} while (true == all_next && 0 != bfp);
 }
 
 model
@@ -135,6 +149,8 @@ model_open_blender(const char *filename)
     }
 
 	fclose(fp);
+
+	model_free_block(first_bfp, true);
 	return m;
 }
 
