@@ -48,25 +48,145 @@ typedef struct dna {
 	dna_struct *structure;
 } dna;
 
-static char*	get_name_ptr(char *characters, int n);
+static dna_struct* 			get_dna_struct(int32_t idx, const dna *d);
+static dna_struct_field* 	get_field_by_index(int32_t idx, const dna_struct *ds,
+								const dna *d);
+static int32_t		get_field_index(const char *name, const dna_struct *ds,
+						const dna *d);
+static const char*	get_name_ptr(const char *characters, int n);
+static void*		get_offset_by_index(int32_t index, const dna_struct *ds,
+						const dna *d, char ptr_size);
+
 static void 	model_free_block(blender_file_block *bfp, bool all_next);
 static void 	model_read_file_block(const blender_header *bh,
             		blender_file_block *bfp, FILE *fp);
+
 static dna		parse_dna(const blender_file_block *bfp);
 static int32_t 	parse_int(const blender_header *bh, int32_t i);
 static void		print_dna(const dna *d);
+static void 	print_dna_struct(const dna_struct *dstr, const dna *d);
 
+static void		read_scene(blender_file_block *bfp, const dna *d,
+					const blender_header *bh);
 
-char*
-get_name_ptr(char *characters, int n)
+dna_struct*
+get_dna_struct(int32_t idx, const dna *d)
 {
-	char *tmp;
+	dna_struct *tmp;
+	char *ptr;
+	int i;
+	bool found;
+
+	found = false;
+	tmp = d->structure;
+	ptr = (char*)tmp;
+	for (i = 0; i < *d->structures; ++i) {
+		if (i == idx) {
+			break;
+		}
+		ptr += sizeof(dna_struct) + (tmp->fields * sizeof(dna_struct_field));
+		tmp = (dna_struct*)ptr;
+	}
+
+	if (i == *d->structures) tmp = 0;
+
+	return tmp;
+}
+
+dna_struct_field*
+get_field_by_index(int32_t idx, const dna_struct *ds, const dna *d)
+{
+	dna_struct_field *f;
+
+	f = (void*)ds + sizeof(dna_struct);
+	f += idx;
+
+	return f;
+}
+
+int32_t
+get_field_index(const char *name, const dna_struct *ds, const dna *d)
+{
+	dna_struct_field *dsf;
+	const char *tmp;
+	int32_t i, j, len, tmp_len;
+	char *tmp_ptr;
+
+	/* Find name index by name */
+	len = strlen(name);
+	tmp = d->name;
+	for (i = 0; i < *d->names; ++i) {
+		tmp_len = len;
+
+		/* Remove pointer */
+		if ('*' == *tmp) ++tmp;
+		/* Omit array and functions */
+		if (0 != (tmp_ptr = strchr(tmp, '['))) tmp_len = tmp_ptr - tmp;
+		else if (0 != (tmp_ptr = strchr(tmp, '('))) tmp_len = tmp_ptr - tmp;
+
+		if (len == tmp_len && 0 == strncmp(name, tmp, tmp_len)) {
+			break;
+		}
+
+		tmp = get_name_ptr(tmp, 1);
+	}
+
+	/* Find name index within the structure */
+	if (i < *d->names) {
+		dsf = (void*)ds + sizeof(dna_struct);
+		for (j = 0; j < ds->fields; ++j) {
+			if (i == dsf->name_idx) return j;
+			dsf += 1;
+		}
+	}
+	
+	return -1; /* not found */
+}
+
+const char*
+get_name_ptr(const char *characters, int n)
+{
+	const char *tmp;
 	int i;
 
 	tmp = characters;
 	for (i = 0; i < n; ++i) {
 		while ('\0' != *tmp) ++tmp;
 		++tmp;
+	}
+
+	return tmp;
+}
+
+void*
+get_offset_by_index(int32_t index, const dna_struct *ds, const dna *d,
+	char ptr_size)
+{
+	dna_struct_field *f;
+	uint32_t i, size, array_size;
+	const char *name, *array_start, *array_end;
+	void *tmp;
+
+	f = (void*)ds + sizeof(dna_struct);
+	tmp = 0;
+	for (i = 0; i < index; ++i) {
+		name = get_name_ptr(d->name, f->name_idx);
+		
+		/* Size of one element. Pointer, function pointer or data. */
+		if ('*' == *name || '(' == *name) size = ptr_size;
+		else size = d->byte[f->type_idx];
+		
+		/* Is it an array or even 2D array? */
+		array_end = name;
+		array_size = 1;
+		while (0 != (array_start = strchr(array_end, '['))) {
+			array_end = strchr(array_end, ']');
+			array_size = array_size * atoi(array_start+1);
+		}
+
+		/* Add total offset for this field */
+		tmp += size * array_size;
+		f += 1;
 	}
 
 	return tmp;
@@ -147,8 +267,9 @@ model_open_blender(const char *filename)
 		memset(bfp, 0, sizeof(bfp));
         model_read_file_block(&bh, bfp, fp);
     }
-
 	fclose(fp);
+
+	read_scene(first_bfp, &d, &bh);
 
 	model_free_block(first_bfp, true);
 	return m;
@@ -168,8 +289,8 @@ model_read_file_block(const blender_header *bh, blender_file_block *bfp, FILE *f
 	bfp->data = malloc(bfp->size);
 	fread(bfp->data, 1, bfp->size, fp);
 	//parse_int(bh, bfp->size);
-    printf("model> blender code: %c%c%c%c dna: %d\n", bfp->code[0], bfp->code[1],
-        bfp->code[2], bfp->code[3], bfp->sdna_idx);
+    printf("model> blender code:%c%c%c%c dna:%d size:%d\n", bfp->code[0],
+		bfp->code[1], bfp->code[2], bfp->code[3], bfp->sdna_idx, bfp->size);
 }
 
 /* Sets up then pointers in the dna structure. */
@@ -268,20 +389,64 @@ print_dna(const dna *d)
 	tmp = (char*)d->structure;
 	for (i = 0; i < *d->structures; ++i) {
 		dna_struct *dstr;
-		int j;
 		
 		dstr = (dna_struct*)tmp;
-		printf("structure: %s fields: %d\n", get_name_ptr(d->type, dstr->type_idx),
-			dstr->fields);
-		tmp += sizeof(dna_struct);
-		for (j = 0; j < dstr->fields; ++j) {
-			dna_struct_field *f;
-			
-			f = (dna_struct_field*)tmp;
-			printf("\tname: %s type: %s\n", get_name_ptr(d->name, f->name_idx),
-				get_name_ptr(d->type, f->type_idx));
-			tmp += sizeof(dna_struct_field);
-		}
+		print_dna_struct(dstr, d);
+		tmp += sizeof(dna_struct) + dstr->fields * sizeof(dna_struct_field);
 	}
+}
+
+void
+print_dna_struct(const dna_struct *dstr, const dna *d)
+{
+	dna_struct_field *f;
+	int j;
+
+	printf("structure:%s fields:%d size:%d\n", get_name_ptr(d->type, dstr->type_idx),
+		dstr->fields, d->byte[dstr->type_idx]);
+	f = (void*)dstr + sizeof(dna_struct);
+	for (j = 0; j < dstr->fields; ++j) {
+		printf("\tname: %s (%d) type: %s (%d)\n", get_name_ptr(d->name, f->name_idx),
+			f->name_idx, get_name_ptr(d->type, f->type_idx), f->type_idx);
+		f += 1; 
+	}
+}
+
+void
+read_scene(blender_file_block *first_bfp, const dna *d, const blender_header *bh)
+{
+	/* TODO: Goal, print id.name of scene struct */
+	blender_file_block *bfp;
+	dna_struct *scene_struct, *base;
+	int32_t idx;
+	bool found;
+	void *offset;
+	dna_struct_field *f;
+
+	found = false;
+	bfp = first_bfp;
+	while (false == found && 0 != strncmp(bfp->code, "ENDB", 4)) {
+		if (0 == strncmp(bfp->code, "SC", 2)) {
+			found = true;
+			break;
+		}
+		bfp = bfp->next;
+	}
+
+	scene_struct = get_dna_struct(bfp->sdna_idx, d);
+	print_dna_struct(scene_struct, d);
+
+	idx = get_field_index("id", scene_struct, d);
+	idx = get_field_index("world", scene_struct, d);
+	offset = get_offset_by_index(idx, scene_struct, d, bh->ptr_size);
+	idx = get_field_index("frame_step", scene_struct, d);
+	offset = get_offset_by_index(idx, scene_struct, d, bh->ptr_size);
+	f = get_field_by_index(idx, scene_struct, d);
+	
+	idx = get_field_index("base", scene_struct, d);
+	offset = get_offset_by_index(idx, scene_struct, d, bh->ptr_size);
+	f = get_field_by_index(idx, scene_struct, d);
+	base = get_dna_struct(f->type_idx, d);
+	idx = get_field_index("first", base, d);
 }
 
