@@ -48,13 +48,20 @@ typedef struct dna {
 	dna_struct *structure;
 } dna;
 
+static blender_file_block*	dereference_ptr(blender_file_block *first_bfp,
+								void *ptr, char ptr_size);
+
 static dna_struct* 			get_dna_struct(int32_t idx, const dna *d);
-static dna_struct_field* 	get_field_by_index(int32_t idx, const dna_struct *ds,
+static dna_struct* 			get_dna_struct_by_type_index(int32_t idx,
 								const dna *d);
+static dna_struct_field* 	get_field_by_index(int32_t idx,
+								const dna_struct *ds, const dna *d);
 static int32_t		get_field_index(const char *name, const dna_struct *ds,
 						const dna *d);
 static const char*	get_name_ptr(const char *characters, int n);
-static void*		get_offset_by_index(int32_t index, const dna_struct *ds,
+static uint32_t		get_offset_by_index(int32_t index, const dna_struct *ds,
+						const dna *d, char ptr_size);
+static uint32_t		get_offset_by_name(const char *name, const dna_struct *ds,
 						const dna *d, char ptr_size);
 
 static void 	model_free_block(blender_file_block *bfp, bool all_next);
@@ -66,8 +73,35 @@ static int32_t 	parse_int(const blender_header *bh, int32_t i);
 static void		print_dna(const dna *d);
 static void 	print_dna_struct(const dna_struct *dstr, const dna *d);
 
-static void		read_scene(blender_file_block *bfp, const dna *d,
+static model	read_scene(blender_file_block *bfp, const dna *d,
 					const blender_header *bh);
+
+blender_file_block*
+dereference_ptr(blender_file_block *first_bfp, void *ptr, char ptr_size)
+{
+	blender_file_block *bfp, *walker;
+	uint64_t ptr_val;
+
+	if (4 == ptr_size) ptr_val = *(uint32_t*)ptr;
+	else ptr_val = *(uint64_t*)ptr;
+
+	bfp = 0;
+	walker = first_bfp;
+	while (0 == bfp && 0 != strncmp(walker->code, "ENDB", 4)) {
+		if (4 == ptr_size)  {
+			if ((uint32_t)walker->old_adress == ptr_val)
+				bfp = walker;
+		} else {
+			/* FIXME: Warning here about size of pointer. */
+			if ((uint64_t)walker->old_adress == ptr_val)
+				bfp = walker;
+		}
+
+		walker = walker->next;
+	}
+
+	return bfp;
+}
 
 dna_struct*
 get_dna_struct(int32_t idx, const dna *d)
@@ -75,13 +109,34 @@ get_dna_struct(int32_t idx, const dna *d)
 	dna_struct *tmp;
 	char *ptr;
 	int i;
-	bool found;
 
-	found = false;
+	tmp = d->structure;
+	ptr = (char*)tmp;
+	/* Structure -> n field declarations -> Next structure */
+	for (i = 0; i < *d->structures; ++i) {
+		if (i == idx) {
+			break;
+		}
+		ptr += sizeof(dna_struct) + (tmp->fields * sizeof(dna_struct_field));
+		tmp = (dna_struct*)ptr;
+	}
+
+	if (i == *d->structures) tmp = 0;
+
+	return tmp;
+}
+
+dna_struct*
+get_dna_struct_by_type_index(int32_t idx, const dna *d)
+{
+	dna_struct *tmp;
+	char *ptr;
+	int i;
+
 	tmp = d->structure;
 	ptr = (char*)tmp;
 	for (i = 0; i < *d->structures; ++i) {
-		if (i == idx) {
+		if (tmp->type_idx == idx) {
 			break;
 		}
 		ptr += sizeof(dna_struct) + (tmp->fields * sizeof(dna_struct_field));
@@ -149,23 +204,26 @@ get_name_ptr(const char *characters, int n)
 	const char *tmp;
 	int i;
 
+	/* For n null-terminated strings. */
 	tmp = characters;
 	for (i = 0; i < n; ++i) {
 		while ('\0' != *tmp) ++tmp;
 		++tmp;
 	}
 
+	/* Beginning of string. */
 	return tmp;
 }
 
-void*
+/* Calculate the offset of the index in a DNA structure. */
+uint32_t
 get_offset_by_index(int32_t index, const dna_struct *ds, const dna *d,
 	char ptr_size)
 {
 	dna_struct_field *f;
 	uint32_t i, size, array_size;
 	const char *name, *array_start, *array_end;
-	void *tmp;
+	uint32_t tmp;
 
 	f = (void*)ds + sizeof(dna_struct);
 	tmp = 0;
@@ -190,6 +248,32 @@ get_offset_by_index(int32_t index, const dna_struct *ds, const dna *d,
 	}
 
 	return tmp;
+}
+
+uint32_t
+get_offset_by_name(const char *name, const dna_struct *ds, const dna *d,
+	char ptr_size)
+{
+	dna_struct_field *f;
+	char *buffer, *word, *reentry;
+	char *sep = ".";
+	int32_t idx;
+	uint32_t offset;
+
+	buffer = strdup(name);
+	offset = 0;
+	for (word = strtok_r(buffer, sep, &reentry); word;
+		 word = strtok_r(NULL, sep, &reentry)) {
+		
+		printf("finding index for: %s\n", word);
+		idx = get_field_index(word, ds, d);
+		offset += get_offset_by_index(idx, ds, d, ptr_size);
+		f = get_field_by_index(idx, ds, d);
+		ds = get_dna_struct_by_type_index(f->type_idx, d);
+	}
+
+	free(buffer);
+	return offset;
 }
 
 void
@@ -269,14 +353,15 @@ model_open_blender(const char *filename)
     }
 	fclose(fp);
 
-	read_scene(first_bfp, &d, &bh);
+	m = read_scene(first_bfp, &d, &bh);
 
 	model_free_block(first_bfp, true);
 	return m;
 }
 
 void
-model_read_file_block(const blender_header *bh, blender_file_block *bfp, FILE *fp)
+model_read_file_block(const blender_header *bh, blender_file_block *bfp,
+	FILE *fp)
 {
 
     //printf("model> reading block\n");
@@ -402,26 +487,32 @@ print_dna_struct(const dna_struct *dstr, const dna *d)
 	dna_struct_field *f;
 	int j;
 
-	printf("structure:%s fields:%d size:%d\n", get_name_ptr(d->type, dstr->type_idx),
-		dstr->fields, d->byte[dstr->type_idx]);
-	f = (void*)dstr + sizeof(dna_struct);
+	printf("structure:%s fields:%d size:%d\n",
+		get_name_ptr(d->type, dstr->type_idx), dstr->fields,
+		d->byte[dstr->type_idx]);
+	
+	f = ((void*)dstr) + sizeof(dna_struct);
 	for (j = 0; j < dstr->fields; ++j) {
-		printf("\tname: %s (%d) type: %s (%d)\n", get_name_ptr(d->name, f->name_idx),
+		printf("\tname: %s (%d) type: %s (%d)\n",
+			get_name_ptr(d->name, f->name_idx),
 			f->name_idx, get_name_ptr(d->type, f->type_idx), f->type_idx);
+		
 		f += 1; 
 	}
 }
 
-void
-read_scene(blender_file_block *first_bfp, const dna *d, const blender_header *bh)
+model
+read_scene(blender_file_block *first_bfp, const dna *d,
+	const blender_header *bh)
 {
-	/* TODO: Goal, print id.name of scene struct */
-	blender_file_block *bfp;
-	dna_struct *scene_struct, *base;
-	int32_t idx;
+	blender_file_block *bfp, *bfp_mesh, *bfp_vert;
+	dna_struct *scene_struct, *mesh, *mvert;
+	int32_t i, j, tot, *face;
 	bool found;
-	void *offset;
-	dna_struct_field *f;
+	uint32_t offset;
+	int16_t type;
+	float *v;
+	model m;
 
 	found = false;
 	bfp = first_bfp;
@@ -436,17 +527,85 @@ read_scene(blender_file_block *first_bfp, const dna *d, const blender_header *bh
 	scene_struct = get_dna_struct(bfp->sdna_idx, d);
 	print_dna_struct(scene_struct, d);
 
-	idx = get_field_index("id", scene_struct, d);
-	idx = get_field_index("world", scene_struct, d);
-	offset = get_offset_by_index(idx, scene_struct, d, bh->ptr_size);
-	idx = get_field_index("frame_step", scene_struct, d);
-	offset = get_offset_by_index(idx, scene_struct, d, bh->ptr_size);
-	f = get_field_by_index(idx, scene_struct, d);
+	offset = get_offset_by_name("base.first", scene_struct, d, bh->ptr_size);
+	bfp_mesh = dereference_ptr(first_bfp, bfp->data+offset, bh->ptr_size);
+
+	mesh = get_dna_struct(bfp_mesh->sdna_idx, d);
+	print_dna_struct(mesh, d);
+	offset = get_offset_by_name("object", mesh, d, bh->ptr_size);
 	
-	idx = get_field_index("base", scene_struct, d);
-	offset = get_offset_by_index(idx, scene_struct, d, bh->ptr_size);
-	f = get_field_by_index(idx, scene_struct, d);
-	base = get_dna_struct(f->type_idx, d);
-	idx = get_field_index("first", base, d);
+	do {
+		bfp_mesh = dereference_ptr(first_bfp, bfp_mesh->data+offset, bh->ptr_size);
+		mesh = get_dna_struct(bfp_mesh->sdna_idx, d);
+		print_dna_struct(mesh, d);
+		offset = get_offset_by_name("type", mesh, d, bh->ptr_size);
+		type = *(int16_t*)(bfp_mesh->data+offset);
+		printf("type: %d\n", type);
+		offset = get_offset_by_name("id.next", mesh, d, bh->ptr_size);
+	} while (1 != type);
+
+	offset = get_offset_by_name("data", mesh, d, bh->ptr_size);
+	bfp_mesh = dereference_ptr(first_bfp, bfp_mesh->data+offset, bh->ptr_size);
+	mesh = get_dna_struct(bfp_mesh->sdna_idx, d);
+	print_dna_struct(mesh, d);
+
+	offset = get_offset_by_name("totvert", mesh, d, bh->ptr_size);
+	tot = *(int32_t*)(bfp_mesh->data+offset);
+	printf("totvert: %d\n", tot);
+
+	offset = get_offset_by_name("mvert", mesh, d, bh->ptr_size);
+	bfp_vert = dereference_ptr(first_bfp, bfp_mesh->data+offset, bh->ptr_size);
+	mvert = get_dna_struct(bfp_vert->sdna_idx, d);
+	print_dna_struct(mvert, d);
+
+	offset = 0;
+	m.vertices = tot;
+	m.vertex = malloc(tot * 3 * sizeof(float));
+	for (i = 0; i < tot; ++i) {
+		v = (float*)(bfp_vert->data+offset);
+		printf("(%.2f, %.2f, %.2f) ", v[0], v[1], v[2]); 
+		m.vertex[i*3] = v[0];
+		m.vertex[i*3+1] = v[1];
+		m.vertex[i*3+2] = v[2];
+		offset += d->byte[mvert->type_idx];
+	}
+
+	offset = get_offset_by_name("totface", mesh, d, bh->ptr_size);
+	tot = *(int32_t*)(bfp_mesh->data+offset);
+	printf("totface: %d\n", tot);
+	
+	offset = get_offset_by_name("mface", mesh, d, bh->ptr_size);
+	bfp_vert = dereference_ptr(first_bfp, bfp_mesh->data+offset, bh->ptr_size);
+	mvert = get_dna_struct(bfp_vert->sdna_idx, d);
+	print_dna_struct(mvert, d);
+
+	offset = get_offset_by_name("v1", mvert, d, bh->ptr_size);
+	m.faces = tot * 2;
+	m.face = malloc(tot * 2 * 3 * sizeof(uint16_t));
+	for (i = 0, j = 0; i < tot; ++i, ++j) {
+		face = (int32_t*)(bfp_vert->data+offset);
+		m.face[j] = face[0];
+		m.face[j+1] = face[1];
+		m.face[j+2] = face[2];
+
+		if (face[3] > 0) {
+			++j;
+			m.face[j] = face[3];
+			m.face[j+1] = face[2];
+			m.face[j+2] = face[0];
+		}
+	}
+	face = (int32_t*)m.face;
+	m.faces = j;
+	j = j * 3 * sizeof(uint16_t);
+	m.face = malloc(j);
+	memcpy(m.face, face, j);
+	free(face);
+
+	printf("triangles: %d\n", m.faces);
+
+	return m;
+	/*free(m.vertex);
+	free(m.face);*/
 }
 

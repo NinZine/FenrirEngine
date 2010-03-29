@@ -1,13 +1,15 @@
 #ifndef _MODEL_H_
 #define _MODEL_H_
 
+#include <stdint.h>
+
 typedef struct model {
-	char 	*filename;
-	int32_t	vertices;
-	int32_t	faces;
+	char 		*filename;
+	uint16_t	vertices;
+	uint32_t 	faces;
 
 	float 	*vertex;
-	int16_t *face;
+	uint16_t *face;
 } model;
 
 model model_open_cex(const char *filename);
