@@ -1,5 +1,6 @@
 #include <sys/types.h>
 
+#include <float.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdint.h>
@@ -7,6 +8,7 @@
 #include <string.h>
 
 #include "model.h"
+#include "vec3.h"
 
 typedef struct blender_header {
     char id[7];
@@ -23,7 +25,7 @@ typedef struct blender_file_block {
     int32_t count;
 
     void    *data;
-	void	*next;
+	struct blender_file_block *next;
 } blender_file_block;
 
 typedef struct dna_struct_field {
@@ -167,6 +169,7 @@ get_field_index(const char *name, const dna_struct *ds, const dna *d)
 	int32_t i, j, len, tmp_len;
 	char *tmp_ptr;
 
+	/* FIXME: There are names with the same name, just different size/type. */
 	/* Find name index by name */
 	len = strlen(name);
 	tmp = d->name;
@@ -180,20 +183,25 @@ get_field_index(const char *name, const dna_struct *ds, const dna *d)
 		else if (0 != (tmp_ptr = strchr(tmp, '('))) tmp_len = tmp_ptr - tmp;
 
 		if (len == tmp_len && 0 == strncmp(name, tmp, tmp_len)) {
-			break;
+			/* Find name index within the structure */
+			dsf = (void*)ds + sizeof(dna_struct);
+			for (j = 0; j < ds->fields; ++j) {
+				if (i == dsf->name_idx) return j;
+				dsf += 1;
+			}
 		}
 
 		tmp = get_name_ptr(tmp, 1);
 	}
 
-	/* Find name index within the structure */
+	/* Find name index within the structure /
 	if (i < *d->names) {
 		dsf = (void*)ds + sizeof(dna_struct);
 		for (j = 0; j < ds->fields; ++j) {
 			if (i == dsf->name_idx) return j;
 			dsf += 1;
 		}
-	}
+	}*/
 	
 	return -1; /* not found */
 }
@@ -270,6 +278,8 @@ get_offset_by_name(const char *name, const dna_struct *ds, const dna *d,
 		offset += get_offset_by_index(idx, ds, d, ptr_size);
 		f = get_field_by_index(idx, ds, d);
 		ds = get_dna_struct_by_type_index(f->type_idx, d);
+		if (0 != ds)
+			print_dna_struct(ds, d);
 	}
 
 	free(buffer);
@@ -339,7 +349,7 @@ model_open_blender(const char *filename)
     else if ('-' == bh.ptr_size) bh.ptr_size = 8;
 	
 	first_bfp = bfp = malloc(sizeof(blender_file_block));
-    memset(bfp, 0, sizeof(bfp));
+    memset(bfp, 0, sizeof(blender_file_block));
     model_read_file_block(&bh, bfp, fp);
     while (0 != strncmp(bfp->code, "ENDB", 4)) {
 		if (0 == strncmp(bfp->code, "DNA1", 4)) {
@@ -348,7 +358,7 @@ model_open_blender(const char *filename)
 		}
 		bfp->next = malloc(sizeof(blender_file_block));
 		bfp = bfp->next;
-		memset(bfp, 0, sizeof(bfp));
+		memset(bfp, 0, sizeof(blender_file_block));
         model_read_file_block(&bh, bfp, fp);
     }
 	fclose(fp);
@@ -366,6 +376,10 @@ model_read_file_block(const blender_header *bh, blender_file_block *bfp,
 
     //printf("model> reading block\n");
     fread(bfp->code, 1, 4, fp);
+	if (0 == strncmp(bfp->code, "ENDB", 4)) {
+		return;
+	}
+
     fread(&bfp->size, 4, 1, fp);
     fread(&bfp->old_adress, bh->ptr_size, 1, fp);
     fread(&bfp->sdna_idx, 4, 1, fp);
@@ -505,13 +519,14 @@ model
 read_scene(blender_file_block *first_bfp, const dna *d,
 	const blender_header *bh)
 {
-	blender_file_block *bfp, *bfp_mesh, *bfp_vert;
-	dna_struct *scene_struct, *mesh, *mvert;
+	blender_file_block *bfp, *bfp_mesh, *bfp_vert, *bfp_base;
+	dna_struct *base, *scene_struct, *mesh, *mvert;
 	int32_t i, j, tot, *face;
 	bool found;
 	uint32_t offset;
 	int16_t type;
 	float *v;
+	vec3 *v1, *v2, *v3, *v4;
 	model m;
 
 	found = false;
@@ -528,21 +543,27 @@ read_scene(blender_file_block *first_bfp, const dna *d,
 	print_dna_struct(scene_struct, d);
 
 	offset = get_offset_by_name("base.first", scene_struct, d, bh->ptr_size);
-	bfp_mesh = dereference_ptr(first_bfp, bfp->data+offset, bh->ptr_size);
+	bfp_base = dereference_ptr(first_bfp, bfp->data+offset, bh->ptr_size);
 
-	mesh = get_dna_struct(bfp_mesh->sdna_idx, d);
-	print_dna_struct(mesh, d);
-	offset = get_offset_by_name("object", mesh, d, bh->ptr_size);
+	base = get_dna_struct(bfp_base->sdna_idx, d);
+	print_dna_struct(base, d);
+	offset = get_offset_by_name("object", base, d, bh->ptr_size);
 	
+	i = 0;
 	do {
-		bfp_mesh = dereference_ptr(first_bfp, bfp_mesh->data+offset, bh->ptr_size);
+		bfp_mesh = dereference_ptr(first_bfp, bfp_base->data+offset, bh->ptr_size);
 		mesh = get_dna_struct(bfp_mesh->sdna_idx, d);
 		print_dna_struct(mesh, d);
 		offset = get_offset_by_name("type", mesh, d, bh->ptr_size);
 		type = *(int16_t*)(bfp_mesh->data+offset);
 		printf("type: %d\n", type);
-		offset = get_offset_by_name("id.next", mesh, d, bh->ptr_size);
-	} while (1 != type);
+		offset = get_offset_by_name("id.name", mesh, d, bh->ptr_size);
+		if (0 == strncmp(bfp_mesh->data+offset, "Drutten.001", 24)) i = 1;
+
+		offset = get_offset_by_name("next", base, d, bh->ptr_size);
+		bfp_base = dereference_ptr(first_bfp, bfp_base->data+offset, bh->ptr_size);
+		offset = get_offset_by_name("object", base, d, bh->ptr_size);
+	} while (1 != type && i != 1);
 
 	offset = get_offset_by_name("data", mesh, d, bh->ptr_size);
 	bfp_mesh = dereference_ptr(first_bfp, bfp_mesh->data+offset, bh->ptr_size);
@@ -563,10 +584,11 @@ read_scene(blender_file_block *first_bfp, const dna *d,
 	m.vertex = malloc(tot * 3 * sizeof(float));
 	for (i = 0; i < tot; ++i) {
 		v = (float*)(bfp_vert->data+offset);
-		printf("(%.2f, %.2f, %.2f) ", v[0], v[1], v[2]); 
-		m.vertex[i*3] = v[0];
-		m.vertex[i*3+1] = v[1];
-		m.vertex[i*3+2] = v[2];
+		((vec3*)m.vertex)[i].x = v[0];
+		((vec3*)m.vertex)[i].y = v[2];
+		((vec3*)m.vertex)[i].z = v[1];
+		printf("(%.2f, %.2f, %.2f) ", m.vertex[i*3], m.vertex[i*3+1],
+		m.vertex[i*3+2]); 
 		offset += d->byte[mvert->type_idx];
 	}
 
@@ -582,27 +604,56 @@ read_scene(blender_file_block *first_bfp, const dna *d,
 	offset = get_offset_by_name("v1", mvert, d, bh->ptr_size);
 	m.faces = tot * 2;
 	m.face = malloc(tot * 2 * 3 * sizeof(uint16_t));
-	for (i = 0, j = 0; i < tot; ++i, ++j) {
+	for (i = 0, j = 0; i < tot; ++i) {
 		face = (int32_t*)(bfp_vert->data+offset);
-		m.face[j] = face[0];
-		m.face[j+1] = face[1];
-		m.face[j+2] = face[2];
 
 		if (face[3] > 0) {
-			++j;
-			m.face[j] = face[3];
-			m.face[j+1] = face[2];
-			m.face[j+2] = face[0];
-		}
-	}
-	face = (int32_t*)m.face;
-	m.faces = j;
-	j = j * 3 * sizeof(uint16_t);
-	m.face = malloc(j);
-	memcpy(m.face, face, j);
-	free(face);
+			vec3 u1, u2;
+			v1 = ((vec3*)m.vertex)+face[0];
+			v2 = ((vec3*)m.vertex)+face[1];
+			v3 = ((vec3*)m.vertex)+face[2];
+			v4 = ((vec3*)m.vertex)+face[3];
 
-	printf("triangles: %d\n", m.faces);
+			u1 = vec3_sub(v1, v3);
+			u2 = vec3_sub(v2, v4);
+
+			if (vec3_length(&u1) - vec3_length(&u2) > 0.0f) {
+				m.face[j] = face[0];
+				m.face[j+1] = face[1];
+				m.face[j+2] = face[2];
+				m.face[j+3] = face[0];
+				m.face[j+4] = face[2];
+				m.face[j+5] = face[3];
+				j += 6;
+			} else {
+				m.face[j] = face[0];
+				m.face[j+1] = face[1];
+				m.face[j+2] = face[3];
+				m.face[j+3] = face[1];
+				m.face[j+4] = face[2];
+				m.face[j+5] = face[3];
+				j += 6;
+			}
+		} else {
+			m.face[j] = face[0];
+			m.face[j+1] = face[1];
+			m.face[j+2] = face[2];
+			j += 3;
+		}
+		offset += d->byte[mvert->type_idx];
+	}
+
+	j = j/3;
+	if (j != m.faces) {
+		m.faces = j;
+		face = (int32_t*)m.face;
+		j = j * 3 * sizeof(uint16_t);
+		m.face = malloc(j);
+		memcpy(m.face, face, j);
+		free(face);
+	}
+
+	printf("\ntriangles: %d\n", m.faces);
 
 	return m;
 	/*free(m.vertex);

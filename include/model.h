@@ -6,7 +6,7 @@
 typedef struct model {
 	char 		*filename;
 	uint16_t	vertices;
-	uint32_t 	faces;
+	uint16_t 	faces;
 
 	float 	*vertex;
 	uint16_t *face;
