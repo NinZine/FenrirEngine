@@ -26,7 +26,9 @@
 %rename(quit) r_quit;
 %rename(render_circle) r_render_circle;
 %rename(render_cube) r_render_cube;
+%rename(render_elements) r_render_elements;
 %rename(render_line) r_render_line;
+%rename(render_mesh) r_render_mesh;
 %rename(render_quad) r_render_quad;
 %rename(render_ray) r_render_ray;
 %rename(render_sphere) r_render_sphere;
@@ -45,8 +47,8 @@
 %rename(upload_texture) r_upload_texture;
 
 %include <stdint.i>
-%include <carrays.i>
-%array_functions(float, uint16_t);
+//%include <carrays.i>
+//%array_functions(float, uint16_t);
 
 %include "../../include/rendering.h"
 
