@@ -117,8 +117,11 @@ blender_get_mesh(const char *name, blender_file *bf)
 		memcpy(m.face, face, j);
 		free(face);
 	}
-
 	printf("\ntriangles: %d\n", m.faces);
+
+    address = get_address("data.totcol", bfb, bf, NULL);
+    m.colors = *(int16_t*)address;
+    //address = get_address("data.mcol", bfb, bf, &tmp_struct);
 
     return m;
 }
