@@ -1,5 +1,6 @@
 #include <sys/types.h>
 
+#include <arpa/inet.h>
 #include <float.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -9,6 +10,8 @@
 
 #include "blender.h"
 #include "vec3.h"
+
+static bool big_endian;
 
 static void convert_quad_to_tri(int32_t idx, uint16_t *new_face,
                 const int32_t *old_face, float *vertex);
@@ -153,6 +156,8 @@ blender_open(const char *filename)
     }
     if ('_' == bf.header.ptr_size) bf.header.ptr_size = 4;
     else if ('-' == bf.header.ptr_size) bf.header.ptr_size = 8;
+	
+	big_endian = htons(1) == 1; /* Setup endianess */
 	
 	bf.block = bfp = malloc(sizeof(blender_file_block));
     memset(bfp, 0, sizeof(blender_file_block));
@@ -437,7 +442,8 @@ get_object(const char *name, int16_t t, blender_file *bf)
 		    offset = get_offset_by_name("id.name", object_struct, &bf->d,
                 bf->header.ptr_size);
             printf("comparing: %s\n", (char*)(bf_object->data+offset));
-		    if (0 != strnstr(bf_object->data+offset, name, 24)) {
+			/* FIXME: Char array of 24, not null-terminated? */
+		    if (0 != strstr(bf_object->data+offset, name)) {
                 return bf_object;
             }
         }
@@ -572,7 +578,6 @@ parse_dna(const blender_file_block *bfp)
 int32_t
 parse_int(const blender_header *bh, int32_t i)
 {
-	static bool big_endian = htons(1) == 1;
 	int32_t j;
 
 	printf("parse int: %8X ", i);

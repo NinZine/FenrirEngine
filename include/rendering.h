@@ -25,7 +25,7 @@
 # if defined(__APPLE__) /* !__NDS__ */
 #  include <OpenGL/OpenGL.h>
 # else
-#  include "GLee.h"
+#  include <GLee.h>
 # endif
 # define glFrustumf		glFrustum
 # define glOrthof		glOrtho

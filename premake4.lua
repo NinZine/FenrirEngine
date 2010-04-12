@@ -7,20 +7,30 @@ solution "ConceptEngine"
 	language "C"
 	
 	configuration { "gmake" }
-	    buildoptions { "-Wall", "-mno-cygwin" }
-	    defines { "__SDL__", "WIN32" }
-	    files { "source/*.c", "source/sdl/*.c", "source/win/*.c",
-		    "source/lua_wrap/*.c" }
-	    includedirs {"include", "/cygdrive/d/dev/SDL-1.2.14/lib", "/usr/local/include",
-		    "/cygdrive/d/dev/lua-5.1.4/src",
-		    "/cygdrive/d/MinGW/include"
-		    }
-	    libdirs { "/cygdrive/d/dev/SDL-1.2.14/lib", "/usr/local/lib", "/cygdrive/d/dev/lua-5.1.4/src",
-		    "/cygdrive/d/MinGW/lib"
-		    }
-	    links { "mingw32", "SDLmain", "SDL", "lua", "opengl32", "openal32",
-	    "m", }
-	    linkoptions { "-mno-cygwin", "-Wl,--subsystem,console", "-Wl,-u,_WinMain@16" }
+		files { "source/*.c", "source/sdl/*.c", "source/win/*.c", "source/lua_wrap/*.c" }
+
+		if true == os.is("windows") then
+			buildoptions { "-Wall", "-mno-cygwin" }
+			defines { "__SDL__", "WIN32" }
+			includedirs {"include", "/cygdrive/d/dev/SDL-1.2.14/lib",
+			"/usr/local/include",
+			"/cygdrive/d/dev/lua-5.1.4/src",
+			"/cygdrive/d/MinGW/include"
+			}
+			libdirs { "/cygdrive/d/dev/SDL-1.2.14/lib", "/usr/local/lib",
+			"/cygdrive/d/dev/lua-5.1.4/src",
+			"/cygdrive/d/MinGW/lib"
+			}
+			links { "mingw32", "SDLmain", "SDL", "lua", "opengl32", "openal32",
+			"m", }
+			linkoptions { "-mno-cygwin", "-Wl,--subsystem,console", "-Wl,-u,_WinMain@16" }
+		else
+			buildoptions {"-Wall"}
+			defines {"__SDL__"}
+			includedirs {"include", "/usr/include", "/usr/include/lua5.1"}
+			libdirs {"/usr/lib"}
+			links {"SDLmain", "SDL", "lua5.1", "GL", "png", "openal", "m"}
+		end
 
 	configuration { "gmake", "Debug" }
 	    defines { "DEBUG" }
