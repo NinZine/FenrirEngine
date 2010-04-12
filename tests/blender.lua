@@ -1,4 +1,4 @@
-b = blender.open("/Users/ninzine/Code/Lua/ConceptEngine/tests/drutten.blend")
+b = blender.open("./tests/drutten.blend")
 m = blender.get_mesh("Drutten", b)
 n = blender.get_mesh("Hat", b)
 blender.close(b)

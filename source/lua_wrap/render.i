@@ -26,12 +26,12 @@
 %rename(quit) r_quit;
 %rename(render_circle) r_render_circle;
 %rename(render_cube) r_render_cube;
-%rename(render_elements) r_render_elements;
 %rename(render_line) r_render_line;
 %rename(render_mesh) r_render_mesh;
 %rename(render_quad) r_render_quad;
 %rename(render_ray) r_render_ray;
 %rename(render_sphere) r_render_sphere;
+%rename(render_triangles) r_render_triangles;
 %rename(render_vertices) r_render_vertices;
 %rename(rotate) r_rotate;
 %rename(scale) r_scale;

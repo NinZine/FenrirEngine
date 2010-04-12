@@ -74,13 +74,13 @@ void r_quit();
 
 void r_render_circle(float radius);
 void r_render_cube(float side);
-void r_render_elements(float *vertex, uint16_t vertices, uint16_t *face,
-		uint16_t faces);
 void r_render_line(float x1, float y1, float z1, float x2, float y2, float z2);
 void r_render_mesh(mesh *m);
 void r_render_quad(float side);
 void r_render_ray();
 void r_render_sphere(float radius);
+void r_render_triangles(float *vertex, uint16_t vertices, uint16_t *face,
+		uint16_t faces);
 void r_render_vertices(const float *vertex, uint16_t n);
 void r_rotate(float degrees, float x, float y, float z);
 

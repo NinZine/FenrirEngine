@@ -339,27 +339,6 @@ r_render_cube(float side)
 	glPopMatrix();
 }
 
-void
-r_render_elements(float *vertex, uint16_t vertices, uint16_t *face,
-	uint16_t faces)
-{
-	glVertexPointer(3, GL_FLOAT, 0, vertex);
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glDrawElements(GL_TRIANGLES, 3*faces, GL_UNSIGNED_SHORT, face);
-	glDisableClientState(GL_VERTEX_ARRAY);
-
-#if defined(_DEBUG)
-	int i;
-
-	glColor3f(1, 0, 0);
-	glBegin(GL_POINTS); 
-	for(i=0; i<3*faces; ++i)  {
-		glVertex3f(vertex[face[i]*3], vertex[face[i]*3+1], vertex[face[i]*3+2]); 
-	}
-	glEnd();
-#endif
-	
-}
 
 void
 r_render_line(float x1, float y1, float z1, float x2, float y2, float z2)
@@ -384,7 +363,7 @@ r_render_line(float x1, float y1, float z1, float x2, float y2, float z2)
 void
 r_render_mesh(mesh *m)
 {
-	r_render_elements(m->vertex, m->vertices, m->face, m->faces);
+	r_render_triangles(m->vertex, m->vertices, m->face, m->faces);
 }
 
 void
@@ -495,6 +474,28 @@ r_render_sphere(float radius)
 	glPopMatrix();
 	
 	free(vertex);
+}
+
+void
+r_render_triangles(float *vertex, uint16_t vertices, uint16_t *face,
+	uint16_t faces)
+{
+	glVertexPointer(3, GL_FLOAT, 0, vertex);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glDrawElements(GL_TRIANGLES, 3*faces, GL_UNSIGNED_SHORT, face);
+	glDisableClientState(GL_VERTEX_ARRAY);
+
+#if defined(DEBUG)
+	int i;
+
+	glColor3f(1, 0, 0);
+	glBegin(GL_POINTS); 
+	for(i=0; i<3*faces; ++i)  {
+		glVertex3f(vertex[face[i]*3], vertex[face[i]*3+1], vertex[face[i]*3+2]); 
+	}
+	glEnd();
+#endif
+	
 }
 
 void
