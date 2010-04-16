@@ -226,6 +226,30 @@ r_load_matrix(const float m[4][4])
 }
 
 void
+r_look_at(float eye_x, float eye_y, float eye_z,
+	float center_x, float center_y, float center_z,
+	float up_x, float up_y, float up_z)
+{
+	vec3 f, s, u; /* forward, side, up */
+	float m[4][4];
+
+	f.x = center_x - eye_x; f.y = center_y - eye_y; f.z = center_z - eye_z;
+	f = vec3_normalize(&f);
+	u.x = up_x; u.y = up_y; u.z = up_z;
+	u = vec3_normalize(&u);
+	s = vec3_cross(&f, &u);
+	u = vec3_cross(&s, &f);
+
+	m[0][0] = s.x;	m[1][0] = s.y;	m[2][0] = s.z; m[3][0] = 0.f;
+	m[0][1] = u.x;	m[1][1] = u.y;	m[2][1] = u.z; m[3][1] = 0.f;
+	m[0][2] = -f.x;	m[1][2] = -f.y;	m[2][2] = -f.z; m[3][2] = 0.f;
+	m[3][3] = 1.f;
+
+	glMultMatrixf((GLfloat *)m);
+	glTranslatef(-eye_x, -eye_y, -eye_z);
+}
+
+void
 r_pop_matrix()
 {
     glPopMatrix();

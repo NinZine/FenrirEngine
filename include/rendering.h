@@ -65,6 +65,9 @@ void r_enable_light(int8_t n);
 
 void r_load_identity();
 void r_load_matrix(const float m[4][4]);
+void r_look_at(float eye_x, float eye_y, float eye_z,
+	float center_x, float center_y, float center_z,
+	float up_x, float up_y, float up_z);
 
 void r_pop_matrix();
 void r_present();

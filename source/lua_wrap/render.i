@@ -20,6 +20,7 @@
 %rename(enable_light) r_enable_light;
 %rename(load_identity) r_load_identity;
 %rename(load_matrix) r_load_matrix;
+%rename(look_at) r_look_at;
 %rename(pop_matrix) r_pop_matrix;
 %rename(present) r_present;
 %rename(push_matrix) r_push_matrix;
