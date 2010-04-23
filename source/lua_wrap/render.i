@@ -15,6 +15,7 @@
 %rename(generate_depthbuffer) r_generate_depthbuffer;
 %rename(generate_framebuffer) r_generate_framebuffer;
 %rename(generate_renderbuffer) r_generate_renderbuffer;
+%rename(generate_texcoords) r_generate_texcoords;
 %rename(disable_culling) r_disable_culling;
 %rename(enable_culling) r_enable_culling;
 %rename(enable_light) r_enable_light;

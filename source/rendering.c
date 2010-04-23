@@ -213,6 +213,36 @@ r_generate_renderbuffer()
     return r;
 }
 
+float*
+r_generate_texcoords(uint32_t width, uint32_t heigth,
+	uint32_t tile_w, uint32_t tile_h)
+{
+	uint32_t columns, rows, x, y, i;
+	float *coord, size_x, size_y;
+
+	columns = width / tile_w;
+	rows = heigth / tile_h;
+	size_x = 1.f / columns;
+	size_y = 1.f / rows;
+	coord = malloc(columns * rows * 4 * 2 * sizeof(float));
+
+	for (y = 0; y < rows; ++y) {
+		for (x = 0; x < columns; ++x) {
+			i = y * 8 + x * 8;
+			coord[i + 0] = x * size_x;
+			coord[i + 1] = 1.f - y * size_y - size_y;
+			coord[i + 2] = coord[i + 0] + size_x;
+			coord[i + 3] = coord[i + 1];
+			coord[i + 4] = coord[i + 0];
+			coord[i + 5] = coord[i + 1] + size_y;
+			coord[i + 6] = coord[i + 0] + size_x;
+			coord[i + 7] = coord[i + 1] + size_y;
+		}
+	}
+
+	return coord;
+}
+
 void
 r_load_identity()
 {
@@ -333,32 +363,32 @@ r_render_cube(float side)
 
 	/* Front */
 	glTranslatef(0.f, 0.f, 0.5f);
-	r_render_quad(side);
+	r_render_quad(side, NULL);
 
 	/* Back */
 	glTranslatef(0.f, 0.f, -1.f);
 	glRotatef(180.f, 0.f, 1.f, 0.f);
-	r_render_quad(side);
+	r_render_quad(side, NULL);
 
 	/* Left */
 	glTranslatef(0.5f, 0.f, -0.5f);
 	glRotatef(90.f, 0.f, 1.f, 0.f);
-	r_render_quad(side);
+	r_render_quad(side, NULL);
 	
 	/* Right */
 	glTranslatef(0.f, 0.f, -1.f);
 	glRotatef(180.f, 0.f, 1.f, 0.f);
-	r_render_quad(side);
+	r_render_quad(side, NULL);
 	
 	/* Bottom */
 	glTranslatef(0.f, -.5f, -.5f);
 	glRotatef(90.f, 1.f, 0.f, 0.f);
-	r_render_quad(side);
+	r_render_quad(side, NULL);
 	
 	/* Top */
 	glTranslatef(0.f, 0.f, -1.f);
 	glRotatef(180.f, 1.f, 0.f, 0.f);
-	r_render_quad(side);
+	r_render_quad(side, NULL);
 	
 	glPopMatrix();
 }
@@ -391,7 +421,7 @@ r_render_mesh(mesh *m)
 }
 
 void
-r_render_quad(float side)
+r_render_quad(float side, float *texcoords)
 {
 	static const GLfloat quad[] = {
 		-0.5f, -0.5f,
@@ -419,7 +449,11 @@ r_render_quad(float side)
 	glEnd();
 #else /* !__NDS__ */
     glEnable(GL_TEXTURE_2D);
-	glTexCoordPointer(2, GL_FLOAT, 0, coords);
+	if (texcoords == NULL) {
+		glTexCoordPointer(2, GL_FLOAT, 0, coords);
+	} else {
+		glTexCoordPointer(2, GL_FLOAT, 0, texcoords);
+	}
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glVertexPointer(2, GL_FLOAT, 0, quad);
 	glEnableClientState(GL_VERTEX_ARRAY);

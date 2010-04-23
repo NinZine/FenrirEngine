@@ -373,7 +373,7 @@ game_render_state(const g_entity *g, const uint8_t n, struct gh_state *src)
 		else if (S_POLYGON == g[i].m->shape)
 			r_render_vertices((GLfloat *)g[i].m->vertex, g[i].m->vertices);
 		else if (S_QUAD == g[i].m->shape)
-			r_render_quad(1);
+			r_render_quad(1, NULL);
 		else if (S_RAY == g[i].m->shape)
 			r_render_ray();
 		glPopMatrix();

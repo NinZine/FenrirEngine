@@ -57,6 +57,8 @@ void r_create_window(uint16_t w, uint16_t h);
 uint32_t r_generate_depthbuffer(int16_t w, int16_t h);
 uint32_t r_generate_framebuffer();
 uint32_t r_generate_renderbuffer();
+float*	 r_generate_texcoords(uint32_t width, uint32_t heigth,
+	uint32_t tile_w, uint32_t tile_h);
 
 void r_disable_culling();
 
@@ -79,7 +81,7 @@ void r_render_circle(float radius);
 void r_render_cube(float side);
 void r_render_line(float x1, float y1, float z1, float x2, float y2, float z2);
 void r_render_mesh(mesh *m);
-void r_render_quad(float side);
+void r_render_quad(float side, float *texcoords);
 void r_render_ray();
 void r_render_sphere(float radius);
 void r_render_triangles(float *vertex, uint16_t vertices, uint16_t *face,
