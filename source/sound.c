@@ -1,18 +1,37 @@
 #include <stdbool.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <string.h>
 
 #if defined(__APPLE__)
 # include <OpenAL/al.h>
 # include <OpenAL/alc.h>
+# include <OpenAL/oalStaticBufferExtension.h>
 #else
 # include <AL/al.h>
 # include <AL/alc.h>
-/*#include <OpenAL/oalStaticBufferExtension.h>
-*/
+# include <AL/alext.h>
 #endif
 
+#include <ogg/ogg.h>
+#include <vorbis/codec.h>
+#include <vorbis/vorbisenc.h>
+#include <vorbis/vorbisfile.h>
+
 #include "sound.h"
+
+typedef struct ogg_file {
+    uint8_t id;
+    FILE *file_handle;
+    OggVorbis_File file;
+    vorbis_info *info;
+    
+    ALuint buffer[2];
+    ALuint source;
+    ALenum format;
+
+    bool stream;
+} ogg_file;
 
 static void s_free_source_later(ALuint *source);
 
@@ -22,19 +41,105 @@ static ALuint		buffer[32];
 static uint8_t		buffers = 0;
 static ALuint		latched[255];
 
-/*ALvoid  alBufferDataStaticProc(const ALint bid, ALenum format, ALvoid* data, ALsizei size, ALsizei freq)
+static const uint32_t BUFFER_SIZE = 4096;
+static uint8_t ogg_files = 0;
+static uint8_t ogg_ids = 0;
+static ogg_file *oggs = 0;
+
+ALvoid
+alBufferDataStaticProc(const ALint bid, ALenum format, ALvoid* data, ALsizei size,
+    ALsizei freq)
 {
-	static	alBufferDataStaticProcPtr	proc = NULL;
-    
+#if defined __APPLE__
+	static alBufferDataStaticProcPtr proc = NULL;
+
     if (proc == NULL) {
-        proc = (alBufferDataStaticProcPtr) alcGetProcAddress(NULL, (const ALCchar*) "alBufferDataStatic");
+        proc = (alBufferDataStaticProcPtr) alcGetProcAddress(NULL,
+            (const ALCchar*) "alBufferDataStatic");
     }
+#else
+	static PFNALBUFFERDATASTATICPROC proc = NULL;
+
+    if (proc == NULL) {
+        proc = (PFNALBUFFERDATASTATICPROC) alcGetProcAddress(NULL,
+            (const ALCchar*) "alBufferDataStatic");
+    }
+#endif
     
     if (proc)
         proc(bid, format, data, size, freq);
 	
     return;
-}*/
+}
+
+static void 
+check_al_error()
+{
+    ALenum e;
+
+    e = alGetError();
+    if (e != AL_NO_ERROR) {
+        printf("sound> OpenAL error: %s\n", alGetString(e));
+    }
+}
+
+static const char*
+ogg_error(int code)
+{
+    switch (code) {
+        default:
+            return "unknown error";
+    }
+}
+
+static void
+ogg_print_comment(const vorbis_comment *vc)
+{
+    int i;
+
+    printf("vendor: %s\n", vc->vendor);
+
+    for (i=0; i<vc->comments; ++i) {
+        printf("\t%s\n", vc->user_comments[i]);
+    }
+}
+
+static void
+ogg_print_info(const vorbis_info *vi)
+{
+
+    printf("version: %d\nchannels: %d\nrate (hz): %ld\nbitrate (upper): %ld\n"
+            "bitrate (nominal): %ld\nbitrate (lower):%ld\nbitrate_window: %ld\n",
+        vi->version, vi->channels, vi->rate, vi->bitrate_upper, vi->bitrate_nominal,
+        vi->bitrate_lower, vi->bitrate_window);
+}
+
+static bool
+ogg_stream(ogg_file *of, ALuint buffer)
+{
+    char data[BUFFER_SIZE];
+    int size = 0;
+    int section;
+    int result;
+
+    while (size < BUFFER_SIZE) {
+        result = ov_read(&of->file, data + size, BUFFER_SIZE - size, 0, 2, 1, &section);
+        if (result > 0) {
+            size += result;
+        } else if (result < 0) {
+            printf("sound> error streaming ogg\n");
+            return false;
+        } else {
+            break;
+        }
+    }
+
+    if (0 == size) return false;
+
+    alBufferData(buffer, of->format, data, size, of->info->rate);
+    check_al_error();
+    return true;
+}
 
 void
 s_free_buffer(ALuint n, ALuint *buf)
@@ -89,18 +194,141 @@ s_generate_source(ALuint *source)
 	alGenSources(1, source);
 	alSourcef(*source, AL_PITCH, 1.0f);
 	alSourcef(*source, AL_GAIN, 1.0f);
+	alSourcef(*source, AL_ROLLOFF_FACTOR, 0.0f);
+	alSourcei(*source, AL_SOURCE_RELATIVE, AL_TRUE);
+    alSource3f(*source, AL_POSITION, 0.0f, 0.0f, 0.0f);
+    alSource3f(*source, AL_DIRECTION, 0.0f, 0.0f, 0.0f);
+    alSource3f(*source, AL_VELOCITY, 0.0f, 0.0f, 0.0f);
 	//alSourcei(*source, AL_LOOPING, AL_TRUE);
 }
 
 void
-s_init_openal()
+s_init()
 {
-	device = alcOpenDevice(0);
+    static const ALfloat ori[] = {0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f};
+	device = alcOpenDevice(NULL);
 	
-	if (!device) return;
+	if (!device) {
+        printf("sound> failed to open audio device\n");
+        return;
+    }
 	
-	context = alcCreateContext(device, 0);
+	context = alcCreateContext(device, NULL);
 	alcMakeContextCurrent(context);
+    if (!context) {
+        printf("sound> failed to create context\n");
+    }
+
+    alListener3f(AL_POSITION, 0.0f, 0.0f, 0.0f);
+    alListener3f(AL_VELOCITY, 0.0f, 0.0f, 0.0f);
+    alListenerfv(AL_ORIENTATION, ori);
+    check_al_error();
+}
+
+uint8_t
+s_ogg_open(const char *filename)
+{
+    OggVorbis_File stream;
+    vorbis_info *vi;
+    vorbis_comment *vc;
+    FILE *f;
+    int result;
+
+    f = fopen(filename, "rb");
+    if (NULL == f) {
+        printf("sound> failed to open file %s\n", filename);
+        return 0;
+    }
+
+    result = ov_open(f, &stream, NULL, 0);
+    if (result < 0) {
+        fclose(f);
+        printf("sound> failed to read ogg stream. %s\n", ogg_error(result));
+        return 0;
+    }
+
+    vi = ov_info(&stream, -1);
+    vc = ov_comment(&stream, -1);
+    ogg_print_info(vi);
+    ogg_print_comment(vc);
+
+    if (0 == oggs) {
+        oggs = malloc(sizeof(ogg_file));
+        ogg_files += 1;
+    } else {
+        ogg_files += 1;
+        oggs = realloc(oggs, ogg_files * sizeof(ogg_file));
+    }
+
+    oggs[ogg_files-1].id = ++ogg_ids;
+    oggs[ogg_files-1].file_handle = f;
+    oggs[ogg_files-1].file = stream;
+    oggs[ogg_files-1].info = vi;
+    oggs[ogg_files-1].stream = true;
+    
+    oggs[ogg_files-1].format =
+        (1 == vi->channels) ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16;
+    
+    alGenBuffers(2, oggs[ogg_files-1].buffer);
+    s_generate_source(&oggs[ogg_files-1].source);
+
+    check_al_error();
+    return ogg_ids;
+}
+
+void
+s_ogg_play(uint8_t id)
+{
+    ogg_file *f;
+    ALenum state;
+
+    f = &oggs[id-1];
+    alGetSourcei(f->source, AL_SOURCE_STATE, &state);
+    check_al_error();
+    
+    if (AL_PLAYING == state) 
+        return;
+
+    if (!ogg_stream(f, f->buffer[0]))
+        return;
+    if (!ogg_stream(f, f->buffer[1]))
+        return;
+
+    alSourceQueueBuffers(f->source, 2, f->buffer);
+    check_al_error();
+    alSourcePlay(f->source);
+    check_al_error();
+}
+
+uint8_t
+s_ogg_update(uint8_t id)
+{
+    ogg_file *f;
+    int value;
+    bool active;
+
+    /* FIXME: Search for id. */
+    f = &oggs[id-1];
+    active = true;
+
+    alGetSourcei(f->source, AL_BUFFERS_PROCESSED, &value);
+    check_al_error();
+    while(value--) {
+        ALuint buffer;
+
+        alSourceUnqueueBuffers(f->source, 1, &buffer);
+        check_al_error();
+        active = ogg_stream(f, buffer);
+        alSourceQueueBuffers(f->source, 1, &buffer);
+        check_al_error();
+    }
+
+    alGetSourcei(f->source, AL_SOURCE_STATE, &value);
+    if (AL_PLAYING != value) {
+        alSourcePlay(f->source);
+    }
+
+    return active;
 }
 
 void
@@ -192,6 +420,7 @@ s_quit()
 	memset(buffer, 0, sizeof(ALuint) * 32);
 	buffers = 0;
 	
+    alcMakeContextCurrent(NULL);
 	alcDestroyContext(context);
 	alcCloseDevice(device);
 	device = 0;

@@ -23,13 +23,15 @@ solution "ConceptEngine"
 			}
 			links { "mingw32", "SDLmain", "SDL", "lua", "opengl32", "openal32",
 			"m", }
-			linkoptions { "-mno-cygwin", "-Wl,--subsystem,console", "-Wl,-u,_WinMain@16" }
+			linkoptions { "-mno-cygwin", "-Wl,--subsystem,console",
+                "-Wl,-u,_WinMain@16" }
 		else
 			buildoptions {"-Wall"}
 			defines {"__SDL__"}
 			includedirs {"include", "/usr/include", "/usr/include/lua5.1"}
 			libdirs {"/usr/lib"}
-			links {"SDLmain", "SDL", "lua5.1", "GL", "png", "openal", "m"}
+			links {"SDLmain", "SDL", "lua5.1", "GL", "png", "ogg", "vorbis",
+                "vorbisfile", "openal", "m"}
 		end
 
 	configuration { "gmake", "Debug" }
