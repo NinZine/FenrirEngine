@@ -1,6 +1,7 @@
 #ifndef _SOUND_H_
 #define _SOUND_H_
 
+#include <stdbool.h>
 #include <stdint.h>
 
 /* TODO: This section is deprecated. */
@@ -18,12 +19,13 @@ void s_init();
 void s_open_file(const char *filename, const char *type, ALuint *source);
 void s_play(ALuint source);
 void s_quit();
-void s_update();
 #endif
 
 uint8_t s_ogg_open(const char *filename);
-void    s_ogg_play(uint8_t id);
-uint8_t s_ogg_update(uint8_t id);
+void    s_ogg_play(uint8_t id, bool force_restart);
+bool    s_ogg_playing(uint8_t id);
+bool    s_ogg_update(uint8_t id);
+void    s_update();
 
 #endif
 

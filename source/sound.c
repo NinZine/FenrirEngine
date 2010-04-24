@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -72,7 +73,7 @@ alBufferDataStaticProc(const ALint bid, ALenum format, ALvoid* data, ALsizei siz
     return;
 }
 
-static void 
+static bool 
 check_al_error()
 {
     ALenum e;
@@ -81,6 +82,7 @@ check_al_error()
     if (e != AL_NO_ERROR) {
         printf("sound> OpenAL error: %s\n", alGetString(e));
     }
+    return (e != AL_NO_ERROR);
 }
 
 static const char*
@@ -137,7 +139,7 @@ ogg_stream(ogg_file *of, ALuint buffer)
     if (0 == size) return false;
 
     alBufferData(buffer, of->format, data, size, of->info->rate);
-    check_al_error();
+    assert(check_al_error() == false);
     return true;
 }
 
@@ -277,7 +279,7 @@ s_ogg_open(const char *filename)
 }
 
 void
-s_ogg_play(uint8_t id)
+s_ogg_play(uint8_t id, bool force_restart)
 {
     ogg_file *f;
     ALenum state;
@@ -285,9 +287,17 @@ s_ogg_play(uint8_t id)
     f = &oggs[id-1];
     alGetSourcei(f->source, AL_SOURCE_STATE, &state);
     check_al_error();
-    
-    if (AL_PLAYING == state) 
+
+    if (AL_PLAYING == state && !force_restart) {
         return;
+    }
+
+    if (force_restart) {
+        alSourceStop(f->source);
+        ov_raw_seek(&f->file, 0);
+        alSourceUnqueueBuffers(f->source, 2, f->buffer);
+        assert(check_al_error() == false);
+    }
 
     if (!ogg_stream(f, f->buffer[0]))
         return;
@@ -300,7 +310,16 @@ s_ogg_play(uint8_t id)
     check_al_error();
 }
 
-uint8_t
+bool
+s_ogg_playing(uint8_t id)
+{
+    ALint value;
+
+    alGetSourcei(oggs[id-1].source, AL_SOURCE_STATE, &value);
+    return (AL_PLAYING == value);
+}
+
+bool
 s_ogg_update(uint8_t id)
 {
     ogg_file *f;
@@ -309,7 +328,7 @@ s_ogg_update(uint8_t id)
 
     /* FIXME: Search for id. */
     f = &oggs[id-1];
-    active = true;
+    active = false;
 
     alGetSourcei(f->source, AL_BUFFERS_PROCESSED, &value);
     check_al_error();
@@ -323,12 +342,28 @@ s_ogg_update(uint8_t id)
         check_al_error();
     }
 
+    if (!active)
+        return active;
+
     alGetSourcei(f->source, AL_SOURCE_STATE, &value);
     if (AL_PLAYING != value) {
+        printf("sound> warning: restarting sound, possible buffer underrun\n");
         alSourcePlay(f->source);
     }
 
     return active;
+}
+
+void
+s_update()
+{
+    int i;
+
+    for (i=0; i<ogg_files; ++i) {
+        if (true == oggs[i].stream) {
+            s_ogg_update(oggs[i].id);
+        }
+    }
 }
 
 void
@@ -428,7 +463,7 @@ s_quit()
 }
 
 void
-s_update()
+s_update_old()
 {
 	ALint state;
 	uint8_t i;
