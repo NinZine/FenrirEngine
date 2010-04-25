@@ -11,8 +11,10 @@ typedef struct image {
 	void 		*data;
 } image;
 
-void 	img_free(image *i);
-image 	img_load(const char *filename);
+void 	    img_free(image *i);
+uint32_t    img_get_pixel(image *img, uint32_t x, uint32_t y);
+image 	    img_load(const char *filename);
+void        img_set_pixel(image *img, uint32_t x, uint32_t y, uint32_t color);
 
 #endif
 

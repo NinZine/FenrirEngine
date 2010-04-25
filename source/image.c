@@ -20,6 +20,12 @@ img_free(image *i)
 		free(i->data);
 }
 
+uint32_t
+img_get_pixel(image *img, uint32_t x, uint32_t y)
+{
+    return ((uint32_t*)img->data)[y * img->w + x];
+}
+
 image
 img_load(const char *filename)
 {
@@ -36,6 +42,7 @@ img_load(const char *filename)
 			i,
 			is_png,
 			rowbytes;
+    png_uint_32 w, h;
 	
 	memset(&img, 0, sizeof(img));
 	fp = fopen(filename, "rb");
@@ -85,9 +92,15 @@ img_load(const char *filename)
 	png_init_io(png_ptr, fp);
 	png_set_sig_bytes(png_ptr, 8);
 	png_read_info(png_ptr, info_ptr);
-	png_get_IHDR(png_ptr, info_ptr, &img.w, &img.h, &img.bpp, &color_type, NULL,
+	png_get_IHDR(png_ptr, info_ptr, &w, &h, &img.bpp, &color_type, NULL,
 		NULL, NULL);
-	png_read_update_info(png_ptr, info_ptr);
+    img.w = w;
+    img.h = h;
+    if (6 != color_type)
+        printf("img> warning: color type should be 6 (rgb alpha) but is %d\n",
+            color_type);
+	
+    png_read_update_info(png_ptr, info_ptr);
 	rowbytes = png_get_rowbytes(png_ptr, info_ptr);
 	img.data = malloc(rowbytes * img.h * sizeof(png_byte));
 	if (!img.data) {
@@ -102,7 +115,7 @@ img_load(const char *filename)
 		printf("img> failed to malloc row_pointer\n");
 		png_destroy_read_struct(&png_ptr, &info_ptr, &end_ptr);
 		fclose(fp);
-		free(&img.data);
+		free(img.data);
 		img.data = 0;
 		return img;
 	}
@@ -119,5 +132,11 @@ img_load(const char *filename)
 	free(row_pointer);
 	fclose(fp);
 	return img;
+}
+
+void
+img_set_pixel(image *img, uint32_t x, uint32_t y, uint32_t color)
+{
+    ((uint32_t*)img->data)[y * img->w + x] = color;
 }
 
