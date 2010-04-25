@@ -11,12 +11,15 @@
 %rename(bind_texture) r_bind_texture;
 %rename(clear) r_clear;
 %rename(color) r_color;
+%rename(color4) r_color4;
 %rename(create_window) r_create_window;
 %rename(generate_depthbuffer) r_generate_depthbuffer;
 %rename(generate_framebuffer) r_generate_framebuffer;
 %rename(generate_renderbuffer) r_generate_renderbuffer;
 %rename(generate_texcoords) r_generate_texcoords;
+%rename(disable_blending) r_disable_blending;
 %rename(disable_culling) r_disable_culling;
+%rename(enable_blending) r_enable_blending;
 %rename(enable_culling) r_enable_culling;
 %rename(enable_light) r_enable_light;
 %rename(load_identity) r_load_identity;
@@ -33,6 +36,7 @@
 %rename(render_quad) r_render_quad;
 %rename(render_ray) r_render_ray;
 %rename(render_sphere) r_render_sphere;
+%rename(render_texquad) r_render_texquad;
 %rename(render_triangles) r_render_triangles;
 %rename(render_vertices) r_render_vertices;
 %rename(rotate) r_rotate;

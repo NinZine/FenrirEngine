@@ -99,6 +99,12 @@ r_color(float r, float g, float b)
 	glColor3f(r, g, b);
 }
 
+void r_color4(float r, float g, float b, float a)
+{
+	
+	glColor4f(r, g, b, a);
+}
+
 void
 r_create_window(uint16_t w, uint16_t h)
 {
@@ -129,6 +135,13 @@ r_create_window(uint16_t w, uint16_t h)
 }
 
 void
+r_disable_blending()
+{
+
+	glDisable(GL_BLEND);
+}
+
+void
 r_disable_culling()
 {
 
@@ -137,6 +150,14 @@ r_disable_culling()
 #else /* !__NDS__ */
 	glDisable(GL_CULL_FACE);
 #endif
+}
+
+void
+r_enable_blending()
+{
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void
@@ -226,11 +247,11 @@ r_generate_texcoords(uint32_t width, uint32_t heigth,
 	size_y = 1.f / rows;
 	coord = malloc(columns * rows * 4 * 2 * sizeof(float));
 
-	for (y = 0; y < rows; ++y) {
-		for (x = 0; x < columns; ++x) {
-			i = y * 8 + x * 8;
-			coord[i + 0] = x * size_x;
-			coord[i + 1] = 1.f - y * size_y - size_y;
+	for (y = 0; y < rows*8; y+=8) {
+		for (x = 0; x < columns*8; x+=8) {
+			i = y * columns + x;
+			coord[i + 0] = x/8 * size_x;
+			coord[i + 1] = 1.f - y/8 * size_y - size_y;
 			coord[i + 2] = coord[i + 0] + size_x;
 			coord[i + 3] = coord[i + 1];
 			coord[i + 4] = coord[i + 0];
@@ -363,32 +384,32 @@ r_render_cube(float side)
 
 	/* Front */
 	glTranslatef(0.f, 0.f, 0.5f);
-	r_render_quad(side, NULL);
+	r_render_quad(side);
 
 	/* Back */
 	glTranslatef(0.f, 0.f, -1.f);
 	glRotatef(180.f, 0.f, 1.f, 0.f);
-	r_render_quad(side, NULL);
+	r_render_quad(side);
 
 	/* Left */
 	glTranslatef(0.5f, 0.f, -0.5f);
 	glRotatef(90.f, 0.f, 1.f, 0.f);
-	r_render_quad(side, NULL);
+	r_render_quad(side);
 	
 	/* Right */
 	glTranslatef(0.f, 0.f, -1.f);
 	glRotatef(180.f, 0.f, 1.f, 0.f);
-	r_render_quad(side, NULL);
+	r_render_quad(side);
 	
 	/* Bottom */
 	glTranslatef(0.f, -.5f, -.5f);
 	glRotatef(90.f, 1.f, 0.f, 0.f);
-	r_render_quad(side, NULL);
+	r_render_quad(side);
 	
 	/* Top */
 	glTranslatef(0.f, 0.f, -1.f);
 	glRotatef(180.f, 1.f, 0.f, 0.f);
-	r_render_quad(side, NULL);
+	r_render_quad(side);
 	
 	glPopMatrix();
 }
@@ -421,7 +442,7 @@ r_render_mesh(mesh *m)
 }
 
 void
-r_render_quad(float side, float *texcoords)
+r_render_quad(float side)
 {
 	static const GLfloat quad[] = {
 		-0.5f, -0.5f,
@@ -449,11 +470,7 @@ r_render_quad(float side, float *texcoords)
 	glEnd();
 #else /* !__NDS__ */
     glEnable(GL_TEXTURE_2D);
-	if (texcoords == NULL) {
-		glTexCoordPointer(2, GL_FLOAT, 0, coords);
-	} else {
-		glTexCoordPointer(2, GL_FLOAT, 0, texcoords);
-	}
+	glTexCoordPointer(2, GL_FLOAT, 0, coords);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glVertexPointer(2, GL_FLOAT, 0, quad);
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -532,6 +549,51 @@ r_render_sphere(float radius)
 	glPopMatrix();
 	
 	free(vertex);
+}
+
+void
+r_render_texquad(float side, float *texcoords, uint32_t offset)
+{
+	static const GLfloat quad[] = {
+		-0.5f, -0.5f,
+		 0.5f, -0.5f,
+		-0.5f,  0.5f,
+		 0.5f,  0.5f,
+	};
+	static const GLfloat coords[] = {
+		0.0f, 0.0f,
+		1.0f, 0.0f,
+		0.0f, 1.0f,
+		1.0f, 1.0f,
+	};
+	
+	glPushMatrix();
+	glScalef(side, side, side);
+	glNormal3f(0.0f, 0.0f, 1.0f);
+#if defined(__NDS__)
+	/* TODO: Implement glCallList or glDrawArrays */
+	glBegin(GL_TRIANGLE_STRIP);
+	glVertex3f(quad[0], quad[1], 0);
+	glVertex3f(quad[2], quad[3], 0);
+	glVertex3f(quad[4], quad[5], 0);
+	glVertex3f(quad[6], quad[7], 0);
+	glEnd();
+#else /* !__NDS__ */
+    glEnable(GL_TEXTURE_2D);
+	if (texcoords == NULL) {
+		glTexCoordPointer(2, GL_FLOAT, 0, coords);
+	} else {
+		glTexCoordPointer(2, GL_FLOAT, 0, texcoords+8*offset);
+	}
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glVertexPointer(2, GL_FLOAT, 0, quad);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glDisable(GL_TEXTURE_2D);
+#endif
+	glPopMatrix();
 }
 
 void
