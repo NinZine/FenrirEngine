@@ -1,6 +1,11 @@
 #include <sys/types.h>
 
-#include <arpa/inet.h>
+#if defined(WIN32)
+# include <winsock2.h>
+#else
+# include <arpa/inet.h>
+#endif
+
 #include <float.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -254,7 +259,7 @@ get_address(const char *name, blender_file_block *bfp, blender_file *bf,
 {
     dna_struct *ds;
 	dna_struct_field *f;
-	char *buffer, *word, *reentry;
+	char *buffer, *word;
     const char *tmp_name;
 	char *sep = ".";
 	int32_t idx;
@@ -263,8 +268,8 @@ get_address(const char *name, blender_file_block *bfp, blender_file *bf,
 	buffer = strdup(name);
 	offset = 0;
     ds = get_dna_struct(bfp->sdna_idx, &bf->d);
-	for (word = strtok_r(buffer, sep, &reentry); word;
-		 word = strtok_r(NULL, sep, &reentry)) {
+	for (word = strtok(buffer, sep); word;
+		 word = strtok(NULL, sep)) {
 		
 		idx = get_field_index(word, ds, &bf->d);
 		offset += get_offset_by_index(idx, ds, &bf->d, bf->header.ptr_size);
@@ -495,15 +500,15 @@ get_offset_by_name(const char *name, const dna_struct *ds, const dna *d,
 	char ptr_size)
 {
 	dna_struct_field *f;
-	char *buffer, *word, *reentry;
+	char *buffer, *word;
 	char *sep = ".";
 	int32_t idx;
 	uint32_t offset;
 
 	buffer = strdup(name);
 	offset = 0;
-	for (word = strtok_r(buffer, sep, &reentry); word;
-		 word = strtok_r(NULL, sep, &reentry)) {
+	for (word = strtok(buffer, sep); word;
+		 word = strtok(NULL, sep)) {
 		
 		printf("finding index for: %s\n", word);
 		idx = get_field_index(word, ds, d);

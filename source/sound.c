@@ -7,11 +7,14 @@
 #if defined(__APPLE__)
 # include <OpenAL/al.h>
 # include <OpenAL/alc.h>
-# include <OpenAL/oalStaticBufferExtension.h>
+//# include <OpenAL/oalStaticBufferExtension.h>
+# include <OpenAL/MacOSX_OALExtensions.h>
 #else
 # include <AL/al.h>
 # include <AL/alc.h>
-# include <AL/alext.h>
+#  if !defined(WIN32)
+#   include <AL/alext.h>
+#  endif
 #endif
 
 #include <ogg/ogg.h>
@@ -42,36 +45,38 @@ static ALuint		buffer[32];
 static uint8_t		buffers = 0;
 static ALuint		latched[255];
 
-static const uint32_t BUFFER_SIZE = 4096;
+static const uint32_t BUFFER_SIZE = 40000;
 static uint8_t ogg_files = 0;
 static uint8_t ogg_ids = 0;
 static ogg_file *oggs = 0;
 
-ALvoid
+#if !defined(WIN32)
+static ALvoid
 alBufferDataStaticProc(const ALint bid, ALenum format, ALvoid* data, ALsizei size,
     ALsizei freq)
 {
-#if defined __APPLE__
+# if defined __APPLE__
 	static alBufferDataStaticProcPtr proc = NULL;
 
     if (proc == NULL) {
         proc = (alBufferDataStaticProcPtr) alcGetProcAddress(NULL,
             (const ALCchar*) "alBufferDataStatic");
     }
-#else
+# else
 	static PFNALBUFFERDATASTATICPROC proc = NULL;
 
     if (proc == NULL) {
         proc = (PFNALBUFFERDATASTATICPROC) alcGetProcAddress(NULL,
             (const ALCchar*) "alBufferDataStatic");
     }
-#endif
+# endif
     
     if (proc)
         proc(bid, format, data, size, freq);
 	
     return;
 }
+#endif
 
 static bool 
 check_al_error()
@@ -369,7 +374,7 @@ s_update()
 void
 s_open_file(const char *filename, const char *type, ALuint *buf)
 {
-#if defined(__APPLE__)	
+#if defined(TARGET_OS_IPHONE)	
 	AudioFileID outAFID;
 	CFStringRef f = CFStringCreateWithCString(NULL, filename,
 		kCFStringEncodingISOLatin1);

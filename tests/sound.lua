@@ -28,7 +28,7 @@ while true do
     end
 
     render.clear(0,0,0)
-    render.render_quad(size, nil)
+    render.render_quad(size)
 
     render.present()
     event.sleep(1)

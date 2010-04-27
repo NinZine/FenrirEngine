@@ -1,10 +1,17 @@
 #include <sys/fcntl.h>
 #include <sys/types.h>
-#include <sys/socket.h>
+#if defined(WIN32)
+# define _WIN32_WINNT 0x0501 /* XP or later */
+# include <winsock2.h>
+# include <ws2tcpip.h>
+# define EWOULDBLOCK WSAEWOULDBLOCK
+#else
+# include <sys/socket.h>
+# include <arpa/inet.h>
+# include <netdb.h>
+#endif
 
-#include <arpa/inet.h>
 #include <errno.h>
-#include <netdb.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -43,7 +50,13 @@ net_open_udp(uint32_t ip, uint16_t port)
     int s;
 
     s = socket(AF_INET, SOCK_DGRAM, 0);
+#if defined(WIN32)
+    u_long flags;
+    ioctlsocket(s, FIONBIO, &flags);
+#else
     fcntl(s, F_SETFL, O_NONBLOCK);
+#endif
+
     sin.sin_family = AF_INET;
     sin.sin_port = htons(port);
 
@@ -65,7 +78,7 @@ net_recv(int s)
 {
     struct sockaddr_in sin;
     int bytes;
-    socklen_t sin_len;
+    uint32_t sin_len;
     /*static char str[1024];*/ /* Every packet uses this same string. */
 	char *str = 0;
 	packet p;

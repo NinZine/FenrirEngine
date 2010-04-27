@@ -10,21 +10,22 @@ solution "ConceptEngine"
 		files { "source/*.c", "source/sdl/*.c", "source/win/*.c", "source/lua_wrap/*.c" }
 
 		if true == os.is("windows") then
-			buildoptions { "-Wall", "-mno-cygwin" }
-			defines { "__SDL__", "WIN32" }
-			includedirs {"include", "/cygdrive/d/dev/SDL-1.2.14/lib",
-			"/usr/local/include",
-			"/cygdrive/d/dev/lua-5.1.4/src",
-			"/cygdrive/d/MinGW/include"
-			}
-			libdirs { "/cygdrive/d/dev/SDL-1.2.14/lib", "/usr/local/lib",
-			"/cygdrive/d/dev/lua-5.1.4/src",
-			"/cygdrive/d/MinGW/lib"
-			}
-			links { "mingw32", "SDLmain", "SDL", "lua", "opengl32", "openal32",
-			"m", }
-			linkoptions { "-mno-cygwin", "-Wl,--subsystem,console",
-                "-Wl,-u,_WinMain@16" }
+		    buildoptions { "-Wall" }
+		    defines { "__SDL__", "WIN32" }
+		    files { "source/*.c", "source/sdl/*.c", "source/win/*.c",
+			    "source/lua_wrap/*.c" }
+		    includedirs {"include", "/f/dev/SDL-1.2.14/include", "/usr/local/include",
+			    "/f/dev/lua-5.1.4/src",
+			    "/f/MinGW/include",
+			    "/f/dev/OpenAL 1.1 SDK/include",
+			    }
+		    libdirs { "/f/dev/SDL-1.2.14/lib", "/usr/local/lib", "/f/dev/lua-5.1.4/src",
+			    "/f/MinGW/lib", "/f/dev/OpenAL 1.1 SDK/libs/Win32"
+			    }
+		    links { "mingw32", "SDLmain", "SDL", "lua", "ogg", "vorbis", 
+		    "vorbisfile", "opengl32", "openal32", "png", "ws2_32",
+		    "m", }
+		    linkoptions { "-Wl,--subsystem,console", "-Wl,-u,_WinMain@16" }
 		else
 			buildoptions {"-Wall"}
 			defines {"__SDL__"}
