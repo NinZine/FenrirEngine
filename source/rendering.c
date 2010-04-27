@@ -184,6 +184,13 @@ r_enable_light(int8_t light_num)
 #endif
 }
 
+void
+r_free_texture(uint16_t id)
+{
+
+	glDeleteTextures(1, (GLuint*)&id);
+}
+
 uint32_t
 r_generate_depthbuffer(int16_t w, int16_t h)
 {

@@ -55,6 +55,8 @@ void r_color(float r, float g, float b);
 void r_color4(float r, float g, float b, float a);
 void r_create_window(uint16_t w, uint16_t h);
 
+void r_free_texture(uint16_t id);
+
 uint32_t r_generate_depthbuffer(int16_t w, int16_t h);
 uint32_t r_generate_framebuffer();
 uint32_t r_generate_renderbuffer();

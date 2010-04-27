@@ -22,6 +22,7 @@
 %rename(enable_blending) r_enable_blending;
 %rename(enable_culling) r_enable_culling;
 %rename(enable_light) r_enable_light;
+%rename(free_texture) r_free_texture;
 %rename(load_identity) r_load_identity;
 %rename(load_matrix) r_load_matrix;
 %rename(look_at) r_look_at;
