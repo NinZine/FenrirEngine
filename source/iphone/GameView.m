@@ -2,63 +2,46 @@
  * License
  */
 
+#include <stdbool.h>
+#include <stdio.h>
+
 #import <CoreGraphics/CoreGraphics.h>
 #import <QuartzCore/QuartzCore.h>
 #import <UIKit/UIKit.h>
 
-#import "GameView.h"
+#include "lua.h"
+#include "lualib.h"
+#include "lauxlib.h"
 
 #include "event.h"
-#include "game.h"
-#include "game_helper.h"
-#include "rendering.h"
-#include "vec3.h"
+#include "ifopen.h"
+#include "sound.h"
 
-static gh_button button[] = {
-	{{-170.f, -90.f, 0.f}, {0.f, 0.f, 0.f}, 80.f, 0}, /* Left stick */
-	{{200.f, -90.f, 0.f}, {0.f, 0.f, 0.f}, 40.f, 0}, /* Right button */
-};
-static int num_buttons = sizeof(button)/sizeof(gh_button);
+#import "GameView.h"
+
+extern int luaopen_blender(lua_State* L);
+extern int luaopen_event(lua_State* L);
+extern int luaopen_image(lua_State* L);
+extern int luaopen_mat4(lua_State* L);
+extern int luaopen_net(lua_State* L);
+extern int luaopen_quat(lua_State* L);
+extern int luaopen_render(lua_State* L);
+extern int luaopen_sound(lua_State* L);
+extern int luaopen_vec3(lua_State* L);
+
+static int do_main(int argc,char* argv[]);
+static void l_message (const char *pname, const char *msg);
+static int report (lua_State *L, int status);
+static void quit();
+
+static char *argv[] = {"conceptengine.app", "ludumdare/main.lua"};
+static lua_State *L = 0;
 
 @implementation GameView
 
 + (Class) layerClass
 {
 	return [CAEAGLLayer class];
-}
-
-- (void)
-drawHUD
-{
-	float	angle,
-			size;
-	int j;
-	
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	r_setup_orthogonal_view(buffer.width, buffer.height);
-	glRotatef(90.0f, 0.0f, 0.0f, -1.0f); // For landscape mode
-	glColor4f(0.f, 0.f, 0.f, .5f);
-	glEnable(GL_BLEND);
-	glDisable(GL_DEPTH_TEST);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glMatrixMode(GL_MODELVIEW);
-	for (j = 0; j < num_buttons; ++j) {
-		angle = atan2(button[j].rotation.y, button[j].rotation.x);
-		angle = gh_rad2deg(angle);
-		size = button[j].size * 2.f;
-		//r_setup_orthogonal_view(buffer.width, buffer.height);
-		glPushMatrix();
-		glTranslatef(button[j].position.x, button[j].position.y, button[j].position.z);
-		glRotatef(45.f, 0.f, 0.f, 1.f);
-		glRotatef(angle, 0.f, 0.f, 1.f);
-		//glScalef(size, size, size);
-		r_render_circle(button[j].size);
-		//r_render_quad(1);
-		glPopMatrix();
-	}
-	glEnable(GL_DEPTH_TEST);
-	glDisable(GL_BLEND);
 }
 
 - (id)
@@ -108,7 +91,8 @@ layoutSubviews
 	/* Make sure there is no error in OpenGL stuff */
 	assert(glGetError() == GL_NO_ERROR);
 
-	game_initialize();
+	do_main(2, argv);
+	[self update];
 }
 
 - (BOOL)
@@ -149,8 +133,8 @@ pointToOpenGL:(CGPoint)location
 	
 	location.y = location.x;
 	location.x = tmp;
-	location.x -= [self bounds].size.height/2.0f;
-	location.y -= [self bounds].size.width/2.0f;
+	/*location.x -= [self bounds].size.height/2.0f;
+	location.y -= [self bounds].size.width/2.0f;*/
 	
 	return location;
 }
@@ -160,24 +144,25 @@ touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
 	CGPoint location;
 	NSArray *tmp;
-	vec3 current;
 	int i, j;
+	union event ev;
 	
+	ev.type = TOUCHDOWN;
 	tmp = [touches allObjects];
 	for (i = 0; i < [tmp count]; ++i) {
 		UITouch *touch = [tmp objectAtIndex:i];
 		
 		location = [self pointToOpenGL:[touch locationInView:self]];
-		current.x = location.x;
-		current.y = location.y;
-		current.z = 0.f;
+		ev.touch.dx = location.x;
+		ev.touch.dy = location.y;
+		event_push(ev);
 		
-		for (j = 0; j < num_buttons; ++j) {
+		/*for (j = 0; j < num_buttons; ++j) {
 			if ([self buttonTouched:&button[j] point:&current] == YES) {
 				++(button[j]).held;
 				[self buttonTouch:&button[j] point:&current];
 			}
-		}
+		}*/
 	}
 }
 
@@ -186,22 +171,24 @@ touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
 	CGPoint location;
 	NSArray *tmp;
-	vec3 point = {0.f, 0.f, 0.f};
+	union event ev;
 	int i, j;
 	
+	ev.type = TOUCHUP;
 	tmp = [touches allObjects];
 	for (i = 0; i < [tmp count]; ++i) {
 		UITouch *touch = [tmp objectAtIndex:i];
 		
 		location = [self pointToOpenGL:[touch locationInView:self]];
-		point.x = location.x;
-		point.y = location.y;
+		ev.touch.dx = location.x;
+		ev.touch.dy = location.y;
+		event_push(ev);
 		
-		for (j = 0; j < num_buttons; ++j) {
+		/*for (j = 0; j < num_buttons; ++j) {
 			if ([self buttonTouched:&button[j] point:&point] == YES) {
 				--(button[j]).held;
 			}
-		}
+		}*/
 	}
 }
 
@@ -210,24 +197,23 @@ touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
 	CGPoint location;
 	NSArray *tmp;
-	vec3	current, previous;
 	int		i, j;
+	union event ev;
 	
 	//touch = [[event touchesForView:self] anyObject];
+	ev.type = TOUCHMOVE;
 	tmp = [touches allObjects];
 	for (i = 0; i < [tmp count]; ++i) {
 		UITouch *touch = [tmp objectAtIndex:i];
 		
 		location = [self pointToOpenGL:[touch locationInView:self]];
-		current.x = location.x;
-		current.y = location.y;
-		current.z = 0.f;
+		ev.touch.dx = location.x;
+		ev.touch.dy = location.y;
 		location = [self pointToOpenGL:[touch previousLocationInView:self]];
-		previous.x = location.x;
-		previous.y = location.y;
-		previous.z = 0.f;
+		ev.touch.sx = location.x;
+		ev.touch.sy = location.y;
 		
-		for (j = 0; j < num_buttons; ++j) {
+		/*for (j = 0; j < num_buttons; ++j) {
 			if ([self buttonTouched:&button[j] point:&current] == YES) {
 				if ([self buttonTouched:&button[j] point:&previous] == NO) {
 					++(button[j]).held;
@@ -236,7 +222,7 @@ touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 			} else if ([self buttonTouched:&button[j] point:&previous] == YES){
 				--(button[j]).held;
 			}
-		}
+		}*/
 	}
 }
 
@@ -248,30 +234,128 @@ update
 {
 	int i;
 	
-	for (i = 0; i < num_buttons; ++i) {
+	/*for (i = 0; i < num_buttons; ++i) {
 		gh_input(&button[i], i);
 	}
 	
-	game_update();
+	game_update();*/
 
 	[EAGLContext setCurrentContext:context];
-	game_render(&buffer);
-	[self drawHUD];
+	
+	//game_render(&buffer);
+	r_bind_buffers(&buffer);
+	if (0 != lua_update(L)) {
+		quit();
+		printf("lua> quit\n");
+	}
+	
 	[context presentRenderbuffer:GL_RENDERBUFFER_OES];
 }
 
 @end
 
 void
-event_sleep(uint32_t ms)
+l_message (const char *pname, const char *msg)
 {
+	if (pname) printf("%s: ", pname);
 	
+	printf("%s\n", msg);
+	//fflush(stderr);
 }
 
-event
-event_poll()
+int
+report (lua_State *L, int status)
 {
-	event e;
+	if (status && !lua_isnil(L, -1)) {
+		const char *msg = lua_tostring(L, -1);
+		if (msg == NULL) msg = "(error object is not a string)";
+		l_message(0, msg);
+		lua_pop(L, 1);
+	}
+	return status;
+}
+
+int
+do_main(int argc,char* argv[])
+{
+	int status;
+	int *a = 0;
+	const char* f;
 	
-	return e;
+	if (argc<2) {
+		printf("%s: <filename.lua>\n",argv[0]);
+		return 0;
+	}
+	
+    s_init();
+    printf("sound> initialized\n");
+	
+	L=lua_open();
+	/*luaopen_base(L);*/
+	luaL_openlibs(L);
+	luaopen_mat4(L);
+	luaopen_quat(L);
+	luaopen_vec3(L);
+	luaopen_event(L);
+	luaopen_image(L);
+	luaopen_render(L);
+	luaopen_sound(L);
+	luaopen_net(L);
+	luaopen_blender(L);
+	
+	lua_getglobal(L, "package");
+	if (LUA_TTABLE != lua_type(L, 1)) {
+		printf("lua> 'package' is not a table\n");
+		return 1;
+	}
+	lua_getfield(L, 1, "path");
+	if (LUA_TSTRING != lua_type(L, 2)) {
+		printf("lua> 'package.path' is not a string\n");
+		lua_pop(L, 1);
+		return 1;
+	}
+	lua_pop(L, 1);
+	
+	f = full_path();
+	lua_pushlstring(L, f, strlen(f));
+	lua_pushliteral(L, "/?.lua");
+	lua_concat(L, 2);
+	lua_setfield(L, 1, "path");
+	
+	f = full_path_to_file(argv[1]);
+	
+	printf("lua> initialized\n");
+	printf("lua> loading %s\n", f);
+	
+	if (luaL_loadfile(L,f)==0) { // load and run the file
+		lua_setglobal(L, "runme");
+		lua_getglobal(L, "runme");
+		status = lua_pcall(L,0,LUA_MULTRET,0);
+		report(L, status);
+		printf("lua> loaded\n");
+	} else {
+		printf("lua> unable to load %s\n",f);
+		quit();
+	}
+	
+	return status;
+}
+
+int
+lua_update(lua_State *L)
+{
+	int status, top;
+	
+	lua_getglobal(L, "update");
+	status = lua_pcall(L,0,LUA_MULTRET,0);
+	report(L, status);
+	
+	return status;
+}
+
+void
+quit()
+{
+	s_quit();
+	lua_close(L);
 }

@@ -99,6 +99,7 @@ void r_scale(float sx, float sy, float sz);
 void r_set_clippingarea(int16_t x, int16_t y, int16_t width, int16_t height);
 void r_set_light_position(int n, vec3 *position);
 void r_set_material(GLenum type, float r, float g, float b);
+void r_set_viewport(int32_t x, int32_t y, int32_t w, int32_t h);
 
 void r_setup_ambient_light(int8_t n, float r, float g, float b);
 void r_setup_diffuse_light(int8_t n, float r, float g, float b);

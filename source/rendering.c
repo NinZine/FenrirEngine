@@ -96,7 +96,7 @@ void
 r_color(float r, float g, float b)
 {
 	
-	glColor3f(r, g, b);
+	glColor4f(r, g, b, 1);
 }
 
 void r_color4(float r, float g, float b, float a)
@@ -131,7 +131,10 @@ r_create_window(uint16_t w, uint16_t h)
 	    printf("sdl> no video\n");
 	    exit(1);
 	}
+
 #endif
+
+	r_set_viewport(0, 0, w, h);
 }
 
 void
@@ -744,6 +747,13 @@ r_setup_diffuse_light(int8_t light_num, float r, float g, float b)
 
 	glLightfv(GL_LIGHT0 + light_num, GL_DIFFUSE, t);
 #endif
+}
+
+void
+r_set_viewport(int32_t x, int32_t y, int32_t w, int32_t h)
+{
+	
+	glViewport(x, y, w, h);
 }
 
 void

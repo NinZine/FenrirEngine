@@ -16,7 +16,6 @@
 	r_state 	buffer;
 }
 
-- (void)	drawHUD;
 - (BOOL)	buttonTouched:(const gh_button *)b point:(const vec3 *)point;
 - (void)	buttonTouch:(gh_button *)b point:(const vec3*)point;
 - (CGPoint) pointToOpenGL:(CGPoint)point;

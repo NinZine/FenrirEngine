@@ -91,14 +91,22 @@ int main(int argc,char* argv[])
 	printf("lua> initialized\n");
 	printf("lua> loading %s\n",argv[1]);
 	
-	if (luaL_loadfile(L,argv[1])==0) { // load and run the file
+	if (luaL_loadfile(L,argv[1])==0) {
+		lua_setglobal(L, "runme");
+		lua_getglobal(L, "runme");
 		status = lua_pcall(L,0,LUA_MULTRET,0);
 		report(L, status);
 	} else {
 		printf("unable to load %s\n",argv[1]);
 	}
+	
+	while (0 == status) {
+		lua_getglobal(L, "update");
+		status = lua_pcall(L,0,LUA_MULTRET,0);
+		report(L, status);
+	}
+	
 	lua_close(L);
-
     s_quit();
 	SDL_Quit();
 	return status;

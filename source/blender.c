@@ -14,6 +14,7 @@
 #include <string.h>
 
 #include "blender.h"
+#include "ifopen.h"
 #include "vec3.h"
 
 static bool big_endian;
@@ -145,7 +146,7 @@ blender_open(const char *filename)
     memset(&m, 0, sizeof(m));
     memset(&bf, 0, sizeof(bf));
 
-    fp = fopen(filename, "rb");
+    fp = ifopen(filename, "rb");
     if (!fp) {
         printf("model> unable to open file %s\n", filename);
         fclose(fp);
@@ -680,8 +681,9 @@ read_file_block(const blender_header *bh, blender_file_block *bfp,
 	bfp->data = malloc(bfp->size);
 	fread(bfp->data, 1, bfp->size, fp);
 	//parse_int(bh, bfp->size);
-    printf("model> blender code:%c%c%c%c dna:%d size:%d\n", bfp->code[0],
-		bfp->code[1], bfp->code[2], bfp->code[3], bfp->sdna_idx, bfp->size);
+    printf("model> blender code:%c%c%c%c dna:%d size:%d ptr:%X\n", bfp->code[0],
+		bfp->code[1], bfp->code[2], bfp->code[3], bfp->sdna_idx, bfp->size,
+        (uint32_t)bfp->old_adress);
 }
 
 

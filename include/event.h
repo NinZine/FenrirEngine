@@ -11,6 +11,9 @@ enum event_t {
 	EMPTY,
     KEYDOWN,
     KEYUP,
+	TOUCHDOWN,
+	TOUCHMOVE,
+	TOUCHUP,
 };
 
 enum key_t {
@@ -162,6 +165,8 @@ enum key_t {
 	KEY_RSUPER      = SDLK_RSUPER,		/**< Right "Windows" key */
 	KEY_MODE        = SDLK_MODE,		/**< "Alt Gr" key */
 	KEY_COMPOSE     = SDLK_COMPOSE,		/**< Multi-key compose key */
+#elif defined(__IPHONE__)
+	KEY_A,
 #endif
 };
 
@@ -174,10 +179,16 @@ typedef union event {
         /*uint16_t sym;*/
         enum key_t sym;
     } key;
+	
+	struct {
+		enum event_t type;
+		uint32_t dx, dy, sx, sy;
+	} touch;
 } event;
 
 event		event_poll();
-void		event_sleep(unsigned int ms);
+void		event_push(event e);
+void		event_sleep(uint32_t ms);
 uint32_t	event_time();
 
 #endif

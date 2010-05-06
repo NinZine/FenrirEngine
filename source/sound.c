@@ -7,8 +7,11 @@
 #if defined(__APPLE__)
 # include <OpenAL/al.h>
 # include <OpenAL/alc.h>
-//# include <OpenAL/oalStaticBufferExtension.h>
-# include <OpenAL/MacOSX_OALExtensions.h>
+# if defined(__IPHONE__)
+#  include <OpenAL/oalStaticBufferExtension.h>
+# else
+#  include <OpenAL/MacOSX_OALExtensions.h>
+# endif
 #else
 # include <AL/al.h>
 # include <AL/alc.h>
@@ -22,6 +25,7 @@
 #include <vorbis/vorbisenc.h>
 #include <vorbis/vorbisfile.h>
 
+#include "ifopen.h"
 #include "sound.h"
 
 typedef struct ogg_file {
@@ -241,7 +245,7 @@ s_ogg_open(const char *filename)
     FILE *f;
     int result;
 
-    f = fopen(filename, "rb");
+    f = ifopen(filename, "rb");
     if (NULL == f) {
         printf("sound> failed to open file %s\n", filename);
         return 0;

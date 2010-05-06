@@ -45,6 +45,7 @@
 %rename(set_clippingarea) r_set_clippingarea;
 %rename(set_light_position) r_set_light_position;
 %rename(set_material) r_set_material;
+%rename(set_viewport) r_set_viewport;
 %rename(setup_ambient_light) r_setup_ambient_light;
 %rename(setup_diffuse_light) r_setup_diffuse_light;
 %rename(setup_orthogonal_view) r_setup_orthogonal_view;

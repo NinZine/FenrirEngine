@@ -8,6 +8,7 @@
 # include <png.h>
 //#endif
 
+#include "ifopen.h"
 #include "image.h"
 
 void
@@ -45,7 +46,7 @@ img_load(const char *filename)
     png_uint_32 w, h;
 	
 	memset(&img, 0, sizeof(img));
-	fp = fopen(filename, "rb");
+	fp = ifopen(filename, "rb");
 	if (!fp) {
 		printf("img> couldn't open %s\n", filename);
 		fclose(fp);

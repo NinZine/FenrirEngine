@@ -1,12 +1,13 @@
 --img = image.load("tests/test.png")
-house = sound.ogg_open("./tests/house.ogg")
+house = sound.ogg_open("house.ogg")
+if nil == house then return end
 
 render.create_window(640, 480)
 render.setup_orthogonal_view(320, 240)
 
 size = 10
 sound.ogg_play(house, false)
-while true do
+function update()
     e = event.poll()
     while e.type ~= event.EMPTY do
         if e.key.sym == event.KEY_ESCAPE then return

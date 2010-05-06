@@ -9,15 +9,9 @@
 /* Begin PBXBuildFile section */
 		2F0D30461127848C00CF9354 /* event.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F0D30441127848C00CF9354 /* event.c */; };
 		2F0D30471127848C00CF9354 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F0D30451127848C00CF9354 /* main.c */; };
-		2F2E9FE2110A0581002FCC3F /* actions.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2E9FD7110A0581002FCC3F /* actions.c */; };
-		2F2E9FE3110A0581002FCC3F /* array.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2E9FD8110A0581002FCC3F /* array.c */; };
-		2F2E9FE4110A0581002FCC3F /* behavior.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2E9FD9110A0581002FCC3F /* behavior.c */; };
-		2F2E9FE5110A0581002FCC3F /* box2d.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2E9FDA110A0581002FCC3F /* box2d.c */; };
-		2F2E9FE6110A0581002FCC3F /* game_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2E9FDB110A0581002FCC3F /* game_helper.c */; };
 		2F2E9FE8110A0581002FCC3F /* mat4.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2E9FDD110A0581002FCC3F /* mat4.c */; };
 		2F2E9FE9110A0581002FCC3F /* quat.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2E9FDE110A0581002FCC3F /* quat.c */; };
 		2F2E9FEA110A0581002FCC3F /* rendering.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2E9FDF110A0581002FCC3F /* rendering.c */; };
-		2F2E9FEB110A0581002FCC3F /* rules.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2E9FE0110A0581002FCC3F /* rules.c */; };
 		2F2E9FEC110A0581002FCC3F /* vec3.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2E9FE1110A0581002FCC3F /* vec3.c */; };
 		2F2E9FF0110A05D7002FCC3F /* SDLMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F2E9FEF110A05D7002FCC3F /* SDLMain.m */; };
 		2F2EA24E110B6AAF002FCC3F /* mat4_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2EA247110B6AAF002FCC3F /* mat4_wrap.c */; };
@@ -27,7 +21,6 @@
 		2F375B98112D99AD00D5DC5E /* net_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F375B96112D99AD00D5DC5E /* net_wrap.c */; };
 		2F396F5C110F028500998DC1 /* render_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F396F5A110F028500998DC1 /* render_wrap.c */; };
 		2F396FE0110F505600998DC1 /* event_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F396FDE110F505600998DC1 /* event_wrap.c */; };
-		2F39702111105C3F00998DC1 /* game.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2E9FDC110A0581002FCC3F /* game.c */; };
 		2F3972111110A6D700998DC1 /* sound.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F3972101110A6D700998DC1 /* sound.c */; };
 		2F5CB8EF11862BBF008DC38E /* sound_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F5CB8ED11862BBF008DC38E /* sound_wrap.c */; };
 		2FB2C1E711662E6200C1AECD /* blender.c in Sources */ = {isa = PBXBuildFile; fileRef = 2FB2C1E611662E6200C1AECD /* blender.c */; };
@@ -39,32 +32,19 @@
 /* Begin PBXFileReference section */
 		2F0D30441127848C00CF9354 /* event.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = event.c; sourceTree = "<group>"; };
 		2F0D30451127848C00CF9354 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		2F299B341192E37F0064C4FB /* mesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mesh.h; path = ../../include/mesh.h; sourceTree = SOURCE_ROOT; };
+		2F299B351192E3B70064C4FB /* ifopen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ifopen.h; path = ../../include/ifopen.h; sourceTree = SOURCE_ROOT; };
 		2F2E9F65110A043A002FCC3F /* ConceptEngine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConceptEngine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F2E9F68110A043A002FCC3F /* ConceptEngine-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ConceptEngine-Info.plist"; sourceTree = "<group>"; };
-		2F2E9FD7110A0581002FCC3F /* actions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = actions.c; path = ../../source/actions.c; sourceTree = SOURCE_ROOT; };
-		2F2E9FD8110A0581002FCC3F /* array.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = array.c; path = ../../source/array.c; sourceTree = SOURCE_ROOT; };
-		2F2E9FD9110A0581002FCC3F /* behavior.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = behavior.c; path = ../../source/behavior.c; sourceTree = SOURCE_ROOT; };
-		2F2E9FDA110A0581002FCC3F /* box2d.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = box2d.c; path = ../../source/box2d.c; sourceTree = SOURCE_ROOT; };
-		2F2E9FDB110A0581002FCC3F /* game_helper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = game_helper.c; path = ../../source/game_helper.c; sourceTree = SOURCE_ROOT; };
-		2F2E9FDC110A0581002FCC3F /* game.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = game.c; path = ../../source/game.c; sourceTree = SOURCE_ROOT; };
 		2F2E9FDD110A0581002FCC3F /* mat4.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = mat4.c; path = ../../source/mat4.c; sourceTree = SOURCE_ROOT; };
 		2F2E9FDE110A0581002FCC3F /* quat.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = quat.c; path = ../../source/quat.c; sourceTree = SOURCE_ROOT; };
 		2F2E9FDF110A0581002FCC3F /* rendering.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = rendering.c; path = ../../source/rendering.c; sourceTree = SOURCE_ROOT; };
-		2F2E9FE0110A0581002FCC3F /* rules.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = rules.c; path = ../../source/rules.c; sourceTree = SOURCE_ROOT; };
 		2F2E9FE1110A0581002FCC3F /* vec3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = vec3.c; path = ../../source/vec3.c; sourceTree = SOURCE_ROOT; };
 		2F2E9FEE110A05D7002FCC3F /* SDLMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLMain.h; sourceTree = "<group>"; };
 		2F2E9FEF110A05D7002FCC3F /* SDLMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLMain.m; sourceTree = "<group>"; };
-		2F2E9FF7110A06AE002FCC3F /* actions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = actions.h; path = ../../include/actions.h; sourceTree = SOURCE_ROOT; };
-		2F2E9FF8110A06AE002FCC3F /* array.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = array.h; path = ../../include/array.h; sourceTree = SOURCE_ROOT; };
-		2F2E9FF9110A06AE002FCC3F /* behavior.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = behavior.h; path = ../../include/behavior.h; sourceTree = SOURCE_ROOT; };
-		2F2E9FFA110A06AE002FCC3F /* box2d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = box2d.h; path = ../../include/box2d.h; sourceTree = SOURCE_ROOT; };
-		2F2E9FFB110A06AE002FCC3F /* game_entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = game_entity.h; path = ../../include/game_entity.h; sourceTree = SOURCE_ROOT; };
-		2F2E9FFC110A06AE002FCC3F /* game_helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = game_helper.h; path = ../../include/game_helper.h; sourceTree = SOURCE_ROOT; };
-		2F2E9FFD110A06AE002FCC3F /* game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = game.h; path = ../../include/game.h; sourceTree = SOURCE_ROOT; };
 		2F2E9FFE110A06AE002FCC3F /* mat4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mat4.h; path = ../../include/mat4.h; sourceTree = SOURCE_ROOT; };
 		2F2E9FFF110A06AE002FCC3F /* quat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = quat.h; path = ../../include/quat.h; sourceTree = SOURCE_ROOT; };
 		2F2EA000110A06AE002FCC3F /* rendering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = rendering.h; path = ../../include/rendering.h; sourceTree = SOURCE_ROOT; };
-		2F2EA001110A06AE002FCC3F /* rules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = rules.h; path = ../../include/rules.h; sourceTree = SOURCE_ROOT; };
 		2F2EA002110A06AE002FCC3F /* vec3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = vec3.h; path = ../../include/vec3.h; sourceTree = SOURCE_ROOT; };
 		2F2EA246110B6AAF002FCC3F /* mat4.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; path = mat4.i; sourceTree = "<group>"; };
 		2F2EA247110B6AAF002FCC3F /* mat4_wrap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mat4_wrap.c; sourceTree = "<group>"; };
@@ -129,22 +109,16 @@
 		2F2E9F451109FA76002FCC3F /* include */ = {
 			isa = PBXGroup;
 			children = (
-				2F39720F1110A6C900998DC1 /* sound.h */,
-				2FCE73151142C9B500D77BBC /* image.h */,
-				2F396FC7110F4C5D00998DC1 /* event.h */,
 				2FB2C1E311662E2D00C1AECD /* blender.h */,
-				2F2E9FF7110A06AE002FCC3F /* actions.h */,
-				2F2E9FF8110A06AE002FCC3F /* array.h */,
-				2F2E9FF9110A06AE002FCC3F /* behavior.h */,
-				2F2E9FFA110A06AE002FCC3F /* box2d.h */,
-				2F2E9FFB110A06AE002FCC3F /* game_entity.h */,
+				2F396FC7110F4C5D00998DC1 /* event.h */,
+				2F299B351192E3B70064C4FB /* ifopen.h */,
+				2FCE73151142C9B500D77BBC /* image.h */,
+				2F299B341192E37F0064C4FB /* mesh.h */,
 				2F375B51112D84B000D5DC5E /* net.h */,
-				2F2E9FFC110A06AE002FCC3F /* game_helper.h */,
-				2F2E9FFD110A06AE002FCC3F /* game.h */,
 				2F2E9FFE110A06AE002FCC3F /* mat4.h */,
 				2F2E9FFF110A06AE002FCC3F /* quat.h */,
 				2F2EA000110A06AE002FCC3F /* rendering.h */,
-				2F2EA001110A06AE002FCC3F /* rules.h */,
+				2F39720F1110A6C900998DC1 /* sound.h */,
 				2F2EA002110A06AE002FCC3F /* vec3.h */,
 			);
 			name = include;
@@ -156,19 +130,12 @@
 				2F2EA244110B6AAF002FCC3F /* lua_wrap */,
 				2F2E9FED110A05D7002FCC3F /* osx */,
 				2F0D30431127848C00CF9354 /* sdl */,
-				2F2E9FD7110A0581002FCC3F /* actions.c */,
-				2F2E9FD8110A0581002FCC3F /* array.c */,
-				2F2E9FD9110A0581002FCC3F /* behavior.c */,
 				2FB2C1E611662E6200C1AECD /* blender.c */,
-				2F2E9FDA110A0581002FCC3F /* box2d.c */,
-				2F2E9FDC110A0581002FCC3F /* game.c */,
-				2F2E9FDB110A0581002FCC3F /* game_helper.c */,
 				2FFADBA711453E1F00218944 /* image.c */,
 				2F2E9FDD110A0581002FCC3F /* mat4.c */,
 				2F375B4F112D849F00D5DC5E /* net.c */,
 				2F2E9FDE110A0581002FCC3F /* quat.c */,
 				2F2E9FDF110A0581002FCC3F /* rendering.c */,
-				2F2E9FE0110A0581002FCC3F /* rules.c */,
 				2F3972101110A6D700998DC1 /* sound.c */,
 				2F2E9FE1110A0581002FCC3F /* vec3.c */,
 			);
@@ -272,15 +239,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2F2E9FE2110A0581002FCC3F /* actions.c in Sources */,
-				2F2E9FE3110A0581002FCC3F /* array.c in Sources */,
-				2F2E9FE4110A0581002FCC3F /* behavior.c in Sources */,
-				2F2E9FE5110A0581002FCC3F /* box2d.c in Sources */,
-				2F2E9FE6110A0581002FCC3F /* game_helper.c in Sources */,
 				2F2E9FE8110A0581002FCC3F /* mat4.c in Sources */,
 				2F2E9FE9110A0581002FCC3F /* quat.c in Sources */,
 				2F2E9FEA110A0581002FCC3F /* rendering.c in Sources */,
-				2F2E9FEB110A0581002FCC3F /* rules.c in Sources */,
 				2F2E9FEC110A0581002FCC3F /* vec3.c in Sources */,
 				2F2E9FF0110A05D7002FCC3F /* SDLMain.m in Sources */,
 				2F2EA24E110B6AAF002FCC3F /* mat4_wrap.c in Sources */,
@@ -288,7 +249,6 @@
 				2F2EA252110B6AAF002FCC3F /* vec3_wrap.c in Sources */,
 				2F396F5C110F028500998DC1 /* render_wrap.c in Sources */,
 				2F396FE0110F505600998DC1 /* event_wrap.c in Sources */,
-				2F39702111105C3F00998DC1 /* game.c in Sources */,
 				2F3972111110A6D700998DC1 /* sound.c in Sources */,
 				2F0D30461127848C00CF9354 /* event.c in Sources */,
 				2F0D30471127848C00CF9354 /* main.c in Sources */,
@@ -336,7 +296,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
 					/usr/local/lib,
-					"/Users/ninzine/Code/SDK/lua-5.1/src",
+					"/Users/ninzine/Code/SDK/lua-5.1/lib",
 				);
 				OTHER_CFLAGS = "-D__SDL__";
 				OTHER_LDFLAGS = (
@@ -354,8 +314,6 @@
 					OpenGL,
 					"-framework",
 					SDL,
-					"-framework",
-					AudioToolbox,
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = ConceptEngine;

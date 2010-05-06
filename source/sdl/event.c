@@ -1,5 +1,8 @@
 #include <sys/time.h>
 
+#include <stdint.h>
+#include <stdio.h>
+
 #if defined(__SDL__)
 # include <SDL/SDL.h>
 #elif defined(__NDS__)
@@ -9,8 +12,15 @@
 
 #include "event.h"
 
-static event event_convert(SDL_Event *e);
 
+#if defined(__SDL__)
+static event event_convert(SDL_Event *e);
+#endif
+
+static event queue[20];
+static uint8_t events = 0;
+
+#if defined(__SDL__)
 event
 event_convert(SDL_Event *e)
 {
@@ -34,21 +44,46 @@ event_convert(SDL_Event *e)
 
     return t;
 }
+#endif
 
 event
 event_poll()
 {
+#if defined(__SDL__)
     SDL_Event e;
 
     /*SDL_PumpEvents();*/
     SDL_PollEvent(&e);
     return event_convert(&e);
+#else
+	event ev;
+	ev.type = EMPTY;
+	if (events > 0) {
+		events--;
+		ev = queue[events];
+	}
+	
+	return ev;
+#endif
 }
 
 void
-event_sleep(unsigned int ms)
+event_push(event e)
+{	
+	queue[events] = e;
+	events = events + 1;
+	if (events >= 20) {
+		printf("event> more than 20 events");
+		events = 19;
+	}
+}
+
+void
+event_sleep(uint32_t ms)
 {
+#if defined(__SDL__)
     SDL_Delay(ms);
+#endif
 }
 
 uint32_t
