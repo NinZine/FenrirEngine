@@ -7,7 +7,6 @@
 #import <OpenGLES/ES1/glext.h>
 #import <UIKit/UIView.h>
 
-#include "game_helper.h"
 #include "rendering.h"
 
 @interface GameView : UIView
@@ -16,8 +15,6 @@
 	r_state 	buffer;
 }
 
-- (BOOL)	buttonTouched:(const gh_button *)b point:(const vec3 *)point;
-- (void)	buttonTouch:(gh_button *)b point:(const vec3*)point;
 - (CGPoint) pointToOpenGL:(CGPoint)point;
 
 @end

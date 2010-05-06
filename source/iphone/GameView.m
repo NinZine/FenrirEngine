@@ -15,27 +15,11 @@
 
 #include "event.h"
 #include "ifopen.h"
-#include "sound.h"
+#include "system.h"
 
 #import "GameView.h"
 
-extern int luaopen_blender(lua_State* L);
-extern int luaopen_event(lua_State* L);
-extern int luaopen_image(lua_State* L);
-extern int luaopen_mat4(lua_State* L);
-extern int luaopen_net(lua_State* L);
-extern int luaopen_quat(lua_State* L);
-extern int luaopen_render(lua_State* L);
-extern int luaopen_sound(lua_State* L);
-extern int luaopen_vec3(lua_State* L);
-
-static int do_main(int argc,char* argv[]);
-static void l_message (const char *pname, const char *msg);
-static int report (lua_State *L, int status);
-static void quit();
-
 static char *argv[] = {"conceptengine.app", "ludumdare/main.lua"};
-static lua_State *L = 0;
 
 @implementation GameView
 
@@ -91,38 +75,9 @@ layoutSubviews
 	/* Make sure there is no error in OpenGL stuff */
 	assert(glGetError() == GL_NO_ERROR);
 
-	do_main(2, argv);
+	/* All systems go! */
+	sys_start(2, argv);
 	[self update];
-}
-
-- (BOOL)
-buttonTouched:(const gh_button *)b point:(const vec3 *)point
-{
-	vec3 tmp;
-	
-	tmp = vec3_sub(point, &b->position);
-	if (vec3_length(&tmp) < b->size) {
-		return YES;
-	}
-	/*
-	if (point->x < left_stick_position.x + left_stick_size
-		&& point->x > left_stick_position.x - left_stick_size
-		&& point->y < left_stick_position.y + left_stick_size
-		&& point->y > left_stick_position.y - left_stick_size) {
-		return YES;
-	}*/
-	
-	return NO;
-}
-
-- (void)
-buttonTouch:(gh_button *)b point:(const vec3 *)point
-{
-	vec3 p = *point;
-	
-	p = vec3_sub(&p, &b->position);
-	p = vec3_normalize(&p);
-	b->rotation = p;
 }
 
 /* Convert touch point from UIView referential to OpenGL one (upside-down flip) */
@@ -244,8 +199,8 @@ update
 	
 	//game_render(&buffer);
 	r_bind_buffers(&buffer);
-	if (0 != lua_update(L)) {
-		quit();
+	if (0 != sys_update()) {
+		sys_quit();
 		printf("lua> quit\n");
 	}
 	
@@ -254,108 +209,3 @@ update
 
 @end
 
-void
-l_message (const char *pname, const char *msg)
-{
-	if (pname) printf("%s: ", pname);
-	
-	printf("%s\n", msg);
-	//fflush(stderr);
-}
-
-int
-report (lua_State *L, int status)
-{
-	if (status && !lua_isnil(L, -1)) {
-		const char *msg = lua_tostring(L, -1);
-		if (msg == NULL) msg = "(error object is not a string)";
-		l_message(0, msg);
-		lua_pop(L, 1);
-	}
-	return status;
-}
-
-int
-do_main(int argc,char* argv[])
-{
-	int status;
-	int *a = 0;
-	const char* f;
-	
-	if (argc<2) {
-		printf("%s: <filename.lua>\n",argv[0]);
-		return 0;
-	}
-	
-    s_init();
-    printf("sound> initialized\n");
-	
-	L=lua_open();
-	/*luaopen_base(L);*/
-	luaL_openlibs(L);
-	luaopen_mat4(L);
-	luaopen_quat(L);
-	luaopen_vec3(L);
-	luaopen_event(L);
-	luaopen_image(L);
-	luaopen_render(L);
-	luaopen_sound(L);
-	luaopen_net(L);
-	luaopen_blender(L);
-	
-	lua_getglobal(L, "package");
-	if (LUA_TTABLE != lua_type(L, 1)) {
-		printf("lua> 'package' is not a table\n");
-		return 1;
-	}
-	lua_getfield(L, 1, "path");
-	if (LUA_TSTRING != lua_type(L, 2)) {
-		printf("lua> 'package.path' is not a string\n");
-		lua_pop(L, 1);
-		return 1;
-	}
-	lua_pop(L, 1);
-	
-	f = full_path();
-	lua_pushlstring(L, f, strlen(f));
-	lua_pushliteral(L, "/?.lua");
-	lua_concat(L, 2);
-	lua_setfield(L, 1, "path");
-	
-	f = full_path_to_file(argv[1]);
-	
-	printf("lua> initialized\n");
-	printf("lua> loading %s\n", f);
-	
-	if (luaL_loadfile(L,f)==0) { // load and run the file
-		lua_setglobal(L, "runme");
-		lua_getglobal(L, "runme");
-		status = lua_pcall(L,0,LUA_MULTRET,0);
-		report(L, status);
-		printf("lua> loaded\n");
-	} else {
-		printf("lua> unable to load %s\n",f);
-		quit();
-	}
-	
-	return status;
-}
-
-int
-lua_update(lua_State *L)
-{
-	int status, top;
-	
-	lua_getglobal(L, "update");
-	status = lua_pcall(L,0,LUA_MULTRET,0);
-	report(L, status);
-	
-	return status;
-}
-
-void
-quit()
-{
-	s_quit();
-	lua_close(L);
-}

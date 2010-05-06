@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2F2998C91191A78F0064C4FB /* ludumdare in Resources */ = {isa = PBXBuildFile; fileRef = 2F2998AF1191A78F0064C4FB /* ludumdare */; };
+		2F299BD1119300620064C4FB /* system.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F299BD0119300620064C4FB /* system.c */; };
 		2F39736F1110BBAD00998DC1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F3972991110B8DE00998DC1 /* main.m */; };
 		2F3973741110BBD200998DC1 /* mat4_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F39729E1110B8DE00998DC1 /* mat4_wrap.c */; };
 		2F3973751110BBD400998DC1 /* quat_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F3972A01110B8DE00998DC1 /* quat_wrap.c */; };
@@ -183,6 +184,8 @@
 
 /* Begin PBXFileReference section */
 		2F2998AF1191A78F0064C4FB /* ludumdare */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ludumdare; path = ../../ludumdare; sourceTree = SOURCE_ROOT; };
+		2F299B6B1192EBF20064C4FB /* system.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = system.h; sourceTree = "<group>"; };
+		2F299BD0119300620064C4FB /* system.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = system.c; sourceTree = "<group>"; };
 		2F3972811110B8DE00998DC1 /* event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = event.h; sourceTree = "<group>"; };
 		2F3972861110B8DE00998DC1 /* Demo2AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Demo2AppDelegate.h; sourceTree = "<group>"; };
 		2F3972871110B8DE00998DC1 /* GameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameView.h; sourceTree = "<group>"; };
@@ -299,7 +302,7 @@
 		2F6EF09A118EF74300E26E5C /* pngwrite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pngwrite.c; path = /Users/ninzine/Code/SDK/lpng141/pngwrite.c; sourceTree = "<absolute>"; };
 		2F6EF09B118EF74300E26E5C /* pngwtran.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pngwtran.c; path = /Users/ninzine/Code/SDK/lpng141/pngwtran.c; sourceTree = "<absolute>"; };
 		2F6EF09C118EF74300E26E5C /* pngwutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pngwutil.c; path = /Users/ninzine/Code/SDK/lpng141/pngwutil.c; sourceTree = "<absolute>"; };
-		2F6EF0C0118EF7F000E26E5C /* event.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = event.c; path = /Users/ninzine/Code/Lua/ConceptEngine/source/sdl/event.c; sourceTree = "<absolute>"; };
+		2F6EF0C0118EF7F000E26E5C /* event.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = event.c; sourceTree = "<group>"; };
 		2F6EF20B118F09D900E26E5C /* asteroids.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = asteroids.lua; path = /Users/ninzine/Code/Lua/ConceptEngine/sample/asteroids.lua; sourceTree = "<absolute>"; };
 		2F6EF20C118F09D900E26E5C /* milky1.xm */ = {isa = PBXFileReference; lastKnownFileType = file; name = milky1.xm; path = /Users/ninzine/Code/Lua/ConceptEngine/sample/milky1.xm; sourceTree = "<absolute>"; };
 		2F6EF20D118F09D900E26E5C /* racing.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = racing.lua; path = /Users/ninzine/Code/Lua/ConceptEngine/sample/racing.lua; sourceTree = "<absolute>"; };
@@ -452,6 +455,7 @@
 		2F39727B1110B8DE00998DC1 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				2F299B6B1192EBF20064C4FB /* system.h */,
 				2F3972851110B8DE00998DC1 /* iphone */,
 				2F6EF033118EF41D00E26E5C /* blender.h */,
 				2F3972811110B8DE00998DC1 /* event.h */,
@@ -481,6 +485,7 @@
 		2F39728E1110B8DE00998DC1 /* source */ = {
 			isa = PBXGroup;
 			children = (
+				2F299BD0119300620064C4FB /* system.c */,
 				2F3972961110B8DE00998DC1 /* iphone */,
 				2F39729A1110B8DE00998DC1 /* lua_wrap */,
 				2F6EF0C0118EF7F000E26E5C /* event.c */,
@@ -1021,6 +1026,7 @@
 				2F6EF0BD118EF7CC00E26E5C /* net.c in Sources */,
 				2F6EF0C2118EF83800E26E5C /* event.c in Sources */,
 				2FC587B711917A4A00BABFFB /* ifopen.m in Sources */,
+				2F299BD1119300620064C4FB /* system.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

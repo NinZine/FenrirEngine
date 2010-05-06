@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2F0D30461127848C00CF9354 /* event.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F0D30441127848C00CF9354 /* event.c */; };
 		2F0D30471127848C00CF9354 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F0D30451127848C00CF9354 /* main.c */; };
+		2F299B7A1192F6A60064C4FB /* system.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F299B791192F6A60064C4FB /* system.c */; };
 		2F2E9FE8110A0581002FCC3F /* mat4.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2E9FDD110A0581002FCC3F /* mat4.c */; };
 		2F2E9FE9110A0581002FCC3F /* quat.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2E9FDE110A0581002FCC3F /* quat.c */; };
 		2F2E9FEA110A0581002FCC3F /* rendering.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2E9FDF110A0581002FCC3F /* rendering.c */; };
@@ -30,10 +31,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2F0D30441127848C00CF9354 /* event.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = event.c; sourceTree = "<group>"; };
+		2F0D30441127848C00CF9354 /* event.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = event.c; path = ../../source/event.c; sourceTree = "<group>"; };
 		2F0D30451127848C00CF9354 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		2F299B341192E37F0064C4FB /* mesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mesh.h; path = ../../include/mesh.h; sourceTree = SOURCE_ROOT; };
 		2F299B351192E3B70064C4FB /* ifopen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ifopen.h; path = ../../include/ifopen.h; sourceTree = SOURCE_ROOT; };
+		2F299B781192F6950064C4FB /* system.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = system.h; path = ../../include/system.h; sourceTree = SOURCE_ROOT; };
+		2F299B791192F6A60064C4FB /* system.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = system.c; path = ../../source/system.c; sourceTree = SOURCE_ROOT; };
 		2F2E9F65110A043A002FCC3F /* ConceptEngine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConceptEngine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F2E9F68110A043A002FCC3F /* ConceptEngine-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ConceptEngine-Info.plist"; sourceTree = "<group>"; };
 		2F2E9FDD110A0581002FCC3F /* mat4.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = mat4.c; path = ../../source/mat4.c; sourceTree = SOURCE_ROOT; };
@@ -89,7 +92,6 @@
 		2F0D30431127848C00CF9354 /* sdl */ = {
 			isa = PBXGroup;
 			children = (
-				2F0D30441127848C00CF9354 /* event.c */,
 				2F0D30451127848C00CF9354 /* main.c */,
 			);
 			name = sdl;
@@ -109,6 +111,7 @@
 		2F2E9F451109FA76002FCC3F /* include */ = {
 			isa = PBXGroup;
 			children = (
+				2F299B781192F6950064C4FB /* system.h */,
 				2FB2C1E311662E2D00C1AECD /* blender.h */,
 				2F396FC7110F4C5D00998DC1 /* event.h */,
 				2F299B351192E3B70064C4FB /* ifopen.h */,
@@ -131,12 +134,14 @@
 				2F2E9FED110A05D7002FCC3F /* osx */,
 				2F0D30431127848C00CF9354 /* sdl */,
 				2FB2C1E611662E6200C1AECD /* blender.c */,
+				2F0D30441127848C00CF9354 /* event.c */,
 				2FFADBA711453E1F00218944 /* image.c */,
 				2F2E9FDD110A0581002FCC3F /* mat4.c */,
 				2F375B4F112D849F00D5DC5E /* net.c */,
 				2F2E9FDE110A0581002FCC3F /* quat.c */,
 				2F2E9FDF110A0581002FCC3F /* rendering.c */,
 				2F3972101110A6D700998DC1 /* sound.c */,
+				2F299B791192F6A60064C4FB /* system.c */,
 				2F2E9FE1110A0581002FCC3F /* vec3.c */,
 			);
 			name = source;
@@ -259,6 +264,7 @@
 				2FB2C1E711662E6200C1AECD /* blender.c in Sources */,
 				2FB2C1E911662E7200C1AECD /* blender_wrap.c in Sources */,
 				2F5CB8EF11862BBF008DC38E /* sound_wrap.c in Sources */,
+				2F299B7A1192F6A60064C4FB /* system.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
