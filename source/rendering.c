@@ -11,10 +11,11 @@
 # include <SDL/SDL.h>
 #endif
 
+#include "log.h"
 #include "rendering.h"
 
 #if defined(__NDS__)
-#elif defined(__IPHONE__)
+#elif defined(__IPHONE__) || defined(__ANDROID__)
 # define GL_DEPTH_ATTACHMENT_EXT GL_DEPTH_ATTACHMENT_OES
 # define GL_DEPTH_COMPONENT16 GL_DEPTH_COMPONENT16_OES
 # define GL_FRAMEBUFFER_COMPLETE_EXT GL_FRAMEBUFFER_COMPLETE_OES
@@ -65,7 +66,7 @@ r_bind_depthbuffer(r_state *buffer)
 {
 	
 #if	defined(__NDS__)
-#elif defined(__IPHONE__) /* !__NDS__ */
+#elif defined(__IPHONE__) || defined(__ANDROID__) /* !__NDS__ */
 	glBindRenderbuffer(GL_RENDERBUFFER_OES, buffer->depth);
 #else
 	glBindRenderbuffer(GL_RENDERBUFFER_EXT, buffer->depth);
@@ -75,14 +76,13 @@ r_bind_depthbuffer(r_state *buffer)
 void
 r_bind_texture(uint16_t id)
 {
-    
+
     glBindTexture(GL_TEXTURE_2D, id);
 }
 
 void
 r_clear(float r, float g, float b)
 {
-	
 #if defined(__NDS__)
 	glClearColor(31, 31, 31, 31);
 	glClearDepth(0x7FFF);
@@ -95,13 +95,11 @@ r_clear(float r, float g, float b)
 void
 r_color(float r, float g, float b)
 {
-	
 	glColor4f(r, g, b, 1);
 }
 
 void r_color4(float r, float g, float b, float a)
 {
-	
 	glColor4f(r, g, b, a);
 }
 
@@ -118,23 +116,21 @@ r_create_window(uint16_t w, uint16_t h)
 	flags = SDL_OPENGL;
 
 	if (SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1))
-	    printf("sdl> no double buffer\n");
+	    log_printf("sdl> no double buffer\n");
 	if (SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 8))
-	    printf("sdl> no depth buffer\n");
+	    log_printf("sdl> no depth buffer\n");
 	if (SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8))
-	    printf("sdl> no stencil buffer\n");
+	    log_printf("sdl> no stencil buffer\n");
 	if (SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1))
-	    printf("sdl> no swapping\n");
+	    log_printf("sdl> no swapping\n");
 
 	surface = SDL_SetVideoMode(w, h, depth, flags);
 	if (!surface) {
-	    printf("sdl> no video\n");
+	    log_printf("sdl> no video\n");
 	    exit(1);
 	}
 
 #endif
-
-	r_set_viewport(0, 0, w, h);
 }
 
 void
@@ -318,8 +314,7 @@ r_pop_matrix()
 
 void
 r_present()
-{
-    
+{   
     glFlush();
 #if defined(__SDL__)
     SDL_GL_SwapBuffers();
@@ -759,11 +754,14 @@ r_set_viewport(int32_t x, int32_t y, int32_t w, int32_t h)
 void
 r_setup_orthogonal_view(float width, float height)
 {
+        glViewport(0, 0, width, height);
 
 	glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
 	glOrthof(-(width/2.0f), (width/2.0f), -(height/2.0f), (height/2.0f),
 			-200.0f, 200.0f);
 	glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
 }
 
 void
@@ -775,8 +773,10 @@ r_setup_perspective_view(float fov, float aspect, float n, float f)
 	GLfloat right = aspect * top;
 	
 	glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
 	glFrustumf(left, right, bottom, top, n, f);
 	glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
 }
 
 /*
@@ -814,7 +814,7 @@ r_upload_texture(uint32_t w, uint32_t h, void *image_data)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glBindTexture(GL_TEXTURE_2D, 0);
-    
+    log_printf("render.upload_texture - ID(%i)",id);
     return id;
 }
 

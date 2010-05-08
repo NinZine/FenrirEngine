@@ -167,6 +167,8 @@ enum key_t {
 	KEY_COMPOSE     = SDLK_COMPOSE,		/**< Multi-key compose key */
 #elif defined(__IPHONE__)
 	KEY_A,
+#elif defined(__ANDROID__)
+	KEY_AWESOME,
 #endif
 };
 

@@ -1,0 +1,29 @@
+ConceptEngine
+
+
+Building Android:
+
+ Requires: 
+
+    Android SDK
+    Android NDK
+    lua 5.1 src
+    libpng 1.4 src
+
+ Setup:
+
+    Edit the following files to contain the correct paths:
+      $(ProjectFolder)/platform/android/paths.prop (alter NDK_DIR and SDK_DIR)
+      $(ProjectFolder)/platform/android/Android.mk (alter LUA_SOURCE_PATH and PNG_SOURCE_PATH)
+    Execute the following scripts:
+      swig.pl __ANDROID__
+      android_setup.sh
+
+ Compile:
+
+    Compile:
+      android.sh
+    Compile & Install to running emulator:
+      android.sh install
+    Uninstall from running emulator
+      android.sh uninstall

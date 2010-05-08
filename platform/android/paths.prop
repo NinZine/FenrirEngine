@@ -1,0 +1,5 @@
+#!/bin/bash
+# Modify these paths to the correct folders for your system
+
+NDK_DIR=/home/nihilist/development/sdk/android-ndk-r3
+SDK_DIR=/home/nihilist/development/sdk/android-sdk-linux_86

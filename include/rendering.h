@@ -11,7 +11,10 @@
 #if defined(__IPHONE__)
 # include <OpenGLES/ES1/gl.h>
 # include <OpenGLES/ES1/glext.h>
-#elif defined(__NDS__) /* !__IPHONE__ */
+#elif defined(__ANDROID__) /* !__IPHONE__ */
+# include <GLES/gl.h>
+# include <GLES/glext.h>
+#elif defined(__NDS__) /* !__ANDROID__ */
 # include <nds.h>
 # define GL_FRONT				POLY_CULL_FRONT
 # define GL_BACK				POLY_CULL_BACK
@@ -21,8 +24,8 @@
 # define glOrthof				glOrtho
 # define glPopMatrix() 			glPopMatrix(1)
 
-#else
-# if defined(__APPLE__) /* !__NDS__ */
+#else /* !__NDS__ */
+# if defined(__APPLE__) 
 #  include <OpenGL/OpenGL.h>
 # else
 #  include <GLee.h>

@@ -7,7 +7,9 @@
 /* TODO: This section is deprecated. */
 #if !defined SWIGLUA
 
-#if defined(__APPLE__)
+#if defined(__ANDROID__)
+typedef int ALuint;
+#elif defined(__APPLE__)
 # include <OpenAL/al.h>
 #else
 # include <AL/al.h>
