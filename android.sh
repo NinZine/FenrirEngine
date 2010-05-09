@@ -2,6 +2,8 @@
 # Build script for android:
 #	./android.sh
 #		compiles ndk and sdk code
+#	./android.sh pack
+#		packs resources into a zip-file so it can be sent to the emulator
 #	./android.sh install
 #		compile and transfer to running emulator
 #	./android.sh uninstall
@@ -11,6 +13,15 @@
 
 source platform/android/paths.prop
 clear
+
+# Pack resources into zip-file
+if [ "$1" == "pack" ]
+  then
+	 mkdir -p platform/android/res/raw/data
+    zip -r platform/android/res/raw/data tests
+    #zip -r platform/android/res/raw/data tests	
+    exit
+fi
 
 # Uninstall then exit to avoid compile
 if [ "$1" == "uninstall" ]
@@ -33,11 +44,7 @@ echo
 $SDK_DIR/tools/android update project --path `dirname $0`/platform/android
 
 echo
-#create an application folder in NDK/apps/concept-engine
-if [ ! -d obj/android ]
-  then
-    mkdir obj/android
-fi
+mkdir -p obj/android
 cp platform/android/default.properties obj/android/default.properties
 
 # compiles NDK code
