@@ -814,7 +814,7 @@ r_upload_texture(uint32_t w, uint32_t h, void *image_data)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glBindTexture(GL_TEXTURE_2D, 0);
-    log_printf("render.upload_texture - ID(%i)",id);
+    log_printf("render> upload texture with ID %i\n",id);
     return id;
 }
 

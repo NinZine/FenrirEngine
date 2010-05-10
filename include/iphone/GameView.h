@@ -11,10 +11,12 @@
 
 @interface GameView : UIView
 {
-	EAGLContext 		*context;
+	EAGLContext *context;
 	r_state 	buffer;
+	BOOL		quit;
 }
 
 - (CGPoint) pointToOpenGL:(CGPoint)point;
+- (void)	update;
 
 @end

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2F2998C91191A78F0064C4FB /* ludumdare in Resources */ = {isa = PBXBuildFile; fileRef = 2F2998AF1191A78F0064C4FB /* ludumdare */; };
 		2F299BD1119300620064C4FB /* system.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F299BD0119300620064C4FB /* system.c */; };
+		2F2E095F11983CF70010F21F /* log.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2E095E11983CF70010F21F /* log.c */; };
 		2F39736F1110BBAD00998DC1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F3972991110B8DE00998DC1 /* main.m */; };
 		2F3973741110BBD200998DC1 /* mat4_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F39729E1110B8DE00998DC1 /* mat4_wrap.c */; };
 		2F3973751110BBD400998DC1 /* quat_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F3972A01110B8DE00998DC1 /* quat_wrap.c */; };
@@ -186,6 +187,8 @@
 		2F2998AF1191A78F0064C4FB /* ludumdare */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ludumdare; path = ../../ludumdare; sourceTree = SOURCE_ROOT; };
 		2F299B6B1192EBF20064C4FB /* system.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = system.h; sourceTree = "<group>"; };
 		2F299BD0119300620064C4FB /* system.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = system.c; sourceTree = "<group>"; };
+		2F2E095D11983CE70010F21F /* log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = log.h; sourceTree = "<group>"; };
+		2F2E095E11983CF70010F21F /* log.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = log.c; sourceTree = "<group>"; };
 		2F3972811110B8DE00998DC1 /* event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = event.h; sourceTree = "<group>"; };
 		2F3972861110B8DE00998DC1 /* Demo2AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Demo2AppDelegate.h; sourceTree = "<group>"; };
 		2F3972871110B8DE00998DC1 /* GameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameView.h; sourceTree = "<group>"; };
@@ -455,6 +458,7 @@
 		2F39727B1110B8DE00998DC1 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				2F2E095D11983CE70010F21F /* log.h */,
 				2F299B6B1192EBF20064C4FB /* system.h */,
 				2F3972851110B8DE00998DC1 /* iphone */,
 				2F6EF033118EF41D00E26E5C /* blender.h */,
@@ -485,7 +489,6 @@
 		2F39728E1110B8DE00998DC1 /* source */ = {
 			isa = PBXGroup;
 			children = (
-				2F299BD0119300620064C4FB /* system.c */,
 				2F3972961110B8DE00998DC1 /* iphone */,
 				2F39729A1110B8DE00998DC1 /* lua_wrap */,
 				2F6EF0C0118EF7F000E26E5C /* event.c */,
@@ -493,9 +496,11 @@
 				2F3972AD1110B8DE00998DC1 /* quat.c */,
 				2F6EF045118EF4C700E26E5C /* blender.c */,
 				2F6EF046118EF4C700E26E5C /* image.c */,
+				2F2E095E11983CF70010F21F /* log.c */,
 				2F6EF047118EF4C700E26E5C /* net.c */,
 				2F3972AE1110B8DE00998DC1 /* rendering.c */,
 				2F3972B01110B8DE00998DC1 /* sound.c */,
+				2F299BD0119300620064C4FB /* system.c */,
 				2F3972B11110B8DE00998DC1 /* vec3.c */,
 			);
 			name = source;
@@ -1027,6 +1032,7 @@
 				2F6EF0C2118EF83800E26E5C /* event.c in Sources */,
 				2FC587B711917A4A00BABFFB /* ifopen.m in Sources */,
 				2F299BD1119300620064C4FB /* system.c in Sources */,
+				2F2E095F11983CF70010F21F /* log.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

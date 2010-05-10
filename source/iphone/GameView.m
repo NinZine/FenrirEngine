@@ -47,6 +47,8 @@ initWithFrame:(CGRect)frame
 		
 		/* Nullify buffer info */
 		bzero(&buffer, sizeof(buffer));
+		
+		quit = NO;
 	}
 	
 	return self;
@@ -111,13 +113,6 @@ touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 		ev.touch.dx = location.x;
 		ev.touch.dy = location.y;
 		event_push(ev);
-		
-		/*for (j = 0; j < num_buttons; ++j) {
-			if ([self buttonTouched:&button[j] point:&current] == YES) {
-				++(button[j]).held;
-				[self buttonTouch:&button[j] point:&current];
-			}
-		}*/
 	}
 }
 
@@ -138,12 +133,6 @@ touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 		ev.touch.dx = location.x;
 		ev.touch.dy = location.y;
 		event_push(ev);
-		
-		/*for (j = 0; j < num_buttons; ++j) {
-			if ([self buttonTouched:&button[j] point:&point] == YES) {
-				--(button[j]).held;
-			}
-		}*/
 	}
 }
 
@@ -167,17 +156,6 @@ touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 		location = [self pointToOpenGL:[touch previousLocationInView:self]];
 		ev.touch.sx = location.x;
 		ev.touch.sy = location.y;
-		
-		/*for (j = 0; j < num_buttons; ++j) {
-			if ([self buttonTouched:&button[j] point:&current] == YES) {
-				if ([self buttonTouched:&button[j] point:&previous] == NO) {
-					++(button[j]).held;
-				}
-				[self buttonTouch:&button[j] point:&current];
-			} else if ([self buttonTouched:&button[j] point:&previous] == YES){
-				--(button[j]).held;
-			}
-		}*/
 	}
 }
 
@@ -187,21 +165,13 @@ touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 - (void)
 update
 {
-	int i;
-	
-	/*for (i = 0; i < num_buttons; ++i) {
-		gh_input(&button[i], i);
-	}
-	
-	game_update();*/
-
 	[EAGLContext setCurrentContext:context];
 	
-	//game_render(&buffer);
 	r_bind_buffers(&buffer);
-	if (0 != sys_update()) {
+	if (NO == quit && 0 != sys_update()) {
 		sys_quit();
 		printf("lua> quit\n");
+		quit = YES;
 	}
 	
 	[context presentRenderbuffer:GL_RENDERBUFFER_OES];
