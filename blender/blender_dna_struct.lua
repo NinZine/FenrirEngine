@@ -1,11 +1,11 @@
 local p = {}
-DNAStruct = p
+dna_struct = p
 
-function p.DNAStruct(type, numFields)
+function p.dna_struct(type, num_fields)
     local self = {}
 
     self.type = type
-    self.numFields = numFields
+    self.num_fields = num_fields
     self.fields = {}
     self.length = 0 
     self.index = nil
@@ -20,5 +20,5 @@ function p.print(self)
     end
 end
 
-return DNAStruct
+return dna_struct
 

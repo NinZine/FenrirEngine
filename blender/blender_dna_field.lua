@@ -1,7 +1,7 @@
 local p = {}
-DNAField = p
+dna_field = p
 
-function p.DNAField(typeIndex, nameIndex)
+function p.dna_field(typeIndex, nameIndex)
     local self = {}
 
     self.typeIndex = typeIndex
@@ -14,18 +14,18 @@ function p.DNAField(typeIndex, nameIndex)
     return self
 end
 
-function p.numArrayItems(self)
+function p.num_array_items(self)
     local num = 1
     
-    self.arrayItems = {}
+    self.array_items = {}
     
-    if p.isArray(self) then
+    if p.is_array(self) then
         local s = string.find(self.name, "[", 1, true)
         local e = string.find(self.name, "]", 1, true)
 
         if s ~= nil and e ~= nil then
             num = tonumber(string.sub(self.name, s+1, e-1))
-            table.insert(self.arrayItems, num)
+            table.insert(self.array_items, num)
             
             local t = string.sub(self.name, e+1)
             s = string.find(t, "[", 1, true)
@@ -41,12 +41,12 @@ function p.numArrayItems(self)
     return num
 end
 
-function p.isArray(self)
+function p.is_array(self)
     return (string.find(self.name, "[", 1, true) ~= nil and
         string.find(self.name, "]", 1, true) ~= nil)
 end
 
-function p.isCType(self)
+function p.is_ctype(self)
     return (
         self.type == "void" or
         self.type == "char" or
@@ -57,16 +57,16 @@ function p.isCType(self)
     )
 end
 
-function p.isPointer(self)
+function p.is_pointer(self)
     return (string.sub(self.name, 1, 1) == "*")
 end
 
-function p.isSimpleType(self)
-    if p.isPointer(self) then return true end
-    return p.isCType(self)
+function p.is_simple_type(self)
+    if p.is_pointer(self) then return true end
+    return p.is_ctype(self)
 end
 
-function p.shortName(self)
+function p.short_name(self)
     local name = self.name
     
     while string.sub(name, 1, 1) == "*" do
@@ -85,5 +85,5 @@ function p.print(self)
 	print("\t" .. self.name .. " (" .. self.type .. ")")
 end
 
-return DNAField
+return dna_field
 

@@ -1,5 +1,5 @@
 local p = {}
-BlendFileHeader = p
+blender_file_header = p
 
 local MAGIC = 'BLENDER';
 local ENDIAN_BIG = 'V';
@@ -7,7 +7,7 @@ local ENDIAN_LITTLE = 'v';
 local POINTERSIZE_4 = '_';
 local POINTERSIZE_8 = '-';
 
-function p.BlendFileHeader(data)
+function p.file_header(data)
     local self = {}
     data:seek("set", 0)
     
@@ -34,5 +34,5 @@ function p.BlendFileHeader(data)
     return self
 end
 
-return BlendFileHeader
+return blender_file_header
 

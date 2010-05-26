@@ -1,24 +1,35 @@
 package.path = package.path .. ";./blender/?.lua"
-require 'DNAField'
-require 'DNAStruct'
-require 'BlendFile'
+require 'blender_dna_field'
+require 'blender_dna_struct'
+require 'blender_file'
 
-function init(filename)
-    local blend = BlendFile.BlendFile()
+local p = {
+	block_header = blender_block_header,
+	dna_field = blender_dna_field,
+	dna_field_instance = blender_dna_field_instance,
+	dna_repository = blender_dna_repository,
+	dna_struct = blender_dna_struct,
+	file = blender_file,
+	file_header = blender_file_header,
+}
+blender = p
+
+function p.load(filename)
+    local blend = p.file.file()
     
-    BlendFile.read(blend, io.open(filename, "rb"))
+    p.file.read(blend, io.open(filename, "rb"))
     
     --printDNA(blend)
     if #blend.scenes then
         local scene = blend.scenes[1]
-        buildScene(scene)
+        p.build_scene(scene)
     end
     --[[for k,v in pairs(blend._blockByPointer) do
         print(k)
     end]]--
 end
 		
-function buildScene(scene)
+function p.build_scene(scene)
 
     local obj = scene.base.first
     
@@ -37,10 +48,9 @@ function buildScene(scene)
         if object.data then
             if 1 == object.type then
                 print(" -> Mesh: " .. object.data.id.name)
-                buildMesh(object.data);
+                p.build_mesh(object.data);
             elseif 10 == object.type  then
 				print(" -> Lamp: " .. object.data.id.name)
-                    break;
             elseif 11 == object.type then
                 print(" -> Camera: " .. object.data.id.name)
 			else
@@ -52,7 +62,7 @@ function buildScene(scene)
     end
 end
 
-function buildMesh(mesh)
+function p.build_mesh(mesh)
 
     print("blender> " .. mesh.totvert);
     for i=1, mesh.totvert do
@@ -77,6 +87,10 @@ function buildMesh(mesh)
         
         print("blender> indices (" .. v1 .. ", " .. v2 .. ", " .. v3
 			.. ", " .. v4 .. ")")
+
+		if v4 > 0 then
+			local tri = blender_util.quad_to_tri(f, mesh.mvert)
+		end
         
         if mesh.mtface then
             -- UV coords are defined
@@ -87,7 +101,7 @@ function buildMesh(mesh)
     end
 end
 
-function printDNA(blend)
+function p.print_dna(blend)
     local struct
     local field
     
@@ -102,11 +116,13 @@ function printDNA(blend)
     end
 end
 
-function printObject(object)
+function p.print_object(object)
     for i, v in pairs(object) do
         print(i .. " : " .. v)
     end
 end
 
-init("./tests/drutten.blend")
+p.load("./tests/drutten.blend")
+
+return blender
 
