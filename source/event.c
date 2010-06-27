@@ -40,6 +40,18 @@ event_convert(SDL_Event *e)
             t.key.c = e->key.keysym.unicode;
 			t.key.sym = e->key.keysym.sym;
 			break;
+		case SDL_MOUSEBUTTONDOWN:
+			t.type = TOUCHDOWN;
+			t.touch.type = TOUCHDOWN;
+			t.touch.dx = e->button.x;
+			t.touch.dy = e->button.y;
+			break;
+		case SDL_MOUSEBUTTONUP:
+			t.type = TOUCHUP;
+			t.touch.type = TOUCHUP;
+			t.touch.dx = e->button.x;
+			t.touch.dy = e->button.y;
+			break;
     }
 
     return t;
