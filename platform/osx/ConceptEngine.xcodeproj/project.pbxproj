@@ -27,7 +27,6 @@
 		2F3972111110A6D700998DC1 /* sound.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F3972101110A6D700998DC1 /* sound.c */; };
 		2F5CB8EF11862BBF008DC38E /* sound_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F5CB8ED11862BBF008DC38E /* sound_wrap.c */; };
 		2FB2C1E711662E6200C1AECD /* blender.c in Sources */ = {isa = PBXBuildFile; fileRef = 2FB2C1E611662E6200C1AECD /* blender.c */; };
-		2FB2C1E911662E7200C1AECD /* blender_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 2FB2C1E811662E7200C1AECD /* blender_wrap.c */; };
 		2FFADBA811453E1F00218944 /* image.c in Sources */ = {isa = PBXBuildFile; fileRef = 2FFADBA711453E1F00218944 /* image.c */; };
 		2FFADBB8114540B600218944 /* image_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 2FFADBB6114540B600218944 /* image_wrap.c */; };
 /* End PBXBuildFile section */
@@ -75,9 +74,7 @@
 		2F5CB8ED11862BBF008DC38E /* sound_wrap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sound_wrap.c; sourceTree = "<group>"; };
 		2F5CB8EE11862BBF008DC38E /* sound.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; path = sound.i; sourceTree = "<group>"; };
 		2FB2C1E311662E2D00C1AECD /* blender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = blender.h; path = ../../include/blender.h; sourceTree = SOURCE_ROOT; };
-		2FB2C1E411662E3C00C1AECD /* blender.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; path = blender.i; sourceTree = "<group>"; };
 		2FB2C1E611662E6200C1AECD /* blender.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = blender.c; path = ../../source/blender.c; sourceTree = SOURCE_ROOT; };
-		2FB2C1E811662E7200C1AECD /* blender_wrap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = blender_wrap.c; sourceTree = "<group>"; };
 		2FCE73151142C9B500D77BBC /* image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = image.h; path = ../../include/image.h; sourceTree = SOURCE_ROOT; };
 		2FFADBA711453E1F00218944 /* image.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = image.c; path = ../../source/image.c; sourceTree = SOURCE_ROOT; };
 		2FFADBB6114540B600218944 /* image_wrap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = image_wrap.c; sourceTree = "<group>"; };
@@ -180,8 +177,6 @@
 				2F17BE4F119C3AB800CB4D36 /* util.i */,
 				2F5CB8ED11862BBF008DC38E /* sound_wrap.c */,
 				2F5CB8EE11862BBF008DC38E /* sound.i */,
-				2FB2C1E811662E7200C1AECD /* blender_wrap.c */,
-				2FB2C1E411662E3C00C1AECD /* blender.i */,
 				2FFADBB6114540B600218944 /* image_wrap.c */,
 				2FFADBB7114540B600218944 /* image.i */,
 				2F375B96112D99AD00D5DC5E /* net_wrap.c */,
@@ -272,7 +267,6 @@
 				2FFADBA811453E1F00218944 /* image.c in Sources */,
 				2FFADBB8114540B600218944 /* image_wrap.c in Sources */,
 				2FB2C1E711662E6200C1AECD /* blender.c in Sources */,
-				2FB2C1E911662E7200C1AECD /* blender_wrap.c in Sources */,
 				2F5CB8EF11862BBF008DC38E /* sound_wrap.c in Sources */,
 				2F299B7A1192F6A60064C4FB /* system.c in Sources */,
 				2F2E093011983B740010F21F /* log.c in Sources */,

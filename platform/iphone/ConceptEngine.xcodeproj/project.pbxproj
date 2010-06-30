@@ -76,7 +76,6 @@
 		2F6EEFC0118EEBF700E26E5C /* lzio.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F6EEF88118EEBF700E26E5C /* lzio.h */; };
 		2F6EEFC2118EEBF700E26E5C /* print.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F6EEF8A118EEBF700E26E5C /* print.c */; };
 		2F6EEFE2118EEE1C00E26E5C /* event_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F39729C1110B8DE00998DC1 /* event_wrap.c */; };
-		2F6EEFE3118EEE1E00E26E5C /* blender_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F6EEFCE118EEDE400E26E5C /* blender_wrap.c */; };
 		2F6EEFE4118EEE2000E26E5C /* image_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F6EEFD0118EEDE400E26E5C /* image_wrap.c */; };
 		2F6EEFE5118EEE2100E26E5C /* net_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F6EEFD2118EEDE400E26E5C /* net_wrap.c */; };
 		2F6EEFE6118EEE2600E26E5C /* sound_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F6EEFD4118EEDE400E26E5C /* sound_wrap.c */; };
@@ -122,6 +121,9 @@
 		2F6EF22D118F09D900E26E5C /* test.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F6EF21B118F09D900E26E5C /* test.png */; };
 		2F6EF22E118F09D900E26E5C /* texcoords.lua in Resources */ = {isa = PBXBuildFile; fileRef = 2F6EF21C118F09D900E26E5C /* texcoords.lua */; };
 		2F6EF22F118F09D900E26E5C /* vec3.lua in Resources */ = {isa = PBXBuildFile; fileRef = 2F6EF21D118F09D900E26E5C /* vec3.lua */; };
+		2F86C5E911DB810200B6D46E /* util_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F86C5E711DB810100B6D46E /* util_wrap.c */; };
+		2F86C60511DB83B300B6D46E /* game in Resources */ = {isa = PBXBuildFile; fileRef = 2F86C60111DB83B300B6D46E /* game */; };
+		2FAAFF3C11DB847600B54FA6 /* blender in Resources */ = {isa = PBXBuildFile; fileRef = 2FAAFF3011DB847600B54FA6 /* blender */; };
 		2FC587B711917A4A00BABFFB /* ifopen.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FC587B611917A4A00BABFFB /* ifopen.m */; };
 		2FC587FF1191809800BABFFB /* house.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 2FC587FE1191809800BABFFB /* house.ogg */; };
 		2FFB8C8711918F5E0074FA84 /* bitwise.c in Sources */ = {isa = PBXBuildFile; fileRef = 2FFB8C8311918F5E0074FA84 /* bitwise.c */; };
@@ -271,8 +273,6 @@
 		2F6EEF87118EEBF700E26E5C /* lzio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = lzio.c; path = "/Users/ninzine/Code/SDK/lua-5.1/src/lzio.c"; sourceTree = "<absolute>"; };
 		2F6EEF88118EEBF700E26E5C /* lzio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = lzio.h; path = "/Users/ninzine/Code/SDK/lua-5.1/src/lzio.h"; sourceTree = "<absolute>"; };
 		2F6EEF8A118EEBF700E26E5C /* print.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = print.c; path = "/Users/ninzine/Code/SDK/lua-5.1/src/print.c"; sourceTree = "<absolute>"; };
-		2F6EEFCE118EEDE400E26E5C /* blender_wrap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = blender_wrap.c; path = /Users/ninzine/Code/Lua/ConceptEngine/source/lua_wrap/blender_wrap.c; sourceTree = "<absolute>"; };
-		2F6EEFCF118EEDE400E26E5C /* blender.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = blender.i; path = /Users/ninzine/Code/Lua/ConceptEngine/source/lua_wrap/blender.i; sourceTree = "<absolute>"; };
 		2F6EEFD0118EEDE400E26E5C /* image_wrap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = image_wrap.c; path = /Users/ninzine/Code/Lua/ConceptEngine/source/lua_wrap/image_wrap.c; sourceTree = "<absolute>"; };
 		2F6EEFD1118EEDE400E26E5C /* image.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = image.i; path = /Users/ninzine/Code/Lua/ConceptEngine/source/lua_wrap/image.i; sourceTree = "<absolute>"; };
 		2F6EEFD2118EEDE400E26E5C /* net_wrap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = net_wrap.c; path = /Users/ninzine/Code/Lua/ConceptEngine/source/lua_wrap/net_wrap.c; sourceTree = "<absolute>"; };
@@ -324,6 +324,10 @@
 		2F6EF21B118F09D900E26E5C /* test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = test.png; path = /Users/ninzine/Code/Lua/ConceptEngine/tests/test.png; sourceTree = "<absolute>"; };
 		2F6EF21C118F09D900E26E5C /* texcoords.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = texcoords.lua; path = /Users/ninzine/Code/Lua/ConceptEngine/tests/texcoords.lua; sourceTree = "<absolute>"; };
 		2F6EF21D118F09D900E26E5C /* vec3.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = vec3.lua; path = /Users/ninzine/Code/Lua/ConceptEngine/tests/vec3.lua; sourceTree = "<absolute>"; };
+		2F86C5E711DB810100B6D46E /* util_wrap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = util_wrap.c; sourceTree = "<group>"; };
+		2F86C5E811DB810200B6D46E /* util.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; path = util.i; sourceTree = "<group>"; };
+		2F86C60111DB83B300B6D46E /* game */ = {isa = PBXFileReference; lastKnownFileType = folder; name = game; path = ../../game; sourceTree = SOURCE_ROOT; };
+		2FAAFF3011DB847600B54FA6 /* blender */ = {isa = PBXFileReference; lastKnownFileType = folder; name = blender; path = ../../blender; sourceTree = SOURCE_ROOT; };
 		2FC587B51191796F00BABFFB /* ifopen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ifopen.h; sourceTree = "<group>"; };
 		2FC587B611917A4A00BABFFB /* ifopen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ifopen.m; sourceTree = "<group>"; };
 		2FC587FE1191809800BABFFB /* house.ogg */ = {isa = PBXFileReference; lastKnownFileType = file; path = house.ogg; sourceTree = "<group>"; };
@@ -441,6 +445,8 @@
 		2F39726B1110B83E00998DC1 = {
 			isa = PBXGroup;
 			children = (
+				2FAAFF3011DB847600B54FA6 /* blender */,
+				2F86C60111DB83B300B6D46E /* game */,
 				2F2998AF1191A78F0064C4FB /* ludumdare */,
 				2FFB8C9E119190530074FA84 /* vorbis */,
 				2FFB8C8211918F5E0074FA84 /* ogg */,
@@ -521,8 +527,6 @@
 		2F39729A1110B8DE00998DC1 /* lua_wrap */ = {
 			isa = PBXGroup;
 			children = (
-				2F6EEFCE118EEDE400E26E5C /* blender_wrap.c */,
-				2F6EEFCF118EEDE400E26E5C /* blender.i */,
 				2F6EEFD0118EEDE400E26E5C /* image_wrap.c */,
 				2F6EEFD1118EEDE400E26E5C /* image.i */,
 				2F6EEFD2118EEDE400E26E5C /* net_wrap.c */,
@@ -538,6 +542,8 @@
 				2F3972A11110B8DE00998DC1 /* render.i */,
 				2F3972A21110B8DE00998DC1 /* render_wrap.c */,
 				2F3972A31110B8DE00998DC1 /* vec3.i */,
+				2F86C5E711DB810100B6D46E /* util_wrap.c */,
+				2F86C5E811DB810200B6D46E /* util.i */,
 				2F3972A41110B8DE00998DC1 /* vec3_wrap.c */,
 			);
 			path = lua_wrap;
@@ -999,6 +1005,8 @@
 				2F6EF22F118F09D900E26E5C /* vec3.lua in Resources */,
 				2FC587FF1191809800BABFFB /* house.ogg in Resources */,
 				2F2998C91191A78F0064C4FB /* ludumdare in Resources */,
+				2F86C60511DB83B300B6D46E /* game in Resources */,
+				2FAAFF3C11DB847600B54FA6 /* blender in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1022,7 +1030,6 @@
 				2F3973811110BC0500998DC1 /* sound.c in Sources */,
 				2F3973821110BC0800998DC1 /* vec3.c in Sources */,
 				2F6EEFE2118EEE1C00E26E5C /* event_wrap.c in Sources */,
-				2F6EEFE3118EEE1E00E26E5C /* blender_wrap.c in Sources */,
 				2F6EEFE4118EEE2000E26E5C /* image_wrap.c in Sources */,
 				2F6EEFE5118EEE2100E26E5C /* net_wrap.c in Sources */,
 				2F6EEFE6118EEE2600E26E5C /* sound_wrap.c in Sources */,
@@ -1033,6 +1040,7 @@
 				2FC587B711917A4A00BABFFB /* ifopen.m in Sources */,
 				2F299BD1119300620064C4FB /* system.c in Sources */,
 				2F2E095F11983CF70010F21F /* log.c in Sources */,
+				2F86C5E911DB810200B6D46E /* util_wrap.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1167,7 +1175,7 @@
 					"/Users/ninzine/Code/SDK/libvorbis-1.2.0/include",
 					"/Users/ninzine/Code/SDK/libogg-1.1.4/include",
 				);
-				SDKROOT = iphonesimulator3.1.2;
+				SDKROOT = iphonesimulator3.2;
 			};
 			name = Debug;
 		};
@@ -1175,7 +1183,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
-				SDKROOT = iphonesimulator3.1.2;
+				SDKROOT = iphonesimulator3.2;
 			};
 			name = Release;
 		};
@@ -1253,6 +1261,7 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "-D__IPHONE__";
 				PREBINDING = NO;
 				PRODUCT_NAME = Lua;
 			};

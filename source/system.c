@@ -9,7 +9,7 @@
 #include "sound.h"
 #include "system.h"
 
-extern int luaopen_blender(lua_State* L);
+//extern int luaopen_blender(lua_State* L);
 extern int luaopen_event(lua_State* L);
 extern int luaopen_image(lua_State* L);
 extern int luaopen_mat4(lua_State* L);
@@ -18,8 +18,10 @@ extern int luaopen_quat(lua_State* L);
 extern int luaopen_render(lua_State* L);
 extern int luaopen_sound(lua_State* L);
 extern int luaopen_vec3(lua_State* L);
+extern int luaopen_util(lua_State* L);
 
 static void l_message (const char *pname, const char *msg);
+static void open_blender(lua_State *L);
 static int 	report (lua_State *L, int status);
 
 static lua_State *lua_state = 0;
@@ -31,6 +33,23 @@ l_message (const char *pname, const char *msg)
 	
 	printf("%s\n", msg);
 	//fflush(stderr);
+}
+
+void
+open_blender(lua_State *L)
+{
+	const char b[] = "blender/blender.lua";
+	const char *f;
+	int status;
+
+#if defined(__IPHONE__)
+	f = full_path_to_file(b);
+#else
+	f = b;
+#endif
+
+	status = luaL_dofile(L, f);
+	report(L, status);
 }
 
 int
@@ -78,7 +97,8 @@ sys_start(int argc, char *argv[])
 	luaopen_render(L);
 	luaopen_sound(L);
 	luaopen_net(L);
-	luaopen_blender(L);
+	luaopen_util(L);
+	//luaopen_blender(L);
 	
 	lua_getglobal(L, "package");
 	if (LUA_TTABLE != lua_type(L, 1)) {
@@ -111,6 +131,7 @@ sys_start(int argc, char *argv[])
 	f = argv[1];
 #endif
 
+	open_blender(L);
 	printf("lua> initialized\n");
 	printf("lua> loading %s\n", f);
 	

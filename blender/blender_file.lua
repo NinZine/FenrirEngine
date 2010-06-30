@@ -111,7 +111,7 @@ function p.read_block(self, data, block)
 	print("Struct: " .. self.dna.types[struct.type])
     dna_struct.print(struct)
     data:seek("set", block.position)
-	print("block.count: " .. block.count)
+	--print("block.count: " .. block.count)
     for i=1, block.count do
         local v = p.read_struct(self, data, struct)
         if block.count > 1 then
@@ -120,7 +120,7 @@ function p.read_block(self, data, block)
             result = v
         end
     end
-	print("Done" .. self.dna.types[struct.type])
+	print("Done " .. self.dna.types[struct.type])
 
     return result
 end
@@ -140,11 +140,11 @@ end
 function p.read_field(self, data, field, object)
     local shortName = dna_field.short_name(field)
     
-	print(field.name .. "(" .. field.type .. ")")
+	--print(field.name .. "(" .. field.type .. ")")
     if dna_field.is_pointer(field) then
         local pointer = p.read_pointer(self, data)
         
-		print("complex pointer: " .. pointer)
+		--print("complex pointer: " .. pointer)
         if pointer ~= 0 and not self.read_pointers[pointer] then
             self.read_pointers[pointer] = 1
 
@@ -163,12 +163,12 @@ function p.read_field(self, data, field, object)
         and dna_field.is_array(field) then
             value = table.concat(value)
             object[shortName] = value --p.readCharArray(data)	
-            print(field.name .. " = " .. object[shortName])
+            --print(field.name .. " = " .. object[shortName])
         else
             if value then
                 if #value == 1 then
 					object[shortName] = value[1]
-					print(field.name .. " = " .. object[shortName])
+					--print(field.name .. " = " .. object[shortName])
 				else object[shortName] = value
                 end
             end

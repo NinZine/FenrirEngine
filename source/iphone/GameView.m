@@ -19,7 +19,7 @@
 
 #import "GameView.h"
 
-static char *argv[] = {"conceptengine.app", "ludumdare/main.lua"};
+static char *argv[] = {"conceptengine.app", "game/main.lua"};
 
 @implementation GameView
 
