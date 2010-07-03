@@ -19,9 +19,11 @@
 %rename(generate_texcoords) r_generate_texcoords;
 %rename(disable_blending) r_disable_blending;
 %rename(disable_culling) r_disable_culling;
+%rename(disable_texcoords) r_disable_texcoords;
 %rename(enable_blending) r_enable_blending;
 %rename(enable_culling) r_enable_culling;
 %rename(enable_light) r_enable_light;
+%rename(enable_texcoords) r_enable_texcoords;
 %rename(free_texture) r_free_texture;
 %rename(load_identity) r_load_identity;
 %rename(load_matrix) r_load_matrix;

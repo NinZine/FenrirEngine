@@ -39,8 +39,7 @@ img_load(const char *filename)
 	png_structp png_ptr;
 	png_infop info_ptr, end_ptr;
 	png_bytep *row_pointer;
-	int 	color_type,
-			i,
+	int 	i,
 			is_png,
 			rowbytes;
     png_uint_32 w, h;
@@ -93,13 +92,13 @@ img_load(const char *filename)
 	png_init_io(png_ptr, fp);
 	png_set_sig_bytes(png_ptr, 8);
 	png_read_info(png_ptr, info_ptr);
-	png_get_IHDR(png_ptr, info_ptr, &w, &h, &img.bpp, &color_type, NULL,
+	png_get_IHDR(png_ptr, info_ptr, &w, &h, &img.bpp, &img.type, NULL,
 		NULL, NULL);
     img.w = w;
     img.h = h;
-    if (6 != color_type)
+    if (PNG_COLOR_TYPE_RGB != img.type || PNG_COLOR_TYPE_RGB_ALPHA != img.type)
         printf("img> warning: color type should be 6 (rgb alpha) but is %d\n",
-            color_type);
+            img.type);
 	
     png_read_update_info(png_ptr, info_ptr);
 	rowbytes = png_get_rowbytes(png_ptr, info_ptr);

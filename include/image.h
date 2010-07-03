@@ -7,7 +7,8 @@ typedef struct image {
 	char 		*filename;
 	uint32_t	w,
 				h;
-	int			bpp;
+    int32_t		bpp;
+    int32_t     type;
 	void 		*data;
 } image;
 

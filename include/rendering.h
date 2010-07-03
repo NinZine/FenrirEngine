@@ -68,10 +68,12 @@ float*	 r_generate_texcoords(uint32_t width, uint32_t heigth,
 
 void r_disable_blending();
 void r_disable_culling();
+void r_disable_texcoords();
 
 void r_enable_blending();
-void r_enable_culling(GLenum culling);
+void r_enable_culling(int16_t culling);
 void r_enable_light(int8_t n);
+void r_enable_texcoords(float *coords);
 
 void r_load_identity();
 void r_load_matrix(const float m[4][4]);
@@ -112,7 +114,8 @@ void r_setup_perspective_view(float fov, float aspect, float n, float f);
 void r_take_screenshot(char *pixels, r_state *buffer);
 void r_translate(float x, float y, float z);
 
-uint16_t r_upload_texture(uint32_t w, uint32_t h, void *image_data);
+uint16_t r_upload_texture(uint32_t w, uint32_t h, int8_t bpp, int8_t type,
+    void *image_data);
 
 #endif /* !_RENDERING_H_ */
 

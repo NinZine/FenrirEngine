@@ -7,6 +7,8 @@
 #include <stdint.h>
 #include <stdlib.h>
 
+#include <png.h>
+
 #if defined(__SDL__)
 # include <SDL/SDL.h>
 #endif
@@ -71,6 +73,7 @@ r_bind_depthbuffer(r_state *buffer)
 #else
 	glBindRenderbuffer(GL_RENDERBUFFER_EXT, buffer->depth);
 #endif
+    glEnable(GL_DEPTH_TEST);
 }
 
 void
@@ -152,6 +155,14 @@ r_disable_culling()
 }
 
 void
+r_disable_texcoords()
+{
+    
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glDisable(GL_TEXTURE_2D);
+}
+
+void
 r_enable_blending()
 {
 
@@ -160,8 +171,15 @@ r_enable_blending()
 }
 
 void
-r_enable_culling(GLenum culling)
+r_enable_culling(int16_t culling)
 {
+    
+    if (culling == 1)
+        culling = GL_FRONT;
+    else if (culling == 2)
+        culling = GL_BACK;
+    else
+        culling = GL_FRONT_AND_BACK;
 
 #if defined(__NDS__)
     glPolyFmt(POLY_ALPHA(31) | culling | POLY_FORMAT_LIGHT0);
@@ -181,6 +199,15 @@ r_enable_light(int8_t light_num)
 	//glEnable(GL_COLOR_MATERIAL); /* Color is the material */
 	glShadeModel(GL_SMOOTH);
 #endif
+}
+
+void
+r_enable_texcoords(float *coords)
+{
+    
+    glEnable(GL_TEXTURE_2D);
+	glTexCoordPointer(2, GL_FLOAT, 0, coords);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
 void
@@ -803,13 +830,20 @@ r_translate(float x, float y, float z)
 }
 
 uint16_t
-r_upload_texture(uint32_t w, uint32_t h, void *image_data)
+r_upload_texture(uint32_t w, uint32_t h, int8_t bpp, int8_t type, void *image_data)
 {
     GLuint id;
+    GLint t;
+    GLenum b;
+
+    if (PNG_COLOR_TYPE_RGB == type)
+        t = GL_RGB;
+    else if (PNG_COLOR_TYPE_RGB_ALPHA == type)
+        t = GL_RGBA;
 
     glGenTextures(1, &id);
     glBindTexture(GL_TEXTURE_2D, id);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE,
+    glTexImage2D(GL_TEXTURE_2D, 0, t, w, h, 0, t, GL_UNSIGNED_BYTE,
         (GLvoid*)image_data);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
