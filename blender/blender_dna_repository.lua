@@ -69,7 +69,7 @@ function p.read_structs(self, data)
             blender_util.convert(data:read(2))+1,
             blender_util.convert(data:read(2)))
 
-		print("Struct: " .. self.types[struct.type])
+		print("Struct (" .. i .. "): " .. self.types[struct.type])
         
         for j=1, struct.num_fields do
             local field = dna_field.dna_field(
@@ -78,18 +78,27 @@ function p.read_structs(self, data)
             
             field.name = self.names[field.nameIndex]
             field.type = self.types[field.typeIndex]
-            field.length = self.lengths[field.typeIndex]
-            
-            struct.fields[j] = field
-            struct.length = struct.length + field.length
+			if dna_field.is_pointer(field) then
+				field.length = self.header.ptr_size
+			else
+            	field.length = self.lengths[field.typeIndex]
+            end
+			--field.length = self.lengths[field.typeIndex]
 
+			if dna_field.is_array(field) then
+				field.length = field.length * dna_field.num_array_items(field)
+			end
+
+            struct.fields[j] = field
 			dna_field.print(field)
         end
         
         struct.index = i
+		struct.length = self.lengths[struct.type]
         self.structs[i] = struct
         
         self.struct_by_type[self.types[struct.type]] = struct
+		print(" size: " .. struct.length)
     end
 end
 

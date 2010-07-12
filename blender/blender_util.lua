@@ -9,6 +9,23 @@ function p.convert(str)
   return _b2n(256, string.byte(str, 1, -1))
 end
 
+--[[function p.convert(str)
+  local function _b2n(num, digit, ...)
+    if not digit then return num end
+    return _b2n(num*256 + digit, ...)
+  end
+  return _b2n(0, string.byte(str, 1, -1))
+end]]--
+
+function p.hex(str)
+	local s = ""
+	for i=1, string.len(str) do
+		s = s .. string.format("%.2X", str:byte(i))
+	end
+
+	return s
+end
+
 function p.convertfloat(str)
       -- Change to b4,b3,b2,b1 to unpack an LSB float
       local b4,b3,b2,b1 = string.byte(str, 1, 4)

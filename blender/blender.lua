@@ -93,6 +93,10 @@ function p.build_mesh(mesh)
 		table.insert(vertices, x)
 		table.insert(vertices, y)
 		table.insert(vertices, z)
+
+		if mesh.dvert then
+			--print(mesh.dvert[i].totweight)
+		end
     end
     
     print("blender> faces " .. mesh.totface)
@@ -156,6 +160,18 @@ function p.build_mesh(mesh)
 	.. " vertices: " .. m.vertices .. " uvs: " .. m.uv_coords / 2)
 
 	return m
+end
+
+function p.get_all_objects(blend, name)
+	local o = {}
+	local tmp = blend.scenes[1].base.first
+
+	while tmp do
+		table.insert(o, tmp)
+		tmp = tmp.next
+	end
+	
+	return o
 end
 
 function p.get_object(blend, name)

@@ -58,7 +58,8 @@ function p.is_ctype(self)
 end
 
 function p.is_pointer(self)
-    return (string.sub(self.name, 1, 1) == "*")
+    return (string.sub(self.name, 1, 1) == "*"
+		or string.sub(self.name, 1, 1) == "(")
 end
 
 function p.is_simple_type(self)
