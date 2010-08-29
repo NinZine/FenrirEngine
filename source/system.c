@@ -68,7 +68,8 @@ void
 sys_quit()
 {
 	s_quit();
-	lua_close(lua_state);
+	if (lua_state)
+		lua_close(lua_state);
 }
 
 int
@@ -79,8 +80,8 @@ sys_start(int argc, char *argv[])
 	lua_State *L;
 	
 	if (argc<2) {
-		printf("%s: <filename.lua>\n",argv[0]);
-		return 0;
+		printf("%s: <filename.lua>\n", argv[0]);
+		return 1;
 	}
 	
     s_init();

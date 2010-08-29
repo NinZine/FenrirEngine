@@ -448,6 +448,9 @@ s_quit()
 {
 	uint8_t i;
 	
+	if (!device)
+		return;
+	
 	/* Free latched sources */
 	for (i = 0; i < 255; ++i) {
 		if (0 != latched[i]) {

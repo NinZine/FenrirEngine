@@ -96,7 +96,7 @@ img_load(const char *filename)
 		NULL, NULL);
     img.w = w;
     img.h = h;
-    if (PNG_COLOR_TYPE_RGB != img.type || PNG_COLOR_TYPE_RGB_ALPHA != img.type)
+    if (PNG_COLOR_TYPE_RGB != img.type && PNG_COLOR_TYPE_RGB_ALPHA != img.type)
         printf("img> warning: color type should be 6 (rgb alpha) but is %d\n",
             img.type);
 	
