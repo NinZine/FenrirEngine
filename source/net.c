@@ -43,6 +43,52 @@ net_itoip(uint32_t ip)
     return inet_ntoa(in);
 }
 
+/* Open an TCP socket. Set ip to 0 to listen, port to 0 for next available. */
+int
+net_open_tcp(uint32_t ip, uint16_t port)
+{
+	struct sockaddr_in sin;
+	int s;
+
+	if (-1 == (s = socket(PF_INET, SOCK_STREAM, 0))) {
+		return s;
+	}
+
+/*#if defined(WIN32)
+    u_long flags;
+    ioctlsocket(s, FIONBIO, &flags);
+#else
+    fcntl(s, F_SETFL, O_NONBLOCK);
+#endif*/
+
+    if (0 == ip) {
+		/* Listen */
+        sin.sin_addr.s_addr = INADDR_ANY;
+	} else {
+		/* Connect */
+		struct sockaddr_in server;
+		/*sin.sin_family = AF_INET;
+        sin.sin_addr.s_addr = INADDR_ANY;
+		if (0 != bind(s, (struct sockaddr *)&sin, sizeof(sin))) {
+			printf("net> could not bind socket\n");
+		}*/
+
+		printf("net> connecting to %s\n", net_itoip(ip));
+		server.sin_family = AF_INET;
+		server.sin_addr.s_addr = ip;
+		server.sin_port = htons(port);
+		memset(server.sin_zero, '\0', sizeof(server.sin_zero));
+		if (0 != connect(s, (struct sockaddr *)&server, sizeof(server))) {
+			printf("net> could not connect. %s\n", strerror(errno));
+			close(s);
+			s = -1;
+		}
+    }
+
+	return s;
+}
+
+/* Open an UDP socket. Set ip to 0 to listen, port to 0 for next available. */
 int
 net_open_udp(uint32_t ip, uint16_t port)
 {
@@ -107,13 +153,14 @@ net_recv(int s)
 uint32_t
 net_resolve_host(const char *hostname)
 {
-    struct sockaddr_in *s;
+    struct addrinfo *s;
 
-    if (0 != getaddrinfo(hostname, 0, 0, (struct addrinfo **)&s)) {
+    if (0 != getaddrinfo(hostname, NULL, NULL, &s)) {
         printf("net> could not resolve %s\n", hostname);
-    }
+    	return 0;
+	}
 
-    return s->sin_addr.s_addr;
+	return ((struct sockaddr_in *)s->ai_addr)->sin_addr.s_addr;
 }
 
 void
@@ -122,16 +169,23 @@ net_send(int socket, const char *msg, uint32_t ip, uint16_t port)
     struct sockaddr_in sin;
     int bytes;
 
-    sin.sin_family = AF_INET;
-    sin.sin_port = htons(port);
-    sin.sin_addr.s_addr = ip;
+	if (ip) {
+		sin.sin_family = AF_INET;
+		sin.sin_port = htons(port);
+		sin.sin_addr.s_addr = ip;
 
-    bytes = sendto(socket, msg, strlen(msg)+1, 0, (struct sockaddr *)&sin,
-        sizeof(sin));
-    if (-1 == bytes) {
-        printf("net> failed to send.%s\n", strerror(errno));
-    } else {
-        //printf("sent %d bytes to %s\n", bytes, inet_ntoa(sin.sin_addr));
-    }
+		bytes = sendto(socket, msg, strlen(msg)+1, 0, (struct sockaddr *)&sin,
+			sizeof(sin));
+		if (-1 == bytes) {
+			printf("net> failed sendto. %s\n", strerror(errno));
+		} else {
+			//printf("sent %d bytes to %s\n", bytes, inet_ntoa(sin.sin_addr));
+		}
+	} else {
+		bytes = send(socket, msg, strlen(msg)+1, 0);
+		if (-1 == bytes) {
+			printf("net> failed to send. %s\n", strerror(errno));
+		}
+	}
 }
 

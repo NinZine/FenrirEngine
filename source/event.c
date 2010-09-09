@@ -52,6 +52,16 @@ event_convert(SDL_Event *e)
 			t.touch.dx = e->button.x;
 			t.touch.dy = e->button.y;
 			break;
+		case SDL_MOUSEMOTION:
+			if (e->motion.state) {
+				t.type = TOUCHDOWN;
+				t.touch.type = TOUCHDOWN;
+				t.touch.dx = e->motion.x;
+				t.touch.dy = e->motion.y;
+				t.touch.sx = e->motion.x - e->motion.xrel;
+				t.touch.sy = e->motion.y - e->motion.yrel;
+			}
+			break;
     }
 
     return t;

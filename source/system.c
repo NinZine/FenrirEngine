@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -31,7 +32,7 @@ l_message (const char *pname, const char *msg)
 {
 	if (pname) printf("%s: ", pname);
 	
-	printf("%s\n", msg);
+	printf("lua> %s\n", msg);
 	//fflush(stderr);
 }
 
@@ -68,8 +69,12 @@ void
 sys_quit()
 {
 	s_quit();
-	if (lua_state)
+	if (lua_state) {
+		int kb = lua_gc(lua_state, LUA_GCCOUNT, 0);
 		lua_close(lua_state);
+
+		printf("lua> %d kB used\n", kb);
+	}
 }
 
 int
@@ -140,17 +145,29 @@ sys_start(int argc, char *argv[])
 		/* function runme = file_content */
 		lua_setglobal(L, "runme");
 		lua_getglobal(L, "runme");
+
 		status = lua_pcall(L,0,LUA_MULTRET,0);
-		report(L, status);
-		printf("lua> loaded\n");
+		assert(0 == report(L, status));
+        
+        if (lua_gettop(L) > 0) {
+            status = lua_toboolean(L, -1);
+            if (!status) {
+                printf("lua> %s returned false\n", f);
+                sys_quit();
+            }
+        }
+		
+        printf("lua> loaded\n");
 	} else {
 		printf("lua> unable to load %s\n",f);
+		report(L, status);
 		sys_quit();
 	}
 
 	lua_state = L;
 	
-	return status;	
+	/* TODO: Double check this stuff some day when bored. */
+	return status > 0 ? false : true;	
 }
 
 int
@@ -159,14 +176,19 @@ sys_update()
 	int status, run;
 	
 	lua_getglobal(lua_state, "update");
-	status = lua_pcall(lua_state,0,LUA_MULTRET,0);
+	if (lua_gettop(lua_state) > 0) {
+	    status = lua_pcall(lua_state,0,LUA_MULTRET,0);
+    } else {
+		lua_getglobal(lua_state, "runme");
+		status = lua_pcall(lua_state,0,LUA_MULTRET,0);
+    }
 	
 	run = 0;
 	if (lua_gettop(lua_state) > 0) {
 		run = lua_toboolean(lua_state, -1);
 	}
 	
-	report(lua_state, status);
+	assert(0 == report(lua_state, status));
 	
 	return !run;
 }
