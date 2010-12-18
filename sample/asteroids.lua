@@ -360,56 +360,54 @@ local function update_network(time)
 end
 
 -- main loop
-local function update_game()
-	while true do
-		dt.now = event.time()
-		dt.delta = dt.now - dt.absolute
-		if dt.delta > dt.step then
-			dt.absolute = dt.now
-			dt.accumulator = dt.accumulator + dt.delta
+function update()
+	dt.now = event.time()
+	dt.delta = dt.now - dt.absolute
+	if dt.delta > dt.step then
+		dt.absolute = dt.now
+		dt.accumulator = dt.accumulator + dt.delta
 
-			while dt.accumulator >= dt.step do
-				if not event_update() then
-					return
-				end
-
-				if 2 == server and false == update_network() then
-					dt.absolute = dt.delta
-					dt.accumulator = dt.accumulator - dt.delta
-					break
-				elseif 1 == server then
-					update_entities()
-					if client.ip then
-						net_send("ship:1:" .. mat4_to_string(
-							ship[2].matrix.new))
-						net_send("ship:2:" .. mat4_to_string(
-							ship[1].matrix.new))
-						last_send = dt.now
-					end
-				end
-
-
-				dt.accumulator = dt.accumulator - dt.step
-				dt.frame = dt.frame + 1
+		while dt.accumulator >= dt.step do
+			if not event_update() then
+				return false
 			end
-		end
 
-		scene_render()
-		render.present()
-		event.sleep(1)
+			if 2 == server and false == update_network() then
+				dt.absolute = dt.delta
+				dt.accumulator = dt.accumulator - dt.delta
+				break
+			elseif 1 == server then
+				update_entities()
+				if client.ip then
+					net_send("ship:1:" .. mat4_to_string(
+						ship[2].matrix.new))
+					net_send("ship:2:" .. mat4_to_string(
+						ship[1].matrix.new))
+					last_send = dt.now
+				end
+			end
+
+
+			dt.accumulator = dt.accumulator - dt.step
+			dt.frame = dt.frame + 1
+		end
 	end
+
+	scene_render()
+	render.present()
+	event.sleep(1)
 end
 
 
-render.create_window(640, 480)
-table.insert(ship, new_ship())
-select_connection()
-render.setup_orthogonal_view(320, 240)
-local a = new_asteroid(vec3.vec3(), vec3.vec3(), 20)
-a.direction.x = -1
-table.insert(asteroid, a)
+function init()
+	render.create_window(320, 240)
+	table.insert(ship, new_ship())
+	select_connection()
+	render.setup_orthogonal_view(320, 240)
+	local a = new_asteroid(vec3.vec3(), vec3.vec3(), 20)
+	a.direction.x = -1
+	table.insert(asteroid, a)
+end
 
-update_game()
---net.send(socket, "quit" ...
-render.quit()
+init()
 

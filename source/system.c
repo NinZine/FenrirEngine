@@ -14,6 +14,7 @@
 extern int luaopen_event(lua_State* L);
 extern int luaopen_image(lua_State* L);
 extern int luaopen_mat4(lua_State* L);
+extern int luaopen_md2(lua_State* L);
 extern int luaopen_net(lua_State* L);
 extern int luaopen_quat(lua_State* L);
 extern int luaopen_render(lua_State* L);
@@ -104,6 +105,7 @@ sys_start(int argc, char *argv[])
 	luaopen_sound(L);
 	luaopen_net(L);
 	luaopen_util(L);
+	luaopen_md2(L);
 	//luaopen_blender(L);
 	
 	lua_getglobal(L, "package");
