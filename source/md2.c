@@ -162,8 +162,8 @@ KEMD2Object* md2_open(const char *path, uint16_t texture)
 					+ frameTranslate.z;
 				glVertex->textureCoords.x = (GLfloat) textureCoordinate->s
 					/ o->header.skinWidth;
-				glVertex->textureCoords.y = (GLfloat) textureCoordinate->t
-					/ o->header.skinHeight;
+				glVertex->textureCoords.y = 1.0f - ((GLfloat) textureCoordinate->t
+					/ o->header.skinHeight);
 				glVertex->normal.x = anorms_table[
 					md2Vertex->lightnormalindex].x;
 				glVertex->normal.y = anorms_table[

@@ -40,6 +40,6 @@ int main(int argc,char* argv[])
     sys_quit();
 	SDL_Quit();
 	
-	return status;
+	return !status;
 }
 
