@@ -25,7 +25,7 @@ vec3_cross(const vec3 *v, const vec3 *u)
 	
 	vec3 w;
 	w.x = v->y * u->z - v->z * u->y;
-	w.y = v->x * u->z - v->z * u->x;
+	w.y = v->z * u->x - v->x * u->z;
 	w.z = v->x * u->y - v->y * u->x;
 	return w;
 }
