@@ -298,6 +298,7 @@ void md2_cleanup_render()
 	glDisableClientState( GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState( GL_NORMAL_ARRAY);
 	//glDisableClientState( GL_COLOR_ARRAY);
+	glBindTexture(GL_TEXTURE_2D, 0);
 	glDisable( GL_TEXTURE_2D);
 }
 
