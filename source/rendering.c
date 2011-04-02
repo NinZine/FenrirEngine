@@ -222,7 +222,7 @@ r_generate_depthbuffer(int16_t w, int16_t h)
 {
 	uint32_t d;
 
-#if !defined(__NDS__)
+#if defined(__IPHONE__)
     d = r_generate_renderbuffer();
 	
 	glBindRenderbuffer(GL_RENDERBUFFER_EXT, d);
@@ -343,6 +343,7 @@ r_pop_matrix()
 void
 r_present()
 {   
+	assert(glGetError() == GL_NO_ERROR);
     glFlush();
 #if defined(__SDL__)
     SDL_GL_SwapBuffers();
@@ -831,7 +832,7 @@ r_translate(float x, float y, float z)
 }
 
 uint16_t
-r_upload_texture(uint32_t w, uint32_t h, int8_t bpp, int8_t type, void *image_data)
+r_upload_texture(uint16_t w, uint16_t h, int8_t bpp, int8_t type, void *image_data)
 {
     GLuint id;
     GLint t;
@@ -841,6 +842,8 @@ r_upload_texture(uint32_t w, uint32_t h, int8_t bpp, int8_t type, void *image_da
         t = GL_RGB;
     else if (PNG_COLOR_TYPE_RGB_ALPHA == type)
         t = GL_RGBA;
+    else if (PNG_COLOR_MASK_ALPHA)
+        t = GL_ALPHA;
 
     glGenTextures(1, &id);
     glBindTexture(GL_TEXTURE_2D, id);

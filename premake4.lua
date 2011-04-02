@@ -48,10 +48,11 @@ solution "FenrirEngine"
 
 		buildoptions {"-Wall"}
 		defines {"__SDL__"}
-		includedirs {"include", "lib", "lib/lua", "lib/png", INCLUDE_PATH }
+		includedirs {"include", "lib", "lib/lua", "lib/png",
+		"lib/freetype-2.4.3/include", INCLUDE_PATH }
 		libdirs { LIB_PATH }
 		links {"lua", "Cocoa.framework", "SDL.framework", "OpenGL.framework",
-			"OpenAL.framework", "m", "z", "png", "ogg_vorbis" }
+			"OpenAL.framework", "m", "z", "png", "ogg_vorbis", "freetype" }
 	
 	--[[ TODO: Needs to be updated (by someone that uses it). Compiler still needs
 	to be MinGW though ]]--
@@ -89,4 +90,25 @@ solution "FenrirEngine"
 		includedirs { "lib/ogg", "lib/vorbis" }
 	end
 
+	project "freetype"
+		kind "StaticLib"
+		language "C"
+		defines { "DARWIN_NO_CARBON", "FT2_BUILD_LIBRARY" }
+		files {
+			"lib/freetype-2.4.3/src/autofit.c",
+			"lib/freetype-2.4.3/src/ftbase.c",
+			"lib/freetype-2.4.3/src/ftbbox.c",
+			"lib/freetype-2.4.3/src/ftbitmap.c",
+			"lib/freetype-2.4.3/src/ftcid.c",
+			"lib/freetype-2.4.3/src/ftdebug.c",
+			"lib/freetype-2.4.3/src/ftglyph.c",
+			"lib/freetype-2.4.3/src/ftinit.c",
+			"lib/freetype-2.4.3/src/ftsystem.c",
+			"lib/freetype-2.4.3/src/pshinter.c",
+			"lib/freetype-2.4.3/src/psnames.c",
+			"lib/freetype-2.4.3/src/sfnt.c",
+			"lib/freetype-2.4.3/src/smooth.c",
+			"lib/freetype-2.4.3/src/truetype.c",
+		}
+		includedirs { "lib/freetype-2.4.3/include" }
 

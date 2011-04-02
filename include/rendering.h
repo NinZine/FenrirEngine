@@ -114,7 +114,7 @@ void r_setup_perspective_view(float fov, float aspect, float n, float f);
 void r_take_screenshot(char *pixels, r_state *buffer);
 void r_translate(float x, float y, float z);
 
-uint16_t r_upload_texture(uint32_t w, uint32_t h, int8_t bpp, int8_t type,
+uint16_t r_upload_texture(uint16_t w, uint16_t h, int8_t bpp, int8_t type,
     void *image_data);
 
 #endif /* !_RENDERING_H_ */
