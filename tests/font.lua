@@ -26,11 +26,11 @@ function update()
 	--render.rotate(-90, 0, 0, 1)
     --render.translate(0, 0, -5)
 
-	render.color(1.0, 0.0, 0.0)
+	render.disable_depth();
+	render.color(0.0, 0.0, 0.0)
+    font.draw_string(f, "HEY!\nwhat's up?", 1, -1)
+	render.color(1.0, 1.0, 1.0)
     font.draw_string(f, "HEY!\nwhat's up?", 0, 0)
-    --font.draw_string(f, "#", 0, 0)
-    --font.draw_string(f, "H", 0, 0)
-    --font.draw_string(f, "0", 0, 0)
 
 	render.present()
     event.sleep(1)

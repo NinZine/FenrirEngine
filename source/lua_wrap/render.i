@@ -19,6 +19,7 @@
 %rename(generate_texcoords) r_generate_texcoords;
 %rename(disable_blending) r_disable_blending;
 %rename(disable_culling) r_disable_culling;
+%rename(disable_depth) r_disable_depth;
 %rename(disable_texcoords) r_disable_texcoords;
 %rename(enable_blending) r_enable_blending;
 %rename(enable_culling) r_enable_culling;

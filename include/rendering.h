@@ -68,6 +68,7 @@ float*	 r_generate_texcoords(uint32_t width, uint32_t heigth,
 
 void r_disable_blending();
 void r_disable_culling();
+void r_disable_depth();
 void r_disable_texcoords();
 
 void r_enable_blending();

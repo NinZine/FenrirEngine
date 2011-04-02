@@ -154,6 +154,11 @@ r_disable_culling()
 #endif
 }
 
+void r_disable_depth()
+{
+	glDisable(GL_DEPTH_TEST);
+}
+
 void
 r_disable_texcoords()
 {
