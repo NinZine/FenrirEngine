@@ -1,0 +1,86 @@
+Prerequisites
+=============
+SWIG (might not be needed to download manually for your platform)
+	http://www.swig.org/download.html
+
+Premake
+	http://industriousone.com/premake/download
+
+Perl
+Git
+
+
+Obtain the source code
+======================
+You have probably already done this.
+
+`git clone http://krohnke.me/git/FenrirEngine.git FenrirEngine'
+
+
+Mac OS X Installation
+=====================
+You need to have SWIG 2.0 or later, and premake 4.0 or later installed to begin.
+Obtain SWIG from MacPorts, if you don't have MacPorts get it here:
+	http://www.macports.org/install.php
+
+SDL 1.2 is also needed.
+	http://www.libsdl.org/download-1.2.php
+
+
+You should have `SDL.framework' in `/Library/Frameworks' preferably.
+
+	1. `sudo port install swig'
+
+	2. `cd FenrirEngine'
+
+	3. `./swig.pl __SDL__'
+
+	4. `premake4 xcode3'
+
+	5. `open projects/FenrirEngine.xcodeproj'. Opens the project in XCode.
+	   Build the project with Command+B.
+
+	On OS X, it currently builds a command line application, this is sometimes
+	easier to use during development, but of course a bundle should be built or
+	handcrafted when ready for release.
+
+	6. `./FenrirEngine sample/asteroids.lua', press `1' to play some asteroids
+	   with interpolation problems. It had multiplayer once, maybe you want to
+	   play around with that code.
+
+Android
+=======
+
+Building on Android requires, Android SDK and Android NDK.
+
+	1. Edit the following files to contain the correct paths:
+		`platform/android/paths.prop' (edit NDK_DIR and SDK_DIR)
+      	`platform/android/Android.mk' (edit LUA_SOURCE_PATH and PNG_SOURCE_PATH)
+    
+	2. `./swig.pl __ANDROID__' to build Lua wrapping code for Android.
+
+	3. `android_setup.sh'
+
+    4. `./android.sh' to compile
+
+    5. `android.sh install' to compile and install to running emulator
+
+    To uninstall from running emulator
+      `./android.sh uninstall'
+
+IPhone
+======
+
+IPhone port in not yet integrated in the Premake4 building pipeline.
+
+	1. `./swig.pl __IPHONE__' to build Lua wrapping code for the IPhone.
+
+	2. `open platform/iphone/ConceptEngine.xcodeproj/' to open XCode with the
+	   IPhone specific settings.
+
+	3. `mkdir game'. Create a folder named `game' and put your `main.lua' file
+	   in it.
+	
+	4. Build the project in XCode with Command+B. The `game' folder will be
+	   bundled with the project and `main.lua' run automatically.
+

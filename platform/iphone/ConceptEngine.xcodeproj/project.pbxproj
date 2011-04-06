@@ -7,8 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2F2998C91191A78F0064C4FB /* ludumdare in Resources */ = {isa = PBXBuildFile; fileRef = 2F2998AF1191A78F0064C4FB /* ludumdare */; };
 		2F299BD1119300620064C4FB /* system.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F299BD0119300620064C4FB /* system.c */; };
+		2F2C7A601347E258001D95EE /* font.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2C7A5E1347E258001D95EE /* font.c */; };
+		2F2C7A611347E258001D95EE /* md2.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2C7A5F1347E258001D95EE /* md2.c */; };
+		2F2C7C111347E337001D95EE /* autofit.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2C7B381347E337001D95EE /* autofit.c */; };
+		2F2C7C161347E337001D95EE /* ftbase.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2C7B3D1347E337001D95EE /* ftbase.c */; };
+		2F2C7C181347E337001D95EE /* ftbbox.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2C7B3F1347E337001D95EE /* ftbbox.c */; };
+		2F2C7C1A1347E337001D95EE /* ftbitmap.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2C7B411347E337001D95EE /* ftbitmap.c */; };
+		2F2C7C1C1347E337001D95EE /* ftcid.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2C7B431347E337001D95EE /* ftcid.c */; };
+		2F2C7C1E1347E337001D95EE /* ftdebug.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2C7B451347E337001D95EE /* ftdebug.c */; };
+		2F2C7C221347E337001D95EE /* ftglyph.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2C7B491347E337001D95EE /* ftglyph.c */; };
+		2F2C7C261347E337001D95EE /* ftinit.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2C7B4D1347E337001D95EE /* ftinit.c */; };
+		2F2C7C3A1347E337001D95EE /* ftsystem.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2C7B611347E337001D95EE /* ftsystem.c */; };
+		2F2C7C441347E337001D95EE /* pshinter.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2C7B6B1347E337001D95EE /* pshinter.c */; };
+		2F2C7C4F1347E337001D95EE /* psnames.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2C7B761347E337001D95EE /* psnames.c */; };
+		2F2C7C561347E337001D95EE /* sfnt.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2C7B7D1347E337001D95EE /* sfnt.c */; };
+		2F2C7C5B1347E337001D95EE /* smooth.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2C7B821347E337001D95EE /* smooth.c */; };
+		2F2C7C5C1347E337001D95EE /* truetype.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2C7B831347E337001D95EE /* truetype.c */; };
+		2F2C7C801347E35A001D95EE /* libfreetype2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F2C7ABE1347E2FC001D95EE /* libfreetype2.a */; };
 		2F2E095F11983CF70010F21F /* log.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F2E095E11983CF70010F21F /* log.c */; };
 		2F39736F1110BBAD00998DC1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F3972991110B8DE00998DC1 /* main.m */; };
 		2F3973741110BBD200998DC1 /* mat4_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F39729E1110B8DE00998DC1 /* mat4_wrap.c */; };
@@ -108,6 +124,15 @@
 		2FAAFF3C11DB847600B54FA6 /* blender in Resources */ = {isa = PBXBuildFile; fileRef = 2FAAFF3011DB847600B54FA6 /* blender */; };
 		2FC587B711917A4A00BABFFB /* ifopen.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FC587B611917A4A00BABFFB /* ifopen.m */; };
 		2FC587FF1191809800BABFFB /* house.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 2FC587FE1191809800BABFFB /* house.ogg */; };
+		2FE3D7F31347EA3200477157 /* font_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 2FE3D7EF1347EA3200477157 /* font_wrap.c */; };
+		2FE3D7F51347EA3200477157 /* md2_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 2FE3D7F11347EA3200477157 /* md2_wrap.c */; };
+		2FE3D8081347EB4C00477157 /* 04b_03.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2FE3D8011347EB4C00477157 /* 04b_03.ttf */; };
+		2FE3D8091347EB4C00477157 /* blender_lua.lua in Resources */ = {isa = PBXBuildFile; fileRef = 2FE3D8021347EB4C00477157 /* blender_lua.lua */; };
+		2FE3D80A1347EB4C00477157 /* font.lua in Resources */ = {isa = PBXBuildFile; fileRef = 2FE3D8031347EB4C00477157 /* font.lua */; };
+		2FE3D80B1347EB4C00477157 /* md2.lua in Resources */ = {isa = PBXBuildFile; fileRef = 2FE3D8041347EB4C00477157 /* md2.lua */; };
+		2FE3D80C1347EB4C00477157 /* megaman.md2 in Resources */ = {isa = PBXBuildFile; fileRef = 2FE3D8051347EB4C00477157 /* megaman.md2 */; };
+		2FE3D80D1347EB4C00477157 /* megaman.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FE3D8061347EB4C00477157 /* megaman.png */; };
+		2FE3D80E1347EB4C00477157 /* net_tcp.lua in Resources */ = {isa = PBXBuildFile; fileRef = 2FE3D8071347EB4C00477157 /* net_tcp.lua */; };
 		2FE86DD411E2AE2A00DE5B41 /* analysis.c in Sources */ = {isa = PBXBuildFile; fileRef = 2FE86D8E11E2AE2A00DE5B41 /* analysis.c */; };
 		2FE86DD511E2AE2A00DE5B41 /* backends.h in Headers */ = {isa = PBXBuildFile; fileRef = 2FE86D8F11E2AE2A00DE5B41 /* backends.h */; };
 		2FE86DD611E2AE2A00DE5B41 /* barkmel.c in Sources */ = {isa = PBXBuildFile; fileRef = 2FE86D9011E2AE2A00DE5B41 /* barkmel.c */; };
@@ -197,6 +222,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		2F2C7C7E1347E350001D95EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2F39726D1110B83E00998DC1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2F2C7ABD1347E2FC001D95EE;
+			remoteInfo = freetype2;
+		};
 		2FFB8DD0119197780074FA84 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2F39726D1110B83E00998DC1 /* Project object */;
@@ -228,9 +260,28 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2F2998AF1191A78F0064C4FB /* ludumdare */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ludumdare; path = ../../ludumdare; sourceTree = SOURCE_ROOT; };
 		2F299B6B1192EBF20064C4FB /* system.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = system.h; sourceTree = "<group>"; };
 		2F299BD0119300620064C4FB /* system.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = system.c; sourceTree = "<group>"; };
+		2F2C7A5E1347E258001D95EE /* font.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = font.c; sourceTree = "<group>"; };
+		2F2C7A5F1347E258001D95EE /* md2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = md2.c; sourceTree = "<group>"; };
+		2F2C7AB41347E2C8001D95EE /* anorms.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = anorms.h; sourceTree = "<group>"; };
+		2F2C7AB51347E2C8001D95EE /* font.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = font.h; sourceTree = "<group>"; };
+		2F2C7AB61347E2C8001D95EE /* md2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = md2.h; sourceTree = "<group>"; };
+		2F2C7ABE1347E2FC001D95EE /* libfreetype2.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libfreetype2.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		2F2C7B381347E337001D95EE /* autofit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = autofit.c; sourceTree = "<group>"; };
+		2F2C7B3D1347E337001D95EE /* ftbase.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ftbase.c; sourceTree = "<group>"; };
+		2F2C7B3F1347E337001D95EE /* ftbbox.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ftbbox.c; sourceTree = "<group>"; };
+		2F2C7B411347E337001D95EE /* ftbitmap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ftbitmap.c; sourceTree = "<group>"; };
+		2F2C7B431347E337001D95EE /* ftcid.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ftcid.c; sourceTree = "<group>"; };
+		2F2C7B451347E337001D95EE /* ftdebug.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ftdebug.c; sourceTree = "<group>"; };
+		2F2C7B491347E337001D95EE /* ftglyph.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ftglyph.c; sourceTree = "<group>"; };
+		2F2C7B4D1347E337001D95EE /* ftinit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ftinit.c; sourceTree = "<group>"; };
+		2F2C7B611347E337001D95EE /* ftsystem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ftsystem.c; sourceTree = "<group>"; };
+		2F2C7B6B1347E337001D95EE /* pshinter.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pshinter.c; sourceTree = "<group>"; };
+		2F2C7B761347E337001D95EE /* psnames.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = psnames.c; sourceTree = "<group>"; };
+		2F2C7B7D1347E337001D95EE /* sfnt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sfnt.c; sourceTree = "<group>"; };
+		2F2C7B821347E337001D95EE /* smooth.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = smooth.c; sourceTree = "<group>"; };
+		2F2C7B831347E337001D95EE /* truetype.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = truetype.c; sourceTree = "<group>"; };
 		2F2E095D11983CE70010F21F /* log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = log.h; sourceTree = "<group>"; };
 		2F2E095E11983CF70010F21F /* log.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = log.c; sourceTree = "<group>"; };
 		2F3972811110B8DE00998DC1 /* event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = event.h; sourceTree = "<group>"; };
@@ -355,6 +406,17 @@
 		2FC587B51191796F00BABFFB /* ifopen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ifopen.h; sourceTree = "<group>"; };
 		2FC587B611917A4A00BABFFB /* ifopen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ifopen.m; sourceTree = "<group>"; };
 		2FC587FE1191809800BABFFB /* house.ogg */ = {isa = PBXFileReference; lastKnownFileType = file; path = house.ogg; sourceTree = "<group>"; };
+		2FE3D7EF1347EA3200477157 /* font_wrap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = font_wrap.c; path = lua_wrap/font_wrap.c; sourceTree = "<group>"; };
+		2FE3D7F01347EA3200477157 /* font.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = font.i; path = lua_wrap/font.i; sourceTree = "<group>"; };
+		2FE3D7F11347EA3200477157 /* md2_wrap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = md2_wrap.c; path = lua_wrap/md2_wrap.c; sourceTree = "<group>"; };
+		2FE3D7F21347EA3200477157 /* md2.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = md2.i; path = lua_wrap/md2.i; sourceTree = "<group>"; };
+		2FE3D8011347EB4C00477157 /* 04b_03.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = 04b_03.ttf; sourceTree = "<group>"; };
+		2FE3D8021347EB4C00477157 /* blender_lua.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = blender_lua.lua; sourceTree = "<group>"; };
+		2FE3D8031347EB4C00477157 /* font.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = font.lua; sourceTree = "<group>"; };
+		2FE3D8041347EB4C00477157 /* md2.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = md2.lua; sourceTree = "<group>"; };
+		2FE3D8051347EB4C00477157 /* megaman.md2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = megaman.md2; sourceTree = "<group>"; };
+		2FE3D8061347EB4C00477157 /* megaman.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = megaman.png; sourceTree = "<group>"; };
+		2FE3D8071347EB4C00477157 /* net_tcp.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = net_tcp.lua; sourceTree = "<group>"; };
 		2FE86D6311E2AC2600DE5B41 /* png.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = png.c; path = ../../lib/png/png.c; sourceTree = SOURCE_ROOT; };
 		2FE86D6411E2AC2600DE5B41 /* png.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = png.h; path = ../../lib/png/png.h; sourceTree = SOURCE_ROOT; };
 		2FE86D6511E2AC2600DE5B41 /* pngconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pngconf.h; path = ../../lib/png/pngconf.h; sourceTree = SOURCE_ROOT; };
@@ -437,12 +499,19 @@
 		2FE86DD211E2AE2A00DE5B41 /* window.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = window.c; sourceTree = "<group>"; };
 		2FE86DD311E2AE2A00DE5B41 /* window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = window.h; sourceTree = "<group>"; };
 		2FFB8C7E11918F240074FA84 /* libogg.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libogg.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		2FFB8C8311918F5E0074FA84 /* bitwise.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bitwise.c; sourceTree = "<group>"; };
-		2FFB8C8411918F5E0074FA84 /* framing.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = framing.c; sourceTree = "<group>"; };
+		2FFB8C8311918F5E0074FA84 /* bitwise.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = bitwise.c; path = ../../lib/ogg/bitwise.c; sourceTree = SOURCE_ROOT; };
+		2FFB8C8411918F5E0074FA84 /* framing.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = framing.c; path = ../../lib/ogg/framing.c; sourceTree = SOURCE_ROOT; };
 		2FFB8C9811918FFA0074FA84 /* libvorbis.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libvorbis.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		2F2C7ABC1347E2FC001D95EE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2F3972B61110B95B00998DC1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -451,6 +520,7 @@
 				2F6EF0B1118EF75500E26E5C /* libpng.a in Frameworks */,
 				2FFB8C8911918F860074FA84 /* libogg.a in Frameworks */,
 				2FFB8D65119193F10074FA84 /* libvorbis.a in Frameworks */,
+				2F2C7C801347E35A001D95EE /* libfreetype2.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -486,12 +556,42 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2F2C7AC21347E337001D95EE /* freetype-2.4.3 */ = {
+			isa = PBXGroup;
+			children = (
+				2F2C7B1D1347E337001D95EE /* src */,
+			);
+			name = "freetype-2.4.3";
+			path = "../../lib/freetype-2.4.3";
+			sourceTree = SOURCE_ROOT;
+		};
+		2F2C7B1D1347E337001D95EE /* src */ = {
+			isa = PBXGroup;
+			children = (
+				2F2C7B381347E337001D95EE /* autofit.c */,
+				2F2C7B3D1347E337001D95EE /* ftbase.c */,
+				2F2C7B3F1347E337001D95EE /* ftbbox.c */,
+				2F2C7B411347E337001D95EE /* ftbitmap.c */,
+				2F2C7B431347E337001D95EE /* ftcid.c */,
+				2F2C7B451347E337001D95EE /* ftdebug.c */,
+				2F2C7B491347E337001D95EE /* ftglyph.c */,
+				2F2C7B4D1347E337001D95EE /* ftinit.c */,
+				2F2C7B611347E337001D95EE /* ftsystem.c */,
+				2F2C7B6B1347E337001D95EE /* pshinter.c */,
+				2F2C7B761347E337001D95EE /* psnames.c */,
+				2F2C7B7D1347E337001D95EE /* sfnt.c */,
+				2F2C7B821347E337001D95EE /* smooth.c */,
+				2F2C7B831347E337001D95EE /* truetype.c */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
 		2F39726B1110B83E00998DC1 = {
 			isa = PBXGroup;
 			children = (
+				2F2C7AC21347E337001D95EE /* freetype-2.4.3 */,
 				2FAAFF3011DB847600B54FA6 /* blender */,
 				2F86C60111DB83B300B6D46E /* game */,
-				2F2998AF1191A78F0064C4FB /* ludumdare */,
 				2FE86D8D11E2AE2A00DE5B41 /* vorbis */,
 				2FFB8C8211918F5E0074FA84 /* ogg */,
 				2F6EF20A118F09D900E26E5C /* sample */,
@@ -508,6 +608,9 @@
 		2F39727B1110B8DE00998DC1 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				2F2C7AB41347E2C8001D95EE /* anorms.h */,
+				2F2C7AB51347E2C8001D95EE /* font.h */,
+				2F2C7AB61347E2C8001D95EE /* md2.h */,
 				2F2E095D11983CE70010F21F /* log.h */,
 				2F299B6B1192EBF20064C4FB /* system.h */,
 				2F3972851110B8DE00998DC1 /* iphone */,
@@ -539,6 +642,12 @@
 		2F39728E1110B8DE00998DC1 /* source */ = {
 			isa = PBXGroup;
 			children = (
+				2FE3D7EF1347EA3200477157 /* font_wrap.c */,
+				2FE3D7F01347EA3200477157 /* font.i */,
+				2FE3D7F11347EA3200477157 /* md2_wrap.c */,
+				2FE3D7F21347EA3200477157 /* md2.i */,
+				2F2C7A5E1347E258001D95EE /* font.c */,
+				2F2C7A5F1347E258001D95EE /* md2.c */,
 				2F3972961110B8DE00998DC1 /* iphone */,
 				2F39729A1110B8DE00998DC1 /* lua_wrap */,
 				2F6EF0C0118EF7F000E26E5C /* event.c */,
@@ -601,6 +710,7 @@
 				2F6EF064118EF57500E26E5C /* libpng.a */,
 				2FFB8C7E11918F240074FA84 /* libogg.a */,
 				2FFB8C9811918FFA0074FA84 /* libvorbis.a */,
+				2F2C7ABE1347E2FC001D95EE /* libfreetype2.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -715,6 +825,13 @@
 		2F6EF210118F09D900E26E5C /* tests */ = {
 			isa = PBXGroup;
 			children = (
+				2FE3D8011347EB4C00477157 /* 04b_03.ttf */,
+				2FE3D8021347EB4C00477157 /* blender_lua.lua */,
+				2FE3D8031347EB4C00477157 /* font.lua */,
+				2FE3D8041347EB4C00477157 /* md2.lua */,
+				2FE3D8051347EB4C00477157 /* megaman.md2 */,
+				2FE3D8061347EB4C00477157 /* megaman.png */,
+				2FE3D8071347EB4C00477157 /* net_tcp.lua */,
 				2FC587FE1191809800BABFFB /* house.ogg */,
 				2F6EF211118F09D900E26E5C /* blender.lua */,
 				2F6EF212118F09D900E26E5C /* drutten.blend */,
@@ -852,12 +969,19 @@
 				2FFB8C8411918F5E0074FA84 /* framing.c */,
 			);
 			name = ogg;
-			path = "../../../../SDK/libogg-1.1.4/src";
+			path = ../../lib/ogg;
 			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		2F2C7ABA1347E2FC001D95EE /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2F6EEF44118EEB7100E26E5C /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -954,6 +1078,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		2F2C7ABD1347E2FC001D95EE /* freetype2 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2F2C7AC11347E328001D95EE /* Build configuration list for PBXNativeTarget "freetype2" */;
+			buildPhases = (
+				2F2C7ABA1347E2FC001D95EE /* Headers */,
+				2F2C7ABB1347E2FC001D95EE /* Sources */,
+				2F2C7ABC1347E2FC001D95EE /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = freetype2;
+			productName = freetype2;
+			productReference = 2F2C7ABE1347E2FC001D95EE /* libfreetype2.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		2F3972B71110B95B00998DC1 /* ConceptEngine */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2F3972BE1110B95D00998DC1 /* Build configuration list for PBXNativeTarget "ConceptEngine" */;
@@ -969,6 +1110,7 @@
 				2FFB8DD3119197780074FA84 /* PBXTargetDependency */,
 				2FFB8DD5119197780074FA84 /* PBXTargetDependency */,
 				2FFB8DD7119197780074FA84 /* PBXTargetDependency */,
+				2F2C7C7F1347E350001D95EE /* PBXTargetDependency */,
 			);
 			name = ConceptEngine;
 			productName = ConceptEngine;
@@ -1061,6 +1203,7 @@
 				2F6EF063118EF57500E26E5C /* png */,
 				2FFB8C7D11918F240074FA84 /* ogg */,
 				2FFB8C9711918FFA0074FA84 /* vorbis */,
+				2F2C7ABD1347E2FC001D95EE /* freetype2 */,
 			);
 		};
 /* End PBXProject section */
@@ -1089,15 +1232,42 @@
 				2F6EF22E118F09D900E26E5C /* texcoords.lua in Resources */,
 				2F6EF22F118F09D900E26E5C /* vec3.lua in Resources */,
 				2FC587FF1191809800BABFFB /* house.ogg in Resources */,
-				2F2998C91191A78F0064C4FB /* ludumdare in Resources */,
 				2F86C60511DB83B300B6D46E /* game in Resources */,
 				2FAAFF3C11DB847600B54FA6 /* blender in Resources */,
+				2FE3D8081347EB4C00477157 /* 04b_03.ttf in Resources */,
+				2FE3D8091347EB4C00477157 /* blender_lua.lua in Resources */,
+				2FE3D80A1347EB4C00477157 /* font.lua in Resources */,
+				2FE3D80B1347EB4C00477157 /* md2.lua in Resources */,
+				2FE3D80C1347EB4C00477157 /* megaman.md2 in Resources */,
+				2FE3D80D1347EB4C00477157 /* megaman.png in Resources */,
+				2FE3D80E1347EB4C00477157 /* net_tcp.lua in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		2F2C7ABB1347E2FC001D95EE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2F2C7C111347E337001D95EE /* autofit.c in Sources */,
+				2F2C7C161347E337001D95EE /* ftbase.c in Sources */,
+				2F2C7C181347E337001D95EE /* ftbbox.c in Sources */,
+				2F2C7C1A1347E337001D95EE /* ftbitmap.c in Sources */,
+				2F2C7C1C1347E337001D95EE /* ftcid.c in Sources */,
+				2F2C7C1E1347E337001D95EE /* ftdebug.c in Sources */,
+				2F2C7C221347E337001D95EE /* ftglyph.c in Sources */,
+				2F2C7C261347E337001D95EE /* ftinit.c in Sources */,
+				2F2C7C3A1347E337001D95EE /* ftsystem.c in Sources */,
+				2F2C7C441347E337001D95EE /* pshinter.c in Sources */,
+				2F2C7C4F1347E337001D95EE /* psnames.c in Sources */,
+				2F2C7C561347E337001D95EE /* sfnt.c in Sources */,
+				2F2C7C5B1347E337001D95EE /* smooth.c in Sources */,
+				2F2C7C5C1347E337001D95EE /* truetype.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2F3972B51110B95B00998DC1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1126,6 +1296,10 @@
 				2F299BD1119300620064C4FB /* system.c in Sources */,
 				2F2E095F11983CF70010F21F /* log.c in Sources */,
 				2F86C5E911DB810200B6D46E /* util_wrap.c in Sources */,
+				2F2C7A601347E258001D95EE /* font.c in Sources */,
+				2F2C7A611347E258001D95EE /* md2.c in Sources */,
+				2FE3D7F31347EA3200477157 /* font_wrap.c in Sources */,
+				2FE3D7F51347EA3200477157 /* md2_wrap.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1231,6 +1405,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		2F2C7C7F1347E350001D95EE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2F2C7ABD1347E2FC001D95EE /* freetype2 */;
+			targetProxy = 2F2C7C7E1347E350001D95EE /* PBXContainerItemProxy */;
+		};
 		2FFB8DD1119197780074FA84 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 2F6EEF47118EEB7100E26E5C /* Lua */;
@@ -1254,6 +1433,40 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		2F2C7ABF1347E2FD001D95EE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = (
+					"/Users/ninzine/Code/SDK/libvorbis-1.2.0/include",
+					"/Users/ninzine/Code/SDK/libogg-1.1.4/include",
+					"/Users/ninzine/Code/Lua/ConceptEngine/lib/freetype-2.4.3/include",
+				);
+				OTHER_CFLAGS = (
+					"-DDARWIN_NO_CARBON",
+					"-DFT2_BUILD_LIBRARY",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = freetype2;
+			};
+			name = Debug;
+		};
+		2F2C7AC01347E2FD001D95EE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PREBINDING = NO;
+				PRODUCT_NAME = freetype2;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 		2F39726E1110B83E00998DC1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1289,6 +1502,7 @@
 				HEADER_SEARCH_PATHS = (
 					"/Users/ninzine/Code/SDK/libvorbis-1.2.0/include",
 					"/Users/ninzine/Code/SDK/libogg-1.1.4/include",
+					"/Users/ninzine/Code/Lua/ConceptEngine/lib/freetype-2.4.3/include",
 				);
 				INFOPLIST_FILE = "ConceptEngine-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
@@ -1448,6 +1662,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		2F2C7AC11347E328001D95EE /* Build configuration list for PBXNativeTarget "freetype2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2F2C7ABF1347E2FD001D95EE /* Debug */,
+				2F2C7AC01347E2FD001D95EE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		2F3972701110B83E00998DC1 /* Build configuration list for PBXProject "ConceptEngine" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
