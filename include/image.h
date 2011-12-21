@@ -12,6 +12,8 @@ typedef struct image {
 	void 		*data;
 } image;
 
+void		img_flip_x(image *i);
+void		img_flip_y(image *i);
 void 	    img_free(image *i);
 uint32_t    img_get_pixel(image *img, uint32_t x, uint32_t y);
 image 	    img_load(const char *filename);

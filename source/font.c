@@ -27,13 +27,14 @@ static const char letter[] =
 	"abcdefghijklmnopqrstuvwxyz"
 	"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	"1234567890~!@#$%^&*()-=+;:"
-	"'\",./?[]|\\ <>`\xFF";
+	"'\",./?[]|\\ <>`_\xFF";
+
+/* TODO: Maybe refactor this file a bit */
 
 static font create_glyphs(FT_Face face, uint8_t *image, const uint8_t margin,
 	uint16_t width, uint16_t height, uint16_t max_ascent, uint16_t max_descent);
 static uint8_t* create_image(FT_Face face, const uint8_t margin,
 	uint16_t width, uint16_t *height, uint16_t *ascent, uint16_t *descent);
-static void flip_texture(uint8_t *image, uint16_t width, uint16_t height);
 
 font
 create_glyphs(FT_Face face, uint8_t *image, const uint8_t margin,
@@ -46,8 +47,10 @@ create_glyphs(FT_Face face, uint8_t *image, const uint8_t margin,
 
 	memset(&f, 0, sizeof(font));
 	f.glyphs = (sizeof(letter)/sizeof(letter[0]));
-	f.data = malloc(256 * sizeof(glyph));
+	f.data = malloc(256 * sizeof(glyph)); /* Up to 256 characters */
 	entry = f.data;
+	f.tex_width = width;
+	f.tex_height = height;
 
 	// Drawing loop
 	for (i = 0; i < f.glyphs; ++i) {
@@ -142,21 +145,6 @@ create_image(FT_Face face, const uint8_t margin, uint16_t width,
 	return image;
 }
 
-/* TODO: Unused function, might come in handy some day. */
-void
-flip_texture(uint8_t *image, uint16_t width, uint16_t height) {
-	uint8_t tmp;
-	uint16_t x, y;
-
-	for (y = 0; y < height/2; ++y) {
-		for (x = 0; x < width; ++x) {
-			tmp = image[x + (height-y) * width];
-			image[x + (height-y) * width] = image[x + y * width];
-			image[x + y * width] = tmp;
-		}
-	}
-}
-
 void
 font_draw_string(font *f, const char *str, float x, float y)
 {
@@ -165,16 +153,17 @@ font_draw_string(font *f, const char *str, float x, float y)
 	glyph *g;
 
 	len = strlen(str);
-	coords = malloc(sizeof(float) * 8 * len);
-	quads = malloc(sizeof(float) * 12 * len);
+	coords = malloc(sizeof(float) * 8 * len); /* 4 corners for texture */
+	quads = malloc(sizeof(float) * 12 * len); /* 4 corners for quad (xyz) */
 
+	/* Start rendering */
 	r_push_matrix();
 	r_bind_texture(f->texture);
 	r_enable_blending();
 	for (i = 0, letters = 0; i < len; ++i) {
 		/* Line break */
 		if ('\n' == str[i]) {
-			y -= f->line_height * 64;
+			y -= f->line_height * f->tex_height;
 			x = 0;
 			continue;
 		}
@@ -183,26 +172,28 @@ font_draw_string(font *f, const char *str, float x, float y)
 		coord = &coords[letters * 8];
 		quad = &quads[letters * 12];
 
+		/* Set texture coordinates */
 		coord[0] = g->x; coord[1] = g->y + f->line_height;
 		coord[2] = g->x + g->width; coord[3] = g->y + f->line_height;
 		coord[4] = g->x; coord[5] = g->y;
 		coord[6] = g->x + g->width; coord[7] = g->y;
 
+		/* Setup vertices */
 		quad[0] = x; quad[1] = y; quad[2] = 0;
-		quad[3] = x + g->width * 256; quad[4] = y; quad[5] = 0;
-		quad[6] = x; quad[7] = y + f->line_height * 64; quad[8] = 0;
-		quad[9] = x + g->width * 256; quad[10] = y + f->line_height * 64;
-			quad[11] = 0;
+		quad[3] = x + g->width * f->tex_width; quad[4] = y; quad[5] = 0;
+		quad[6] = x; quad[7] = y + f->line_height * f->tex_height; quad[8] = 0;
+		quad[9] = x + g->width * f->tex_width;
+		quad[10] = y + f->line_height * f->tex_height; quad[11] = 0;
 
 
 		/* TODO: Fixme below */
 		r_enable_texcoords(coord);
 		r_render_vertices(quad, 4);
 		
-		x += g->width * 256;
+		x += g->width * f->tex_width;
 		++letters;
 	}
-	/* FIXME: Renders wrong*/
+	/* FIXME: Renders wrong because r_render_vertices renders triangle strip */
 	/*r_enable_texcoords(coords);
 	r_render_vertices(quads, letters*4);*/
 	r_disable_blending();
@@ -277,7 +268,8 @@ font_load(const char *filename, uint8_t size)
 	f = create_glyphs(face, image, margin, 256, height, max_ascent,
 		max_descent);
 	f.filename = strdup(filename);
-	f.texture = r_upload_texture(256, height, 8, PNG_COLOR_MASK_ALPHA, image);
+	f.texture = r_upload_texture(f.tex_width, f.tex_height, 8,
+		PNG_COLOR_MASK_ALPHA, image);
 	f.line_height = (float)(max_ascent + max_descent + margin) / (float)height;
 
 	free(image);

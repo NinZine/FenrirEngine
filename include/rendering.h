@@ -56,7 +56,7 @@ void r_bind_texture(uint16_t id);
 void r_clear(float r, float g, float b);
 void r_color(float r, float g, float b);
 void r_color4(float r, float g, float b, float a);
-void r_create_window(uint16_t w, uint16_t h);
+r_state r_create_window(uint16_t w, uint16_t h);
 
 void r_free_texture(uint16_t id);
 
@@ -73,6 +73,7 @@ void r_disable_texcoords();
 
 void r_enable_blending();
 void r_enable_culling(int16_t culling);
+void r_enable_depth();
 void r_enable_light(int8_t n);
 void r_enable_texcoords(float *coords);
 
@@ -81,6 +82,8 @@ void r_load_matrix(const float m[4][4]);
 void r_look_at(float eye_x, float eye_y, float eye_z,
 	float center_x, float center_y, float center_z,
 	float up_x, float up_y, float up_z);
+
+void r_matrix_mode(uint8_t mm);
 
 void r_pop_matrix();
 void r_present();

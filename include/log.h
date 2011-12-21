@@ -1,16 +1,13 @@
 #ifndef _LOG_H_
 #define _LOG_H_
 
-#include <stdio.h>
-#include <stdarg.h>
-#include <stdio.h>
+#include <stdint.h>
 
-#if defined(__ANDROID__)
-# include <android/log.h>
-#endif /* !__ANDROID__ */
-
-void log_print(const char *str);
-void log_printf(const char *fmt, ...);
+const char* log_get_last_line();
+const char* log_get_line(uint32_t line);
+uint32_t	log_lines();
+void		log_print(const char *str);
+void		log_printf(const char *fmt, ...);
 
 #endif
 

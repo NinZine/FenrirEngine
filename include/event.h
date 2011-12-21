@@ -56,6 +56,7 @@ enum key_t {
 	KEY_GREATER =	SDLK_GREATER,
 	KEY_QUESTION =	SDLK_QUESTION,
 	KEY_AT	 =	SDLK_AT	,
+	//KEY_GRAVE = SDLK_GRAVE,
 	/* 
 	   Skip uppercase letters
 	 */

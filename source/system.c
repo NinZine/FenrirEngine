@@ -6,6 +6,7 @@
 #include "lualib.h"
 #include "lauxlib.h"
 
+#include "log.h"
 #include "ifopen.h"
 #include "sound.h"
 #include "system.h"
@@ -20,6 +21,8 @@ extern int luaopen_net(lua_State* L);
 extern int luaopen_quat(lua_State* L);
 extern int luaopen_render(lua_State* L);
 extern int luaopen_sound(lua_State* L);
+extern int luaopen_sys(lua_State* L);
+extern int luaopen_log(lua_State* L);
 extern int luaopen_vec3(lua_State* L);
 extern int luaopen_util(lua_State* L);
 
@@ -68,6 +71,19 @@ report (lua_State *L, int status)
 }
 
 void
+sys_exec_string(const char *str)
+{
+	int success;
+	
+	log_print(str);
+	log_print("\n");
+	success = luaL_dostring(lua_state, str);
+	if (success) {
+		log_print("lua> error executing string\n");
+	}
+}
+
+void
 sys_quit()
 {
 	s_quit();
@@ -92,11 +108,13 @@ sys_start(int argc, char *argv[])
 	}
 	
     s_init();
-    printf("sound> initialized\n");
+    log_print("sound> initialized\n");
 	
 	L = lua_open();
 	/*luaopen_base(L);*/
 	luaL_openlibs(L);
+	luaopen_sys(L);
+	luaopen_log(L);
 	luaopen_mat4(L);
 	luaopen_quat(L);
 	luaopen_vec3(L);
@@ -112,12 +130,12 @@ sys_start(int argc, char *argv[])
 	
 	lua_getglobal(L, "package");
 	if (LUA_TTABLE != lua_type(L, 1)) {
-		printf("lua> 'package' is not a table\n");
+		log_print("lua> 'package' is not a table\n");
 		return 1;
 	}
 	lua_getfield(L, 1, "path");
 	if (LUA_TSTRING != lua_type(L, 2)) {
-		printf("lua> 'package.path' is not a string\n");
+		log_print("lua> 'package.path' is not a string\n");
 		lua_pop(L, 1);
 		return 1;
 	}
@@ -142,7 +160,7 @@ sys_start(int argc, char *argv[])
 #endif
 
 	open_blender(L);
-	printf("lua> initialized\n");
+	log_print("lua> initialized\n");
 	printf("lua> loading %s\n", f);
 	
 	if (luaL_loadfile(L,f)==0) { 
@@ -161,7 +179,7 @@ sys_start(int argc, char *argv[])
             }
         }
 		
-        printf("lua> loaded\n");
+        log_print("lua> loaded\n");
 	} else {
 		printf("lua> unable to load %s\n",f);
 		report(L, status);

@@ -14,8 +14,8 @@ sdl_init()
 		printf("sdl> failed SDL_INIT_EVERYTHING\n");
 		return false;
 	}
-	//freopen( "CON", "w", stdout );
-	//freopen( "CON", "w", stderr );
+	//freopen( "CON:", "w", stdout );
+	//freopen( "CON:", "w", stderr );
 
 	SDL_EnableUNICODE(1);
 	return true;

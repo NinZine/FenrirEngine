@@ -19,7 +19,7 @@
 
 #import "GameView.h"
 
-static char *argv[] = {"conceptengine.app", "game/main.lua"};
+static char *argv[] = {"conceptengine.app", "LD19/main.lua"};
 
 @implementation GameView
 
@@ -58,22 +58,23 @@ initWithFrame:(CGRect)frame
 layoutSubviews
 {
 	
-	assert( [EAGLContext setCurrentContext:context] != NO );
+	assert( [EAGLContext setCurrentContext:context] == YES );
 
 	buffer.renderbuffer = r_generate_renderbuffer();
 	buffer.framebuffer = r_generate_framebuffer();
 	r_bind_buffers(&buffer);
 	assert( [context renderbufferStorage:GL_RENDERBUFFER_OES fromDrawable:(id<EAGLDrawable>)self.layer]
-		!= NO );
+		== YES );
 	
-	glGetRenderbufferParameterivOES(GL_RENDERBUFFER_OES,
+	/*glGetRenderbufferParameterivOES(GL_RENDERBUFFER_OES,
 									GL_RENDERBUFFER_WIDTH_OES, &buffer.width);
 	glGetRenderbufferParameterivOES(GL_RENDERBUFFER_OES,
 									GL_RENDERBUFFER_HEIGHT_OES, &buffer.height);
+	*/
 	glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES,
 								 GL_RENDERBUFFER_OES, buffer.renderbuffer);
-	buffer.depth = r_generate_depthbuffer(buffer.width, buffer.height);
-	r_bind_buffers(&buffer);
+	/*buffer.depth = r_generate_depthbuffer(buffer.width, buffer.height);
+	r_bind_buffers(&buffer);*/
 	/* Make sure there is no error in OpenGL stuff */
 	assert(glGetError() == GL_NO_ERROR);
 
@@ -165,16 +166,16 @@ touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 - (void)
 update
 {
-	[EAGLContext setCurrentContext:context];
+	assert([EAGLContext setCurrentContext:context] == YES);
 	
-	r_bind_buffers(&buffer);
+	//r_bind_buffers(&buffer);
 	if (NO == quit && 0 != sys_update()) {
 		sys_quit();
 		printf("lua> quit\n");
 		quit = YES;
 	}
 	
-	[context presentRenderbuffer:GL_RENDERBUFFER_OES];
+	assert([context presentRenderbuffer:GL_RENDERBUFFER_OES] == YES);
 }
 
 @end

@@ -6,7 +6,9 @@
 typedef struct font {
 	char 		*filename;
     float		line_height;
-	uint16_t	texture;
+	uint16_t	texture,
+				tex_height,
+				tex_width;
 	uint32_t	glyphs;
 	void 		*data;
 } font;

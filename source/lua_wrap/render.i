@@ -23,12 +23,14 @@
 %rename(disable_texcoords) r_disable_texcoords;
 %rename(enable_blending) r_enable_blending;
 %rename(enable_culling) r_enable_culling;
+%rename(enable_depth) r_enable_depth;
 %rename(enable_light) r_enable_light;
 %rename(enable_texcoords) r_enable_texcoords;
 %rename(free_texture) r_free_texture;
 %rename(load_identity) r_load_identity;
 %rename(load_matrix) r_load_matrix;
 %rename(look_at) r_look_at;
+%rename(matrix_mode) r_matrix_mode;
 %rename(pop_matrix) r_pop_matrix;
 %rename(present) r_present;
 %rename(push_matrix) r_push_matrix;

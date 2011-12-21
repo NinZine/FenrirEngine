@@ -18,11 +18,13 @@
 
 #if defined(__NDS__)
 #elif defined(__IPHONE__) || defined(__ANDROID__)
+# define GL_COLOR_ATTACHMENT0 GL_COLOR_ATTACHMENT0_OES
 # define GL_DEPTH_ATTACHMENT_EXT GL_DEPTH_ATTACHMENT_OES
 # define GL_DEPTH_COMPONENT16 GL_DEPTH_COMPONENT16_OES
 # define GL_FRAMEBUFFER_COMPLETE_EXT GL_FRAMEBUFFER_COMPLETE_OES
 # define GL_FRAMEBUFFER_EXT GL_FRAMEBUFFER_OES
 # define GL_RENDERBUFFER_EXT GL_RENDERBUFFER_OES
+# define GL_RGBA8 GL_RGBA8_OES
 # define GL_RGBA32F_ARB GL_RGBA
 
 # define glBindFramebuffer glBindFramebufferOES
@@ -73,7 +75,8 @@ r_bind_depthbuffer(r_state *buffer)
 #else
 	glBindRenderbuffer(GL_RENDERBUFFER_EXT, buffer->depth);
 #endif
-    glEnable(GL_DEPTH_TEST);
+    
+	r_enable_depth();
 }
 
 void
@@ -106,9 +109,11 @@ void r_color4(float r, float g, float b, float a)
 	glColor4f(r, g, b, a);
 }
 
-void
+r_state
 r_create_window(uint16_t w, uint16_t h)
 {
+	r_state buffer;
+
 #if defined(__SDL__)
 	const SDL_VideoInfo *info;
 	int flags = 0;
@@ -133,7 +138,22 @@ r_create_window(uint16_t w, uint16_t h)
 	    exit(1);
 	}
 
+#elif defined(__IPHONE__) /* !__SDL__ */
+	glGetRenderbufferParameterivOES(GL_RENDERBUFFER_OES,
+		GL_RENDERBUFFER_WIDTH_OES, &buffer.width);
+	glGetRenderbufferParameterivOES(GL_RENDERBUFFER_OES,
+		GL_RENDERBUFFER_HEIGHT_OES, &buffer.height);
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING_OES, (GLint*)&buffer.framebuffer);
+	glGetIntegerv(GL_RENDERBUFFER_BINDING_OES, (GLint*)&buffer.renderbuffer);
 #endif
+
+	/*r_bind_buffers(&buffer);
+	//buffer.depth = r_generate_depthbuffer(w, h);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0,
+		GL_RENDERBUFFER_EXT, buffer.framebuffer);
+	//assert(glCheckFramebufferStatus(GL_FRAMEBUFFER_EXT)
+	//	== GL_FRAMEBUFFER_COMPLETE_OES);*/
+	assert(glGetError() == GL_NO_ERROR);
 }
 
 void
@@ -195,6 +215,13 @@ r_enable_culling(int16_t culling)
 }
 
 void
+r_enable_depth()
+{
+	
+	glEnable(GL_DEPTH_TEST);
+}
+
+void
 r_enable_light(int8_t light_num)
 {
 	
@@ -235,6 +262,7 @@ r_generate_depthbuffer(int16_t w, int16_t h)
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER_EXT,
 		GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, d);
 	
+	assert(glGetError() == GL_NO_ERROR);
 	assert(glCheckFramebufferStatus(GL_FRAMEBUFFER_EXT)
 		== GL_FRAMEBUFFER_COMPLETE_EXT);
 #endif
@@ -340,6 +368,15 @@ r_look_at(float eye_x, float eye_y, float eye_z,
 }
 
 void
+r_matrix_mode(uint8_t mm)
+{
+	if (mm == 0)
+		glMatrixMode(GL_MODELVIEW);
+	else
+		glMatrixMode(GL_PROJECTION);
+}
+
+void
 r_pop_matrix()
 {
     glPopMatrix();
@@ -347,7 +384,7 @@ r_pop_matrix()
 
 void
 r_present()
-{   
+{
 	assert(glGetError() == GL_NO_ERROR);
     glFlush();
 #if defined(__SDL__)
@@ -645,14 +682,14 @@ r_render_triangles(float *vertex, uint16_t vertices, uint16_t *face,
 	glDisableClientState(GL_VERTEX_ARRAY);
 
 #if defined(DEBUG)
-	int i;
+	/*int i;
 
 	glColor3f(1, 0, 0);
 	glBegin(GL_POINTS); 
 	for(i=0; i<3*faces; ++i)  {
 		glVertex3f(vertex[face[i]*3], vertex[face[i]*3+1], vertex[face[i]*3+2]); 
 	}
-	glEnd();
+	glEnd();*/
 #endif
 	
 }
@@ -788,14 +825,14 @@ r_set_viewport(int32_t x, int32_t y, int32_t w, int32_t h)
 void
 r_setup_orthogonal_view(float width, float height)
 {
-        glViewport(0, 0, width, height);
+	//glViewport(0, 0, width, height);
 
 	glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
+	glLoadIdentity();
 	glOrthof(-(width/2.0f), (width/2.0f), -(height/2.0f), (height/2.0f),
 			-200.0f, 200.0f);
 	glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
+	glLoadIdentity();
 }
 
 void
@@ -807,10 +844,15 @@ r_setup_perspective_view(float fov, float aspect, float n, float f)
 	GLfloat right = aspect * top;
 	
 	glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
+	glLoadIdentity();
+	
+#ifdef __IPHONE__
+	glRotatef(-90, 0, 0, 1);
+#endif	
+
 	glFrustumf(left, right, bottom, top, n, f);
 	glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
+	glLoadIdentity();
 }
 
 /*

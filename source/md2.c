@@ -23,6 +23,7 @@
  OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -200,6 +201,7 @@ KEMD2Object* md2_open(const char *path, uint16_t texture)
 
 void md2_tick(KEMD2Object *o, float time)
 {
+	assert(o != NULL);
 	KEMD2Animation anim = o->animation;
 	float fps = anim.fps * o->fpsScale;
 	
@@ -284,12 +286,14 @@ void md2_setup_render(KEMD2Object *o)
 
 void md2_render(KEMD2Object *o)
 {
+	glFrontFace(GL_CW);
 	glVertexPointer( 3, GL_FLOAT, sizeof(GLVertex), &o->vertices[0].position);
 	glTexCoordPointer( 2, GL_FLOAT, sizeof(GLVertex),
 		&o->vertices[0].textureCoords);
 	glNormalPointer( GL_FLOAT, sizeof(GLVertex), &o->vertices[0].normal);
 	//glColorPointer( 4, GL_FLOAT, sizeof( GLVertex), &_vertices[0].color);
 	glDrawArrays(GL_TRIANGLES, 0, o->header.triangleCount * 3);
+	glFrontFace(GL_CCW);
 }
 
 void md2_cleanup_render()
