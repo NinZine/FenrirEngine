@@ -27,8 +27,8 @@ extern int luaopen_vec3(lua_State* L);
 extern int luaopen_util(lua_State* L);
 
 static void l_message (const char *pname, const char *msg);
-static void open_blender(lua_State *L);
 static int 	report (lua_State *L, int status);
+static void lua_bootstrap(lua_State *L, const char *path);
 
 static lua_State *lua_state = 0;
 
@@ -41,23 +41,6 @@ l_message (const char *pname, const char *msg)
 	//fflush(stderr);
 }
 
-void
-open_blender(lua_State *L)
-{
-	const char b[] = "blender/blender.lua";
-	const char *f;
-	int status;
-
-#if defined(__IPHONE__)
-	f = full_path_to_file(b);
-#else
-	f = b;
-#endif
-
-	status = luaL_dofile(L, f);
-	report(L, status);
-}
-
 int
 report (lua_State *L, int status)
 {
@@ -68,6 +51,24 @@ report (lua_State *L, int status)
 		lua_pop(L, 1);
 	}
 	return status;
+}
+
+void
+lua_bootstrap(lua_State *L, const char *path)
+{
+	const char *f = "lib_lua/bootstrap.lua";
+	int status;
+
+	/* Load lib_lua/bootstrap.lua */
+#if defined(__IPHONE__)
+	f = full_path_to_file(f);
+#endif
+
+	if (0 != (status = luaL_dofile(L, f))) {
+		log_print("lua> could not bootstrap\n");
+	}
+
+	assert(0 == report(L, status));
 }
 
 void
@@ -153,13 +154,14 @@ sys_start(int argc, char *argv[])
 	lua_concat(L, 2);
 	lua_setfield(L, 1, "path");
 
+	lua_bootstrap(L, f);
+
 #if defined(__IPHONE__)
 	f = full_path_to_file(argv[1]);
 #else
 	f = argv[1];
 #endif
 
-	open_blender(L);
 	log_print("lua> initialized\n");
 	printf("lua> loading %s\n", f);
 	

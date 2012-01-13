@@ -1,16 +1,5 @@
-string.split = function(str, pattern)
-  pattern = pattern or "[^%s]+"
-  if pattern:len() == 0 then pattern = "[^%s]+" end
-  local parts = {__index = table.insert}
-  setmetatable(parts, parts)
-  str:gsub(pattern, parts)
-  setmetatable(parts, nil)
-  parts.__index = nil
-  return parts
-end
-
 local pa = string.split(package.path, "[^%?]+")
-package.path = package.path .. ";" .. pa[1] .. "blender/?.lua"
+package.path = package.path .. ";" .. pa[1] .. "lib_lua/blender/?.lua"
 require 'blender_dna_field'
 require 'blender_dna_struct'
 require 'blender_file'
