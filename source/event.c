@@ -11,9 +11,11 @@
 #endif
 
 #include "event.h"
+#include "log.h"
 
 
 #if defined(__SDL__)
+static uint8_t warp = 0;
 static event event_convert(SDL_Event *e);
 #endif
 
@@ -53,14 +55,18 @@ event_convert(SDL_Event *e)
 			t.touch.dy = e->button.y;
 			break;
 		case SDL_MOUSEMOTION:
-			if (e->motion.state) {
-				t.type = TOUCHDOWN;
-				t.touch.type = TOUCHDOWN;
-				t.touch.dx = e->motion.x;
-				t.touch.dy = e->motion.y;
-				t.touch.sx = e->motion.x - e->motion.xrel;
-				t.touch.sy = e->motion.y - e->motion.yrel;
+			if (warp) {
+				warp = 0;
+				break;
 			}
+			//if (e->motion.state) {
+			t.type = TOUCHDOWN;
+			t.touch.type = TOUCHDOWN;
+			t.touch.dx = e->motion.x;
+			t.touch.dy = e->motion.y;
+			t.touch.sx = e->motion.x - e->motion.xrel;
+			t.touch.sy = e->motion.y - e->motion.yrel;
+			//}
 			break;
     }
 
@@ -95,9 +101,20 @@ event_push(event e)
 	queue[events] = e;
 	events = events + 1;
 	if (events >= 20) {
-		printf("event> more than 20 events");
+		log_printf("event> more than 20 events");
 		events = 19;
 	}
+}
+
+void
+event_show_cursor(uint8_t show)
+{
+#if defined(__SDL__)
+	int x, y;
+	SDL_GetMouseState(&x, &y);
+	SDL_ShowCursor(show ? SDL_ENABLE : SDL_DISABLE);
+	event_warp_mouse(x, y);
+#endif
 }
 
 void
@@ -157,5 +174,14 @@ event_time()
 	//printf("usec: %d\n", counter.tv_usec);
 	return ((counter.tv_sec * 1000000) + counter.tv_usec) / 1000000.f;
 #endif /* !__NDS__ */
+}
+
+void
+event_warp_mouse(uint16_t x, uint16_t y)
+{
+#if defined(__SDL__)
+	warp = 1;
+	SDL_WarpMouse(x, y);
+#endif
 }
 

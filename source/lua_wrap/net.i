@@ -5,6 +5,7 @@
 %}
 
 %rename(close) net_close;
+%rename(free) net_free;
 %rename(iptoi) net_iptoi;
 %rename(itoip) net_itoip;
 %rename(open_tcp) net_open_tcp;

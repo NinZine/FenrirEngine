@@ -241,7 +241,7 @@ local function select_connection()
 			else
 				server = 2
 				socket = net.open_udp(net.resolve_host("localhost"), 0)
-				client.ip = net.iptoi("127.0.0.1")
+				client.ip = net.resolve_host("localhost") --net.iptoi("127.0.0.1")
 				client.port = 5678
 				net.send(socket, "hello",  client.ip, client.port)
 				event.sleep(1000)

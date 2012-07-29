@@ -180,6 +180,17 @@ void r_disable_depth()
 }
 
 void
+r_disable_light(int8_t light_num)
+{
+	
+#if !defined(__NDS__)
+	glDisable(GL_LIGHTING);
+	glDisable(GL_LIGHT0 + light_num);
+	//glDisable(GL_COLOR_MATERIAL); /* Color is the material */
+#endif
+}
+
+void
 r_disable_texcoords()
 {
     
@@ -385,7 +396,12 @@ r_pop_matrix()
 void
 r_present()
 {
-	assert(glGetError() == GL_NO_ERROR);
+	GLenum err = glGetError();
+	if (err != GL_NO_ERROR) {
+		printf("render> glGetError returned %x\n", err);
+	}
+
+	assert(err == GL_NO_ERROR);
     glFlush();
 #if defined(__SDL__)
     SDL_GL_SwapBuffers();

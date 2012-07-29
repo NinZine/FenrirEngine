@@ -239,6 +239,8 @@ font_load(const char *filename, uint8_t size)
 		fclose(fp);
 		return f;
 	}
+
+    /* TODO: Move to somewhere common */
 	fseek(fp, 0, SEEK_END);
 	len = ftell(fp);
 	fseek(fp, 0, SEEK_SET);

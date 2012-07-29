@@ -58,17 +58,10 @@ void r_color(float r, float g, float b);
 void r_color4(float r, float g, float b, float a);
 r_state r_create_window(uint16_t w, uint16_t h);
 
-void r_free_texture(uint16_t id);
-
-uint32_t r_generate_depthbuffer(int16_t w, int16_t h);
-uint32_t r_generate_framebuffer();
-uint32_t r_generate_renderbuffer();
-float*	 r_generate_texcoords(uint32_t width, uint32_t heigth,
-	uint32_t tile_w, uint32_t tile_h);
-
 void r_disable_blending();
 void r_disable_culling();
 void r_disable_depth();
+void r_disable_light(int8_t light);
 void r_disable_texcoords();
 
 void r_enable_blending();
@@ -76,6 +69,14 @@ void r_enable_culling(int16_t culling);
 void r_enable_depth();
 void r_enable_light(int8_t n);
 void r_enable_texcoords(float *coords);
+
+void r_free_texture(uint16_t id);
+
+uint32_t r_generate_depthbuffer(int16_t w, int16_t h);
+uint32_t r_generate_framebuffer();
+uint32_t r_generate_renderbuffer();
+float*	 r_generate_texcoords(uint32_t width, uint32_t heigth,
+	uint32_t tile_w, uint32_t tile_h);
 
 void r_load_identity();
 void r_load_matrix(const float m[4][4]);

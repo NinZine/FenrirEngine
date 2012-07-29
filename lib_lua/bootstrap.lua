@@ -14,3 +14,6 @@ package.path = package.path .. ";" .. p[1] .. "lib_lua/?.lua"
 
 require 'config'
 require 'blender/blender'
+if config.console == true then
+	require 'console'
+end

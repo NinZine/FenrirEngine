@@ -20,6 +20,7 @@ extern int luaopen_md2(lua_State* L);
 extern int luaopen_net(lua_State* L);
 extern int luaopen_quat(lua_State* L);
 extern int luaopen_render(lua_State* L);
+extern int luaopen_shader(lua_State* L);
 extern int luaopen_sound(lua_State* L);
 extern int luaopen_sys(lua_State* L);
 extern int luaopen_log(lua_State* L);
@@ -122,6 +123,7 @@ sys_start(int argc, char *argv[])
 	luaopen_event(L);
 	luaopen_image(L);
 	luaopen_render(L);
+	luaopen_shader(L);
 	luaopen_sound(L);
 	luaopen_net(L);
 	luaopen_util(L);

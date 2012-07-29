@@ -192,7 +192,9 @@ typedef union event {
 event		event_poll();
 void		event_push(event e);
 void		event_sleep(uint32_t ms);
+void		event_show_cursor(uint8_t show);
 uint32_t	event_time();
+void 		event_warp_mouse(uint16_t x, uint16_t y);
 
 #endif
 
